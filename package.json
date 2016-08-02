@@ -1,0 +1,22 @@
+{
+  "name": "app_0.0.0",
+  "version": "0.0.0",
+  "description": "1st iter",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Rumata",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongo": "^0.1.0",
+    "mongoose": "^4.5.4"
+  },
+  "devDependencies": {
+    "debug": "^2.2.0",
+    "ejs-mate": "^2.3.0"
+  }
+}

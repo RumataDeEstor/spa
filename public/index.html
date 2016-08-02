@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <title>App 0.0.0</title>
+  <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+  <!--  <form action="/submit" method="POST"> -->
+  <h1 id="title"> App 0.0.0 </h1>
+  <h2>You see this? This... is my BOOMSTICK!</h2>  
+    <div id="signUp">
+      <form id="signupForm">
+        <input name="slogin">
+        <input type="password" name="spassword">
+  	  <p><input type="button" value = "Sign up" id = "signupBtn"></p>
+  	 </form>
+     <div id="swarn" class="warn"></div>    
+    </div>
+    <div id="logIn">
+      <form id="loginForm">
+        <input name="login">
+        <input type="password" name="password">
+      <p><input type="button" value = "Log in" id = "loginBtn"></p>
+      </form>
+      <div id="lwarn" class="warn"></div>    
+   </div>
+  <script>
+
+    //GET ELEMENT BY ID!
+    var user; // who should know about user???
+  	signupBtn.addEventListener("click", reqSignup);
+    loginBtn.addEventListener("click", reqLogin);
+    signupForm.slogin.onfocus = function () {
+      signupForm.slogin.value = '';
+      signupForm.spassword.value = '';
+      swarn.innerHTML = '';
+    }
+    loginForm.login.onfocus = function () {
+      loginForm.login.value = '';
+      loginForm.password.value = '';
+      lwarn.innerHTML = '';
+    }
+
+    function liOnClick (projID, e) {      
+      if (e.target.tagName == 'BUTTON') return;
+      // console.log('over');
+      let oldEl = document.getElementsByClassName('chosen');
+      if (oldEl.length) {           
+        oldEl[0].removeChild(oldEl[0].lastChild);
+        oldEl[0].className = '';
+      }
+      let btn = document.createElement('button');
+      btn.innerHTML = 'Delete';
+      e.target.appendChild(btn);  
+      btn.addEventListener("click", deleteProj.bind(this, projID));
+      e.target.className = 'chosen';  
+      // console.dir(e.target);
+    }
+
+    function deleteProj(projID, e) {
+      let xhr = new XMLHttpRequest();
+      xhr.open('DELETE', `/userdata/${user.login}/${projID}`, true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return;
+        if (xhr.status != 200) {
+      //   // обработать ошибку
+          console.log(xhr.status + ': ' + xhreq.statusText);
+        } else {
+          e.target.parentNode.parentNode.removeChild(e.target.parentNode); 
+        }
+      }
+      xhr.send();
+    }
+
+    // function liMouseOut (e) {
+    //   console.log('out');
+    //   // if (e.target.tagName == 'BUTTON') {
+    //   //   e.target.parentNode.removeChild(e.target);
+    //   //   return;
+    //   // }
+    //   e.target.removeChild(e.target.lastChild);
+    // }
+    
+    function reqSignup() {
+
+      let xhr = new XMLHttpRequest();
+      user = {
+        login: signupForm.slogin.value,
+        password: signupForm.spassword.value
+      };
+
+      var body = 'login=' + encodeURIComponent(signupForm.slogin.value) +
+      '&password=' + encodeURIComponent(signupForm.spassword.value);
+      xhr.open("POST", '/signup', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+      xhr.onreadystatechange = function() {
+
+        if (xhr.readyState != 4) return;
+
+          // button.innerHTML = 'Готово!';
+
+          if (xhr.status != 200) {
+            // обработать ошибку
+            console.log(xhr.status + ': ' + xhr.statusText);
+            let error = JSON.parse(xhr.responseText).error;
+            if (error == 'Validation error') {
+              swarn.innerHTML = 'Invalid login or password length.';
+            } 
+            else if (error == 'duplicate') {
+              swarn.innerHTML = 'We already have such user! Use your imagination.';
+            }
+          } else {
+            // if we got response;
+            signUp.innerHTML = xhr.responseText;
+            return;                               
+          }
+      }
+      xhr.send(body);
+    }
+
+    function requestForData () {
+      var divData = document.createElement('div');
+      divData.id = "divData";
+      document.body.appendChild(divData);
+      var input = document.createElement("input"); 
+      input.type = "text";
+      divData.appendChild(input);
+      let btn = document.createElement('button');
+      btn.innerHTML = 'Add';
+      btn.addEventListener('click', addNewProj); 
+      divData.appendChild(btn);
+
+      let newOl = document.createElement('ol');
+      divData.appendChild(newOl);
+      
+      // let newLi = document.createElement('li');
+      // document.body.appendChild(newLi);
+      // newLi.innerHTML = 'myproject';
+  
+      var xhr = new XMLHttpRequest();
+      xhr.open('GET', `/userdata/${user.login}`, true);
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState != 4) return;
+        if (xhr.status != 200) {
+            // обработать ошибку
+            console.log(xhr.status + ': ' + xhr.statusText);
+        } else {
+    
+          let projs = JSON.parse(xhr.responseText);
+          projs.map(elem => {
+            let newLi = document.createElement('li');
+            newLi.addEventListener("click", liOnClick.bind(this, elem._id));
+            // newLi.addEventListener("mouseout", liMouseOut);            
+            newLi.innerHTML = elem.name;
+            newOl.appendChild(newLi);
+          });          
+        }
+      }
+      xhr.send();
+      // now UI to add new projs  
+             
+      
+      function addNewProj () {
+        let xhr = new XMLHttpRequest();
+        let body = 'project=' + encodeURIComponent(input.value);
+        xhr.open('POST', `/userdata/${user.login}`, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState != 4) return;
+          if (xhr.status != 200) {
+          // обработать ошибку
+            console.log(xhr.status + ': ' + xhreq.statusText);
+          } else {
+            let projID = JSON.parse(xhr.responseText);
+            let newLi = document.createElement('li');
+            newLi.innerHTML = input.value;
+            newLi.addEventListener("click", liOnClick.bind(this, projID));
+            newOl.appendChild(newLi);
+          }
+        }
+        xhr.send(body);        
+      }
+    }  	
+
+    function reqLogin () {
+      let xhr = new XMLHttpRequest();
+      user = {
+        login: loginForm.login.value,
+        password: loginForm.password.value
+      };
+      let body = 'login=' + encodeURIComponent(loginForm.login.value) +
+      '&password=' + encodeURIComponent(loginForm.password.value);
+      xhr.open("POST", '/login', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+
+      xhr.onreadystatechange = function() {
+
+        if (xhr.readyState != 4) return;
+
+          // button.innerHTML = 'Готово!';
+
+          if (xhr.status != 200) {
+            // обработать ошибку
+            console.log(xhr.status + ': ' + xhr.statusText);
+            let error = JSON.parse(xhr.responseText).error;
+            lwarn.innerHTML = error;
+          } else {
+            // if we got response;            
+            
+            if (xhr.responseText == 'Ok, I recognize you.') {
+              document.body.removeChild(signUp);
+              document.body.removeChild(logIn);
+              requestForData();
+            }                  
+          }  
+        return;          
+      }
+      xhr.send(body);
+    }    
+  </script>
+  </body>
+</html>

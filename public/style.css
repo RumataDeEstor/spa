@@ -1,0 +1,13 @@
+body {
+  background-color: #BFEDED;
+  color: #0A7676;
+}
+
+.warn {
+  color: #E33B35;
+  font-weight: bold;
+}
+
+li.chosen {
+  color: red;
+}
