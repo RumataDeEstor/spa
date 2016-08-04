@@ -123,47 +123,29 @@
       xhr.send(body);
     }
 
-    function requestForData () {
-      var divData = document.createElement('div');
-      divData.id = "divData";
-      document.body.appendChild(divData);
-      var input = document.createElement("input"); 
-      input.type = "text";
-      divData.appendChild(input);
-      let btn = document.createElement('button');
-      btn.innerHTML = 'Add';
-      btn.addEventListener('click', addNewProj); 
-      divData.appendChild(btn);
-
-      let newOl = document.createElement('ol');
-      divData.appendChild(newOl);
+    // function requestForData () {
       
-      // let newLi = document.createElement('li');
-      // document.body.appendChild(newLi);
-      // newLi.innerHTML = 'myproject';
+      
+    //   // let newLi = document.createElement('li');
+    //   // document.body.appendChild(newLi);
+    //   // newLi.innerHTML = 'myproject';
   
-      var xhr = new XMLHttpRequest();
-      xhr.open('GET', `/userdata/${user.login}`, true);
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    //   // var xhr = new XMLHttpRequest();
+    //   // xhr.open('GET', `/userdata/${user.login}`, true);
+    //   // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
-      xhr.onreadystatechange = function() {
-        if (xhr.readyState != 4) return;
-        if (xhr.status != 200) {
-            // обработать ошибку
-            console.log(xhr.status + ': ' + xhr.statusText);
-        } else {
+    //   // xhr.onreadystatechange = function() {
+    //   //   if (xhr.readyState != 4) return;
+    //   //   if (xhr.status != 200) {
+    //   //       // обработать ошибку
+    //   //       console.log(xhr.status + ': ' + xhr.statusText);
+    //   //   } else {
     
-          let projs = JSON.parse(xhr.responseText);
-          projs.map(elem => {
-            let newLi = document.createElement('li');
-            newLi.addEventListener("click", liOnClick.bind(this, elem._id));
-            // newLi.addEventListener("mouseout", liMouseOut);            
-            newLi.innerHTML = elem.name;
-            newOl.appendChild(newLi);
-          });          
-        }
-      }
-      xhr.send();
+        
+    //       });          
+    //     }
+    //   }
+    //   xhr.send();
       // now UI to add new projs  
              
       
@@ -188,7 +170,7 @@
         }
         xhr.send(body);        
       }
-    }  	
+    
 
     function reqLogin () {
       let xhr = new XMLHttpRequest();
@@ -210,17 +192,72 @@
 
           if (xhr.status != 200) {
             // обработать ошибку
-            console.log(xhr.status + ': ' + xhr.statusText);
-            let error = JSON.parse(xhr.responseText).error;
+            // console.log(xhr.status + ': ' + xhr.statusText);
+
+            // Internal errors mustn't be here
+
+            let error = JSON.parse(xhr.responseText).error; // problem
             lwarn.innerHTML = error;
           } else {
+
+            function addNewProj () {
+              let xhr = new XMLHttpRequest();
+              let body = 'project=' + encodeURIComponent(input.value);
+              xhr.open('POST', `/userdata/${user.login}`, true);
+              xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+              xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+              xhr.onreadystatechange = function () {
+                if (xhr.readyState != 4) return;
+                if (xhr.status != 200) {
+                // обработать ошибку
+                  console.log(xhr.status + ': ' + xhreq.statusText);
+                } else {
+                  let projID = JSON.parse(xhr.responseText);
+                  let newLi = document.createElement('li');
+                  newLi.innerHTML = input.value;
+                  newLi.addEventListener("click", liOnClick.bind(this, projID));
+                  newOl.appendChild(newLi);
+                }
+              }
+              xhr.send(body);        
+            }
+
+            document.body.removeChild(signUp);
+            document.body.removeChild(logIn);
+
+            var divData = document.createElement('div');
+            divData.id = "divData";
+            document.body.appendChild(divData);
+            var input = document.createElement("input"); 
+            input.type = "text";
+            divData.appendChild(input);
+            let btn = document.createElement('button');
+            btn.innerHTML = 'Add';
+            btn.addEventListener('click', addNewProj); 
+            divData.appendChild(btn);
+
+            let newOl = document.createElement('ol');
+            divData.appendChild(newOl);
+            let projs = JSON.parse(xhr.responseText);
+            projs.map(elem => {
+            let newLi = document.createElement('li');
+              newLi.addEventListener("click", liOnClick.bind(this, elem._id));
+              // newLi.addEventListener("mouseout", liMouseOut);            
+              newLi.innerHTML = elem.name;
+              newOl.appendChild(newLi);
+            });
+
+            // rewrite.
+            // here we already have userdata page!
+
+
             // if we got response;            
-            
-            if (xhr.responseText == 'Ok, I recognize you.') {
-              document.body.removeChild(signUp);
-              document.body.removeChild(logIn);
-              requestForData();
-            }                  
+            // console.log(xhr.responseText);
+            // if (xhr.responseText == 'Ok, I recognize you.') {
+            //   document.body.removeChild(signUp);
+            //   document.body.removeChild(logIn);
+            //   requestForData();
+            // }                  
           }  
         return;          
       }
