@@ -131,6 +131,8 @@ let isAuthenticated = function (req, res, next) {
   res.redirect('/');
 }
 
+// TODO: user shouldn't see Login page if Ath-d.
+
 app.get('/userdata/:login',  isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  // can't get other people's page
     return res.status(403).send({error: 'Forbidden'});
@@ -138,7 +140,7 @@ app.get('/userdata/:login',  isAuthenticated, (req, res, next) => {
   User.findOne({login: req.params.login}, (err, result) => {
     if (err) { 
       debug(err);
-      res.status(500).send('Internal Server Error');
+      res.status(500).send({error: 'Internal Server Error'});
     } else {
       debug('success get proj');
       res.send(result.projects);
@@ -167,7 +169,7 @@ app.post('/userdata/:login', isAuthenticated, (req,res,next) => {
             res.send({ error: 'Validation error' });
           } else {
             res.statusCode = 500;
-            res.send({ error: 'Server error' });
+            res.send({error: 'Internal Server Error'});
           }
         }
       });
@@ -182,7 +184,7 @@ app.delete('/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
   User.findOne({login: req.params.login}, (err, result) => {
     if (err) {
       debug(err);
-      res.status(500).send('Internal Server Error');
+      res.status(500).send({error: 'Internal Server Error'});
     } else {
       result.projects.id(req.params.projectID).remove();
     }
@@ -198,7 +200,14 @@ app.delete('/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
   })
 })
 
-app.use((req, res, next) => {
+app.post('/logout', isAuthenticated, (req,res,next) => {
+  if (req.body.user == 'secret') {
+    req.logout();
+  }
+  res.redirect('/');
+});
+
+app.use((req, res, next) => {     // why don't use this via calling next(err)?
 	let err = new Error('Not Found');
 	err.status = 404;
 	next(err);
@@ -208,9 +217,9 @@ app.use((err, req, res, next) => {
 	debug(`${err} _ on req to ${req.url}`);
 	res.status(err.status || 500);
 	if (err.status) {
-		res.end(err.message);
+		return res.send({error: err.message});
 	}	
-	res.end('Internal Server Error');	
+	res.send({error: 'Internal Server Error'});	
 });
 
 app.listen(port, ()=>{

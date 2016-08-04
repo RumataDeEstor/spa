@@ -27,23 +27,27 @@
   <script>
 
     //GET ELEMENT BY ID!
-    var user; // who should know about user???
+    var user; // user data is stored in session cookies, rewrite this.
+
+    // onload or other handler
+
   	signupBtn.addEventListener("click", reqSignup);
     loginBtn.addEventListener("click", reqLogin);
+
     signupForm.slogin.onfocus = function () {
       signupForm.slogin.value = '';
       signupForm.spassword.value = '';
       swarn.innerHTML = '';
     }
+
     loginForm.login.onfocus = function () {
       loginForm.login.value = '';
       loginForm.password.value = '';
       lwarn.innerHTML = '';
     }
 
-    function liOnClick (projID, e) {      
+    function chooseProj (projID, e) {      
       if (e.target.tagName == 'BUTTON') return;
-      // console.log('over');
       let oldEl = document.getElementsByClassName('chosen');
       if (oldEl.length) {           
         oldEl[0].removeChild(oldEl[0].lastChild);
@@ -54,7 +58,6 @@
       e.target.appendChild(btn);  
       btn.addEventListener("click", deleteProj.bind(this, projID));
       e.target.className = 'chosen';  
-      // console.dir(e.target);
     }
 
     function deleteProj(projID, e) {
@@ -66,23 +69,14 @@
       xhr.onreadystatechange = function () {
         if (xhr.readyState != 4) return;
         if (xhr.status != 200) {
-      //   // обработать ошибку
-          console.log(xhr.status + ': ' + xhreq.statusText);
+          let error = JSON.parse(xhr.responseText).error;
+          console.log(error);
         } else {
           e.target.parentNode.parentNode.removeChild(e.target.parentNode); 
         }
       }
       xhr.send();
     }
-
-    // function liMouseOut (e) {
-    //   console.log('out');
-    //   // if (e.target.tagName == 'BUTTON') {
-    //   //   e.target.parentNode.removeChild(e.target);
-    //   //   return;
-    //   // }
-    //   e.target.removeChild(e.target.lastChild);
-    // }
     
     function reqSignup() {
 
@@ -104,7 +98,7 @@
 
           // button.innerHTML = 'Готово!';
 
-          if (xhr.status != 200) {
+          if (xhr.status != 200) {                         
             // обработать ошибку
             console.log(xhr.status + ': ' + xhr.statusText);
             let error = JSON.parse(xhr.responseText).error;
@@ -121,56 +115,7 @@
           }
       }
       xhr.send(body);
-    }
-
-    // function requestForData () {
-      
-      
-    //   // let newLi = document.createElement('li');
-    //   // document.body.appendChild(newLi);
-    //   // newLi.innerHTML = 'myproject';
-  
-    //   // var xhr = new XMLHttpRequest();
-    //   // xhr.open('GET', `/userdata/${user.login}`, true);
-    //   // xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-    //   // xhr.onreadystatechange = function() {
-    //   //   if (xhr.readyState != 4) return;
-    //   //   if (xhr.status != 200) {
-    //   //       // обработать ошибку
-    //   //       console.log(xhr.status + ': ' + xhr.statusText);
-    //   //   } else {
-    
-        
-    //       });          
-    //     }
-    //   }
-    //   xhr.send();
-      // now UI to add new projs  
-             
-      
-      function addNewProj () {
-        let xhr = new XMLHttpRequest();
-        let body = 'project=' + encodeURIComponent(input.value);
-        xhr.open('POST', `/userdata/${user.login}`, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState != 4) return;
-          if (xhr.status != 200) {
-          // обработать ошибку
-            console.log(xhr.status + ': ' + xhreq.statusText);
-          } else {
-            let projID = JSON.parse(xhr.responseText);
-            let newLi = document.createElement('li');
-            newLi.innerHTML = input.value;
-            newLi.addEventListener("click", liOnClick.bind(this, projID));
-            newOl.appendChild(newLi);
-          }
-        }
-        xhr.send(body);        
-      }
-    
+    } 
 
     function reqLogin () {
       let xhr = new XMLHttpRequest();
@@ -191,7 +136,7 @@
           // button.innerHTML = 'Готово!';
 
           if (xhr.status != 200) {
-            // обработать ошибку
+            
             // console.log(xhr.status + ': ' + xhr.statusText);
 
             // Internal errors mustn't be here
@@ -210,12 +155,13 @@
                 if (xhr.readyState != 4) return;
                 if (xhr.status != 200) {
                 // обработать ошибку
-                  console.log(xhr.status + ': ' + xhreq.statusText);
+                  let error = JSON.parse(xhr.responseText).error;
+                  console.log(error);
                 } else {
                   let projID = JSON.parse(xhr.responseText);
                   let newLi = document.createElement('li');
                   newLi.innerHTML = input.value;
-                  newLi.addEventListener("click", liOnClick.bind(this, projID));
+                  newLi.addEventListener("click", chooseProj.bind(this, projID));
                   newOl.appendChild(newLi);
                 }
               }
@@ -241,28 +187,44 @@
             let projs = JSON.parse(xhr.responseText);
             projs.map(elem => {
             let newLi = document.createElement('li');
-              newLi.addEventListener("click", liOnClick.bind(this, elem._id));
+              newLi.addEventListener("click", chooseProj.bind(this, elem._id));
               // newLi.addEventListener("mouseout", liMouseOut);            
               newLi.innerHTML = elem.name;
               newOl.appendChild(newLi);
             });
 
-            // rewrite.
-            // here we already have userdata page!
-
-
-            // if we got response;            
-            // console.log(xhr.responseText);
-            // if (xhr.responseText == 'Ok, I recognize you.') {
-            //   document.body.removeChild(signUp);
-            //   document.body.removeChild(logIn);
-            //   requestForData();
-            // }                  
+            let logoutDiv = document.createElement('div');
+            document.body.appendChild(logoutDiv);
+            let logoutBtn = document.createElement('button');
+            logoutBtn.id = 'logoutBtn';
+            logoutBtn.innerHTML = 'Log out';
+            logoutBtn.addEventListener('click', logout);
+            logoutDiv.appendChild(logoutBtn);            
           }  
         return;          
       }
       xhr.send(body);
-    }    
+    }   
+    function logout () {
+      let xhr = new XMLHttpRequest();
+      let body = 'user=' + encodeURIComponent('secret');
+      xhr.open('POST', '/logout', true);
+      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState != 4) return;
+
+        if (xhr.status != 200) {
+          let error = JSON.parse(xhr.responseText).error;
+          console.log(error);
+        } else {
+          // so what?
+          // console.log('redirected');
+          return;
+        }
+      }
+      xhr.send(body);
+    } 
   </script>
   </body>
 </html>
