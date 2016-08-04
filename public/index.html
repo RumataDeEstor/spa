@@ -27,8 +27,6 @@
   <script>
 
     //GET ELEMENT BY ID!
-    var user; // user data is stored in session cookies, rewrite this.
-
     // onload or other handler
 
   	signupBtn.addEventListener("click", reqSignup);
@@ -46,7 +44,7 @@
       lwarn.innerHTML = '';
     }
 
-    function chooseProj (projID, e) {      
+    function chooseProj (userLogin, projID, e) {      
       if (e.target.tagName == 'BUTTON') return;
       let oldEl = document.getElementsByClassName('chosen');
       if (oldEl.length) {           
@@ -56,13 +54,13 @@
       let btn = document.createElement('button');
       btn.innerHTML = 'Delete';
       e.target.appendChild(btn);  
-      btn.addEventListener("click", deleteProj.bind(this, projID));
+      btn.addEventListener("click", deleteProj.bind(null, userLogin, projID));
       e.target.className = 'chosen';  
     }
 
-    function deleteProj(projID, e) {
+    function deleteProj(userLogin, projID, e) {
       let xhr = new XMLHttpRequest();
-      xhr.open('DELETE', `/userdata/${user.login}/${projID}`, true);
+      xhr.open('DELETE', `/userdata/${userLogin}/${projID}`, true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
@@ -81,12 +79,7 @@
     function reqSignup() {
 
       let xhr = new XMLHttpRequest();
-      user = {
-        login: signupForm.slogin.value,
-        password: signupForm.spassword.value
-      };
-
-      var body = 'login=' + encodeURIComponent(signupForm.slogin.value) +
+      let body = 'login=' + encodeURIComponent(signupForm.slogin.value) +
       '&password=' + encodeURIComponent(signupForm.spassword.value);
       xhr.open("POST", '/signup', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
@@ -117,12 +110,65 @@
       xhr.send(body);
     } 
 
+    function loadUserData(userLogin, data) {
+      document.body.removeChild(signUp);
+      document.body.removeChild(logIn);
+      var divData = document.createElement('div');
+      divData.id = "divData";
+      document.body.appendChild(divData);
+      var input = document.createElement("input"); 
+      input.type = "text";
+      divData.appendChild(input);
+      let btn = document.createElement('button');
+      btn.innerHTML = 'Add';
+      btn.addEventListener('click', addNewProj.bind(null, userLogin)); 
+      divData.appendChild(btn);
+      let newOl = document.createElement('ol');
+      divData.appendChild(newOl);
+      let projs = JSON.parse(data);
+      projs.map(elem => {
+        let newLi = document.createElement('li');
+        newLi.addEventListener("click", chooseProj.bind(null, userLogin, elem._id));
+        // newLi.addEventListener("mouseout", liMouseOut);            
+        newLi.innerHTML = elem.name;
+        newOl.appendChild(newLi);
+      });
+
+      let logoutDiv = document.createElement('div');
+      document.body.appendChild(logoutDiv);
+      let logoutBtn = document.createElement('button');
+      logoutBtn.id = 'logoutBtn';
+      logoutBtn.innerHTML = 'Log out';
+      logoutBtn.addEventListener('click', logout);
+      logoutDiv.appendChild(logoutBtn);
+
+      function addNewProj (userLogin, e) {
+        let xhr = new XMLHttpRequest();
+        let body = 'project=' + encodeURIComponent(input.value);
+        xhr.open('POST', `/userdata/${userLogin}`, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+        xhr.onreadystatechange = function () {
+          if (xhr.readyState != 4) return;
+          if (xhr.status != 200) {
+          // обработать ошибку
+            let error = JSON.parse(xhr.responseText).error;
+            console.log(error);
+          } else {
+            let projID = JSON.parse(xhr.responseText);
+            let newLi = document.createElement('li');
+            newLi.innerHTML = input.value;
+            newLi.addEventListener("click", chooseProj.bind(null, userLogin, projID));
+            newOl.appendChild(newLi);
+          }
+        }
+        xhr.send(body);        
+      }
+    }
+
     function reqLogin () {
       let xhr = new XMLHttpRequest();
-      user = {
-        login: loginForm.login.value,
-        password: loginForm.password.value
-      };
+      let userLogin = loginForm.login.value;
       let body = 'login=' + encodeURIComponent(loginForm.login.value) +
       '&password=' + encodeURIComponent(loginForm.password.value);
       xhr.open("POST", '/login', true);
@@ -144,62 +190,7 @@
             let error = JSON.parse(xhr.responseText).error; // problem
             lwarn.innerHTML = error;
           } else {
-
-            function addNewProj () {
-              let xhr = new XMLHttpRequest();
-              let body = 'project=' + encodeURIComponent(input.value);
-              xhr.open('POST', `/userdata/${user.login}`, true);
-              xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-              xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-              xhr.onreadystatechange = function () {
-                if (xhr.readyState != 4) return;
-                if (xhr.status != 200) {
-                // обработать ошибку
-                  let error = JSON.parse(xhr.responseText).error;
-                  console.log(error);
-                } else {
-                  let projID = JSON.parse(xhr.responseText);
-                  let newLi = document.createElement('li');
-                  newLi.innerHTML = input.value;
-                  newLi.addEventListener("click", chooseProj.bind(this, projID));
-                  newOl.appendChild(newLi);
-                }
-              }
-              xhr.send(body);        
-            }
-
-            document.body.removeChild(signUp);
-            document.body.removeChild(logIn);
-
-            var divData = document.createElement('div');
-            divData.id = "divData";
-            document.body.appendChild(divData);
-            var input = document.createElement("input"); 
-            input.type = "text";
-            divData.appendChild(input);
-            let btn = document.createElement('button');
-            btn.innerHTML = 'Add';
-            btn.addEventListener('click', addNewProj); 
-            divData.appendChild(btn);
-
-            let newOl = document.createElement('ol');
-            divData.appendChild(newOl);
-            let projs = JSON.parse(xhr.responseText);
-            projs.map(elem => {
-            let newLi = document.createElement('li');
-              newLi.addEventListener("click", chooseProj.bind(this, elem._id));
-              // newLi.addEventListener("mouseout", liMouseOut);            
-              newLi.innerHTML = elem.name;
-              newOl.appendChild(newLi);
-            });
-
-            let logoutDiv = document.createElement('div');
-            document.body.appendChild(logoutDiv);
-            let logoutBtn = document.createElement('button');
-            logoutBtn.id = 'logoutBtn';
-            logoutBtn.innerHTML = 'Log out';
-            logoutBtn.addEventListener('click', logout);
-            logoutDiv.appendChild(logoutBtn);            
+            loadUserData(userLogin, xhr.responseText);              
           }  
         return;          
       }

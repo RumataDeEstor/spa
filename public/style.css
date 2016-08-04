@@ -8,6 +8,10 @@ body {
   font-weight: bold;
 }
 
+li, button {
+  cursor: pointer;
+}
+
 li.chosen {
   color: red;
 }
