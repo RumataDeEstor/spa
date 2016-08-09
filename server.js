@@ -63,17 +63,17 @@ app.use((req,res,next) => {
   next();
 });
 
-app.get('/allusers', (req,res,next) => {  // only for debugging!
+app.get('/api/allusers', (req,res,next) => {  // only for debugging!
   // but if DB doesn't work?
   User.find({}, (err, result) => {
-    debug(err);
+    if (err) debug(err);
     res.send(result);
   });
 });
 
 app.use(express.static(path.join(__dirname, "public")));
 
-app.post('/signup', (req,res,next) => {
+app.post('/api/signup', (req,res,next) => {
   let user = new User({
     login: req.body.login,
     password: req.body.password
@@ -114,7 +114,7 @@ app.post('/signup', (req,res,next) => {
 //   });
 // });
 
-app.post('/login', function(req, res, next) {
+app.post('/api/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
     if (err) { return res.status(err.statusCode).send({error: err.message}); };
     if (!user) { return res.status(401).send({error: info.message}); }
@@ -133,7 +133,7 @@ let isAuthenticated = function (req, res, next) {
 
 // TODO: user shouldn't see Login page if Ath-d.
 
-app.get('/userdata/:login',  isAuthenticated, (req, res, next) => {
+app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  // can't get other people's page
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -148,7 +148,7 @@ app.get('/userdata/:login',  isAuthenticated, (req, res, next) => {
   });
 });
 
-app.post('/userdata/:login', isAuthenticated, (req,res,next) => {
+app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -177,7 +177,7 @@ app.post('/userdata/:login', isAuthenticated, (req,res,next) => {
   })  
 });
 
-app.delete('/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
+app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -200,12 +200,16 @@ app.delete('/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
   })
 })
 
-app.post('/logout', isAuthenticated, (req,res,next) => {
+app.post('/api/logout', isAuthenticated, (req,res,next) => {
   if (req.body.user == 'secret') {
     req.logout();
   }
   res.redirect('/');
 });
+
+app.get('*', (req, res,next) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+})
 
 app.use((req, res, next) => {     // why don't use this via calling next(err)?
 	let err = new Error('Not Found');

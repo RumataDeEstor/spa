@@ -25,6 +25,12 @@
       <div id="lwarn" class="warn"></div>    
    </div>
   <script>
+  var i = 0;
+    window.onload = () => {
+    var url = window.location.href;
+    console.log(url);
+    console.log(i++);
+  }
 
     //GET ELEMENT BY ID!
     // onload or other handler
@@ -60,7 +66,7 @@
 
     function deleteProj(userLogin, projID, e) {
       let xhr = new XMLHttpRequest();
-      xhr.open('DELETE', `/userdata/${userLogin}/${projID}`, true);
+      xhr.open('DELETE', `/api/userdata/${userLogin}/${projID}`, true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
@@ -81,7 +87,7 @@
       let xhr = new XMLHttpRequest();
       let body = 'login=' + encodeURIComponent(signupForm.slogin.value) +
       '&password=' + encodeURIComponent(signupForm.spassword.value);
-      xhr.open("POST", '/signup', true);
+      xhr.open("POST", '/api/signup', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
@@ -145,7 +151,7 @@
       function addNewProj (userLogin, e) {
         let xhr = new XMLHttpRequest();
         let body = 'project=' + encodeURIComponent(input.value);
-        xhr.open('POST', `/userdata/${userLogin}`, true);
+        xhr.open('POST', `/api/userdata/${userLogin}`, true);
         xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
         xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
         xhr.onreadystatechange = function () {
@@ -171,7 +177,7 @@
       let userLogin = loginForm.login.value;
       let body = 'login=' + encodeURIComponent(loginForm.login.value) +
       '&password=' + encodeURIComponent(loginForm.password.value);
-      xhr.open("POST", '/login', true);
+      xhr.open("POST", '/api/login', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
 
@@ -199,7 +205,7 @@
     function logout () {
       let xhr = new XMLHttpRequest();
       let body = 'user=' + encodeURIComponent('secret');
-      xhr.open('POST', '/logout', true);
+      xhr.open('POST', '/api/logout', true);
       xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
       xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
       xhr.onreadystatechange = function () {
