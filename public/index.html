@@ -1,31 +1,42 @@
 <!DOCTYPE html>
 <html>
   <head>
-  <title>App 0.0.0</title>
-  <link rel="stylesheet" href="style.css">
+    <title>App 0.0.0</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="react.js"></script>
+    <script src="react-dom.js"></script>
+    <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
   </head>
   <body>
   <!--  <form action="/submit" method="POST"> -->
   <h1 id="title"> App 0.0.0 </h1>
-  <h2>You see this? This... is my BOOMSTICK!</h2>  
-    <div id="signUp">
-      <form id="signupForm">
-        <input name="slogin">
-        <input type="password" name="spassword">
-  	  <p><input type="button" value = "Sign up" id = "signupBtn"></p>
-  	 </form>
-     <div id="swarn" class="warn"></div>    
-    </div>
-    <div id="logIn">
-      <form id="loginForm">
-        <input name="login">
-        <input type="password" name="password">
-      <p><input type="button" value = "Log in" id = "loginBtn"></p>
-      </form>
-      <div id="lwarn" class="warn"></div>    
-   </div>
+  <h2>You see this? This... is my BOOMSTICK!</h2> 
+  <div id = "example"> </div>
+  <div id="signUp">
+    <form id="signupForm">
+      <input name="slogin">
+      <input type="password" name="spassword">
+    <p><input type="button" value = "Sign up" id = "signupBtn"></p>
+   </form>
+   <div id="swarn" class="warn"></div>    
+  </div>
+  <div id="logIn">
+    <form id="loginForm">
+      <input name="login">
+      <input type="password" name="password">
+    <p><input type="button" value = "Log in" id = "loginBtn"></p>
+    </form>
+    <div id="lwarn" class="warn"></div>    
+  </div>
+  <script type="text/babel">
+      ReactDOM.render(
+        <h1>Hello, world!</h1>,
+        document.getElementById('example')
+      );
+  </script>
   <script>
-  var i = 0;
+
+    var i = 0;
     window.onload = () => {
     var url = window.location.href;
     console.log(url);
