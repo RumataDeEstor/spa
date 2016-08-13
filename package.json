@@ -24,5 +24,9 @@
   "devDependencies": {
     "debug": "^2.2.0",
     "ejs-mate": "^2.3.0"
+  },
+  "engines": {
+    "node": "6.0.x",
+    "npm": "3.8.x"
   }
 }
