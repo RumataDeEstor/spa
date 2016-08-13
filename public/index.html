@@ -6,233 +6,112 @@
     <script src="react.js"></script>
     <script src="react-dom.js"></script>
     <script src="https://npmcdn.com/babel-core@5.8.38/browser.min.js"></script>
+    <script src="https://npmcdn.com/react-router/umd/ReactRouter.min.js"></script>
   </head>
   <body>
-  <!--  <form action="/submit" method="POST"> -->
-  <h1 id="title"> App 0.0.0 </h1>
-  <h2>You see this? This... is my BOOMSTICK!</h2> 
-  <div id = "example"> </div>
-  <div id="signUp">
-    <form id="signupForm">
-      <input name="slogin">
-      <input type="password" name="spassword">
-    <p><input type="button" value = "Sign up" id = "signupBtn"></p>
-   </form>
-   <div id="swarn" class="warn"></div>    
-  </div>
-  <div id="logIn">
-    <form id="loginForm">
-      <input name="login">
-      <input type="password" name="password">
-    <p><input type="button" value = "Log in" id = "loginBtn"></p>
-    </form>
-    <div id="lwarn" class="warn"></div>    
-  </div>
-  <script type="text/babel">
-      ReactDOM.render(
-        <h1>Hello, world!</h1>,
-        document.getElementById('example')
-      );
+    <div id = root></div> 
+    <script type="text/babel">
+    /* temp
+    */
+    var Router = ReactRouter.Router;
+    var Route = ReactRouter.Route;
+    var Link = ReactRouter.Link;
+    var browserHistory = ReactRouter.browserHistory;
+    var IndexRoute = ReactRouter.IndexRoute;
+
+    class App extends React.Component {
+      render () {
+        return<div>
+                <h1 id="title"> App 0.0.0 </h1>
+                <h2>You see this? This... is my BOOMSTICK!</h2>
+                <div id="link"><Link to="/about">About</Link></div> 
+                {this.props.children}
+              </div>
+      }
+    }
+
+    class Forms extends React.Component {
+      render() {
+        return <div>
+                <Signup/>
+                <Login/>
+              </div>
+      }
+    }
+    class Signup extends React.Component {
+      render () {
+        return <div>
+                <form id="signupForm" action ="/api/signup" method="post">
+                  <input name="slogin"/>
+                  <input type="password" name="spassword"/>
+                  <p><button id = "signupBtn">Sign up</button></p>             
+                </form>
+                <div id="swarn" className ="warn"></div>   
+              </div>
+      }
+    }
+
+    class Login extends React.Component {
+      render () {
+        return <div>
+                <form id="loginForm" action ="/api/login" method="post">
+                  <input name="login"/>
+                  <input type="password" name="password"/>
+                  <p><button id = "loginBtn">Log in</button></p>
+                </form>
+                <div id="lwarn" className ="warn"></div>    
+              </div>
+      }
+    }
+
+    class About extends React.Component {
+      render () {
+        return <div id = "about"> 
+                Rumata Estorskij
+              <div> 2016 </div>
+              </div>
+      }
+    }
+
+    class Userdata extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {projects: []};
+        this.addProj = this.addProj.bind(this);
+      }
+      addProj () {
+        this.setState( {projects: [...this.state.projects, field.value]} );
+        console.log(this.state);
+      }
+
+      loadProjects () {
+        console.log("request to server..SHOULD BE 1 TIME! BEFORE ADDING CUSTOM");
+      }
+
+      render () {
+        let projects = this.state.projects;
+        this.loadProjects();
+        return <div>
+                <input type ="text" id="field"/>
+                <button onClick={this.addProj}>Add project</button>
+                <ol>
+                  {projects.map((el,i) => {
+                    return <li key={i}> {el} </li>;
+                  })}
+                </ol>
+              </div>
+      }
+    }
+
+    ReactDOM.render((
+      <Router history={browserHistory}>
+        <Route path="/" component={App}>
+          <IndexRoute component={Forms}/>
+          <Route path="/about" component={About}/>
+          <Route path="/userdata" component={Userdata}/>
+        </Route>
+      </Router>
+    ), document.getElementById('root'));
   </script>
-  <script>
-
-    var i = 0;
-    window.onload = () => {
-    var url = window.location.href;
-    console.log(url);
-    console.log(i++);
-  }
-
-    //GET ELEMENT BY ID!
-    // onload or other handler
-
-  	signupBtn.addEventListener("click", reqSignup);
-    loginBtn.addEventListener("click", reqLogin);
-
-    signupForm.slogin.onfocus = function () {
-      signupForm.slogin.value = '';
-      signupForm.spassword.value = '';
-      swarn.innerHTML = '';
-    }
-
-    loginForm.login.onfocus = function () {
-      loginForm.login.value = '';
-      loginForm.password.value = '';
-      lwarn.innerHTML = '';
-    }
-
-    function chooseProj (userLogin, projID, e) {      
-      if (e.target.tagName == 'BUTTON') return;
-      let oldEl = document.getElementsByClassName('chosen');
-      if (oldEl.length) {           
-        oldEl[0].removeChild(oldEl[0].lastChild);
-        oldEl[0].className = '';
-      }
-      let btn = document.createElement('button');
-      btn.innerHTML = 'Delete';
-      e.target.appendChild(btn);  
-      btn.addEventListener("click", deleteProj.bind(null, userLogin, projID));
-      e.target.className = 'chosen';  
-    }
-
-    function deleteProj(userLogin, projID, e) {
-      let xhr = new XMLHttpRequest();
-      xhr.open('DELETE', `/api/userdata/${userLogin}/${projID}`, true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4) return;
-        if (xhr.status != 200) {
-          let error = JSON.parse(xhr.responseText).error;
-          console.log(error);
-        } else {
-          e.target.parentNode.parentNode.removeChild(e.target.parentNode); 
-        }
-      }
-      xhr.send();
-    }
-    
-    function reqSignup() {
-
-      let xhr = new XMLHttpRequest();
-      let body = 'login=' + encodeURIComponent(signupForm.slogin.value) +
-      '&password=' + encodeURIComponent(signupForm.spassword.value);
-      xhr.open("POST", '/api/signup', true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-      xhr.onreadystatechange = function() {
-
-        if (xhr.readyState != 4) return;
-
-          // button.innerHTML = 'Готово!';
-
-          if (xhr.status != 200) {                         
-            // обработать ошибку
-            console.log(xhr.status + ': ' + xhr.statusText);
-            let error = JSON.parse(xhr.responseText).error;
-            if (error == 'Validation error') {
-              swarn.innerHTML = 'Invalid login or password length.';
-            } 
-            else if (error == 'duplicate') {
-              swarn.innerHTML = 'We already have such user! Use your imagination.';
-            }
-          } else {
-            // if we got response;
-            signUp.innerHTML = xhr.responseText;
-            return;                               
-          }
-      }
-      xhr.send(body);
-    } 
-
-    function loadUserData(userLogin, data) {
-      document.body.removeChild(signUp);
-      document.body.removeChild(logIn);
-      var divData = document.createElement('div');
-      divData.id = "divData";
-      document.body.appendChild(divData);
-      var input = document.createElement("input"); 
-      input.type = "text";
-      divData.appendChild(input);
-      let btn = document.createElement('button');
-      btn.innerHTML = 'Add';
-      btn.addEventListener('click', addNewProj.bind(null, userLogin)); 
-      divData.appendChild(btn);
-      let newOl = document.createElement('ol');
-      divData.appendChild(newOl);
-      let projs = JSON.parse(data);
-      projs.map(elem => {
-        let newLi = document.createElement('li');
-        newLi.addEventListener("click", chooseProj.bind(null, userLogin, elem._id));
-        // newLi.addEventListener("mouseout", liMouseOut);            
-        newLi.innerHTML = elem.name;
-        newOl.appendChild(newLi);
-      });
-
-      let logoutDiv = document.createElement('div');
-      document.body.appendChild(logoutDiv);
-      let logoutBtn = document.createElement('button');
-      logoutBtn.id = 'logoutBtn';
-      logoutBtn.innerHTML = 'Log out';
-      logoutBtn.addEventListener('click', logout);
-      logoutDiv.appendChild(logoutBtn);
-
-      function addNewProj (userLogin, e) {
-        let xhr = new XMLHttpRequest();
-        let body = 'project=' + encodeURIComponent(input.value);
-        xhr.open('POST', `/api/userdata/${userLogin}`, true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-        xhr.onreadystatechange = function () {
-          if (xhr.readyState != 4) return;
-          if (xhr.status != 200) {
-          // обработать ошибку
-            let error = JSON.parse(xhr.responseText).error;
-            console.log(error);
-          } else {
-            let projID = JSON.parse(xhr.responseText);
-            let newLi = document.createElement('li');
-            newLi.innerHTML = input.value;
-            newLi.addEventListener("click", chooseProj.bind(null, userLogin, projID));
-            newOl.appendChild(newLi);
-          }
-        }
-        xhr.send(body);        
-      }
-    }
-
-    function reqLogin () {
-      let xhr = new XMLHttpRequest();
-      let userLogin = loginForm.login.value;
-      let body = 'login=' + encodeURIComponent(loginForm.login.value) +
-      '&password=' + encodeURIComponent(loginForm.password.value);
-      xhr.open("POST", '/api/login', true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-
-      xhr.onreadystatechange = function() {
-
-        if (xhr.readyState != 4) return;
-
-          // button.innerHTML = 'Готово!';
-
-          if (xhr.status != 200) {
-            
-            // console.log(xhr.status + ': ' + xhr.statusText);
-
-            // Internal errors mustn't be here
-
-            let error = JSON.parse(xhr.responseText).error; // problem
-            lwarn.innerHTML = error;
-          } else {
-            loadUserData(userLogin, xhr.responseText);              
-          }  
-        return;          
-      }
-      xhr.send(body);
-    }   
-    function logout () {
-      let xhr = new XMLHttpRequest();
-      let body = 'user=' + encodeURIComponent('secret');
-      xhr.open('POST', '/api/logout', true);
-      xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-      xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState != 4) return;
-
-        if (xhr.status != 200) {
-          let error = JSON.parse(xhr.responseText).error;
-          console.log(error);
-        } else {
-          // so what?
-          // console.log('redirected');
-          return;
-        }
-      }
-      xhr.send(body);
-    } 
-  </script>
-  </body>
+</body>
 </html>

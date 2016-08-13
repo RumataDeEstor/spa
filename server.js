@@ -74,12 +74,14 @@ app.get('/api/allusers', (req,res,next) => {  // only for debugging!
 app.use(express.static(path.join(__dirname, "public")));
 
 app.post('/api/signup', (req,res,next) => {
+  debug(req.body);
   let user = new User({
-    login: req.body.login,
-    password: req.body.password
+    login: req.body.slogin,
+    password: req.body.spassword
   });
  
   user.save((err) => {
+    debug(req.body);
     if (err) {
     debug(err);
       if (err.code && err.code == 11000) { // MongoDB:if login is not unique
