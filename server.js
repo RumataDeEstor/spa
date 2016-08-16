@@ -60,6 +60,7 @@ passport.deserializeUser(function(id, done) {
 
 app.use((req,res,next) => {
   debug(`req to ${req.url}. AJAX: ${req.xhr}`);
+  debug(req.user);
   next();
 });
 
@@ -76,12 +77,11 @@ app.use(express.static(path.join(__dirname, "public")));
 app.post('/api/signup', (req,res,next) => {
   debug(req.body);
   let user = new User({
-    login: req.body.slogin,
-    password: req.body.spassword
+    login: req.body.login,
+    password: req.body.password
   });
  
   user.save((err) => {
-    debug(req.body);
     if (err) {
     debug(err);
       if (err.code && err.code == 11000) { // MongoDB:if login is not unique
@@ -95,7 +95,8 @@ app.post('/api/signup', (req,res,next) => {
         res.send({ error: 'Server error' });
       }
     } else {
-      res.status(200).send(`Welcome aboard, ${user.login}!`);
+      res.status(200).send({ login: user.login });
+      // res.redirect('/api/login');
     }
   });
 });
@@ -122,7 +123,9 @@ app.post('/api/login', function(req, res, next) {
     if (!user) { return res.status(401).send({error: info.message}); }
     req.logIn(user, function(err) {
       if (err) { return res.status(err.statusCode).send({error: err.message}); }
-      return res.redirect('/userdata/' + user.login);
+      // return res.redirect('/userdata/' + user.login);
+      debug(req.user);
+      return res.status(200).send({ login: user.login });
     });
   })(req, res, next);
 });
@@ -130,13 +133,16 @@ app.post('/api/login', function(req, res, next) {
 let isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
     return next();
-  res.redirect('/');
+  debug(req.user);
+  res.redirect('/login'); // not ok
 }
 
 // TODO: user shouldn't see Login page if Ath-d.
 
 app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
+  debug('here');
   if (req.params.login !== req.user.login) {  // can't get other people's page
+    debug('forb');
     return res.status(403).send({error: 'Forbidden'});
   }
   User.findOne({login: req.params.login}, (err, result) => {
@@ -145,6 +151,7 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
       res.status(500).send({error: 'Internal Server Error'});
     } else {
       debug('success get proj');
+      debug(result.projects);
       res.send(result.projects);
     }
   });
@@ -163,7 +170,7 @@ app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
       result.save((err) =>{
         if (!err) {
           debug('updated.');
-          res.status(200).send(result.projects[len-1]._id);
+          res.status(200).send({'_id': result.projects[len-1]._id});
         } else {
           debug(err);
           if(err.name == 'ValidationError') {

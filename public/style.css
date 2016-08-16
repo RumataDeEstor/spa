@@ -20,6 +20,19 @@ li.chosen {
   color: black;
 }
 
-#link {
+.links {
   color: blue;
+  font-size: 26;
+  display: flex;
+  margin-left: 0; 
+  padding-left: 0;
+}
+
+.links li {
+  margin-right: 30px;
+  list-style-type: none; 
+}
+
+.linkActive {
+  color: red;
 }
