@@ -134,7 +134,7 @@ let isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
     return next();
   debug(req.user);
-  res.redirect('/login'); // not ok
+  res.status(403).send({error: 'Forbidden'});
 }
 
 // TODO: user shouldn't see Login page if Ath-d.
@@ -208,6 +208,10 @@ app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) 
     })
   })
 })
+
+app.get('/api/secretRoute', isAuthenticated, (req,res,next) => {
+  res.send({message: 'someSecret'});
+});
 
 app.post('/api/logout', isAuthenticated, (req,res,next) => {
   if (req.body.user == 'secret') {

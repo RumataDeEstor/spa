@@ -11,8 +11,7 @@
   <body>
     <div id = root></div> 
     <script type="text/babel">
-    /* temp
-    */
+    
     var Router = ReactRouter.Router;
     var Route = ReactRouter.Route;
     var Link = ReactRouter.Link;
@@ -23,11 +22,6 @@
     class App extends React.Component {
       constructor(props) {
         super(props);
-        this.pish = this.pish.bind(this);
-      }
-
-      pish() {
-        browserHistory.push('/userdata');
       }
 
       render () {
@@ -151,6 +145,48 @@
       }
     }
 
+     class Pish extends React.Component {
+      render() {
+        return <div>
+              {this.props.children}
+              </div>
+      }
+    }
+
+    class Secret extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = {secrets: []};
+      }
+      componentDidMount () {
+        let reqParams = {
+          method: 'GET',
+          headers: {  
+            "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"  
+          }, 
+          credentials: 'include'
+        }
+
+        fetch('/api/secretRoute', reqParams)
+          .then(res => res.json())
+          .then(res => {
+            if (!res.error) {
+              this.setState( {secrets: [...this.state.secrets, 
+              res.message]} );
+            } else {
+              console.log(res.error);
+            }
+          })
+          .catch(console.log);
+      }
+      render () {
+        return <div> 
+          Secret!
+          {this.state.secrets.length}
+          </div>
+      }
+    }
+
     class Userdata extends React.Component {
       constructor(props) {
         super(props);
@@ -226,10 +262,13 @@
     ReactDOM.render((
       <Router history={browserHistory}>
         <Route path="/" component={App}>
-          <Route path="/userdata/:login" component={Userdata}/>
+          <Route path="/userdata" component={Pish}>
+           <Route path=":login" component={Userdata}/>
+          </Route>
           <Route path="/signup" component={Signup}/>
           <Route path="/login" component={Login}/>
           <Route path="/about" component={About}/>
+          <Route path="/secret" component={Secret}/>
         </Route>
         <Route path="*" component={NotFound}>
         </Route>
