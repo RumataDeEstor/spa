@@ -1,6 +1,7 @@
 node_modules
-debug
+debug.log
 temp client functions
 log.txt
 node
 app_0.0.0@0.0.0
+.babelrc
