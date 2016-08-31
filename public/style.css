@@ -1,6 +1,22 @@
 body {
-  background-color: #BFEDED;
-  color: #0A7676;
+  background-color: #CEEFBE;
+  color: #2D9B51;
+}
+
+a {
+  text-decoration: none;   
+}
+
+input {
+  outline: none; 
+  border: none;
+}
+
+li, button {
+  cursor: pointer;
+  list-style-type: none;     
+  outline: none; 
+  border: none;
 }
 
 .warn {
@@ -8,31 +24,99 @@ body {
   font-weight: bold;
 }
 
-li, button {
-  cursor: pointer;
-}
-
 li.chosen {
   color: red;
 }
 
-#about {
-  color: black;
+.topmenu {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  border: 2px solid #2D9B51;
+  margin-bottom: 20px;
 }
 
 .links {
-  color: blue;
-  font-size: 26;
+  background-color: #5AAA6E;
   display: flex;
-  margin-left: 0; 
-  padding-left: 0;
+  margin: 0; 
+  padding: 0;
+}
+
+#logo {
+  display: flex;
+  align-self: center;
+  font: 38px Arial;
+  padding: 0;
+  color: black;
+}
+
+#logo a:visited {
+  color: black;
 }
 
 .links li {
-  margin-right: 30px;
-  list-style-type: none; 
+  background-color: #5AAA6E;
+  border: 4px outset #7CC59A;
+  color: #19570F;
+  font: 32px Arial;
+  padding: 0;
 }
 
-.linkActive {
-  color: red;
+.links li:hover {
+  background-color: #49C56C;
+  border: 4px inset #7CC59A;
+}
+
+.links li a {
+  padding: 0 30px;
+  color: #19570F;
+}
+
+.links li button {
+  background-color: inherit;
+  font: 32px Arial;
+  color: #19570F;
+  border: none;
+  padding: 0 30px;
+}
+
+#loginBtn, #signupBtn {
+  font-size: 26px;
+  padding: 0 10px;
+  color: white;
+  background-color: #2D9B51;  
+  border-radius: 10px;
+}
+
+#loginBtn:hover, #signupBtn:hover {
+  color: #19570F;
+  background-color: #5AAA6E; 
+}
+
+#about {
+  font: 24px Arial;
+}
+
+input {
+  border: 3px solid #7CC59A;
+  font: 24px Arial;
+  width: 20%;  
+  margin-bottom: 20px;
+}
+
+.lpForm {
+  display: flex;
+  flex-direction: column;
+  font: 24px Arial;
+  font-weight: bold;
+}
+
+.lpForm p {
+  margin-top: 0;
+}
+
+#canlogin {
+  font-size: 18px;
+  font-weight: normal;
 }

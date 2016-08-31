@@ -8,6 +8,7 @@ let LocalStrategy = require('passport-local').Strategy;
 let flash = require('express-flash');
 let path = require('path'); 
 let User = require('./models/user');
+var rewrite = require('express-urlrewrite');
 
 let app = express();
 let port = process.env.PORT || 8080;
@@ -215,14 +216,20 @@ app.get('/api/secretRoute', isAuthenticated, (req,res,next) => {
 
 app.post('/api/logout', isAuthenticated, (req,res,next) => {
   if (req.body.user == 'secret') {
+    debug('logout');
     req.logout();
-  }
-  res.redirect('/');
+    res.status(200).send();
+  } //....
 });
+
+// app.get(/.*/, (req, res,next) => {
+//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
+//   debug('*path');
+// })
 
 app.get('*', (req, res,next) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-})
+});
 
 app.use((req, res, next) => {     // why don't use this via calling next(err)?
 	let err = new Error('Not Found');

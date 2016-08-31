@@ -1,6 +1,6 @@
 import React from 'react'
 import { render } from 'react-dom'
-import { Router, Route, IndexRoute, Link, IndexLink, browserHistory } from 'react-router'
+import { Router, Route, IndexRoute, Link, IndexLink, IndexRedirect, browserHistory } from 'react-router'
 
 class StartPage extends React.Component {
   constructor(props) {
@@ -9,18 +9,21 @@ class StartPage extends React.Component {
 
   render () {
     return<div>
-            <ul className = "links">
-              <li><IndexLink to="/signup" activeClassName="linkActive">Signup</IndexLink></li>
-              <li><IndexLink to="/login" activeClassName="linkActive">Login</IndexLink></li>
-              <li><IndexLink to="/about" activeClassName="linkActive">About</IndexLink></li>
-            </ul>
+            <div className = "topmenu">
+              <div id = "logo"><Link to="/">LOGO :)</Link></div> 
+              <ul className = "links">
+                <li><IndexLink to="/signup">Signup</IndexLink></li>
+                <li><IndexLink to="/login">Login</IndexLink></li>
+                <li><IndexLink to="/about">About</IndexLink></li>
+              </ul>
+            </div>
             {this.props.children}
           </div>
   }
 }
 
 const About = () => (
-  <div>
+  <div id = "about">
     © Rumata Estorskij, 2016.
   </div>
 )
@@ -54,14 +57,17 @@ class Signup extends React.Component {
           swarn.innerHTML = res.error; 
           return;
         }
+        this.fieldOnFocus();
         sOk.innerHTML = `Welcome aboard, ${res.login}! You may want to login.`                     
       })
       .catch(console.log);
   }
 
   render() {
-    return <div>
+    return <div className = "lpForm">
+            Login: 
             <input id="slogin" onFocus={this.fieldOnFocus}/>
+            Password: 
             <input type="password" id="spassword"/>
             <p><button id = "signupBtn" onClick = {this.signUp}>Sign up</button></p>         
             <div id="swarn" className ="warn"></div>  
@@ -80,10 +86,10 @@ class Login extends React.Component {
     let reqParams = {
       method: 'POST',
       headers: {  
-        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"  
-      },  
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      }, 
       body: 'login=' + encodeURIComponent(login.value) +
-      '&password=' + encodeURIComponent(password.value),
+      '&password=' + encodeURIComponent(password.value), 
       credentials: 'include'
     }
 
@@ -94,7 +100,7 @@ class Login extends React.Component {
           lwarn.innerHTML = res.error; 
           return;
         }
-        browserHistory.push(`/userdata/${res.login}`);                    
+        browserHistory.push(`app/${res.login}`);                    
       })
       .catch(console.log);
   }
@@ -106,9 +112,11 @@ class Login extends React.Component {
   }
 
   render () {
-    return <div>
-            <p>If you are already registered, you can login.</p>     
-            <input id="login"/>
+    return <div className = "lpForm">
+            <p id = "canlogin"> If you are already registered, you can login.</p>     
+            Login: 
+            <input id="login" onFocus={this.fieldOnFocus}/>
+            Password:
             <input type="password" id="password"/>
             <p><button id = "loginBtn" onClick={this.logIn}>Log in</button></p>              
             <div id="lwarn" className ="warn"></div>    
@@ -234,26 +242,55 @@ class App extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
   render () {
     return <div>
-            <Topmenu/>
-            BLABLABLABLA
+            <Topmenu login = {this.props.params.login}/> 
+            APPLICATION
+            {this.props.children}
           </div>
   }
 }
 
+// TODO: make logo lead to user homepage /app/:login
 class Topmenu extends React.Component {
   constructor(props) {
     super(props);
   }
+
+  logout () {
+    let reqParams = {
+      method: 'POST',
+      headers: {  
+        "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+      },  
+      body: 'user='+ encodeURIComponent('secret'),
+      credentials: 'include'
+    }
+
+    fetch('/api/logout', reqParams)
+      .then(res => {
+        if(res.ok) {
+          browserHistory.push('/'); 
+        }
+        // ...TODO: error handling (also on server)
+      })
+      .catch(console.log);
+  }
+
   render () {
-    return <div> 
-            <ul className = "links">
-              <li>LOGO :)</li>
-              <li><IndexLink to="/projects" activeClassName="linkActive">Projects</IndexLink></li>
-              <li><IndexLink to="/blabla" activeClassName="linkActive">Blabla</IndexLink></li>
-              <li><button>Log out</button></li>
-            </ul>           
+    const path = `/app/${this.props.login}`;
+    return <div>            
+            <div className = "topmenu">
+              <div id = "logo"><Link to={path}>LOGO :)</Link></div> 
+              <ul className = "links">
+                <li><IndexLink to={`${path}/projects`}>Projects</IndexLink></li>
+                <li><IndexLink to={`${path}/blabla`}>Blabla</IndexLink></li>
+                <li><button onClick = {this.logout}>Log out</button></li>
+              </ul>
+            </div>           
           </div>
   }
 }
@@ -264,18 +301,18 @@ class Blabla extends React.Component {
   }
   render () {
     return <div> 
-            BLABLABLABLA         
+            BLABLABLABLA here        
           </div>
   }
 }
 
-class Projects extends React.Component {
+class Home extends React.Component {
   constructor(props) {
     super(props);
   }
   render () {
     return <div> 
-            PROJECTS ARE HERE! :)       
+            You are home! :)       
           </div>
   }
 }
@@ -283,13 +320,15 @@ class Projects extends React.Component {
 render((
   <Router history={browserHistory}>
     <Route path="/" component={StartPage}>
+      <IndexRedirect to="/signup"/> 
       <Route path="/signup" component={Signup}/>
       <Route path="/login" component={Login}/>
       <Route path="/about" component={About}/>
     </Route>
-    <Route path="/app/:login" component={App}>
-       <Route path="/projects" component={Projects}/>
-       <Route path="/blabla" component={Blabla}/>
+    <Route path="app/:login" component={App}>
+      <IndexRedirect to="home"/> 
+      <Route path="home" component={Home}/>
+      <Route path="blabla" component={Blabla}/>
     </Route>
     <Route path="*" component={NotFound}/>
   </Router>

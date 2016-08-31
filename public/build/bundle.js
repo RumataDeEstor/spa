@@ -82,33 +82,46 @@
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'ul',
-	          { className: 'links' },
+	          'div',
+	          { className: 'topmenu' },
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'div',
+	            { id: 'logo' },
 	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: '/signup', activeClassName: 'linkActive' },
-	              'Signup'
+	              _reactRouter.Link,
+	              { to: '/' },
+	              'LOGO :)'
 	            )
 	          ),
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'ul',
+	            { className: 'links' },
 	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: '/login', activeClassName: 'linkActive' },
-	              'Login'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: '/signup' },
+	                'Signup'
+	              )
+	            ),
 	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: '/about', activeClassName: 'linkActive' },
-	              'About'
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: '/login' },
+	                'Login'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: '/about' },
+	                'About'
+	              )
 	            )
 	          )
 	        ),
@@ -123,7 +136,7 @@
 	var About = function About() {
 	  return _react2.default.createElement(
 	    'div',
-	    null,
+	    { id: 'about' },
 	    '© Rumata Estorskij, 2016.'
 	  );
 	};
@@ -150,6 +163,8 @@
 	  }, {
 	    key: 'signUp',
 	    value: function signUp() {
+	      var _this3 = this;
+
 	      var reqParams = {
 	        method: 'POST',
 	        headers: {
@@ -165,6 +180,7 @@
 	          swarn.innerHTML = res.error;
 	          return;
 	        }
+	        _this3.fieldOnFocus();
 	        sOk.innerHTML = 'Welcome aboard, ' + res.login + '! You may want to login.';
 	      }).catch(console.log);
 	    }
@@ -173,8 +189,10 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'lpForm' },
+	        'Login:',
 	        _react2.default.createElement('input', { id: 'slogin', onFocus: this.fieldOnFocus }),
+	        'Password:',
 	        _react2.default.createElement('input', { type: 'password', id: 'spassword' }),
 	        _react2.default.createElement(
 	          'p',
@@ -200,10 +218,10 @@
 	  function Login(props) {
 	    _classCallCheck(this, Login);
 
-	    var _this3 = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+	    var _this4 = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
-	    _this3.logIn = _this3.logIn.bind(_this3);
-	    return _this3;
+	    _this4.logIn = _this4.logIn.bind(_this4);
+	    return _this4;
 	  }
 
 	  _createClass(Login, [{
@@ -225,7 +243,7 @@
 	          lwarn.innerHTML = res.error;
 	          return;
 	        }
-	        _reactRouter.browserHistory.push('/userdata/' + res.login);
+	        _reactRouter.browserHistory.push('app/' + res.login);
 	      }).catch(console.log);
 	    }
 	  }, {
@@ -240,13 +258,15 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'lpForm' },
 	        _react2.default.createElement(
 	          'p',
-	          null,
-	          'If you are already registered, you can login.'
+	          { id: 'canlogin' },
+	          ' If you are already registered, you can login.'
 	        ),
-	        _react2.default.createElement('input', { id: 'login' }),
+	        'Login:',
+	        _react2.default.createElement('input', { id: 'login', onFocus: this.fieldOnFocus }),
+	        'Password:',
 	        _react2.default.createElement('input', { type: 'password', id: 'password' }),
 	        _react2.default.createElement(
 	          'p',
@@ -294,16 +314,16 @@
 	  function Secret(props) {
 	    _classCallCheck(this, Secret);
 
-	    var _this5 = _possibleConstructorReturn(this, (Secret.__proto__ || Object.getPrototypeOf(Secret)).call(this, props));
+	    var _this6 = _possibleConstructorReturn(this, (Secret.__proto__ || Object.getPrototypeOf(Secret)).call(this, props));
 
-	    _this5.state = { secrets: [] };
-	    return _this5;
+	    _this6.state = { secrets: [] };
+	    return _this6;
 	  }
 
 	  _createClass(Secret, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this6 = this;
+	      var _this7 = this;
 
 	      var reqParams = {
 	        method: 'GET',
@@ -317,7 +337,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (!res.error) {
-	          _this6.setState({ secrets: [].concat(_toConsumableArray(_this6.state.secrets), [res.message]) });
+	          _this7.setState({ secrets: [].concat(_toConsumableArray(_this7.state.secrets), [res.message]) });
 	        } else {
 	          console.log(res.error);
 	        }
@@ -344,11 +364,11 @@
 	  function Userdata(props) {
 	    _classCallCheck(this, Userdata);
 
-	    var _this7 = _possibleConstructorReturn(this, (Userdata.__proto__ || Object.getPrototypeOf(Userdata)).call(this, props));
+	    var _this8 = _possibleConstructorReturn(this, (Userdata.__proto__ || Object.getPrototypeOf(Userdata)).call(this, props));
 
-	    _this7.state = { projects: [] };
-	    _this7.addProj = _this7.addProj.bind(_this7);
-	    return _this7;
+	    _this8.state = { projects: [] };
+	    _this8.addProj = _this8.addProj.bind(_this8);
+	    return _this8;
 	  }
 
 	  _createClass(Userdata, [{
@@ -359,7 +379,7 @@
 	  }, {
 	    key: 'addProj',
 	    value: function addProj() {
-	      var _this8 = this;
+	      var _this9 = this;
 
 	      var reqParams = {
 	        method: 'POST',
@@ -376,13 +396,13 @@
 	          return res._id;
 	        }
 	      }).then(function (_id) {
-	        _this8.setState({ projects: [].concat(_toConsumableArray(_this8.state.projects), [{ name: field.value, _id: _id }]) });
+	        _this9.setState({ projects: [].concat(_toConsumableArray(_this9.state.projects), [{ name: field.value, _id: _id }]) });
 	      }).catch(console.log);
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this9 = this;
+	      var _this10 = this;
 
 	      var reqParams = {
 	        method: 'GET',
@@ -397,7 +417,7 @@
 	        console.log(res);
 	        if (!res.error) {
 	          res.map(function (elem) {
-	            _this9.setState({ projects: [].concat(_toConsumableArray(_this9.state.projects), [{ name: elem.name, _id: elem._id }]) });
+	            _this10.setState({ projects: [].concat(_toConsumableArray(_this10.state.projects), [{ name: elem.name, _id: elem._id }]) });
 	          });
 	          return;
 	        }
@@ -407,7 +427,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this10 = this;
+	      var _this11 = this;
 
 	      var projects = this.state.projects;
 	      return _react2.default.createElement(
@@ -425,7 +445,7 @@
 	          projects.map(function (el, i) {
 	            return _react2.default.createElement(
 	              'li',
-	              { key: i, id: el._id, onClick: _this10.chooseProj },
+	              { key: i, id: el._id, onClick: _this11.chooseProj },
 	              ' ',
 	              el.name,
 	              ' '
@@ -448,20 +468,26 @@
 	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
 
+	  //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(Topmenu, null),
-	        'BLABLABLABLA'
+	        _react2.default.createElement(Topmenu, { login: this.props.params.login }),
+	        'APPLICATION',
+	        this.props.children
 	      );
 	    }
 	  }]);
 
 	  return App;
 	}(_react2.default.Component);
+
+	// TODO: make logo lead to user homepage /app/:login
+
 
 	var Topmenu = function (_React$Component8) {
 	  _inherits(Topmenu, _React$Component8);
@@ -473,44 +499,72 @@
 	  }
 
 	  _createClass(Topmenu, [{
+	    key: 'logout',
+	    value: function logout() {
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+	        },
+	        body: 'user=' + encodeURIComponent('secret'),
+	        credentials: 'include'
+	      };
+
+	      fetch('/api/logout', reqParams).then(function (res) {
+	        if (res.ok) {
+	          _reactRouter.browserHistory.push('/');
+	        }
+	        // ...TODO: error handling (also on server)
+	      }).catch(console.log);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var path = '/app/' + this.props.login;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'ul',
-	          { className: 'links' },
+	          'div',
+	          { className: 'topmenu' },
 	          _react2.default.createElement(
-	            'li',
-	            null,
-	            'LOGO :)'
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'div',
+	            { id: 'logo' },
 	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: '/projects', activeClassName: 'linkActive' },
-	              'Projects'
+	              _reactRouter.Link,
+	              { to: path },
+	              'LOGO :)'
 	            )
 	          ),
 	          _react2.default.createElement(
-	            'li',
-	            null,
+	            'ul',
+	            { className: 'links' },
 	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: '/blabla', activeClassName: 'linkActive' },
-	              'Blabla'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              'button',
+	              'li',
 	              null,
-	              'Log out'
+	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: path + '/projects' },
+	                'Projects'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: path + '/blabla' },
+	                'Blabla'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                'button',
+	                { onClick: this.logout },
+	                'Log out'
+	              )
 	            )
 	          )
 	        )
@@ -536,7 +590,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'BLABLABLABLA'
+	        'BLABLABLABLA here'
 	      );
 	    }
 	  }]);
@@ -544,27 +598,27 @@
 	  return Blabla;
 	}(_react2.default.Component);
 
-	var Projects = function (_React$Component10) {
-	  _inherits(Projects, _React$Component10);
+	var Home = function (_React$Component10) {
+	  _inherits(Home, _React$Component10);
 
-	  function Projects(props) {
-	    _classCallCheck(this, Projects);
+	  function Home(props) {
+	    _classCallCheck(this, Home);
 
-	    return _possibleConstructorReturn(this, (Projects.__proto__ || Object.getPrototypeOf(Projects)).call(this, props));
+	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
 	  }
 
-	  _createClass(Projects, [{
+	  _createClass(Home, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'PROJECTS ARE HERE! :)'
+	        'You are home! :)'
 	      );
 	    }
 	  }]);
 
-	  return Projects;
+	  return Home;
 	}(_react2.default.Component);
 
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -573,15 +627,17 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: '/', component: StartPage },
+	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/signup' }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: Signup }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: Login }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: About })
 	  ),
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { path: '/app/:login', component: App },
-	    _react2.default.createElement(_reactRouter.Route, { path: '/projects', component: Projects }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/blabla', component: Blabla })
+	    { path: 'app/:login', component: App },
+	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'home' }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'home', component: Home }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'blabla', component: Blabla })
 	  ),
 	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: NotFound })
 	), document.getElementById('root'));
