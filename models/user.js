@@ -1,14 +1,40 @@
-var mongoose = require('../libs/mongoose');
-var Schema = mongoose.Schema;
+const mongoose = require('../libs/mongoose');
+const Schema = mongoose.Schema;
 
-var projectSchema = new Schema({
+const taskSchema = new Schema({
   name: {
     type: String,
+    default: 'Unnamed',
     required: true
+  },
+  label: {
+    type: String,
+    default: 'white',
+  },
+  points: {
+    type: Number,
+    default: 0
   }
 });
 
-var userSchema = new Schema({
+const projectSchema = new Schema({
+  name: {
+    type: String,
+    default: 'Unnamed',
+    required: true
+  },
+  label: {
+    type: String,
+    default: 'white',
+  },
+  points: {
+    type: Number,
+    default: 0
+  },
+  tasks: [taskSchema]
+});
+
+const userSchema = new Schema({
   login: {
     type: String,
     unique: true,
@@ -19,7 +45,11 @@ var userSchema = new Schema({
     unique: true,
     required: true
   },
-  projects: [projectSchema]
+  projects: [projectSchema],
+  points: {
+    type: Number,
+    default: 0
+  }
 });
 
 userSchema.methods.validPassword = function(pass){

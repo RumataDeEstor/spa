@@ -1,17 +1,17 @@
-let express = require('express');
-let debug = require('debug')('server:');
-let bodyParser = require('body-parser');
-let cookieParser = require('cookie-parser');
-let session = require('express-session');
-let passport = require('passport');
-let LocalStrategy = require('passport-local').Strategy;
-let flash = require('express-flash');
-let path = require('path'); 
-let User = require('./models/user');
-var rewrite = require('express-urlrewrite');
+const express = require('express');
+const debug = require('debug')('server:');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const flash = require('express-flash');
+const path = require('path'); 
+const User = require('./models/user');
+// var rewrite = require('express-urlrewrite');
 
-let app = express();
-let port = process.env.PORT || 8080;
+const app = express();
+const port = process.env.PORT || 8080;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -151,9 +151,9 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      debug('success get proj');
-      debug(result.projects);
-      res.send(result.projects);
+      debug('success get userdata');
+      debug(result);
+      res.send(result);
     }
   });
 });
@@ -166,8 +166,8 @@ app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
     if (err) { 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
-    } else { // why should search user again?
-      let len = result.projects.push({name: req.body.project});
+    } else {  
+      let len = result.projects.push(req.body);
       result.save((err) =>{
         if (!err) {
           debug('updated.');
@@ -209,10 +209,6 @@ app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) 
     })
   })
 })
-
-app.get('/api/secretRoute', isAuthenticated, (req,res,next) => {
-  res.send({message: 'someSecret'});
-});
 
 app.post('/api/logout', isAuthenticated, (req,res,next) => {
   if (req.body.user == 'secret') {

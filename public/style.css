@@ -1,5 +1,8 @@
 body {
-  background-color: #CEEFBE;
+  /*background-color: #CEEFBE;*/
+  /*background-color: #b6d8e7;*/
+  background-color: #d5ebff;
+
   color: #2D9B51;
 }
 
@@ -19,6 +22,10 @@ li, button {
   border: none;
 }
 
+li {
+  padding: 0;
+}
+
 .warn {
   color: #E33B35;
   font-weight: bold;
@@ -26,6 +33,14 @@ li, button {
 
 li.chosen {
   color: red;
+}
+
+#projectsMenu, #projectsListMenu {
+  display: flex;
+}
+
+#projectsMenu ul, #projectsListMenu ul {
+  display: flex;
 }
 
 .topmenu {
@@ -60,7 +75,6 @@ li.chosen {
   border: 4px outset #7CC59A;
   color: #19570F;
   font: 32px Arial;
-  padding: 0;
 }
 
 .links li:hover {
@@ -79,6 +93,53 @@ li.chosen {
   color: #19570F;
   border: none;
   padding: 0 30px;
+}
+
+
+/*TODO: crooked due to different price values*/
+
+#projectsItem, #projectsItem div {
+  display: flex;
+}
+
+
+#projectsItem #customCheckbox {
+  padding: 0;
+  width: 10px;
+  height: 9.631px;
+  margin: 0 20px;
+  border-radius: 90%;
+  cursor: pointer;
+  border: 1px solid #186755;
+  display: flex;
+  align-self: center;
+}
+
+#projectsItem #customCheckbox.checked {
+  background-color: #6ADE17;
+}
+
+#projectsItem #customCheckbox.unchecked {
+  background-color: inherit;
+}
+
+#projectsItem #points {
+  width: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+#projectsItem {  
+  /*background-color: #4FC4B4;*/
+  background-color: white;
+  /*color: #186755; */
+  color: #424242;
+  /*#186755*/
+  border: 1px solid #424242;
+  border-radius: 6px;
+  font: 20px Arial;
+  width: 650px;
+  margin-bottom: 20px;
 }
 
 #loginBtn, #signupBtn {
@@ -119,4 +180,38 @@ input {
 #canlogin {
   font-size: 18px;
   font-weight: normal;
+}
+
+#projectLabel {
+  width: 10px;
+}
+
+#projectLine {
+  width: 80%;
+  margin-right: 30px;
+}
+
+.red {
+  background-color: red;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.green {
+  background-color: green;  
+}
+
+.white {
+  background-color: white;  
+}
+
+select #label {
+  width: 30px;
+  height: 40px;
 }
