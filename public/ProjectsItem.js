@@ -10,6 +10,7 @@ class ProjectsItem extends React.Component {
     super(props);
     this.delete = this.delete.bind(this);
     this.edit = this.edit.bind(this);
+    this.open = this.open.bind(this);
   }
 
   delete(){
@@ -33,12 +34,17 @@ class ProjectsItem extends React.Component {
       })
   }
   edit(){
-    this.props.onEdit(this);
+    this.props.onEdit(this); 
   }
+
+  open(){
+    this.props.onOpen(this.props.id); 
+  }
+  
   
   render () {
     return <div id = "projectsItem">
-            <div id = "projectLine"> 
+            <div id = "projectLine" onClick = {this.open}> 
               <div className = {this.props.label} id = "projectLabel"> 
               </div>
               {this.props.name}
@@ -54,7 +60,8 @@ class ProjectsItem extends React.Component {
 
 ProjectsItem.propTypes = {
   onDelete: React.PropTypes.func,
-  onEdit: React.PropTypes.func
+  onEdit: React.PropTypes.func,
+  onOpen: React.PropTypes.func
 };
 
 export default ProjectsItem;
