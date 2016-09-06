@@ -5,23 +5,21 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
+//USELESS (but --> tasks)
 class ProjectsListMenu extends React.Component {
   constructor(props) {
     super(props);
-    this.complete = this.complete.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
-  complete () {
-    this.props.selected.map(el => {
-      console.log(`${el.name} completed!`);
-    });
+  delete () {
+
   }
 
   render () {
     return <div id = "projectsListMenu">
             <ul>
-              <li><button>Delete</button></li>
-              <li><button onClick = {this.complete}>Complete</button></li>
+              <li><button onClick = {this.delete}>Delete</button></li>
             </ul>
           </div>
   }

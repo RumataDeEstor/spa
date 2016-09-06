@@ -5,21 +5,17 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class ProjectsAddNew extends React.Component {
+class ProjectEditing extends React.Component {
   constructor(props) {
     super(props);
-    this.addNew = this.addNew.bind(this);
+    this.saveChanges = this.saveChanges.bind(this);
   }
 
   selectLabel (e) {
     projLabel.value = e.target.className;
   }
 
-  nameOnFocus(){
-    warn.innerHTML = '';
-  }
-
-  addNew (){
+  saveChanges () {
     let bodyJSON = JSON.stringify({
       name: projName.value,
       label: projLabel.value,
@@ -27,7 +23,7 @@ class ProjectsAddNew extends React.Component {
     });
       
     let reqParams = {
-      method: 'POST',
+      method: 'PUT',
       headers: {  
         "Content-type": "application/json; charset=UTF-8"  
       },
@@ -36,27 +32,27 @@ class ProjectsAddNew extends React.Component {
     }
 
     let login = this.props.params.login;
+    let projID = this.props.id;
     // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-    fetch(`/api/userdata/${login}`, reqParams)
+    fetch(`/api/userdata/${login}/${projID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
           console.log(res.error); // handle;
           return;
         }
-        warn.innerHTML = 'Added!';
-        projName.value = '';
-        projLabel.value= '';
-        projPoints.value = '';
+        // ?
       })
       .catch(err => {
         console.log(err);
       })
   }
   render () {
+    console.log(this.props.params.login);
     return <div id = "projectsAddNew">
+            <h2> </h2>
             <div id = "newProjectForm">
-              Name: <input id="projName" onFocus = {this.nameOnFocus}/>
+              Name: <input id="projName"/>
               Label: <input id="projLabel"/>
               <ol id = "selectLabel" onClick = {this.selectLabel}>
                 <li className = "red">RED</li>
@@ -67,11 +63,9 @@ class ProjectsAddNew extends React.Component {
               </ol>  
               Points: <input id="projPoints" type="number"/>
             </div>
-            <button onClick = {this.addNew}>Add</button>
-            <div id = "warn" className ="warn">
-            </div>
+            <button onClick = {this.saveChanges}>Save changes</button>
           </div>
   }
 }
 
-export default ProjectsAddNew;
+export default ProjectEditing;

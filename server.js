@@ -201,7 +201,7 @@ app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) 
     result.save((err) => {
       if (!err) {
         debug('removed.');
-        res.status(200).send('OK');
+        res.status(200).send({message: 'project removed'});
       } else {
         debug(err);
         res.status(500).send({error: 'Internal Server Error'});
@@ -217,11 +217,6 @@ app.post('/api/logout', isAuthenticated, (req,res,next) => {
     res.status(200).send();
   } //....
 });
-
-// app.get(/.*/, (req, res,next) => {
-//   res.sendFile(path.join(__dirname, 'public', 'index.html'));
-//   debug('*path');
-// })
 
 app.get('*', (req, res,next) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));

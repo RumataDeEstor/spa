@@ -5,19 +5,15 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 import ProjectsItem from './ProjectsItem'
-import ProjectsListMenu from './ProjectsListMenu'
 
 class ProjectsList extends React.Component {
   constructor(props) {
     super(props);
-    // this.handleChildFunc = this.handleChildFunc.bind(this);
-    // this.state = {selected: []};
-    this.state = {projects: [], selected: []};
+    this.state = {projects: []};
     this.loadProjects = this.loadProjects.bind(this);
   }
 
   loadProjects() {
-    console.log(this.props.routes);
     let reqParams = {
       method: 'GET',
       credentials: 'include'
@@ -43,8 +39,14 @@ class ProjectsList extends React.Component {
     this.loadProjects();
   }
 
-  handleChildFunc(item) {
-    this.setState({selected: [...this.state.selected, {name: item.props.name}]});
+  handleChildDelete(id) {
+    let newProjects = this.state.projects.slice();
+    newProjects = newProjects.filter(el => el._id !== id);
+    this.setState({projects: newProjects});
+  }
+
+  handleChildEdit(proj) {
+    return <div> {proj.id} </div>
   }
 
   /*removing
@@ -57,16 +59,17 @@ class ProjectsList extends React.Component {
   render () {
     let projects = this.state.projects;
     return <div>
-            <ProjectsListMenu login = {this.props.params.login} selected = {this.state.selected}/>
             List Page
             <div id = "projectsList">
               {projects.map((el,i) => {
                 return <ProjectsItem key = {i} 
                 id ={el._id} 
-                myFunc={this.handleChildFunc.bind(this)} 
+                onDelete={this.handleChildDelete.bind(this)} 
+                onEdit={this.handleChildEdit.bind(this)}
                 points = {el.points} 
                 name = {el.name} 
-                label = {el.label}/>
+                label = {el.label}
+                login = {this.props.params.login}/>
               })}       
             </div>
           </div>

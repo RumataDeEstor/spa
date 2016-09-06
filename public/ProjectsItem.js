@@ -8,37 +8,53 @@ import {
 class ProjectsItem extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isSelected: false, cName: 'unchecked'};
-    this.select = this.select.bind(this);
+    this.delete = this.delete.bind(this);
+    this.edit = this.edit.bind(this);
   }
 
-  select() {
-    if (this.state.isSelected) {
-      this.setState({isSelected: false, cName: 'unchecked'});
-      return;
-    } 
-    this.setState({isSelected: true, cName: 'checked'});
-    this.props.myFunc(this);
+  delete(){
+    let reqParams = {
+      method: 'DELETE',
+      credentials: 'include'
+    }
+
+    let login = this.props.login;
+    let projID = this.props.id;
+    fetch(`/api/userdata/${login}/${projID}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        this.props.onDelete(this.props.id); // tell to parent
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
-  //TODO: crooked due to different price values
+  edit(){
+    this.props.onEdit(this);
+  }
+  
   render () {
-    console.log(this.props);
-    const cName = this.state.cName;
-    return <div id = "projectsItem" className = {cName}>
-            <div id = "customCheckbox" onClick = {this.select} className = {cName}>
-            </div>
+    return <div id = "projectsItem">
             <div id = "projectLine"> 
               <div className = {this.props.label} id = "projectLabel"> 
               </div>
               {this.props.name}
             </div>
             <div id = "points"> {this.props.points} </div>
+            <div> 
+              <button onClick = {this.delete}> Delete </button>
+              <button onClick = {this.edit}> Edit </button>
+            </div>
           </div>
   }
 }
 
 ProjectsItem.propTypes = {
-  myFunc: React.PropTypes.func,
+  onDelete: React.PropTypes.func,
+  onEdit: React.PropTypes.func
 };
 
 export default ProjectsItem;

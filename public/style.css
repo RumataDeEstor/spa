@@ -184,11 +184,16 @@ input {
 
 #projectLabel {
   width: 10px;
+  margin: 0 10px 0 20px;
 }
 
 #projectLine {
   width: 80%;
   margin-right: 30px;
+}
+
+#selectedLabel {
+  border: 2px solid black;
 }
 
 .red {
@@ -211,7 +216,3 @@ input {
   background-color: white;  
 }
 
-select #label {
-  width: 30px;
-  height: 40px;
-}

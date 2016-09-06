@@ -10,12 +10,10 @@ import Login from './Login';
 import NotFound from './NotFound';
 import Projects from './Projects';
 import ProjectsAddNew from './ProjectsAddNew';
-import ProjectsItem from './ProjectsItem';
 import ProjectsList from './ProjectsList';
-import ProjectsListMenu from './ProjectsListMenu';
-import ProjectsMenu from './ProjectsMenu';
 import Signup from './Signup';
 import {About, StartPage} from './StartPage';
+import ProjectEditing from './ProjectEditing';
 
 
 
@@ -149,7 +147,9 @@ render((
       <Route path="home" component={Home}/>
       <Route path="projects" component={Projects}>
         <IndexRedirect to="list"/> 
-        <Route path="list" component={ProjectsList}/>
+        <Route path="list" component={ProjectsList}>
+          <Route path=":projID" component={ProjectEditing}/>
+        </Route>
         <Route path="new" component={ProjectsAddNew}/>
       </Route>
     </Route>
