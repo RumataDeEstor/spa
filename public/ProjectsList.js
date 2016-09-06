@@ -49,6 +49,11 @@ class ProjectsList extends React.Component {
     return <div> {proj.id} </div>
   }
 
+  handleChildOpen(id) {
+    let login = this.props.params.login;
+    browserHistory.push(`/app/${login}/projects/p/${id}`); 
+  }
+
   /*removing
     onRemovePerson: function(index) {
     var newData = this.state.data.slice(); //copy array
@@ -66,6 +71,7 @@ class ProjectsList extends React.Component {
                 id ={el._id} 
                 onDelete={this.handleChildDelete.bind(this)} 
                 onEdit={this.handleChildEdit.bind(this)}
+                onOpen={this.handleChildOpen.bind(this)}
                 points = {el.points} 
                 name = {el.name} 
                 label = {el.label}

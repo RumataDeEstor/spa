@@ -38,7 +38,7 @@ class InternalTopmenu extends React.Component {
               <div id = "logo"><Link to={path}>LOGO :)</Link></div> 
               <ul className = "links">
                 <li><IndexLink to={`${path}/projects`}>Projects</IndexLink></li>
-                <li><IndexLink to={`${path}/blabla`}>Blabla</IndexLink></li>
+                <li><IndexLink to={`${path}/tasks`}>Tasks</IndexLink></li>
                 <li><button onClick = {this.logout}>Log out</button></li>
               </ul>
             </div>           

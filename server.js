@@ -158,6 +158,7 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
   });
 });
 
+
 app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
@@ -185,6 +186,29 @@ app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
       });
     }
   })  
+});
+app.get('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
+  debug('here');
+  if (req.params.login !== req.user.login) {  // can't get other people's page
+    debug('forb');
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, result) => {
+    if (err) { 
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {
+      debug('success get user');
+      let project = {};
+      for (let value of result.projects) {
+        if (value._id == req.params.projectID) {
+          project = value;
+          break;
+        }
+      }
+      res.send(project); // handle if empty
+    }
+  });
 });
 
 app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
