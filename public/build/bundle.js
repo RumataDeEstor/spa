@@ -80,25 +80,25 @@
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(241);
+	var _Projects = __webpack_require__(246);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(243);
+	var _ProjectsAddNew = __webpack_require__(248);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(244);
+	var _ProjectsList = __webpack_require__(249);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(246);
+	var _Signup = __webpack_require__(251);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(247);
+	var _StartPage = __webpack_require__(252);
 
-	var _ProjectEditing = __webpack_require__(248);
+	var _ProjectEditing = __webpack_require__(253);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
@@ -27761,7 +27761,21 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _TaskAddNew = __webpack_require__(241);
+
+	var _TaskAddNew2 = _interopRequireDefault(_TaskAddNew);
+
+	var _TasksList = __webpack_require__(242);
+
+	var _TasksList2 = _interopRequireDefault(_TasksList);
+
+	var _reactAddonsUpdate = __webpack_require__(244);
+
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -27792,24 +27806,40 @@
 	        credentials: 'include'
 	      };
 	      var login = this.props.params.login;
-	      var id = this.props.params.projectID;
+	      var projectID = this.props.params.projectID;
 
-	      fetch('/api/userdata/' + login + '/' + id, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        _this2.setState({ projectData: res });
+	        var newTasks = [];
+	        res.tasks.map(function (task) {
+	          newTasks = [task].concat(_toConsumableArray(newTasks));
+	        });
+	        _this2.setState(res);
+	        var newData = (0, _reactAddonsUpdate2.default)(_this2.state, {
+	          projectData: { tasks: { $set: newTasks } }
+	        });
+	        _this2.setState(newData);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
 	    }
 	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
 	      this.loadPage();
+	    }
+	  }, {
+	    key: 'handleAdding',
+	    value: function handleAdding(task) {
+	      var newData = (0, _reactAddonsUpdate2.default)(this.state, {
+	        projectData: { tasks: { $set: [task].concat(_toConsumableArray(this.state.projectData.tasks)) } }
+	      });
+	      this.setState(newData);
 	    }
 	  }, {
 	    key: 'render',
@@ -27823,7 +27853,17 @@
 	          ' ',
 	          this.state.projectData.name,
 	          ' '
-	        )
+	        ),
+	        _react2.default.createElement(_TaskAddNew2.default, {
+	          login: this.props.params.login,
+	          projectID: this.props.params.projectID,
+	          onAdding: this.handleAdding.bind(this)
+	        }),
+	        _react2.default.createElement(_TasksList2.default, {
+	          login: this.props.params.login,
+	          projectID: this.props.params.projectID,
+	          tasks: this.state.projectData.tasks || []
+	        })
 	      );
 	    }
 	  }]);
@@ -27853,7 +27893,514 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsMenu = __webpack_require__(242);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TaskAddNew = function (_React$Component) {
+	  _inherits(TaskAddNew, _React$Component);
+
+	  function TaskAddNew(props) {
+	    _classCallCheck(this, TaskAddNew);
+
+	    var _this = _possibleConstructorReturn(this, (TaskAddNew.__proto__ || Object.getPrototypeOf(TaskAddNew)).call(this, props));
+
+	    _this.addNew = _this.addNew.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(TaskAddNew, [{
+	    key: 'selectLabel',
+	    value: function selectLabel(e) {
+	      taskLabel.value = e.target.className;
+	    }
+	  }, {
+	    key: 'addNew',
+	    value: function addNew() {
+	      var _this2 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        name: taskName.value,
+	        label: taskLabel.value,
+	        points: taskPoints.value
+	      });
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+	      var projectID = this.props.projectID;
+
+	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        taskName.value = '';
+	        taskLabel.value = '';
+	        taskPoints.value = '';
+	        _this2.props.onAdding(res.task);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'taskAddNew' },
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'newtaskectForm' },
+	          'Name: ',
+	          _react2.default.createElement('input', { id: 'taskName' }),
+	          'Label: ',
+	          _react2.default.createElement('input', { id: 'taskLabel' }),
+	          _react2.default.createElement(
+	            'ol',
+	            { id: 'selectLabel', onClick: this.selectLabel },
+	            _react2.default.createElement(
+	              'li',
+	              { className: 'red' },
+	              'RED'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { className: 'blue' },
+	              'BLUE'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { className: 'white' },
+	              'WHITE'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { className: 'green' },
+	              'GREEN'
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              { className: 'yellow' },
+	              'YELLOW'
+	            )
+	          ),
+	          'Points: ',
+	          _react2.default.createElement('input', { id: 'taskPoints', type: 'number' })
+	        ),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.addNew },
+	          'Add'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TaskAddNew;
+	}(_react2.default.Component);
+
+	TaskAddNew.propTypes = {
+	  onAdding: _react2.default.PropTypes.func
+	};
+
+	exports.default = TaskAddNew;
+
+/***/ },
+/* 242 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _TasksItem = __webpack_require__(243);
+
+	var _TasksItem2 = _interopRequireDefault(_TasksItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TasksList = function (_React$Component) {
+	  _inherits(TasksList, _React$Component);
+
+	  function TasksList(props) {
+	    _classCallCheck(this, TasksList);
+
+	    return _possibleConstructorReturn(this, (TasksList.__proto__ || Object.getPrototypeOf(TasksList)).call(this, props));
+	    // this.state = {tasks: []};
+	    // this.loadTasks = this.loadTasks.bind(this);
+	  }
+
+	  // loadTasks() {
+	  //   let reqParams = {
+	  //     method: 'GET',
+	  //     credentials: 'include'
+	  //   }
+
+	  //   let login = this.props.login;
+	  //   let projectID = this.props.projectID;
+
+	  //   fetch(`/api/userdata/${login}/${projectID}`, reqParams)
+	  //     .then(res => res.json())
+	  //     .then(res => {
+	  //       if (res.error) {
+	  //         console.log(res.error); // handle;
+	  //         return;
+	  //       }
+	  //       res.tasks.map(task => {
+	  //         this.setState( {tasks: [task, ...this.state.tasks] });
+	  //       });
+	  //     })
+	  //     .catch(err => {
+	  //       console.log(err);
+	  //     })
+	  // }
+
+	  // componentDidMount() {
+	  //   this.loadTasks();
+	  // }
+
+	  // componentWillReceiveProps(){
+	  //   this.loadTasks();
+	  // }
+
+	  _createClass(TasksList, [{
+	    key: 'handleChildDelete',
+	    value: function handleChildDelete(id) {
+	      // let newTasks = this.state.tasks.slice();
+	      // newTasks = newTasks.filter(el => el._id !== id);
+	      // this.setState({tasks: newTasks});
+	    }
+	  }, {
+	    key: 'handleChildEdit',
+	    value: function handleChildEdit(task) {
+	      // return <div> {task.id} </div>
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      // let tasks = this.state.tasks;
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'List Page',
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'tasksList' },
+	          this.props.tasks.map(function (el, i) {
+	            return _react2.default.createElement(_TasksItem2.default, { key: i,
+	              id: el._id,
+	              onDelete: _this2.handleChildDelete.bind(_this2),
+	              onEdit: _this2.handleChildEdit.bind(_this2),
+	              points: el.points,
+	              name: el.name,
+	              label: el.label,
+	              login: _this2.props.login });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TasksList;
+	}(_react2.default.Component);
+
+	exports.default = TasksList;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TasksItem = function (_React$Component) {
+	  _inherits(TasksItem, _React$Component);
+
+	  function TasksItem(props) {
+	    _classCallCheck(this, TasksItem);
+
+	    var _this = _possibleConstructorReturn(this, (TasksItem.__proto__ || Object.getPrototypeOf(TasksItem)).call(this, props));
+
+	    _this.delete = _this.delete.bind(_this);
+	    _this.edit = _this.edit.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(TasksItem, [{
+	    key: 'delete',
+	    value: function _delete() {
+	      // let reqParams = {
+	      //   method: 'DELETE',
+	      //   credentials: 'include'
+	      // }
+
+	      // let login = this.props.login;
+	      // let projID = this.props.id;
+	      // fetch(`/api/userdata/${login}/${projID}`, reqParams)
+	      //   .then(res => res.json())
+	      //   .then(res => {
+	      //     if (res.error) {
+	      //       console.log(res.error);
+	      //     }
+	      //     this.props.onDelete(this.props.id); // tell to parent
+	      //   })
+	      //   .catch(err => {
+	      //     console.log(err);
+	      //   })
+	    }
+	  }, {
+	    key: 'edit',
+	    value: function edit() {
+	      // this.props.onEdit(this); 
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'projectsItem' },
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'projectLine' },
+	          _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
+	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'points' },
+	          ' ',
+	          this.props.points,
+	          ' '
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.delete },
+	            ' Delete '
+	          ),
+	          _react2.default.createElement(
+	            'button',
+	            { onClick: this.edit },
+	            ' Edit '
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TasksItem;
+	}(_react2.default.Component);
+
+	TasksItem.propTypes = {
+	  onDelete: _react2.default.PropTypes.func,
+	  onEdit: _react2.default.PropTypes.func
+	};
+
+	exports.default = TasksItem;
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(245);
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule update
+	 */
+
+	/* global hasOwnProperty:true */
+
+	'use strict';
+
+	var _prodInvariant = __webpack_require__(7),
+	    _assign = __webpack_require__(4);
+
+	var keyOf = __webpack_require__(25);
+	var invariant = __webpack_require__(8);
+	var hasOwnProperty = {}.hasOwnProperty;
+
+	function shallowCopy(x) {
+	  if (Array.isArray(x)) {
+	    return x.concat();
+	  } else if (x && typeof x === 'object') {
+	    return _assign(new x.constructor(), x);
+	  } else {
+	    return x;
+	  }
+	}
+
+	var COMMAND_PUSH = keyOf({ $push: null });
+	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
+	var COMMAND_SPLICE = keyOf({ $splice: null });
+	var COMMAND_SET = keyOf({ $set: null });
+	var COMMAND_MERGE = keyOf({ $merge: null });
+	var COMMAND_APPLY = keyOf({ $apply: null });
+
+	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
+
+	var ALL_COMMANDS_SET = {};
+
+	ALL_COMMANDS_LIST.forEach(function (command) {
+	  ALL_COMMANDS_SET[command] = true;
+	});
+
+	function invariantArrayCase(value, spec, command) {
+	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
+	  var specValue = spec[command];
+	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
+	}
+
+	/**
+	 * Returns a updated shallow copy of an object without mutating the original.
+	 * See https://facebook.github.io/react/docs/update.html for details.
+	 */
+	function update(value, spec) {
+	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
+
+	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
+	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
+
+	    return spec[COMMAND_SET];
+	  }
+
+	  var nextValue = shallowCopy(value);
+
+	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
+	    var mergeObj = spec[COMMAND_MERGE];
+	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
+	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
+	    _assign(nextValue, spec[COMMAND_MERGE]);
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
+	    invariantArrayCase(value, spec, COMMAND_PUSH);
+	    spec[COMMAND_PUSH].forEach(function (item) {
+	      nextValue.push(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
+	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
+	    spec[COMMAND_UNSHIFT].forEach(function (item) {
+	      nextValue.unshift(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
+	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
+	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	    spec[COMMAND_SPLICE].forEach(function (args) {
+	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	      nextValue.splice.apply(nextValue, args);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
+	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
+	    nextValue = spec[COMMAND_APPLY](nextValue);
+	  }
+
+	  for (var k in spec) {
+	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
+	      nextValue[k] = update(value[k], spec[k]);
+	    }
+	  }
+
+	  return nextValue;
+	}
+
+	module.exports = update;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 246 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _ProjectsMenu = __webpack_require__(247);
 
 	var _ProjectsMenu2 = _interopRequireDefault(_ProjectsMenu);
 
@@ -27892,7 +28439,7 @@
 	exports.default = Projects;
 
 /***/ },
-/* 242 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27967,7 +28514,7 @@
 	exports.default = ProjectsMenu;
 
 /***/ },
-/* 243 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28067,31 +28614,11 @@
 	          _react2.default.createElement(
 	            'ol',
 	            { id: 'selectLabel', onClick: this.selectLabel },
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'red' },
-	              'RED'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'blue' },
-	              'BLUE'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'white' },
-	              'WHITE'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'green' },
-	              'GREEN'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'yellow' },
-	              'YELLOW'
-	            )
+	            _react2.default.createElement('li', { className: 'red' }),
+	            _react2.default.createElement('li', { className: 'blue' }),
+	            _react2.default.createElement('li', { className: 'white' }),
+	            _react2.default.createElement('li', { className: 'green' }),
+	            _react2.default.createElement('li', { className: 'yellow' })
 	          ),
 	          'Points: ',
 	          _react2.default.createElement('input', { id: 'projPoints', type: 'number' })
@@ -28112,7 +28639,7 @@
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 244 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28131,7 +28658,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsItem = __webpack_require__(245);
+	var _ProjectsItem = __webpack_require__(250);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -28256,7 +28783,7 @@
 	exports.default = ProjectsList;
 
 /***/ },
-/* 245 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28379,7 +28906,7 @@
 	exports.default = ProjectsItem;
 
 /***/ },
-/* 246 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28480,7 +29007,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 247 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28587,7 +29114,7 @@
 	exports.About = About;
 
 /***/ },
-/* 248 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

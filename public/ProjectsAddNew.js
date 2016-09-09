@@ -59,11 +59,11 @@ class ProjectsAddNew extends React.Component {
               Name: <input id="projName" onFocus = {this.nameOnFocus}/>
               Label: <input id="projLabel"/>
               <ol id = "selectLabel" onClick = {this.selectLabel}>
-                <li className = "red">RED</li>
-                <li className = "blue">BLUE</li>
-                <li className = "white">WHITE</li>
-                <li className = "green">GREEN</li>
-                <li className = "yellow">YELLOW</li>
+                <li className = "red"></li>
+                <li className = "blue"></li>
+                <li className = "white"></li>
+                <li className = "green"></li>
+                <li className = "yellow"></li>
               </ol>  
               Points: <input id="projPoints" type="number"/>
             </div>

@@ -182,6 +182,10 @@ input {
   font-weight: normal;
 }
 
+#newProjectForm {
+  display: flex;
+}
+
 #projectLabel {
   width: 10px;
   margin: 0 10px 0 20px;
@@ -192,8 +196,13 @@ input {
   margin-right: 30px;
 }
 
-#selectedLabel {
+/*#selectedLabel {
   border: 2px solid black;
+}*/
+
+#selectLabel li {
+  width: 15px;
+  height: 15px;
 }
 
 .red {
