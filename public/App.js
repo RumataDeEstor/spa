@@ -9,40 +9,34 @@ import InternalTopmenu from './InternalTopmenu';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {points: 2};
-    this.getScores = this.getScores.bind(this);
   }
 
-  getScores() {
-    let reqParams = {
-      method: 'GET',
-      credentials: 'include'
-    }
-    fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error); // handle;
-          return;
-        }
-        this.setState({points: res.points});
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
-  //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-  componentWillMount () {
-    this.getScores();
-  }
+  // getScores() {
+  //   let reqParams = {
+  //     method: 'GET',
+  //     credentials: 'include'
+  //   }
+  //   fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+  //     .then(res => res.json())
+  //     .then(res => {
+  //       if (res.error) {
+  //         console.log(res.error); // handle;
+  //         return;
+  //       }
+  //       this.setState({points: res.points});
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+  // }
+  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+  // componentWillMount () {
+  //   this.getScores();
+  // }
   render () {
     return <div>
             <InternalTopmenu login = {this.props.params.login}/> 
             APPLICATION
-            <div id = "userPoints">
-            Your points:
-            {this.state.points}
-            </div>
             {this.props.children}
           </div>
   }

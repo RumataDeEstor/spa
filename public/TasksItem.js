@@ -13,24 +13,26 @@ class TasksItem extends React.Component {
   }
 
   delete(){
-    // let reqParams = {
-    //   method: 'DELETE',
-    //   credentials: 'include'
-    // }
+    let reqParams = {
+      method: 'DELETE',
+      credentials: 'include'
+    }
 
-    // let login = this.props.login;
-    // let projID = this.props.id;
-    // fetch(`/api/userdata/${login}/${projID}`, reqParams)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     if (res.error) {
-    //       console.log(res.error);
-    //     }
-    //     this.props.onDelete(this.props.id); // tell to parent
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   })
+    let login = this.props.login;
+    let projID = this.props.projectID;
+    let taskID = this.props.id;
+
+    fetch(`/api/userdata/${login}/${projID}/${taskID}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        this.props.onDelete(this.props.id); // tell parent
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
   edit(){
     // this.props.onEdit(this); 

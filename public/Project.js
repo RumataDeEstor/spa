@@ -56,6 +56,15 @@ class Project extends React.Component {
     this.setState(newData);
   }
 
+  handleDeleting(taskID) {
+    let newTasks = this.state.projectData.tasks.slice();
+    newTasks = newTasks.filter(el => el._id !== taskID);
+    let newData = update(this.state, {
+      projectData: {tasks: {$set: newTasks}}
+    });
+    this.setState(newData);
+  }
+
   render(){
     return <div>
             <h1> {this.state.projectData.name} </h1>
@@ -68,6 +77,7 @@ class Project extends React.Component {
               login = {this.props.params.login}
               projectID = {this.props.params.projectID}
               tasks = {this.state.projectData.tasks || []}
+              onChildDelete = {this.handleDeleting.bind(this)}
             />
           </div>
   }

@@ -1,6 +1,22 @@
 const mongoose = require('../libs/mongoose');
 const Schema = mongoose.Schema;
 
+const ruleSchema = new Schema({
+  name: {
+    type: String,
+    required: true
+  },
+  label: {
+    type: String,
+    default: 'white',
+  },
+  price: {
+    type: Number,
+    default: 0,
+    required: true
+  }
+});
+
 const taskSchema = new Schema({
   name: {
     type: String,
@@ -46,6 +62,7 @@ const userSchema = new Schema({
     required: true
   },
   projects: [projectSchema],
+  rules: [ruleSchema],
   points: {
     type: Number,
     default: 0

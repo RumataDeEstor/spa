@@ -46,8 +46,6 @@
 
 	'use strict';
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -102,189 +100,11 @@
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
+	var _Rules = __webpack_require__(254);
+
+	var _Rules2 = _interopRequireDefault(_Rules);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Secret = function (_React$Component) {
-	  _inherits(Secret, _React$Component);
-
-	  function Secret(props) {
-	    _classCallCheck(this, Secret);
-
-	    var _this = _possibleConstructorReturn(this, (Secret.__proto__ || Object.getPrototypeOf(Secret)).call(this, props));
-
-	    _this.state = { secrets: [] };
-	    return _this;
-	  }
-
-	  _createClass(Secret, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        headers: {
-	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-	        },
-	        credentials: 'include'
-	      };
-
-	      fetch('/api/secretRoute', reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (!res.error) {
-	          _this2.setState({ secrets: [].concat(_toConsumableArray(_this2.state.secrets), [res.message]) });
-	        } else {
-	          console.log(res.error);
-	        }
-	      }).catch(console.log);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Secret!',
-	        this.state.secrets.length
-	      );
-	    }
-	  }]);
-
-	  return Secret;
-	}(_react2.default.Component);
-
-	var Userdata = function (_React$Component2) {
-	  _inherits(Userdata, _React$Component2);
-
-	  function Userdata(props) {
-	    _classCallCheck(this, Userdata);
-
-	    var _this3 = _possibleConstructorReturn(this, (Userdata.__proto__ || Object.getPrototypeOf(Userdata)).call(this, props));
-
-	    _this3.state = { projects: [] };
-	    _this3.addProj = _this3.addProj.bind(_this3);
-	    return _this3;
-	  }
-
-	  _createClass(Userdata, [{
-	    key: 'chooseProj',
-	    value: function chooseProj(e) {
-	      e.target.className = 'chosen';
-	    }
-	  }, {
-	    key: 'addProj',
-	    value: function addProj() {
-	      var _this4 = this;
-
-	      var reqParams = {
-	        method: 'POST',
-	        headers: {
-	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-	        },
-	        body: 'project=' + encodeURIComponent(field.value),
-	        credentials: 'include'
-	      };
-	      fetch('/api/userdata/' + this.props.routeParams.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (!res.error) {
-	          return res._id;
-	        }
-	      }).then(function (_id) {
-	        _this4.setState({ projects: [].concat(_toConsumableArray(_this4.state.projects), [{ name: field.value, _id: _id }]) });
-	      }).catch(console.log);
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _this5 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        headers: {
-	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
-	        },
-	        credentials: 'include'
-	      };
-	      fetch('/api/userdata/' + this.props.routeParams.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        console.log(res);
-	        if (!res.error) {
-	          res.map(function (elem) {
-	            _this5.setState({ projects: [].concat(_toConsumableArray(_this5.state.projects), [{ name: elem.name, _id: elem._id }]) });
-	          });
-	          return;
-	        }
-	        return console.log(res.error);
-	      }).catch(console.log);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this6 = this;
-
-	      var projects = this.state.projects;
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement('input', { type: 'text', id: 'field' }),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.addProj },
-	          'Add project'
-	        ),
-	        _react2.default.createElement(
-	          'ol',
-	          null,
-	          projects.map(function (el, i) {
-	            return _react2.default.createElement(
-	              'li',
-	              { key: i, id: el._id, onClick: _this6.chooseProj },
-	              ' ',
-	              el.name,
-	              ' '
-	            );
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Userdata;
-	}(_react2.default.Component);
-
-	var Home = function (_React$Component3) {
-	  _inherits(Home, _React$Component3);
-
-	  function Home(props) {
-	    _classCallCheck(this, Home);
-
-	    return _possibleConstructorReturn(this, (Home.__proto__ || Object.getPrototypeOf(Home)).call(this, props));
-	  }
-
-	  _createClass(Home, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'You are home! :)'
-	      );
-	    }
-	  }]);
-
-	  return Home;
-	}(_react2.default.Component);
 
 	(0, _reactDom.render)(_react2.default.createElement(
 	  _reactRouter.Router,
@@ -300,9 +120,9 @@
 	  _react2.default.createElement(
 	    _reactRouter.Route,
 	    { path: 'app/:login', component: _App2.default },
-	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'home' }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'home', component: Home }),
+	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'projects' }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'tasks', component: _Tasks2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _Rules2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: 'projects', component: _Projects2.default },
@@ -27355,42 +27175,34 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 
-	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-	    _this.state = { points: 2 };
-	    _this.getScores = _this.getScores.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
 
+	  // getScores() {
+	  //   let reqParams = {
+	  //     method: 'GET',
+	  //     credentials: 'include'
+	  //   }
+	  //   fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+	  //     .then(res => res.json())
+	  //     .then(res => {
+	  //       if (res.error) {
+	  //         console.log(res.error); // handle;
+	  //         return;
+	  //       }
+	  //       this.setState({points: res.points});
+	  //     })
+	  //     .catch(err => {
+	  //       console.log(err);
+	  //     })
+	  // }
+	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+	  // componentWillMount () {
+	  //   this.getScores();
+	  // }
+
+
 	  _createClass(App, [{
-	    key: 'getScores',
-	    value: function getScores() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-	      fetch('/api/userdata/' + this.props.params.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error); // handle;
-	          return;
-	        }
-	        _this2.setState({ points: res.points });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	    //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-
-	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.getScores();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -27398,12 +27210,6 @@
 	        null,
 	        _react2.default.createElement(_InternalTopmenu2.default, { login: this.props.params.login }),
 	        'APPLICATION',
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'userPoints' },
-	          'Your points:',
-	          this.state.points
-	        ),
 	        this.props.children
 	      );
 	    }
@@ -27509,6 +27315,15 @@
 	                _reactRouter.IndexLink,
 	                { to: path + '/tasks' },
 	                'Tasks'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: path + '/rules' },
+	                'Rules'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -27842,6 +27657,18 @@
 	      this.setState(newData);
 	    }
 	  }, {
+	    key: 'handleDeleting',
+	    value: function handleDeleting(taskID) {
+	      var newTasks = this.state.projectData.tasks.slice();
+	      newTasks = newTasks.filter(function (el) {
+	        return el._id !== taskID;
+	      });
+	      var newData = (0, _reactAddonsUpdate2.default)(this.state, {
+	        projectData: { tasks: { $set: newTasks } }
+	      });
+	      this.setState(newData);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -27862,7 +27689,8 @@
 	        _react2.default.createElement(_TasksList2.default, {
 	          login: this.props.params.login,
 	          projectID: this.props.params.projectID,
-	          tasks: this.state.projectData.tasks || []
+	          tasks: this.state.projectData.tasks || [],
+	          onChildDelete: this.handleDeleting.bind(this)
 	        })
 	      );
 	    }
@@ -28101,6 +27929,7 @@
 	      // let newTasks = this.state.tasks.slice();
 	      // newTasks = newTasks.filter(el => el._id !== id);
 	      // this.setState({tasks: newTasks});
+	      this.props.onChildDelete(id); // tell parent
 	    }
 	  }, {
 	    key: 'handleChildEdit',
@@ -28128,7 +27957,9 @@
 	              points: el.points,
 	              name: el.name,
 	              label: el.label,
-	              login: _this2.props.login });
+	              login: _this2.props.login,
+	              projectID: _this2.props.projectID
+	            });
 	          })
 	        )
 	      );
@@ -28137,6 +27968,10 @@
 
 	  return TasksList;
 	}(_react2.default.Component);
+
+	TasksList.propTypes = {
+	  onChildDelete: _react2.default.PropTypes.func
+	};
 
 	exports.default = TasksList;
 
@@ -28184,24 +28019,27 @@
 	  _createClass(TasksItem, [{
 	    key: 'delete',
 	    value: function _delete() {
-	      // let reqParams = {
-	      //   method: 'DELETE',
-	      //   credentials: 'include'
-	      // }
+	      var _this2 = this;
 
-	      // let login = this.props.login;
-	      // let projID = this.props.id;
-	      // fetch(`/api/userdata/${login}/${projID}`, reqParams)
-	      //   .then(res => res.json())
-	      //   .then(res => {
-	      //     if (res.error) {
-	      //       console.log(res.error);
-	      //     }
-	      //     this.props.onDelete(this.props.id); // tell to parent
-	      //   })
-	      //   .catch(err => {
-	      //     console.log(err);
-	      //   })
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.projectID;
+	      var taskID = this.props.id;
+
+	      fetch('/api/userdata/' + login + '/' + projID + '/' + taskID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _this2.props.onDelete(_this2.props.id); // tell parent
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'edit',
@@ -29255,6 +29093,59 @@
 	}(_react2.default.Component);
 
 	exports.default = ProjectEditing;
+
+/***/ },
+/* 254 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Rules = function (_React$Component) {
+	  _inherits(Rules, _React$Component);
+
+	  function Rules(props) {
+	    _classCallCheck(this, Rules);
+
+	    return _possibleConstructorReturn(this, (Rules.__proto__ || Object.getPrototypeOf(Rules)).call(this, props));
+	  }
+
+	  _createClass(Rules, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'My rules'
+	      );
+	    }
+	  }]);
+
+	  return Rules;
+	}(_react2.default.Component);
+
+	exports.default = Rules;
 
 /***/ }
 /******/ ]);

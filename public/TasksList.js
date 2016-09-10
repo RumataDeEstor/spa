@@ -50,6 +50,7 @@ class TasksList extends React.Component {
     // let newTasks = this.state.tasks.slice();
     // newTasks = newTasks.filter(el => el._id !== id);
     // this.setState({tasks: newTasks});
+    this.props.onChildDelete(id); // tell parent
   }
 
   handleChildEdit(task) {
@@ -63,17 +64,23 @@ class TasksList extends React.Component {
             <div id = "tasksList">
               {this.props.tasks.map((el,i) => {
                 return <TasksItem key = {i} 
-                id ={el._id} 
-                onDelete={this.handleChildDelete.bind(this)} 
-                onEdit={this.handleChildEdit.bind(this)}
-                points = {el.points} 
-                name = {el.name} 
-                label = {el.label}
-                login = {this.props.login}/>
+                  id ={el._id} 
+                  onDelete={this.handleChildDelete.bind(this)} 
+                  onEdit={this.handleChildEdit.bind(this)}
+                  points = {el.points} 
+                  name = {el.name} 
+                  label = {el.label}
+                  login = {this.props.login}
+                  projectID = {this.props.projectID}
+                />
               })}       
             </div>
           </div>
   }
 }
+
+TasksList.propTypes = {
+  onChildDelete: React.PropTypes.func
+};
 
 export default TasksList;

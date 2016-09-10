@@ -61,7 +61,6 @@ passport.deserializeUser(function(id, done) {
 
 app.use((req,res,next) => {
   debug(`req to ${req.url}. AJAX: ${req.xhr}`);
-  debug(req.user);
   next();
 });
 
@@ -76,7 +75,6 @@ app.get('/api/allusers', (req,res,next) => {  // only for debugging!
 app.use(express.static(path.join(__dirname, "public")));
 
 app.post('/api/signup', (req,res,next) => {
-  debug(req.body);
   let user = new User({
     login: req.body.login,
     password: req.body.password
@@ -125,7 +123,6 @@ app.post('/api/login', function(req, res, next) {
     req.logIn(user, function(err) {
       if (err) { return res.status(err.statusCode).send({error: err.message}); }
       // return res.redirect('/userdata/' + user.login);
-      debug(req.user);
       return res.status(200).send({ login: user.login });
     });
   })(req, res, next);
@@ -134,7 +131,7 @@ app.post('/api/login', function(req, res, next) {
 let isAuthenticated = function (req, res, next) {
   if (req.isAuthenticated())
     return next();
-  debug(req.user);
+  // debug(req.user);
   res.status(403).send({error: 'Forbidden'});
 }
 
@@ -152,7 +149,6 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
       res.status(500).send({error: 'Internal Server Error'});
     } else {
       debug('success get userdata');
-      debug(result);
       res.send(result);
     }
   });
@@ -194,20 +190,14 @@ app.get('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => 
     debug('forb');
     return res.status(403).send({error: 'Forbidden'});
   }
-  User.findOne({login: req.params.login}, (err, result) => {
+  User.findOne({login: req.params.login}, (err, user) => {
     if (err) { 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
       debug('success get user');
-      let project = {};
-      for (let value of result.projects) {
-        if (value._id == req.params.projectID) {
-          project = value;
-          break;
-        }
-      }
-      res.send(project); // handle if empty
+      let project = user.projects.id(req.params.projectID);
+      res.send(project); // handle if undefined
     }
   });
 });
@@ -224,34 +214,28 @@ app.post('/api/userdata/:login/:projectID', isAuthenticated, (req,res,next) => {
       return;
     }
       debug('success get user');
-      let project = {};
-      for (let value of user.projects) {
-        if (value._id == req.params.projectID) {
-          project = value;
-          break;
-        }
-      }
+      let project = user.projects.id(req.params.projectID);
       if (!project.tasks) {
         res.status(500).send({error: 'Cannot find such project'});
         return;
       }
-        let len = project.tasks.push(req.body);
-        user.save((err) => {
-        if (!err) {
-          debug('updated.');
-          res.status(200).send({message: 'OK', task: project.tasks[len-1]});
+      let len = project.tasks.push(req.body);
+      user.save((err) => {
+      if (!err) {
+        debug('updated.');
+        res.status(200).send({message: 'OK', task: project.tasks[len-1]});
+        return;
+      }
+        debug(err);
+        if(err.name == 'ValidationError') {
+          res.statusCode = 400;
+          res.send({ error: 'Validation error' });
+        } else {
+          res.statusCode = 500;
+          res.send({error: 'Internal Server Error'});
           return;
-        }
-          debug(err);
-          if(err.name == 'ValidationError') {
-            res.statusCode = 400;
-            res.send({ error: 'Validation error' });
-          } else {
-            res.statusCode = 500;
-            res.send({error: 'Internal Server Error'});
-            return;
-          }        
-        });          
+        }        
+      });          
   });
 });
 
@@ -259,17 +243,46 @@ app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) 
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
-  User.findOne({login: req.params.login}, (err, result) => {
+  User.findOne({login: req.params.login}, (err, user) => {
     if (err) {
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      result.projects.id(req.params.projectID).remove();
+      user.projects.id(req.params.projectID).remove();
     }
-    result.save((err) => {
+    user.save((err) => {
       if (!err) {
         debug('removed.');
         res.status(200).send({message: 'project removed'});
+      } else {
+        debug(err);
+        res.status(500).send({error: 'Internal Server Error'});
+      }
+    })
+  })
+})
+
+app.delete('/api/userdata/:login/:projectID/:taskID', isAuthenticated, (req, res, next) => {
+  if (req.params.login !== req.user.login) {  
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) {
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {
+      let project = user.projects.id(req.params.projectID);
+      if (!project.tasks) {
+        res.status(500).send({error: 'Internal Server Error'});
+        return;
+      }
+      project.tasks.id(req.params.taskID).remove();
+      debug('task removed');
+    }
+    user.save((err) => {
+      if (!err) {
+        debug('removed.');
+        res.status(200).send({message: 'task removed'});
       } else {
         debug(err);
         res.status(500).send({error: 'Internal Server Error'});
