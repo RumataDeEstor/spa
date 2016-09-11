@@ -57,6 +57,12 @@ class TasksList extends React.Component {
     // return <div> {task.id} </div>
   }
 
+  handleChildComplete(points) {
+    console.log('taskList');
+    console.log(points);
+    this.props.onChildComplete(points);
+  }
+
   render () {
     // let tasks = this.state.tasks;
     return <div>
@@ -67,6 +73,7 @@ class TasksList extends React.Component {
                   id ={el._id} 
                   onDelete={this.handleChildDelete.bind(this)} 
                   onEdit={this.handleChildEdit.bind(this)}
+                  onComplete={this.handleChildComplete.bind(this)} 
                   points = {el.points} 
                   name = {el.name} 
                   label = {el.label}
@@ -80,7 +87,8 @@ class TasksList extends React.Component {
 }
 
 TasksList.propTypes = {
-  onChildDelete: React.PropTypes.func
+  onChildDelete: React.PropTypes.func,
+  onChildComplete: React.PropTypes.func
 };
 
 export default TasksList;

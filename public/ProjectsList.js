@@ -62,6 +62,7 @@ class ProjectsList extends React.Component {
   },*/
 
   render () {
+    console.log(this.props);
     let projects = this.state.projects;
     return <div>
             List Page

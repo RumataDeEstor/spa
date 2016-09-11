@@ -65,7 +65,14 @@ class Project extends React.Component {
     this.setState(newData);
   }
 
+  handleCompleting(points){
+    console.log('Project');
+    console.log(points);
+    this.props.onComplete(points);
+  }
+
   render(){
+    console.log(this.props);
     return <div>
             <h1> {this.state.projectData.name} </h1>
             <TaskAddNew 
@@ -78,9 +85,14 @@ class Project extends React.Component {
               projectID = {this.props.params.projectID}
               tasks = {this.state.projectData.tasks || []}
               onChildDelete = {this.handleDeleting.bind(this)}
+              onChildComplete = {this.handleCompleting.bind(this)}
             />
           </div>
   }
 }
+
+Project.propTypes = {
+  onComplete: React.PropTypes.func
+};
 
 export default Project;

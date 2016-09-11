@@ -10,9 +10,10 @@ class TasksItem extends React.Component {
     super(props);
     this.delete = this.delete.bind(this);
     this.edit = this.edit.bind(this);
+    this.complete = this.complete.bind(this);
   }
 
-  delete(){
+  delete() {
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -34,13 +35,46 @@ class TasksItem extends React.Component {
         console.log(err);
       })
   }
-  edit(){
+  edit() {
     // this.props.onEdit(this); 
   }  
+
+  complete() {
+    let bodyJSON = JSON.stringify({
+      points: this.props.points
+    });
+
+    console.log(bodyJSON);
+
+    let reqParams = {
+      method: 'POST',
+      headers: {  
+        "Content-type": "application/json; charset=UTF-8"  
+      },
+      credentials: 'include',
+      body: bodyJSON
+    }
+
+    let login = this.props.login;
+
+    fetch(`/api/userdata/${login}/points`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        console.log('taskItem');
+        this.props.onComplete(this.props.points); // tell parent
+      })
+      .catch(err => {
+        console.log(err);
+      }) 
+  }
   
   render () {
     return <div id = "projectsItem">
             <div id = "projectLine"> 
+              <div id = "taskCheckbox" onClick = {this.complete}> complete </div>
               <div className = {this.props.label} id = "projectLabel"> 
               </div>
               {this.props.name}
@@ -56,7 +90,8 @@ class TasksItem extends React.Component {
 
 TasksItem.propTypes = {
   onDelete: React.PropTypes.func,
-  onEdit: React.PropTypes.func
+  onEdit: React.PropTypes.func,
+  onComplete: React.PropTypes.func
 };
 
 export default TasksItem;

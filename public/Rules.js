@@ -4,6 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import Points from './Points';
 
 class Rules extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class Rules extends React.Component {
   
   render () {
     return <div>
+          <Points login = {this.props.params.login}/>
             My rules
           </div>
   }

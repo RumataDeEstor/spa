@@ -82,27 +82,31 @@
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(248);
+	var _ProjectsAddNew = __webpack_require__(249);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(249);
+	var _ProjectsList = __webpack_require__(250);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(251);
+	var _Signup = __webpack_require__(252);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(252);
+	var _StartPage = __webpack_require__(253);
 
-	var _ProjectEditing = __webpack_require__(253);
+	var _ProjectEditing = __webpack_require__(254);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
-	var _Rules = __webpack_require__(254);
+	var _Rules = __webpack_require__(255);
 
 	var _Rules2 = _interopRequireDefault(_Rules);
+
+	var _Points = __webpack_require__(248);
+
+	var _Points2 = _interopRequireDefault(_Points);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -121,7 +125,6 @@
 	    _reactRouter.Route,
 	    { path: 'app/:login', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'projects' }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'tasks', component: _Tasks2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _Rules2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
@@ -27177,29 +27180,7 @@
 
 	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
-
-	  // getScores() {
-	  //   let reqParams = {
-	  //     method: 'GET',
-	  //     credentials: 'include'
-	  //   }
-	  //   fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-	  //     .then(res => res.json())
-	  //     .then(res => {
-	  //       if (res.error) {
-	  //         console.log(res.error); // handle;
-	  //         return;
-	  //       }
-	  //       this.setState({points: res.points});
-	  //     })
-	  //     .catch(err => {
-	  //       console.log(err);
-	  //     })
-	  // }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-	  // componentWillMount () {
-	  //   this.getScores();
-	  // }
 
 
 	  _createClass(App, [{
@@ -27306,15 +27287,6 @@
 	                _reactRouter.IndexLink,
 	                { to: path + '/projects' },
 	                'Projects'
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement(
-	                _reactRouter.IndexLink,
-	                { to: path + '/tasks' },
-	                'Tasks'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -27669,8 +27641,16 @@
 	      this.setState(newData);
 	    }
 	  }, {
+	    key: 'handleCompleting',
+	    value: function handleCompleting(points) {
+	      console.log('Project');
+	      console.log(points);
+	      this.props.onComplete(points);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log(this.props);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -27690,7 +27670,8 @@
 	          login: this.props.params.login,
 	          projectID: this.props.params.projectID,
 	          tasks: this.state.projectData.tasks || [],
-	          onChildDelete: this.handleDeleting.bind(this)
+	          onChildDelete: this.handleDeleting.bind(this),
+	          onChildComplete: this.handleCompleting.bind(this)
 	        })
 	      );
 	    }
@@ -27698,6 +27679,10 @@
 
 	  return Project;
 	}(_react2.default.Component);
+
+	Project.propTypes = {
+	  onComplete: _react2.default.PropTypes.func
+	};
 
 	exports.default = Project;
 
@@ -27800,31 +27785,11 @@
 	          _react2.default.createElement(
 	            'ol',
 	            { id: 'selectLabel', onClick: this.selectLabel },
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'red' },
-	              'RED'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'blue' },
-	              'BLUE'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'white' },
-	              'WHITE'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'green' },
-	              'GREEN'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'yellow' },
-	              'YELLOW'
-	            )
+	            _react2.default.createElement('li', { className: 'red' }),
+	            _react2.default.createElement('li', { className: 'blue' }),
+	            _react2.default.createElement('li', { className: 'white' }),
+	            _react2.default.createElement('li', { className: 'green' }),
+	            _react2.default.createElement('li', { className: 'yellow' })
 	          ),
 	          'Points: ',
 	          _react2.default.createElement('input', { id: 'taskPoints', type: 'number' })
@@ -27937,6 +27902,13 @@
 	      // return <div> {task.id} </div>
 	    }
 	  }, {
+	    key: 'handleChildComplete',
+	    value: function handleChildComplete(points) {
+	      console.log('taskList');
+	      console.log(points);
+	      this.props.onChildComplete(points);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var _this2 = this;
@@ -27954,6 +27926,7 @@
 	              id: el._id,
 	              onDelete: _this2.handleChildDelete.bind(_this2),
 	              onEdit: _this2.handleChildEdit.bind(_this2),
+	              onComplete: _this2.handleChildComplete.bind(_this2),
 	              points: el.points,
 	              name: el.name,
 	              label: el.label,
@@ -27970,7 +27943,8 @@
 	}(_react2.default.Component);
 
 	TasksList.propTypes = {
-	  onChildDelete: _react2.default.PropTypes.func
+	  onChildDelete: _react2.default.PropTypes.func,
+	  onChildComplete: _react2.default.PropTypes.func
 	};
 
 	exports.default = TasksList;
@@ -28013,6 +27987,7 @@
 
 	    _this.delete = _this.delete.bind(_this);
 	    _this.edit = _this.edit.bind(_this);
+	    _this.complete = _this.complete.bind(_this);
 	    return _this;
 	  }
 
@@ -28047,6 +28022,40 @@
 	      // this.props.onEdit(this); 
 	    }
 	  }, {
+	    key: 'complete',
+	    value: function complete() {
+	      var _this3 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        points: this.props.points
+	      });
+
+	      console.log(bodyJSON);
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+
+	      fetch('/api/userdata/' + login + '/points', reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        console.log('taskItem');
+	        _this3.props.onComplete(_this3.props.points); // tell parent
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -28055,6 +28064,11 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'projectLine' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'taskCheckbox', onClick: this.complete },
+	            ' complete '
+	          ),
 	          _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
 	          this.props.name
 	        ),
@@ -28088,7 +28102,8 @@
 
 	TasksItem.propTypes = {
 	  onDelete: _react2.default.PropTypes.func,
-	  onEdit: _react2.default.PropTypes.func
+	  onEdit: _react2.default.PropTypes.func,
+	  onComplete: _react2.default.PropTypes.func
 	};
 
 	exports.default = TasksItem;
@@ -28242,6 +28257,10 @@
 
 	var _ProjectsMenu2 = _interopRequireDefault(_ProjectsMenu);
 
+	var _Points = __webpack_require__(248);
+
+	var _Points2 = _interopRequireDefault(_Points);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28260,13 +28279,30 @@
 	  }
 
 	  _createClass(Projects, [{
+	    key: 'handleChildComplete',
+	    value: function handleChildComplete(points) {
+	      console.log('Projects TOP');
+	      console.log(points);
+	      this.refs.foo.update();
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+
+	      var childrenWithProps = _react2.default.Children.map(this.props.children, function (child) {
+	        if (child.type.name == 'Project') {
+	          return _react2.default.cloneElement(child, {
+	            onComplete: _this2.handleChildComplete.bind(_this2)
+	          });
+	        } else return child;
+	      });
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        _react2.default.createElement(_Points2.default, { login: this.props.params.login, ref: 'foo' }),
 	        _react2.default.createElement(_ProjectsMenu2.default, { login: this.props.params.login }),
-	        this.props.children
+	        childrenWithProps
 	      );
 	    }
 	  }]);
@@ -28275,6 +28311,11 @@
 	}(_react2.default.Component);
 
 	exports.default = Projects;
+	// const childrenWithProps = React.Children.map(this.props.children,
+	//       (child) => React.cloneElement(child, {
+	//        doSomething: this.doSomething
+	//      })
+	//     );
 
 /***/ },
 /* 247 */
@@ -28353,6 +28394,99 @@
 
 /***/ },
 /* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Points = function (_React$Component) {
+	  _inherits(Points, _React$Component);
+
+	  function Points(props) {
+	    _classCallCheck(this, Points);
+
+	    var _this = _possibleConstructorReturn(this, (Points.__proto__ || Object.getPrototypeOf(Points)).call(this, props));
+
+	    _this.state = { points: null };
+	    _this.getScores = _this.getScores.bind(_this);
+	    _this.update = _this.update.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Points, [{
+	    key: 'update',
+	    value: function update() {
+	      console.log('update scores');
+	      console.log(arguments);
+	      this.getScores();
+	    }
+	  }, {
+	    key: 'getScores',
+	    value: function getScores() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+	      fetch('/api/userdata/' + this.props.login, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        _this2.setState({ points: res.points });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.getScores();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log(this);
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'userPoints' },
+	        'Your points:',
+	        this.state.points
+	      );
+	    }
+	  }]);
+
+	  return Points;
+	}(_react2.default.Component);
+
+	exports.default = Points;
+
+/***/ },
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28477,7 +28611,7 @@
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28496,7 +28630,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsItem = __webpack_require__(250);
+	var _ProjectsItem = __webpack_require__(251);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -28591,6 +28725,7 @@
 	    value: function render() {
 	      var _this3 = this;
 
+	      console.log(this.props);
 	      var projects = this.state.projects;
 	      return _react2.default.createElement(
 	        'div',
@@ -28621,7 +28756,7 @@
 	exports.default = ProjectsList;
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28744,7 +28879,7 @@
 	exports.default = ProjectsItem;
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28845,7 +28980,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28952,7 +29087,7 @@
 	exports.About = About;
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29095,7 +29230,7 @@
 	exports.default = ProjectEditing;
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29113,6 +29248,10 @@
 	var _reactDom = __webpack_require__(34);
 
 	var _reactRouter = __webpack_require__(172);
+
+	var _Points = __webpack_require__(248);
+
+	var _Points2 = _interopRequireDefault(_Points);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29137,6 +29276,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
+	        _react2.default.createElement(_Points2.default, { login: this.props.params.login }),
 	        'My rules'
 	      );
 	    }

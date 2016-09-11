@@ -8,33 +8,41 @@ import {
 class Points extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {points: 2};
+    this.state = {points: null};
     this.getScores = this.getScores.bind(this);
+    this.update = this.update.bind(this);
+  }
+
+  update() {
+    console.log('update scores');
+    console.log(arguments);
+    this.getScores();
   }
 
   getScores() {
-    // let reqParams = {
-    //   method: 'GET',
-    //   credentials: 'include'
-    // }
-    // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-    //   .then(res => res.json())
-    //   .then(res => {
-    //     if (res.error) {
-    //       console.log(res.error); // handle;
-    //       return;
-    //     }
-    //     this.setState({points: res.points});
-    //   })
-    //   .catch(err => {
-    //     console.log(err);
-    //   })
+    let reqParams = {
+      method: 'GET',
+      credentials: 'include'
+    }
+    fetch(`/api/userdata/${this.props.login}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error); // handle;
+          return;
+        }
+        this.setState({points: res.points});
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
   
   componentWillMount () {
     this.getScores();
   }
   render () {
+    console.log(this);
     return <div id = "userPoints">
             Your points:
             {this.state.points}
