@@ -4,22 +4,25 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
+import EventEmitter from 'wolfy87-eventemitter';
+
+let ee = new EventEmitter();
 
 class Points extends React.Component {
   constructor(props) {
     super(props);
     this.state = {points: null};
     this.getScores = this.getScores.bind(this);
-    this.update = this.update.bind(this);
+    this.updatePoints = this.updatePoints.bind(this);
+    ee.addListener('pointsUpdated', this.updatePoints);
   }
 
-  update() {
-    console.log('update scores');
-    console.log(arguments);
-    this.getScores();
+  updatePoints(newPoints) {
+    this.setState({points: this.state.points+newPoints});
   }
 
   getScores() {
+    console.log('get scores');
     let reqParams = {
       method: 'GET',
       credentials: 'include'
@@ -42,7 +45,6 @@ class Points extends React.Component {
     this.getScores();
   }
   render () {
-    console.log(this);
     return <div id = "userPoints">
             Your points:
             {this.state.points}
@@ -50,4 +52,4 @@ class Points extends React.Component {
   }
 }
 
-export default Points;
+export {Points, ee};

@@ -1,9 +1,45 @@
 body {
-  /*background-color: #CEEFBE;*/
-  /*background-color: #b6d8e7;*/
-  background-color: #d5ebff;
+  background-color: #a0e4ef;
+  background-image:
+    repeating-linear-gradient(
+      160deg,
+      #CAFBFC,
+      #1470C8
+    );
+  background:
+    repeating-linear-gradient(
+      160deg,
+      #CAFBFC,
+      #1470C8
+    );
+}
 
-  color: #2D9B51;
+#root {
+  position: absolute;  
+  color: #767676;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background: inherit;
+  min-height: 100%;
+}
+
+#appContent {
+  margin-left: 10px;
+  display: flex;
+ /* flex-direction: row;
+  justify-content: space-between;*/
+}
+
+#promotions {
+  background-color: #175496;
+  color: white;
+  /*margin-right: 10px;*/
+  margin-top: 0px; 
+  height: 100%;
+  position: fixed;
+  right: 0;
+  top: 60px;
 }
 
 a {
@@ -12,8 +48,16 @@ a {
 
 input {
   outline: none; 
-  border: none;
 }
+
+textarea {
+  resize: none;
+  outline: none; 
+}
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
 
 li, button {
   cursor: pointer;
@@ -28,7 +72,13 @@ li {
 
 .warn {
   color: #E33B35;
+  font-size: 15px;
   font-weight: bold;
+  height: 30px;
+}
+
+#sOk {
+  white-space: pre;
 }
 
 li.chosen {
@@ -43,12 +93,19 @@ li.chosen {
   display: flex;
 }
 
+#projectsList {
+  margin-top: 20px;
+}
+
 .topmenu {
   display: flex;
   justify-content: space-between;
   padding: 0;
   border: 2px solid #2D9B51;
   margin-bottom: 20px;
+  position: fixed;
+  right: 0;
+  width: 100%;
 }
 
 .links {
@@ -102,6 +159,10 @@ li.chosen {
   display: flex;
 }
 
+#editingProject img {
+  width: 20px;
+  height: 20px;
+}
 
 #projectsItem #customCheckbox {
   padding: 0;
@@ -123,12 +184,6 @@ li.chosen {
   background-color: inherit;
 }
 
-#projectsItem #points {
-  width: 70px;
-  display: flex;
-  justify-content: center;
-}
-
 #projectsItem {  
   /*background-color: #4FC4B4;*/
   background-color: white;
@@ -142,17 +197,34 @@ li.chosen {
   margin-bottom: 20px;
 }
 
-#loginBtn, #signupBtn {
-  font-size: 26px;
-  padding: 0 10px;
-  color: white;
-  background-color: #2D9B51;  
-  border-radius: 10px;
+#pBtn {
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
 }
 
-#loginBtn:hover, #signupBtn:hover {
-  color: #19570F;
-  background-color: #5AAA6E; 
+#loginBtn, #signupBtn {
+  font-size: 20px;
+  width: 100px;
+  /*padding: 2px 12px;*/
+  color: white;
+  background-color: #249f2f;  
+  border-radius: 5px;
+  margin-bottom: 7px;
+}
+
+#signupBtn {
+  background-color: #f48213;
+}
+
+#signupBtn:hover {
+  background-color: #ff9024;
+}
+
+
+#loginBtn:hover {
+  color: white;
+  background-color: #17c126; 
 }
 
 #about {
@@ -160,35 +232,59 @@ li.chosen {
 }
 
 input {
-  border: 3px solid #7CC59A;
-  font: 24px Arial;
-  width: 20%;  
+  border: 1px ridge #cdcfd2;
+  border-radius: 5px;
+  font: 18px Arial;  
   margin-bottom: 20px;
+  background-color: white;
+  padding-left: 10px;
+}
+
+div .authForms {
+  display: flex;
+  justify-content: center;
 }
 
 .lpForm {
+  width: 240px;
+  max-width: 240px;
   display: flex;
   flex-direction: column;
   font: 24px Arial;
-  font-weight: bold;
+  /*font-weight: bold;*/
+  margin-top: 160px;
+  padding: 15px 20px;
+  border: 2px outset #A8ADB3;
+  border-radius: 6px;
+  /*background-color: #97defe;*/
+  background-color: white;
+}
+
+#password, #login, #spassword, #slogin {
+  margin-top: 5px;
 }
 
 .lpForm p {
   margin-top: 0;
 }
 
-#canlogin {
-  font-size: 18px;
-  font-weight: normal;
-}
-
-#newProjectForm {
-  display: flex;
-}
-
 #projectLabel {
   width: 10px;
   margin: 0 10px 0 20px;
+  height: inherit;
+}
+
+#projectName {
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  display: flex;
+  border-radius: 20px;
+  margin-bottom: 20px;
+}
+
+#projectName h1 {
+  margin: 0 10px;
 }
 
 #projectLine {
@@ -200,15 +296,120 @@ input {
   border: 2px solid black;
 }*/
 
-#selectLabel li {
-  width: 15px;
-  height: 15px;
+/*-----ADD NEW PROJECT EXPAND---------*/
+
+#contentToHide {
+  width: 643px; 
+  border: 1px solid #424242;
+  background-color: white;
+  border-radius: 12px;
+  padding: 4px;
+  display: none;
+  flex-direction: column;
+}
+
+#lineExpand {  
+  background-color: white;
+  color: #424242;
+  border: 1px solid #424242;
+  border-radius: 6px;
+  font: 24px Arial;
+  width: 650px;  
+  display: flex;
+  justify-content: center;
+}
+
+#expand {
+  height: 24px;
+  width: 24px;
+  border-radius: 12px;
+  background-color: #69AFBA;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+/*-----ADD NEW PROJECT AND TASK---------*/
+
+#addNewForm {
+  display: flex;
+  flex-direction: column;
+}
+
+#addNewForm textarea {
+  width: 205px;
+  height: 100px;
+}
+
+#addNewForm input {
+  height: 20px; 
+}
+
+#newName {
+  width: 200px;
+  margin-bottom: 0;
+}
+
+#newPoints {
+  width: 40px;
+  height: 16px;
+}
+
+#addNewOpt {
+  display: flex;
+}
+
+#addNewOpt button {
+  height: 22px;
+}
+
+#options div {
+  width: 16px;
+  height: 16px;
+  border-radius: 12px;
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
+
+#options div:nth-child(3n){
+  margin-right: 0px;
+}
+
+#chosen {
+  width: 62px;
+  height: 20px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+#chosenColor {
+  width: 16px;
+  height: 16px;
+  border-radius: 12px;
+  border: 1px solid black;
+}
+
+#options {
+  display: none;
+  flex-wrap: wrap;
+  background-color: white;
+  width: 54px;
+  border: 1px solid black;
+  padding: 4px 4px 1px 4px;
+  cursor: pointer;
 }
 
 .red {
   background-color: red;
 }
-
+.green {
+  background-color: green;
+}
 .blue {
   background-color: blue;
 }
@@ -217,11 +418,78 @@ input {
   background-color: yellow;
 }
 
-.green {
-  background-color: green;  
+.purple {
+  background-color: purple;
 }
 
-.white {
-  background-color: white;  
+.orange {
+  background-color: orange;
 }
 
+.violet {
+  background-color: #EE82EE;
+}
+
+.gray {
+  background-color: gray;
+}
+
+.brown {
+  background-color: #A52A2A;
+}
+/*-----PROMOTION ITEM---------*/
+
+#promotionItem {
+  border: 1px solid black;
+  width: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; 
+  align-items: center;
+  padding: 10px;
+}
+
+#exCircle {
+  width: 90px;
+  height: 90px;
+  border-radius: 60px;
+  border: 6px solid #ef84da;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+}
+
+#inCircle {
+  width: 74px;
+  height: 74px;
+  border-radius: 50px;
+  border: 3px solid #ef84da;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+  position: relative;
+}
+
+#square {
+  background-color: #ef84da;
+  width: 80px;
+  height: 18.5px;
+  z-index: -1;
+  display: flex;
+  justify-content: center;
+  align-items: center;  
+}
+
+#percents {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: 50px;
+  height: 20px;
+  left: 12px;
+  top: 27px;
+  color: white;
+  font: 20px Arial;
+}

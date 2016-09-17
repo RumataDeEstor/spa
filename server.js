@@ -65,11 +65,12 @@ app.use((req,res,next) => {
 });
 
 app.get('/api/allusers', (req,res,next) => {  // only for debugging!
+  User.remove({},(err)=> console.log(err));
   User.find({}, (err, result) => {
     if (err) debug(err);
     res.send(result);
   });
-  // User.remove({},(err)=> console.log(err));
+  
 });
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -164,11 +165,14 @@ app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {  
-      let len = result.projects.push(req.body);
+      let newProject = req.body;
+      newProject.name = newProject.name || "Unnamed";
+      let len = result.projects.push(newProject);
       result.save((err) =>{
         if (!err) {
           debug('updated.');
-          res.status(200).send({'_id': result.projects[len-1]._id});
+          // res.status(200).send({'_id': result.projects[len-1]._id});
+          res.status(200).send({message: 'OK', project: result.projects[len-1]});
         } else {
           debug(err);
           if(err.name == 'ValidationError') {
@@ -249,7 +253,9 @@ app.post('/api/userdata/:login/:projectID', isAuthenticated, (req,res,next) => {
         res.status(500).send({error: 'Cannot find such project'});
         return;
       }
-      let len = project.tasks.push(req.body);
+      let newTask = req.body;
+      newTask.name = newTask.name || "Unnamed";
+      let len = project.tasks.push(newTask);
       user.save((err) => {
       if (!err) {
         debug('updated.');

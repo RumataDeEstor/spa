@@ -35,21 +35,23 @@ class Signup extends React.Component {
           return;
         }
         this.fieldOnFocus();
-        sOk.innerHTML = `Welcome aboard, ${res.login}! You may want to login.`                     
+        sOk.innerHTML = `Welcome aboard,\n${res.login}!\nYou may want to login.`                     
       })
       .catch(console.log);
   }
 
   render() {
-    return <div className = "lpForm">
-            Login: 
-            <input id="slogin" onFocus={this.fieldOnFocus}/>
-            Password: 
-            <input type="password" id="spassword"/>
-            <p><button id = "signupBtn" onClick = {this.signUp}>Sign up</button></p>         
-            <div id="swarn" className ="warn"></div>  
-            <div id="sOk"></div>    
-          </div>
+    return <div className = "authForms">
+              <div className = "lpForm">
+                Login: 
+                <input id="slogin" onFocus={this.fieldOnFocus}/>
+                Password: 
+                <input type="password" id="spassword"/>
+                <div id="swarn" className ="warn"></div>  
+                <p id = "pBtn"><button id = "signupBtn" onClick = {this.signUp}>Sign up</button></p>         
+                <div id="sOk"></div>    
+              </div>
+            </div>
   }
 }
 

@@ -62,49 +62,51 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Login = __webpack_require__(237);
+	var _Login = __webpack_require__(241);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _NotFound = __webpack_require__(238);
+	var _NotFound = __webpack_require__(242);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Tasks = __webpack_require__(239);
+	var _Tasks = __webpack_require__(243);
 
 	var _Tasks2 = _interopRequireDefault(_Tasks);
 
-	var _Project = __webpack_require__(240);
+	var _Project = __webpack_require__(244);
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(246);
+	var _Projects = __webpack_require__(250);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(249);
+	var _ProjectsAddNew = __webpack_require__(251);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(250);
+	var _ProjectsList = __webpack_require__(252);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(252);
+	var _Signup = __webpack_require__(254);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(253);
+	var _StartPage = __webpack_require__(255);
 
-	var _ProjectEditing = __webpack_require__(254);
+	var _StartPage2 = _interopRequireDefault(_StartPage);
+
+	var _ProjectEditing = __webpack_require__(256);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
-	var _Rules = __webpack_require__(255);
+	var _Rules = __webpack_require__(257);
 
 	var _Rules2 = _interopRequireDefault(_Rules);
 
-	var _Points = __webpack_require__(248);
+	var _Points = __webpack_require__(237);
 
 	var _Points2 = _interopRequireDefault(_Points);
 
@@ -115,11 +117,10 @@
 	  { history: _reactRouter.browserHistory },
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { path: '/', component: _StartPage.StartPage },
+	    { path: '/', component: _StartPage2.default },
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: '/signup' }),
 	    _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Signup2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: '/about', component: _StartPage.About })
+	    _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default })
 	  ),
 	  _react2.default.createElement(
 	    _reactRouter.Route,
@@ -131,8 +132,7 @@
 	      { path: 'projects', component: _Projects2.default },
 	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'list' }),
 	      _react2.default.createElement(_reactRouter.Route, { path: 'list', component: _ProjectsList2.default }),
-	      _react2.default.createElement(_reactRouter.Route, { path: 'p/:projectID', component: _Project2.default }),
-	      _react2.default.createElement(_reactRouter.Route, { path: 'new', component: _ProjectsAddNew2.default })
+	      _react2.default.createElement(_reactRouter.Route, { path: 'p/:projectID', component: _Project2.default })
 	    )
 	  ),
 	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFound2.default })
@@ -27164,6 +27164,10 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
+	var _Promotions = __webpack_require__(239);
+
+	var _Promotions2 = _interopRequireDefault(_Promotions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27188,10 +27192,14 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { id: 'app' },
 	        _react2.default.createElement(_InternalTopmenu2.default, { login: this.props.params.login }),
-	        'APPLICATION',
-	        this.props.children
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'appContent' },
+	          this.props.children,
+	          _react2.default.createElement(_Promotions2.default, null)
+	        )
 	      );
 	    }
 	  }]);
@@ -27220,6 +27228,8 @@
 	var _reactDom = __webpack_require__(34);
 
 	var _reactRouter = __webpack_require__(172);
+
+	var _Points = __webpack_require__(237);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27283,6 +27293,11 @@
 	            _react2.default.createElement(
 	              'li',
 	              null,
+	              _react2.default.createElement(_Points.Points, { login: this.props.login, ref: 'foo' })
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
 	              _react2.default.createElement(
 	                _reactRouter.IndexLink,
 	                { to: path + '/projects' },
@@ -27320,6 +27335,736 @@
 
 /***/ },
 /* 237 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.ee = exports.Points = undefined;
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _wolfy87Eventemitter = __webpack_require__(238);
+
+	var _wolfy87Eventemitter2 = _interopRequireDefault(_wolfy87Eventemitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ee = new _wolfy87Eventemitter2.default();
+
+	var Points = function (_React$Component) {
+	  _inherits(Points, _React$Component);
+
+	  function Points(props) {
+	    _classCallCheck(this, Points);
+
+	    var _this = _possibleConstructorReturn(this, (Points.__proto__ || Object.getPrototypeOf(Points)).call(this, props));
+
+	    _this.state = { points: null };
+	    _this.getScores = _this.getScores.bind(_this);
+	    _this.updatePoints = _this.updatePoints.bind(_this);
+	    ee.addListener('pointsUpdated', _this.updatePoints);
+	    return _this;
+	  }
+
+	  _createClass(Points, [{
+	    key: 'updatePoints',
+	    value: function updatePoints(newPoints) {
+	      this.setState({ points: this.state.points + newPoints });
+	    }
+	  }, {
+	    key: 'getScores',
+	    value: function getScores() {
+	      var _this2 = this;
+
+	      console.log('get scores');
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+	      fetch('/api/userdata/' + this.props.login, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        _this2.setState({ points: res.points });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.getScores();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'userPoints' },
+	        'Your points:',
+	        this.state.points
+	      );
+	    }
+	  }]);
+
+	  return Points;
+	}(_react2.default.Component);
+
+	exports.Points = Points;
+	exports.ee = ee;
+
+/***/ },
+/* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
+	 * EventEmitter v5.1.0 - git.io/ee
+	 * Unlicense - http://unlicense.org/
+	 * Oliver Caldwell - http://oli.me.uk/
+	 * @preserve
+	 */
+
+	;(function (exports) {
+	    'use strict';
+
+	    /**
+	     * Class for managing events.
+	     * Can be extended to provide event functionality in other classes.
+	     *
+	     * @class EventEmitter Manages event registering and emitting.
+	     */
+	    function EventEmitter() {}
+
+	    // Shortcuts to improve speed and size
+	    var proto = EventEmitter.prototype;
+	    var originalGlobalValue = exports.EventEmitter;
+
+	    /**
+	     * Finds the index of the listener for the event in its storage array.
+	     *
+	     * @param {Function[]} listeners Array of listeners to search through.
+	     * @param {Function} listener Method to look for.
+	     * @return {Number} Index of the specified listener, -1 if not found
+	     * @api private
+	     */
+	    function indexOfListener(listeners, listener) {
+	        var i = listeners.length;
+	        while (i--) {
+	            if (listeners[i].listener === listener) {
+	                return i;
+	            }
+	        }
+
+	        return -1;
+	    }
+
+	    /**
+	     * Alias a method while keeping the context correct, to allow for overwriting of target method.
+	     *
+	     * @param {String} name The name of the target method.
+	     * @return {Function} The aliased method
+	     * @api private
+	     */
+	    function alias(name) {
+	        return function aliasClosure() {
+	            return this[name].apply(this, arguments);
+	        };
+	    }
+
+	    /**
+	     * Returns the listener array for the specified event.
+	     * Will initialise the event object and listener arrays if required.
+	     * Will return an object if you use a regex search. The object contains keys for each matched event. So /ba[rz]/ might return an object containing bar and baz. But only if you have either defined them with defineEvent or added some listeners to them.
+	     * Each property in the object response is an array of listener functions.
+	     *
+	     * @param {String|RegExp} evt Name of the event to return the listeners from.
+	     * @return {Function[]|Object} All listener functions for the event.
+	     */
+	    proto.getListeners = function getListeners(evt) {
+	        var events = this._getEvents();
+	        var response;
+	        var key;
+
+	        // Return a concatenated array of all matching events if
+	        // the selector is a regular expression.
+	        if (evt instanceof RegExp) {
+	            response = {};
+	            for (key in events) {
+	                if (events.hasOwnProperty(key) && evt.test(key)) {
+	                    response[key] = events[key];
+	                }
+	            }
+	        }
+	        else {
+	            response = events[evt] || (events[evt] = []);
+	        }
+
+	        return response;
+	    };
+
+	    /**
+	     * Takes a list of listener objects and flattens it into a list of listener functions.
+	     *
+	     * @param {Object[]} listeners Raw listener objects.
+	     * @return {Function[]} Just the listener functions.
+	     */
+	    proto.flattenListeners = function flattenListeners(listeners) {
+	        var flatListeners = [];
+	        var i;
+
+	        for (i = 0; i < listeners.length; i += 1) {
+	            flatListeners.push(listeners[i].listener);
+	        }
+
+	        return flatListeners;
+	    };
+
+	    /**
+	     * Fetches the requested listeners via getListeners but will always return the results inside an object. This is mainly for internal use but others may find it useful.
+	     *
+	     * @param {String|RegExp} evt Name of the event to return the listeners from.
+	     * @return {Object} All listener functions for an event in an object.
+	     */
+	    proto.getListenersAsObject = function getListenersAsObject(evt) {
+	        var listeners = this.getListeners(evt);
+	        var response;
+
+	        if (listeners instanceof Array) {
+	            response = {};
+	            response[evt] = listeners;
+	        }
+
+	        return response || listeners;
+	    };
+
+	    function isValidListener (listener) {
+	        if (typeof listener === 'function' || listener instanceof RegExp) {
+	            return true
+	        } else if (listener && typeof listener === 'object') {
+	            return isValidListener(listener.listener)
+	        } else {
+	            return false
+	        }
+	    }
+
+	    /**
+	     * Adds a listener function to the specified event.
+	     * The listener will not be added if it is a duplicate.
+	     * If the listener returns true then it will be removed after it is called.
+	     * If you pass a regular expression as the event name then the listener will be added to all events that match it.
+	     *
+	     * @param {String|RegExp} evt Name of the event to attach the listener to.
+	     * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.addListener = function addListener(evt, listener) {
+	        if (!isValidListener(listener)) {
+	            throw new TypeError('listener must be a function');
+	        }
+
+	        var listeners = this.getListenersAsObject(evt);
+	        var listenerIsWrapped = typeof listener === 'object';
+	        var key;
+
+	        for (key in listeners) {
+	            if (listeners.hasOwnProperty(key) && indexOfListener(listeners[key], listener) === -1) {
+	                listeners[key].push(listenerIsWrapped ? listener : {
+	                    listener: listener,
+	                    once: false
+	                });
+	            }
+	        }
+
+	        return this;
+	    };
+
+	    /**
+	     * Alias of addListener
+	     */
+	    proto.on = alias('addListener');
+
+	    /**
+	     * Semi-alias of addListener. It will add a listener that will be
+	     * automatically removed after its first execution.
+	     *
+	     * @param {String|RegExp} evt Name of the event to attach the listener to.
+	     * @param {Function} listener Method to be called when the event is emitted. If the function returns true then it will be removed after calling.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.addOnceListener = function addOnceListener(evt, listener) {
+	        return this.addListener(evt, {
+	            listener: listener,
+	            once: true
+	        });
+	    };
+
+	    /**
+	     * Alias of addOnceListener.
+	     */
+	    proto.once = alias('addOnceListener');
+
+	    /**
+	     * Defines an event name. This is required if you want to use a regex to add a listener to multiple events at once. If you don't do this then how do you expect it to know what event to add to? Should it just add to every possible match for a regex? No. That is scary and bad.
+	     * You need to tell it what event names should be matched by a regex.
+	     *
+	     * @param {String} evt Name of the event to create.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.defineEvent = function defineEvent(evt) {
+	        this.getListeners(evt);
+	        return this;
+	    };
+
+	    /**
+	     * Uses defineEvent to define multiple events.
+	     *
+	     * @param {String[]} evts An array of event names to define.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.defineEvents = function defineEvents(evts) {
+	        for (var i = 0; i < evts.length; i += 1) {
+	            this.defineEvent(evts[i]);
+	        }
+	        return this;
+	    };
+
+	    /**
+	     * Removes a listener function from the specified event.
+	     * When passed a regular expression as the event name, it will remove the listener from all events that match it.
+	     *
+	     * @param {String|RegExp} evt Name of the event to remove the listener from.
+	     * @param {Function} listener Method to remove from the event.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.removeListener = function removeListener(evt, listener) {
+	        var listeners = this.getListenersAsObject(evt);
+	        var index;
+	        var key;
+
+	        for (key in listeners) {
+	            if (listeners.hasOwnProperty(key)) {
+	                index = indexOfListener(listeners[key], listener);
+
+	                if (index !== -1) {
+	                    listeners[key].splice(index, 1);
+	                }
+	            }
+	        }
+
+	        return this;
+	    };
+
+	    /**
+	     * Alias of removeListener
+	     */
+	    proto.off = alias('removeListener');
+
+	    /**
+	     * Adds listeners in bulk using the manipulateListeners method.
+	     * If you pass an object as the second argument you can add to multiple events at once. The object should contain key value pairs of events and listeners or listener arrays. You can also pass it an event name and an array of listeners to be added.
+	     * You can also pass it a regular expression to add the array of listeners to all events that match it.
+	     * Yeah, this function does quite a bit. That's probably a bad thing.
+	     *
+	     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add to multiple events at once.
+	     * @param {Function[]} [listeners] An optional array of listener functions to add.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.addListeners = function addListeners(evt, listeners) {
+	        // Pass through to manipulateListeners
+	        return this.manipulateListeners(false, evt, listeners);
+	    };
+
+	    /**
+	     * Removes listeners in bulk using the manipulateListeners method.
+	     * If you pass an object as the second argument you can remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+	     * You can also pass it an event name and an array of listeners to be removed.
+	     * You can also pass it a regular expression to remove the listeners from all events that match it.
+	     *
+	     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to remove from multiple events at once.
+	     * @param {Function[]} [listeners] An optional array of listener functions to remove.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.removeListeners = function removeListeners(evt, listeners) {
+	        // Pass through to manipulateListeners
+	        return this.manipulateListeners(true, evt, listeners);
+	    };
+
+	    /**
+	     * Edits listeners in bulk. The addListeners and removeListeners methods both use this to do their job. You should really use those instead, this is a little lower level.
+	     * The first argument will determine if the listeners are removed (true) or added (false).
+	     * If you pass an object as the second argument you can add/remove from multiple events at once. The object should contain key value pairs of events and listeners or listener arrays.
+	     * You can also pass it an event name and an array of listeners to be added/removed.
+	     * You can also pass it a regular expression to manipulate the listeners of all events that match it.
+	     *
+	     * @param {Boolean} remove True if you want to remove listeners, false if you want to add.
+	     * @param {String|Object|RegExp} evt An event name if you will pass an array of listeners next. An object if you wish to add/remove from multiple events at once.
+	     * @param {Function[]} [listeners] An optional array of listener functions to add/remove.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.manipulateListeners = function manipulateListeners(remove, evt, listeners) {
+	        var i;
+	        var value;
+	        var single = remove ? this.removeListener : this.addListener;
+	        var multiple = remove ? this.removeListeners : this.addListeners;
+
+	        // If evt is an object then pass each of its properties to this method
+	        if (typeof evt === 'object' && !(evt instanceof RegExp)) {
+	            for (i in evt) {
+	                if (evt.hasOwnProperty(i) && (value = evt[i])) {
+	                    // Pass the single listener straight through to the singular method
+	                    if (typeof value === 'function') {
+	                        single.call(this, i, value);
+	                    }
+	                    else {
+	                        // Otherwise pass back to the multiple function
+	                        multiple.call(this, i, value);
+	                    }
+	                }
+	            }
+	        }
+	        else {
+	            // So evt must be a string
+	            // And listeners must be an array of listeners
+	            // Loop over it and pass each one to the multiple method
+	            i = listeners.length;
+	            while (i--) {
+	                single.call(this, evt, listeners[i]);
+	            }
+	        }
+
+	        return this;
+	    };
+
+	    /**
+	     * Removes all listeners from a specified event.
+	     * If you do not specify an event then all listeners will be removed.
+	     * That means every event will be emptied.
+	     * You can also pass a regex to remove all events that match it.
+	     *
+	     * @param {String|RegExp} [evt] Optional name of the event to remove all listeners for. Will remove from every event if not passed.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.removeEvent = function removeEvent(evt) {
+	        var type = typeof evt;
+	        var events = this._getEvents();
+	        var key;
+
+	        // Remove different things depending on the state of evt
+	        if (type === 'string') {
+	            // Remove all listeners for the specified event
+	            delete events[evt];
+	        }
+	        else if (evt instanceof RegExp) {
+	            // Remove all events matching the regex.
+	            for (key in events) {
+	                if (events.hasOwnProperty(key) && evt.test(key)) {
+	                    delete events[key];
+	                }
+	            }
+	        }
+	        else {
+	            // Remove all listeners in all events
+	            delete this._events;
+	        }
+
+	        return this;
+	    };
+
+	    /**
+	     * Alias of removeEvent.
+	     *
+	     * Added to mirror the node API.
+	     */
+	    proto.removeAllListeners = alias('removeEvent');
+
+	    /**
+	     * Emits an event of your choice.
+	     * When emitted, every listener attached to that event will be executed.
+	     * If you pass the optional argument array then those arguments will be passed to every listener upon execution.
+	     * Because it uses `apply`, your array of arguments will be passed as if you wrote them out separately.
+	     * So they will not arrive within the array on the other side, they will be separate.
+	     * You can also pass a regular expression to emit to all events that match it.
+	     *
+	     * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
+	     * @param {Array} [args] Optional array of arguments to be passed to each listener.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.emitEvent = function emitEvent(evt, args) {
+	        var listenersMap = this.getListenersAsObject(evt);
+	        var listeners;
+	        var listener;
+	        var i;
+	        var key;
+	        var response;
+
+	        for (key in listenersMap) {
+	            if (listenersMap.hasOwnProperty(key)) {
+	                listeners = listenersMap[key].slice(0);
+
+	                for (i = 0; i < listeners.length; i++) {
+	                    // If the listener returns true then it shall be removed from the event
+	                    // The function is executed either with a basic call or an apply if there is an args array
+	                    listener = listeners[i];
+
+	                    if (listener.once === true) {
+	                        this.removeListener(evt, listener.listener);
+	                    }
+
+	                    response = listener.listener.apply(this, args || []);
+
+	                    if (response === this._getOnceReturnValue()) {
+	                        this.removeListener(evt, listener.listener);
+	                    }
+	                }
+	            }
+	        }
+
+	        return this;
+	    };
+
+	    /**
+	     * Alias of emitEvent
+	     */
+	    proto.trigger = alias('emitEvent');
+
+	    /**
+	     * Subtly different from emitEvent in that it will pass its arguments on to the listeners, as opposed to taking a single array of arguments to pass on.
+	     * As with emitEvent, you can pass a regex in place of the event name to emit to all events that match it.
+	     *
+	     * @param {String|RegExp} evt Name of the event to emit and execute listeners for.
+	     * @param {...*} Optional additional arguments to be passed to each listener.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.emit = function emit(evt) {
+	        var args = Array.prototype.slice.call(arguments, 1);
+	        return this.emitEvent(evt, args);
+	    };
+
+	    /**
+	     * Sets the current value to check against when executing listeners. If a
+	     * listeners return value matches the one set here then it will be removed
+	     * after execution. This value defaults to true.
+	     *
+	     * @param {*} value The new value to check for when executing listeners.
+	     * @return {Object} Current instance of EventEmitter for chaining.
+	     */
+	    proto.setOnceReturnValue = function setOnceReturnValue(value) {
+	        this._onceReturnValue = value;
+	        return this;
+	    };
+
+	    /**
+	     * Fetches the current value to check against when executing listeners. If
+	     * the listeners return value matches this one then it should be removed
+	     * automatically. It will return true by default.
+	     *
+	     * @return {*|Boolean} The current value to check for or the default, true.
+	     * @api private
+	     */
+	    proto._getOnceReturnValue = function _getOnceReturnValue() {
+	        if (this.hasOwnProperty('_onceReturnValue')) {
+	            return this._onceReturnValue;
+	        }
+	        else {
+	            return true;
+	        }
+	    };
+
+	    /**
+	     * Fetches the events object and creates one if required.
+	     *
+	     * @return {Object} The events storage object.
+	     * @api private
+	     */
+	    proto._getEvents = function _getEvents() {
+	        return this._events || (this._events = {});
+	    };
+
+	    /**
+	     * Reverts the global {@link EventEmitter} to its previous value and returns a reference to this version.
+	     *
+	     * @return {Function} Non conflicting EventEmitter class.
+	     */
+	    EventEmitter.noConflict = function noConflict() {
+	        exports.EventEmitter = originalGlobalValue;
+	        return EventEmitter;
+	    };
+
+	    // Expose the class either via AMD, CommonJS or the global object
+	    if (true) {
+	        !(__WEBPACK_AMD_DEFINE_RESULT__ = function () {
+	            return EventEmitter;
+	        }.call(exports, __webpack_require__, exports, module), __WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+	    }
+	    else if (typeof module === 'object' && module.exports){
+	        module.exports = EventEmitter;
+	    }
+	    else {
+	        exports.EventEmitter = EventEmitter;
+	    }
+	}(this || {}));
+
+
+/***/ },
+/* 239 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _PromotionItem = __webpack_require__(240);
+
+	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Promotions = function (_React$Component) {
+	  _inherits(Promotions, _React$Component);
+
+	  function Promotions(props) {
+	    _classCallCheck(this, Promotions);
+
+	    return _possibleConstructorReturn(this, (Promotions.__proto__ || Object.getPrototypeOf(Promotions)).call(this, props));
+	  }
+	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
+
+	  _createClass(Promotions, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'promotions' },
+	        'HERE IS YOUR PROMOTIONS',
+	        _react2.default.createElement(_PromotionItem2.default, null),
+	        _react2.default.createElement(_PromotionItem2.default, null),
+	        _react2.default.createElement(_PromotionItem2.default, null)
+	      );
+	    }
+	  }]);
+
+	  return Promotions;
+	}(_react2.default.Component);
+
+	exports.default = Promotions;
+
+/***/ },
+/* 240 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PromotionItem = function (_React$Component) {
+	  _inherits(PromotionItem, _React$Component);
+
+	  function PromotionItem(props) {
+	    _classCallCheck(this, PromotionItem);
+
+	    return _possibleConstructorReturn(this, (PromotionItem.__proto__ || Object.getPrototypeOf(PromotionItem)).call(this, props));
+	  }
+
+	  _createClass(PromotionItem, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'promotionItem' },
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'exCircle' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'inCircle' },
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'percents' },
+	              ' 25% '
+	            ),
+	            _react2.default.createElement('div', { id: 'square' })
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'Аффинаж'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          ' 160 '
+	        )
+	      );
+	    }
+	  }]);
+
+	  return PromotionItem;
+	}(_react2.default.Component);
+
+	exports.default = PromotionItem;
+
+/***/ },
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27392,26 +28137,25 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'lpForm' },
+	        { className: 'authForms' },
 	        _react2.default.createElement(
-	          'p',
-	          { id: 'canlogin' },
-	          ' If you are already registered, you can login.'
-	        ),
-	        'Login:',
-	        _react2.default.createElement('input', { id: 'login', onFocus: this.fieldOnFocus }),
-	        'Password:',
-	        _react2.default.createElement('input', { type: 'password', id: 'password' }),
-	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'div',
+	          { className: 'lpForm' },
+	          'Login:',
+	          _react2.default.createElement('input', { id: 'login', onFocus: this.fieldOnFocus }),
+	          'Password:',
+	          _react2.default.createElement('input', { type: 'password', id: 'password' }),
+	          _react2.default.createElement('div', { id: 'lwarn', className: 'warn' }),
 	          _react2.default.createElement(
-	            'button',
-	            { id: 'loginBtn', onClick: this.logIn },
-	            'Log in'
+	            'p',
+	            { id: 'pBtn' },
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'loginBtn', onClick: this.logIn },
+	              'Log in'
+	            )
 	          )
-	        ),
-	        _react2.default.createElement('div', { id: 'lwarn', className: 'warn' })
+	        )
 	      );
 	    }
 	  }]);
@@ -27422,7 +28166,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 238 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27475,7 +28219,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 239 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27529,7 +28273,7 @@
 	exports.default = Tasks;
 
 /***/ },
-/* 240 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27548,15 +28292,15 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskAddNew = __webpack_require__(241);
+	var _TaskAddNew = __webpack_require__(245);
 
 	var _TaskAddNew2 = _interopRequireDefault(_TaskAddNew);
 
-	var _TasksList = __webpack_require__(242);
+	var _TasksList = __webpack_require__(246);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(244);
+	var _reactAddonsUpdate = __webpack_require__(248);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -27579,7 +28323,8 @@
 	    var _this = _possibleConstructorReturn(this, (Project.__proto__ || Object.getPrototypeOf(Project)).call(this, props));
 
 	    _this.loadPage = _this.loadPage.bind(_this);
-	    _this.state = { projectData: {} };
+	    _this.state = {};
+	    _this.handleAdding = _this.handleAdding.bind(_this);
 	    return _this;
 	  }
 
@@ -27608,7 +28353,7 @@
 	        });
 	        _this2.setState(res);
 	        var newData = (0, _reactAddonsUpdate2.default)(_this2.state, {
-	          projectData: { tasks: { $set: newTasks } }
+	          tasks: { $set: newTasks }
 	        });
 	        _this2.setState(newData);
 	      }).catch(function (err) {
@@ -27624,54 +28369,54 @@
 	    key: 'handleAdding',
 	    value: function handleAdding(task) {
 	      var newData = (0, _reactAddonsUpdate2.default)(this.state, {
-	        projectData: { tasks: { $set: [task].concat(_toConsumableArray(this.state.projectData.tasks)) } }
+	        tasks: { $set: [task].concat(_toConsumableArray(this.state.tasks)) }
 	      });
 	      this.setState(newData);
 	    }
 	  }, {
 	    key: 'handleDeleting',
 	    value: function handleDeleting(taskID) {
-	      var newTasks = this.state.projectData.tasks.slice();
-	      newTasks = newTasks.filter(function (el) {
-	        return el._id !== taskID;
-	      });
-	      var newData = (0, _reactAddonsUpdate2.default)(this.state, {
-	        projectData: { tasks: { $set: newTasks } }
-	      });
-	      this.setState(newData);
+	      // let newTasks = this.state.tasks.slice();
+	      // newTasks = newTasks.filter(el => el._id !== taskID);
+	      // let newData = update(this.state, {
+	      //   tasks: {$set: newTasks}
+	      // });
+	      // this.setState(newData);
 	    }
 	  }, {
 	    key: 'handleCompleting',
 	    value: function handleCompleting(points) {
-	      console.log('Project');
-	      console.log(points);
-	      this.props.onComplete(points);
+	      // console.log('Project');
+	      // console.log(points);
+	      // this.props.onComplete(points);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.props);
 	      return _react2.default.createElement(
 	        'div',
 	        null,
 	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          ' ',
-	          this.state.projectData.name,
-	          ' '
+	          'div',
+	          { id: 'projectName' },
+	          _react2.default.createElement('div', { id: 'projectLabel', className: this.state.label }),
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            ' ',
+	            this.state.name
+	          )
 	        ),
 	        _react2.default.createElement(_TaskAddNew2.default, {
 	          login: this.props.params.login,
 	          projectID: this.props.params.projectID,
 	          onAdding: this.handleAdding.bind(this)
 	        }),
-	        _react2.default.createElement(_TasksList2.default, {
+	        _react2.default.createElement(_TasksList2.default, { ref: 'tlist',
 	          login: this.props.params.login,
 	          projectID: this.props.params.projectID,
-	          tasks: this.state.projectData.tasks || [],
-	          onChildDelete: this.handleDeleting.bind(this),
-	          onChildComplete: this.handleCompleting.bind(this)
+	          tasks: this.state.tasks || [],
+	          onChildDelete: this.handleDeleting.bind(this)
 	        })
 	      );
 	    }
@@ -27680,14 +28425,10 @@
 	  return Project;
 	}(_react2.default.Component);
 
-	Project.propTypes = {
-	  onComplete: _react2.default.PropTypes.func
-	};
-
 	exports.default = Project;
 
 /***/ },
-/* 241 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27723,13 +28464,26 @@
 	    var _this = _possibleConstructorReturn(this, (TaskAddNew.__proto__ || Object.getPrototypeOf(TaskAddNew)).call(this, props));
 
 	    _this.addNew = _this.addNew.bind(_this);
+	    _this.clearFields = _this.clearFields.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(TaskAddNew, [{
-	    key: 'selectLabel',
-	    value: function selectLabel(e) {
-	      taskLabel.value = e.target.className;
+	    key: 'onCancel',
+	    value: function onCancel() {
+	      contentToHide.style.display = "none";
+	    }
+	  }, {
+	    key: 'onExpand',
+	    value: function onExpand() {
+	      contentToHide.style.display = "flex";
+	    }
+	  }, {
+	    key: 'clearFields',
+	    value: function clearFields() {
+	      newName.value = "";
+	      description.value = "";
+	      newPoints.value = newPoints.defaultValue;
 	    }
 	  }, {
 	    key: 'addNew',
@@ -27737,9 +28491,9 @@
 	      var _this2 = this;
 
 	      var bodyJSON = JSON.stringify({
-	        name: taskName.value,
-	        label: taskLabel.value,
-	        points: taskPoints.value
+	        name: newName.value,
+	        description: description.value,
+	        points: newPoints.value
 	      });
 
 	      var reqParams = {
@@ -27761,9 +28515,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        taskName.value = '';
-	        taskLabel.value = '';
-	        taskPoints.value = '';
+	        _this2.clearFields();
 	        _this2.props.onAdding(res.task);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -27777,27 +28529,37 @@
 	        { id: 'taskAddNew' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'newtaskectForm' },
-	          'Name: ',
-	          _react2.default.createElement('input', { id: 'taskName' }),
-	          'Label: ',
-	          _react2.default.createElement('input', { id: 'taskLabel' }),
+	          { id: 'lineExpand' },
 	          _react2.default.createElement(
-	            'ol',
-	            { id: 'selectLabel', onClick: this.selectLabel },
-	            _react2.default.createElement('li', { className: 'red' }),
-	            _react2.default.createElement('li', { className: 'blue' }),
-	            _react2.default.createElement('li', { className: 'white' }),
-	            _react2.default.createElement('li', { className: 'green' }),
-	            _react2.default.createElement('li', { className: 'yellow' })
-	          ),
-	          'Points: ',
-	          _react2.default.createElement('input', { id: 'taskPoints', type: 'number' })
+	            'div',
+	            { id: 'expand', onClick: this.onExpand },
+	            '+'
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.addNew },
-	          'Add'
+	          'div',
+	          { id: 'contentToHide' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'addNewForm' },
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName' }),
+	            _react2.default.createElement('textarea', { id: 'description', maxLength: '500', placeholder: 'Description...' }),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'addNewOpt' },
+	              _react2.default.createElement('input', { type: 'number', id: 'newPoints', defaultValue: '5', min: '0' }),
+	              _react2.default.createElement(
+	                'button',
+	                { id: 'add', onClick: this.addNew },
+	                'Add'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { id: 'cancel', onClick: this.onCancel },
+	                'Cancel'
+	              )
+	            )
+	          )
 	        )
 	      );
 	    }
@@ -27813,7 +28575,7 @@
 	exports.default = TaskAddNew;
 
 /***/ },
-/* 242 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27832,11 +28594,13 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksItem = __webpack_require__(243);
+	var _TasksItem = __webpack_require__(247);
 
 	var _TasksItem2 = _interopRequireDefault(_TasksItem);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -27850,45 +28614,51 @@
 	  function TasksList(props) {
 	    _classCallCheck(this, TasksList);
 
-	    return _possibleConstructorReturn(this, (TasksList.__proto__ || Object.getPrototypeOf(TasksList)).call(this, props));
-	    // this.state = {tasks: []};
-	    // this.loadTasks = this.loadTasks.bind(this);
+	    var _this = _possibleConstructorReturn(this, (TasksList.__proto__ || Object.getPrototypeOf(TasksList)).call(this, props));
+
+	    _this.state = { tasks: [] };
+	    _this.loadTasks = _this.loadTasks.bind(_this);
+	    return _this;
 	  }
 
-	  // loadTasks() {
-	  //   let reqParams = {
-	  //     method: 'GET',
-	  //     credentials: 'include'
-	  //   }
-
-	  //   let login = this.props.login;
-	  //   let projectID = this.props.projectID;
-
-	  //   fetch(`/api/userdata/${login}/${projectID}`, reqParams)
-	  //     .then(res => res.json())
-	  //     .then(res => {
-	  //       if (res.error) {
-	  //         console.log(res.error); // handle;
-	  //         return;
-	  //       }
-	  //       res.tasks.map(task => {
-	  //         this.setState( {tasks: [task, ...this.state.tasks] });
-	  //       });
-	  //     })
-	  //     .catch(err => {
-	  //       console.log(err);
-	  //     })
-	  // }
-
-	  // componentDidMount() {
-	  //   this.loadTasks();
-	  // }
-
-	  // componentWillReceiveProps(){
-	  //   this.loadTasks();
-	  // }
-
 	  _createClass(TasksList, [{
+	    key: 'loadTasks',
+	    value: function loadTasks() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projectID = this.props.projectID;
+
+	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        res.tasks.map(function (task) {
+	          _this2.setState({ tasks: [task].concat(_toConsumableArray(_this2.state.tasks)) });
+	        });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.loadTasks();
+	    }
+
+	    // componentWillReceiveProps(){
+	    //   this.loadTasks();
+	    // }
+
+	  }, {
 	    key: 'handleChildDelete',
 	    value: function handleChildDelete(id) {
 	      // let newTasks = this.state.tasks.slice();
@@ -27911,9 +28681,8 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
-	      // let tasks = this.state.tasks;
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -27924,14 +28693,13 @@
 	          this.props.tasks.map(function (el, i) {
 	            return _react2.default.createElement(_TasksItem2.default, { key: i,
 	              id: el._id,
-	              onDelete: _this2.handleChildDelete.bind(_this2),
-	              onEdit: _this2.handleChildEdit.bind(_this2),
-	              onComplete: _this2.handleChildComplete.bind(_this2),
+	              onDelete: _this3.handleChildDelete.bind(_this3),
+	              onEdit: _this3.handleChildEdit.bind(_this3),
 	              points: el.points,
 	              name: el.name,
 	              label: el.label,
-	              login: _this2.props.login,
-	              projectID: _this2.props.projectID
+	              login: _this3.props.login,
+	              projectID: _this3.props.projectID
 	            });
 	          })
 	        )
@@ -27943,14 +28711,13 @@
 	}(_react2.default.Component);
 
 	TasksList.propTypes = {
-	  onChildDelete: _react2.default.PropTypes.func,
-	  onChildComplete: _react2.default.PropTypes.func
+	  onChildDelete: _react2.default.PropTypes.func
 	};
 
 	exports.default = TasksList;
 
 /***/ },
-/* 243 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27968,6 +28735,8 @@
 	var _reactDom = __webpack_require__(34);
 
 	var _reactRouter = __webpack_require__(172);
+
+	var _Points = __webpack_require__(237);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28018,9 +28787,19 @@
 	    }
 	  }, {
 	    key: 'edit',
-	    value: function edit() {
-	      // this.props.onEdit(this); 
-	    }
+	    value: function edit() {}
+	    // this.props.onEdit(this); 
+
+
+	    // overTheItem() {
+	    //   this.refs.editBtn.style.display = "flex";
+	    //   this.isOver = false;
+	    // }
+
+	    // leaveTheItem() {
+	    //   this.refs.editBtn.style.display = "none";
+	    // }
+
 	  }, {
 	    key: 'complete',
 	    value: function complete() {
@@ -28029,8 +28808,6 @@
 	      var bodyJSON = JSON.stringify({
 	        points: this.props.points
 	      });
-
-	      console.log(bodyJSON);
 
 	      var reqParams = {
 	        method: 'POST',
@@ -28049,8 +28826,8 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        console.log('taskItem');
-	        _this3.props.onComplete(_this3.props.points); // tell parent
+	        _Points.ee.emitEvent('pointsUpdated', [_this3.props.points]);
+	        // this.props.onComplete(this.props.points); // tell parent
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28084,12 +28861,7 @@
 	          null,
 	          _react2.default.createElement(
 	            'button',
-	            { onClick: this.delete },
-	            ' Delete '
-	          ),
-	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.edit },
+	            { ref: 'editBtn', onClick: this.edit },
 	            ' Edit '
 	          )
 	        )
@@ -28102,20 +28874,19 @@
 
 	TasksItem.propTypes = {
 	  onDelete: _react2.default.PropTypes.func,
-	  onEdit: _react2.default.PropTypes.func,
-	  onComplete: _react2.default.PropTypes.func
+	  onEdit: _react2.default.PropTypes.func
 	};
 
 	exports.default = TasksItem;
 
 /***/ },
-/* 244 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(245);
+	module.exports = __webpack_require__(249);
 
 /***/ },
-/* 245 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -28234,7 +29005,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 246 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28253,13 +29024,17 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsMenu = __webpack_require__(247);
-
-	var _ProjectsMenu2 = _interopRequireDefault(_ProjectsMenu);
-
-	var _Points = __webpack_require__(248);
+	var _Points = __webpack_require__(237);
 
 	var _Points2 = _interopRequireDefault(_Points);
+
+	var _ProjectsAddNew = __webpack_require__(251);
+
+	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
+
+	var _ProjectsList = __webpack_require__(252);
+
+	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28268,6 +29043,8 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	// import ProjectsMenu from './ProjectsMenu';
+
 
 	var Projects = function (_React$Component) {
 	  _inherits(Projects, _React$Component);
@@ -28279,32 +29056,18 @@
 	  }
 
 	  _createClass(Projects, [{
-	    key: 'handleChildComplete',
-	    value: function handleChildComplete(points) {
-	      console.log('Projects TOP');
-	      console.log(points);
-	      this.refs.foo.update();
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
-
-	      var childrenWithProps = _react2.default.Children.map(this.props.children, function (child) {
-	        if (child.type.name == 'Project') {
-	          return _react2.default.cloneElement(child, {
-	            onComplete: _this2.handleChildComplete.bind(_this2)
-	          });
-	        } else return child;
-	      });
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(_Points2.default, { login: this.props.params.login, ref: 'foo' }),
-	        _react2.default.createElement(_ProjectsMenu2.default, { login: this.props.params.login }),
-	        childrenWithProps
+	        { id: 'projects' },
+	        'PROJECTS',
+	        this.props.children
 	      );
 	    }
+	    // <ProjectsMenu login = {this.props.params.login}/>
+	    // <Points login = {this.props.params.login} ref='foo'/>
+
 	  }]);
 
 	  return Projects;
@@ -28318,175 +29081,7 @@
 	//     );
 
 /***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ProjectsMenu = function (_React$Component) {
-	  _inherits(ProjectsMenu, _React$Component);
-
-	  function ProjectsMenu(props) {
-	    _classCallCheck(this, ProjectsMenu);
-
-	    return _possibleConstructorReturn(this, (ProjectsMenu.__proto__ || Object.getPrototypeOf(ProjectsMenu)).call(this, props));
-	  }
-
-	  _createClass(ProjectsMenu, [{
-	    key: 'render',
-	    value: function render() {
-	      var path = '/app/' + this.props.login + '/projects';
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'projectsMenu' },
-	        _react2.default.createElement(
-	          'ul',
-	          null,
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: path + '/list' },
-	              'List'
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'li',
-	            null,
-	            _react2.default.createElement(
-	              _reactRouter.IndexLink,
-	              { to: path + '/new' },
-	              'Add new'
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
-
-	  return ProjectsMenu;
-	}(_react2.default.Component);
-
-	exports.default = ProjectsMenu;
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Points = function (_React$Component) {
-	  _inherits(Points, _React$Component);
-
-	  function Points(props) {
-	    _classCallCheck(this, Points);
-
-	    var _this = _possibleConstructorReturn(this, (Points.__proto__ || Object.getPrototypeOf(Points)).call(this, props));
-
-	    _this.state = { points: null };
-	    _this.getScores = _this.getScores.bind(_this);
-	    _this.update = _this.update.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(Points, [{
-	    key: 'update',
-	    value: function update() {
-	      console.log('update scores');
-	      console.log(arguments);
-	      this.getScores();
-	    }
-	  }, {
-	    key: 'getScores',
-	    value: function getScores() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-	      fetch('/api/userdata/' + this.props.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error); // handle;
-	          return;
-	        }
-	        _this2.setState({ points: res.points });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.getScores();
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      console.log(this);
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'userPoints' },
-	        'Your points:',
-	        this.state.points
-	      );
-	    }
-	  }]);
-
-	  return Points;
-	}(_react2.default.Component);
-
-	exports.default = Points;
-
-/***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28526,22 +29121,38 @@
 	  }
 
 	  _createClass(ProjectsAddNew, [{
-	    key: 'selectLabel',
-	    value: function selectLabel(e) {
-	      projLabel.value = e.target.className;
+	    key: 'showColors',
+	    value: function showColors() {
+	      options.style.display = "flex";
 	    }
 	  }, {
-	    key: 'nameOnFocus',
-	    value: function nameOnFocus() {
-	      warn.innerHTML = '';
+	    key: 'hideColors',
+	    value: function hideColors(e) {
+	      if (e.target.className) {
+	        chosenColor.className = e.target.className;
+	      }
+	      options.style.display = "none";
+	    }
+	  }, {
+	    key: 'onCancel',
+	    value: function onCancel() {
+	      console.log(contentToHide);
+	      contentToHide.style.display = "none";
+	    }
+	  }, {
+	    key: 'onExpand',
+	    value: function onExpand() {
+	      console.log(contentToHide);
+	      contentToHide.style.display = "flex";
 	    }
 	  }, {
 	    key: 'addNew',
 	    value: function addNew() {
+	      var _this2 = this;
+
 	      var bodyJSON = JSON.stringify({
-	        name: projName.value,
-	        label: projLabel.value,
-	        points: projPoints.value
+	        name: newName.value,
+	        label: chosenColor.className
 	      });
 
 	      var reqParams = {
@@ -28553,8 +29164,8 @@
 	        body: bodyJSON
 	      };
 
-	      var login = this.props.params.login;
-	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+	      var login = this.props.login;
+
 	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
@@ -28562,10 +29173,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        warn.innerHTML = 'Added!';
-	        projName.value = '';
-	        projLabel.value = '';
-	        projPoints.value = '';
+	        _this2.props.onAddingNew(res.project);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28578,29 +29186,58 @@
 	        { id: 'projectsAddNew' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'newProjectForm' },
-	          'Name: ',
-	          _react2.default.createElement('input', { id: 'projName', onFocus: this.nameOnFocus }),
-	          'Label: ',
-	          _react2.default.createElement('input', { id: 'projLabel' }),
+	          { id: 'lineExpand' },
 	          _react2.default.createElement(
-	            'ol',
-	            { id: 'selectLabel', onClick: this.selectLabel },
-	            _react2.default.createElement('li', { className: 'red' }),
-	            _react2.default.createElement('li', { className: 'blue' }),
-	            _react2.default.createElement('li', { className: 'white' }),
-	            _react2.default.createElement('li', { className: 'green' }),
-	            _react2.default.createElement('li', { className: 'yellow' })
-	          ),
-	          'Points: ',
-	          _react2.default.createElement('input', { id: 'projPoints', type: 'number' })
+	            'div',
+	            { id: 'expand', onClick: this.onExpand },
+	            '+'
+	          )
 	        ),
 	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.addNew },
-	          'Add'
-	        ),
-	        _react2.default.createElement('div', { id: 'warn', className: 'warn' })
+	          'div',
+	          { id: 'contentToHide' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'addNewForm' },
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName' }),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'addNewOpt' },
+	              _react2.default.createElement(
+	                'div',
+	                { id: 'labelForm' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { id: 'chosen', onClick: this.showColors },
+	                  _react2.default.createElement('div', { id: 'chosenColor', className: 'white' })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { id: 'options', onClick: this.hideColors },
+	                  _react2.default.createElement('div', { className: 'red' }),
+	                  _react2.default.createElement('div', { className: 'green' }),
+	                  _react2.default.createElement('div', { className: 'blue' }),
+	                  _react2.default.createElement('div', { className: 'yellow' }),
+	                  _react2.default.createElement('div', { className: 'purple' }),
+	                  _react2.default.createElement('div', { className: 'orange' }),
+	                  _react2.default.createElement('div', { className: 'violet' }),
+	                  _react2.default.createElement('div', { className: 'gray' }),
+	                  _react2.default.createElement('div', { className: 'brown' })
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { id: 'add', onClick: this.addNew },
+	                'Add'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { id: 'cancel', onClick: this.onCancel },
+	                'Cancel'
+	              )
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
@@ -28608,10 +29245,14 @@
 	  return ProjectsAddNew;
 	}(_react2.default.Component);
 
+	ProjectsAddNew.propTypes = {
+	  onAddingNew: _react2.default.PropTypes.func
+	};
+
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 250 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28630,7 +29271,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsItem = __webpack_require__(251);
+	var _ProjectsAddNew = __webpack_require__(251);
+
+	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
+
+	var _ProjectsItem = __webpack_require__(253);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -28652,7 +29297,7 @@
 
 	    var _this = _possibleConstructorReturn(this, (ProjectsList.__proto__ || Object.getPrototypeOf(ProjectsList)).call(this, props));
 
-	    _this.state = { projects: [] };
+	    _this.state = { projects: [], isEditing: null };
 	    _this.loadProjects = _this.loadProjects.bind(_this);
 	    return _this;
 	  }
@@ -28674,9 +29319,11 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        res.projects.map(function (proj) {
-	          _this2.setState({ projects: [proj].concat(_toConsumableArray(_this2.state.projects)) });
-	        });
+	        // res.projects.map(proj => {
+	        //   this.setState( {projects: [proj, ...this.state.projects] });
+	        // });
+	        var newProjects = res.projects.reverse();
+	        _this2.setState({ projects: newProjects });
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28687,31 +29334,27 @@
 	      this.loadProjects();
 	    }
 	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      var newProjects = this.state.projects.slice();
-	      newProjects = newProjects.filter(function (el) {
-	        return el._id !== id;
-	      });
-	      this.setState({ projects: newProjects });
+	    key: 'handleAddingNew',
+	    value: function handleAddingNew(proj) {
+	      this.setState({ projects: [proj].concat(_toConsumableArray(this.state.projects)) });
 	    }
+
+	    // handleChildDelete(id) {
+	    //   let newProjects = this.state.projects.slice();
+	    //   newProjects = newProjects.filter(el => el._id !== id);
+	    //   this.setState({projects: newProjects});
+	    // }
+
 	  }, {
 	    key: 'handleChildEdit',
-	    value: function handleChildEdit(proj) {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        ' ',
-	        proj.id,
-	        ' '
-	      );
+	    value: function handleChildEdit(itemID) {
+	      this.setState({ isEditing: itemID });
 	    }
-	  }, {
-	    key: 'handleChildOpen',
-	    value: function handleChildOpen(id) {
-	      var login = this.props.params.login;
-	      _reactRouter.browserHistory.push('/app/' + login + '/projects/p/' + id);
-	    }
+
+	    // handleChildOpen(id) {
+	    //   let login = this.props.params.login;
+	    //   browserHistory.push(`/app/${login}/projects/p/${id}`); 
+	    // }
 
 	    /*removing
 	      onRemovePerson: function(index) {
@@ -28725,25 +29368,28 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      console.log(this.props);
 	      var projects = this.state.projects;
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { id: 'projectsList' },
 	        'List Page',
+	        _react2.default.createElement(_ProjectsAddNew2.default, {
+	          login: this.props.params.login,
+	          onAddingNew: this.handleAddingNew.bind(this)
+	        }),
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'projectsList' },
 	          projects.map(function (el, i) {
+	            var editing = _this3.state.isEditing == el._id ? true : false;
 	            return _react2.default.createElement(_ProjectsItem2.default, { key: i,
 	              id: el._id,
-	              onDelete: _this3.handleChildDelete.bind(_this3),
-	              onEdit: _this3.handleChildEdit.bind(_this3),
-	              onOpen: _this3.handleChildOpen.bind(_this3),
-	              points: el.points,
 	              name: el.name,
 	              label: el.label,
-	              login: _this3.props.params.login });
+	              login: _this3.props.params.login,
+	              editing: editing,
+	              onEdit: _this3.handleChildEdit.bind(_this3)
+	            });
 	          })
 	        )
 	      );
@@ -28754,9 +29400,12 @@
 	}(_react2.default.Component);
 
 	exports.default = ProjectsList;
+	//   onDelete={this.handleChildDelete.bind(this)} 
+	//   onEdit={this.handleChildEdit.bind(this)}
+	//   onOpen={this.handleChildOpen.bind(this)}
 
 /***/ },
-/* 251 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28783,24 +29432,62 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ProjectsItem = function (_React$Component) {
-	  _inherits(ProjectsItem, _React$Component);
+	var Pish = function (_React$Component) {
+	  _inherits(Pish, _React$Component);
+
+	  function Pish(props) {
+	    _classCallCheck(this, Pish);
+
+	    return _possibleConstructorReturn(this, (Pish.__proto__ || Object.getPrototypeOf(Pish)).call(this, props));
+	  }
+
+	  _createClass(Pish, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'editingProject' },
+	        'I\'m editing just now!',
+	        this.props.target.props.name,
+	        _react2.default.createElement('img', { src: 'https://clck.ru/A7LLd' }),
+	        _react2.default.createElement('i', { className: 'fa fa-twitter' }),
+	        _react2.default.createElement('i', { className: 'fa fa-twitter' })
+	      );
+	    }
+	  }]);
+
+	  return Pish;
+	}(_react2.default.Component);
+
+	var ProjectsItem = function (_React$Component2) {
+	  _inherits(ProjectsItem, _React$Component2);
 
 	  function ProjectsItem(props) {
 	    _classCallCheck(this, ProjectsItem);
 
-	    var _this = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
+	    var _this2 = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
 
-	    _this.delete = _this.delete.bind(_this);
-	    _this.edit = _this.edit.bind(_this);
-	    _this.open = _this.open.bind(_this);
-	    return _this;
+	    _this2.delete = _this2.delete.bind(_this2);
+	    _this2.edit = _this2.edit.bind(_this2);
+	    _this2.open = _this2.open.bind(_this2);
+	    return _this2;
 	  }
+
+	  // overTheItem() {
+	  //   this.refs.editBtn.style.display = "flex";
+	  //   this.isOver = false;
+	  //   this.setState({editing: true});
+	  // }
+
+	  // leaveTheItem() {
+	  //   this.refs.editBtn.style.display = "none";
+	  //   this.setState({editing: false});
+	  // }
 
 	  _createClass(ProjectsItem, [{
 	    key: 'delete',
 	    value: function _delete() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var reqParams = {
 	        method: 'DELETE',
@@ -28815,7 +29502,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _this2.props.onDelete(_this2.props.id); // tell to parent
+	        _this3.props.onDelete(_this3.props.id); // tell to parent
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28823,46 +29510,41 @@
 	  }, {
 	    key: 'edit',
 	    value: function edit() {
-	      this.props.onEdit(this);
+	      this.props.onEdit(this.props.id);
 	    }
 	  }, {
 	    key: 'open',
 	    value: function open() {
-	      this.props.onOpen(this.props.id);
+	      // this.props.onOpen(this.props.id); 
+	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/projects/p/' + this.props.id);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var component = this.props.editing ? _react2.default.createElement(Pish, { target: this }) : null;
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projectsItem' },
+	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'projectLine', onClick: this.open },
-	          _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
-	          this.props.name
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'points' },
-	          ' ',
-	          this.props.points,
-	          ' '
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
+	          { id: 'projectsItem' },
 	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.delete },
-	            ' Delete '
+	            'div',
+	            { id: 'projectLine', onClick: this.open },
+	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
+	            this.props.name
 	          ),
 	          _react2.default.createElement(
-	            'button',
-	            { onClick: this.edit },
-	            ' Edit '
+	            'div',
+	            null,
+	            _react2.default.createElement(
+	              'button',
+	              { ref: 'editBtn', onClick: this.edit },
+	              ' Edit '
+	            )
 	          )
-	        )
+	        ),
+	        component
 	      );
 	    }
 	  }]);
@@ -28879,7 +29561,7 @@
 	exports.default = ProjectsItem;
 
 /***/ },
-/* 252 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28946,7 +29628,7 @@
 	          return;
 	        }
 	        _this2.fieldOnFocus();
-	        sOk.innerHTML = 'Welcome aboard, ' + res.login + '! You may want to login.';
+	        sOk.innerHTML = 'Welcome aboard,\n' + res.login + '!\nYou may want to login.';
 	      }).catch(console.log);
 	    }
 	  }, {
@@ -28954,22 +29636,26 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'lpForm' },
-	        'Login:',
-	        _react2.default.createElement('input', { id: 'slogin', onFocus: this.fieldOnFocus }),
-	        'Password:',
-	        _react2.default.createElement('input', { type: 'password', id: 'spassword' }),
+	        { className: 'authForms' },
 	        _react2.default.createElement(
-	          'p',
-	          null,
+	          'div',
+	          { className: 'lpForm' },
+	          'Login:',
+	          _react2.default.createElement('input', { id: 'slogin', onFocus: this.fieldOnFocus }),
+	          'Password:',
+	          _react2.default.createElement('input', { type: 'password', id: 'spassword' }),
+	          _react2.default.createElement('div', { id: 'swarn', className: 'warn' }),
 	          _react2.default.createElement(
-	            'button',
-	            { id: 'signupBtn', onClick: this.signUp },
-	            'Sign up'
-	          )
-	        ),
-	        _react2.default.createElement('div', { id: 'swarn', className: 'warn' }),
-	        _react2.default.createElement('div', { id: 'sOk' })
+	            'p',
+	            { id: 'pBtn' },
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'signupBtn', onClick: this.signUp },
+	              'Sign up'
+	            )
+	          ),
+	          _react2.default.createElement('div', { id: 'sOk' })
+	        )
 	      );
 	    }
 	  }]);
@@ -28980,7 +29666,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 253 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28988,7 +29674,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.About = exports.StartPage = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -29055,15 +29740,6 @@
 	                { to: '/login' },
 	                'Login'
 	              )
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              null,
-	              _react2.default.createElement(
-	                _reactRouter.IndexLink,
-	                { to: '/about' },
-	                'About'
-	              )
 	            )
 	          )
 	        ),
@@ -29075,19 +29751,10 @@
 	  return StartPage;
 	}(_react2.default.Component);
 
-	var About = function About() {
-	  return _react2.default.createElement(
-	    'div',
-	    { id: 'about' },
-	    '© Rumata Estorskij, 2016.'
-	  );
-	};
-
-	exports.StartPage = StartPage;
-	exports.About = About;
+	exports.default = StartPage;
 
 /***/ },
-/* 254 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29230,7 +29897,7 @@
 	exports.default = ProjectEditing;
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29249,7 +29916,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _Points = __webpack_require__(248);
+	var _Points = __webpack_require__(237);
 
 	var _Points2 = _interopRequireDefault(_Points);
 
@@ -29276,7 +29943,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(_Points2.default, { login: this.props.params.login }),
 	        'My rules'
 	      );
 	    }

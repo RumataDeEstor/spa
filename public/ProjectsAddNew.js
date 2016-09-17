@@ -11,19 +11,31 @@ class ProjectsAddNew extends React.Component {
     this.addNew = this.addNew.bind(this);
   }
 
-  selectLabel (e) {
-    projLabel.value = e.target.className;
+  showColors () {
+    options.style.display = "flex";
   }
 
-  nameOnFocus(){
-    warn.innerHTML = '';
+  hideColors (e) {
+    if (e.target.className) {
+      chosenColor.className = e.target.className;
+    } 
+    options.style.display = "none";
+  }
+
+  onCancel () {
+    console.log(contentToHide);
+    contentToHide.style.display  = "none";    
+  }
+
+  onExpand () {
+    console.log(contentToHide);
+    contentToHide.style.display  = "flex";    
   }
 
   addNew (){
     let bodyJSON = JSON.stringify({
-      name: projName.value,
-      label: projLabel.value,
-      points: projPoints.value
+      name: newName.value,
+      label: chosenColor.className
     });
       
     let reqParams = {
@@ -35,8 +47,8 @@ class ProjectsAddNew extends React.Component {
       body: bodyJSON
     }
 
-    let login = this.props.params.login;
-    // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+    let login = this.props.login;
+    
     fetch(`/api/userdata/${login}`, reqParams)
       .then(res => res.json())
       .then(res => {
@@ -44,34 +56,48 @@ class ProjectsAddNew extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        warn.innerHTML = 'Added!';
-        projName.value = '';
-        projLabel.value= '';
-        projPoints.value = '';
+        this.props.onAddingNew(res.project);
       })
       .catch(err => {
         console.log(err);
       })
   }
   render () {
-    return <div id = "projectsAddNew">
-            <div id = "newProjectForm">
-              Name: <input id="projName" onFocus = {this.nameOnFocus}/>
-              Label: <input id="projLabel"/>
-              <ol id = "selectLabel" onClick = {this.selectLabel}>
-                <li className = "red"></li>
-                <li className = "blue"></li>
-                <li className = "white"></li>
-                <li className = "green"></li>
-                <li className = "yellow"></li>
-              </ol>  
-              Points: <input id="projPoints" type="number"/>
+    return<div id = "projectsAddNew">
+            <div id = "lineExpand">
+              <div id = "expand" onClick = {this.onExpand}>+</div>
             </div>
-            <button onClick = {this.addNew}>Add</button>
-            <div id = "warn" className ="warn">
+            <div id = "contentToHide">
+              <div id = "addNewForm">
+                <input type = "text" placeholder = "Name" id = "newName"/>
+                <div id = "addNewOpt">
+                  <div id = "labelForm">
+                    <div id = "chosen" onClick = {this.showColors}>
+                      <div id = "chosenColor" className = "white"></div>
+                    </div>  
+                    <div id = "options" onClick = {this.hideColors}>
+                      <div className = "red"></div>
+                      <div className = "green"></div>
+                      <div className = "blue"></div>
+                      <div className = "yellow"></div>
+                      <div className = "purple"></div>
+                      <div className = "orange"></div>
+                      <div className = "violet"></div>
+                      <div className = "gray"></div>
+                      <div className = "brown"></div>
+                    </div>
+                  </div>              
+                  <button id = "add" onClick = {this.addNew}>Add</button>
+                  <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
+                </div>
+              </div>
             </div>
           </div>
   }
 }
+
+ProjectsAddNew.propTypes = {
+  onAddingNew: React.PropTypes.func
+};
 
 export default ProjectsAddNew;

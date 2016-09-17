@@ -9,17 +9,28 @@ class TaskAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
+    this.clearFields = this.clearFields.bind(this);
   }
 
-  selectLabel (e) {
-    taskLabel.value = e.target.className;
+  onCancel () {
+    contentToHide.style.display  = "none";
+  }
+
+  onExpand () {
+    contentToHide.style.display  = "flex";
+  }
+
+  clearFields() {
+    newName.value = "";
+    description.value = "";
+    newPoints.value = newPoints.defaultValue;
   }
 
   addNew (){
     let bodyJSON = JSON.stringify({
-      name: taskName.value,
-      label: taskLabel.value,
-      points: taskPoints.value
+      name: newName.value,
+      description: description.value,
+      points: newPoints.value
     });
       
     let reqParams = {
@@ -41,9 +52,7 @@ class TaskAddNew extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        taskName.value = '';
-        taskLabel.value= '';
-        taskPoints.value = '';
+        this.clearFields();
         this.props.onAdding(res.task);
       })
       .catch(err => {
@@ -52,19 +61,20 @@ class TaskAddNew extends React.Component {
   }
   render () {
     return <div id = "taskAddNew">
-            <div id = "newtaskectForm">
-              Name: <input id="taskName"/>
-              Label: <input id="taskLabel"/>
-              <ol id = "selectLabel" onClick = {this.selectLabel}>
-                <li className = "red"></li>
-                <li className = "blue"></li>
-                <li className = "white"></li>
-                <li className = "green"></li>
-                <li className = "yellow"></li>
-              </ol>  
-              Points: <input id="taskPoints" type="number"/>
+            <div id = "lineExpand">
+              <div id = "expand" onClick = {this.onExpand}>+</div>
             </div>
-            <button onClick = {this.addNew}>Add</button>
+            <div id = "contentToHide">
+              <div id = "addNewForm">
+                <input type = "text" placeholder = "Name" id = "newName"/>
+                <textarea id = "description" maxLength = "500" placeholder = "Description..."></textarea>
+                <div id = "addNewOpt">
+                  <input type = "number" id = "newPoints" defaultValue = "5" min = "0"/>
+                  <button id = "add" onClick = {this.addNew}>Add</button>
+                  <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
+                </div>
+              </div>
+            </div>
           </div>
   }
 }

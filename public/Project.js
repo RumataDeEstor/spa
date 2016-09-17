@@ -12,7 +12,8 @@ class Project extends React.Component {
   constructor(props){
     super(props);
     this.loadPage = this.loadPage.bind(this);
-    this.state = {projectData: {}};
+    this.state = {};
+    this.handleAdding = this.handleAdding.bind(this);
   }
 
   loadPage(){
@@ -36,7 +37,7 @@ class Project extends React.Component {
         })
         this.setState(res);
         let newData = update(this.state, {
-          projectData: {tasks: {$set: newTasks}}
+          tasks: {$set: newTasks}
         });
         this.setState(newData);
       })
@@ -51,48 +52,45 @@ class Project extends React.Component {
 
   handleAdding(task){
     let newData = update(this.state, {
-      projectData: {tasks: {$set: [task, ...this.state.projectData.tasks]}}
+     tasks: {$set: [task, ...this.state.tasks]}
     });
     this.setState(newData);
   }
 
   handleDeleting(taskID) {
-    let newTasks = this.state.projectData.tasks.slice();
-    newTasks = newTasks.filter(el => el._id !== taskID);
-    let newData = update(this.state, {
-      projectData: {tasks: {$set: newTasks}}
-    });
-    this.setState(newData);
+    // let newTasks = this.state.tasks.slice();
+    // newTasks = newTasks.filter(el => el._id !== taskID);
+    // let newData = update(this.state, {
+    //   tasks: {$set: newTasks}
+    // });
+    // this.setState(newData);
   }
 
   handleCompleting(points){
-    console.log('Project');
-    console.log(points);
-    this.props.onComplete(points);
+    // console.log('Project');
+    // console.log(points);
+    // this.props.onComplete(points);
   }
 
   render(){
-    console.log(this.props);
     return <div>
-            <h1> {this.state.projectData.name} </h1>
+            <div id = "projectName"> 
+              <div id = "projectLabel" className = {this.state.label}></div>
+              <h1> {this.state.name}</h1>
+            </div>         
             <TaskAddNew 
               login = {this.props.params.login}
               projectID = {this.props.params.projectID}
               onAdding = {this.handleAdding.bind(this)}
             />
-            <TasksList
+            <TasksList ref = "tlist"
               login = {this.props.params.login}
               projectID = {this.props.params.projectID}
-              tasks = {this.state.projectData.tasks || []}
+              tasks = {this.state.tasks || []}
               onChildDelete = {this.handleDeleting.bind(this)}
-              onChildComplete = {this.handleCompleting.bind(this)}
             />
           </div>
   }
 }
-
-Project.propTypes = {
-  onComplete: React.PropTypes.func
-};
 
 export default Project;

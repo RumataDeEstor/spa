@@ -9,38 +9,38 @@ import TasksItem from './TasksItem'
 class TasksList extends React.Component {
   constructor(props) {
     super(props);
-    // this.state = {tasks: []};
-    // this.loadTasks = this.loadTasks.bind(this);
+    this.state = {tasks: []};
+    this.loadTasks = this.loadTasks.bind(this);
   }
 
-  // loadTasks() {
-  //   let reqParams = {
-  //     method: 'GET',
-  //     credentials: 'include'
-  //   }
+  loadTasks() {
+    let reqParams = {
+      method: 'GET',
+      credentials: 'include'
+    }
 
-  //   let login = this.props.login;
-  //   let projectID = this.props.projectID;
+    let login = this.props.login;
+    let projectID = this.props.projectID;
 
-  //   fetch(`/api/userdata/${login}/${projectID}`, reqParams)
-  //     .then(res => res.json())
-  //     .then(res => {
-  //       if (res.error) {
-  //         console.log(res.error); // handle;
-  //         return;
-  //       }
-  //       res.tasks.map(task => {
-  //         this.setState( {tasks: [task, ...this.state.tasks] });
-  //       });
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
+    fetch(`/api/userdata/${login}/${projectID}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error); // handle;
+          return;
+        }
+        res.tasks.map(task => {
+          this.setState( {tasks: [task, ...this.state.tasks] });
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
 
-  // componentDidMount() {
-  //   this.loadTasks();
-  // }
+  componentDidMount() {
+    this.loadTasks();
+  }
 
   // componentWillReceiveProps(){
   //   this.loadTasks();
@@ -64,7 +64,6 @@ class TasksList extends React.Component {
   }
 
   render () {
-    // let tasks = this.state.tasks;
     return <div>
             List Page
             <div id = "tasksList">
@@ -73,7 +72,6 @@ class TasksList extends React.Component {
                   id ={el._id} 
                   onDelete={this.handleChildDelete.bind(this)} 
                   onEdit={this.handleChildEdit.bind(this)}
-                  onComplete={this.handleChildComplete.bind(this)} 
                   points = {el.points} 
                   name = {el.name} 
                   label = {el.label}
@@ -87,8 +85,7 @@ class TasksList extends React.Component {
 }
 
 TasksList.propTypes = {
-  onChildDelete: React.PropTypes.func,
-  onChildComplete: React.PropTypes.func
+  onChildDelete: React.PropTypes.func
 };
 
 export default TasksList;

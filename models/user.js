@@ -27,9 +27,10 @@ const taskSchema = new Schema({
     type: String,
     default: 'white',
   },
+  description: String,
   points: {
     type: Number,
-    default: 0
+    default: 5
   }
 });
 
@@ -42,10 +43,6 @@ const projectSchema = new Schema({
   label: {
     type: String,
     default: 'white',
-  },
-  points: {
-    type: Number,
-    default: 0
   },
   tasks: [taskSchema]
 });
@@ -74,7 +71,7 @@ userSchema.methods.validPassword = function(pass){
 }
 
 userSchema.path('login').validate(function (v) {
-  return v.length > 2 && v.length < 25;
+  return v.length > 2 && v.length < 20;
 });
 
 userSchema.path('password').validate(function (v) {

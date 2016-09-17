@@ -4,12 +4,13 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import ProjectsAddNew from './ProjectsAddNew'
 import ProjectsItem from './ProjectsItem'
 
 class ProjectsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {projects: []};
+    this.state = {projects: [], isEditing: null};
     this.loadProjects = this.loadProjects.bind(this);
   }
 
@@ -26,9 +27,11 @@ class ProjectsList extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        res.projects.map(proj => {
-          this.setState( {projects: [proj, ...this.state.projects] });
-        });
+        // res.projects.map(proj => {
+        //   this.setState( {projects: [proj, ...this.state.projects] });
+        // });
+        let newProjects = res.projects.reverse();
+        this.setState({projects: newProjects});
       })
       .catch(err => {
         console.log(err);
@@ -39,20 +42,24 @@ class ProjectsList extends React.Component {
     this.loadProjects();
   }
 
-  handleChildDelete(id) {
-    let newProjects = this.state.projects.slice();
-    newProjects = newProjects.filter(el => el._id !== id);
-    this.setState({projects: newProjects});
+  handleAddingNew(proj){
+    this.setState({projects: [proj, ...this.state.projects] });
   }
 
-  handleChildEdit(proj) {
-    return <div> {proj.id} </div>
+  // handleChildDelete(id) {
+  //   let newProjects = this.state.projects.slice();
+  //   newProjects = newProjects.filter(el => el._id !== id);
+  //   this.setState({projects: newProjects});
+  // }
+
+  handleChildEdit(itemID) {
+    this.setState({isEditing: itemID});
   }
 
-  handleChildOpen(id) {
-    let login = this.props.params.login;
-    browserHistory.push(`/app/${login}/projects/p/${id}`); 
-  }
+  // handleChildOpen(id) {
+  //   let login = this.props.params.login;
+  //   browserHistory.push(`/app/${login}/projects/p/${id}`); 
+  // }
 
   /*removing
     onRemovePerson: function(index) {
@@ -62,25 +69,34 @@ class ProjectsList extends React.Component {
   },*/
 
   render () {
-    console.log(this.props);
     let projects = this.state.projects;
-    return <div>
+    return <div id = "projectsList">
             List Page
+            <ProjectsAddNew 
+              login = {this.props.params.login}
+              onAddingNew = {this.handleAddingNew.bind(this)}
+            />
             <div id = "projectsList">
-              {projects.map((el,i) => {
-                return <ProjectsItem key = {i} 
-                id ={el._id} 
-                onDelete={this.handleChildDelete.bind(this)} 
-                onEdit={this.handleChildEdit.bind(this)}
-                onOpen={this.handleChildOpen.bind(this)}
-                points = {el.points} 
-                name = {el.name} 
-                label = {el.label}
-                login = {this.props.params.login}/>
-              })}       
+              {
+                projects.map((el,i) => {
+                  let editing = (this.state.isEditing == el._id) ? true : false;
+                  return <ProjectsItem key = {i} 
+                    id ={el._id} 
+                    name = {el.name} 
+                    label = {el.label}
+                    login = {this.props.params.login}
+                    editing = {editing}
+                    onEdit={this.handleChildEdit.bind(this)}
+                  />
+                })
+              }       
             </div>
           </div>
   }
 }
 
 export default ProjectsList;
+ //   onDelete={this.handleChildDelete.bind(this)} 
+              //   onEdit={this.handleChildEdit.bind(this)}
+              //   onOpen={this.handleChildOpen.bind(this)} 
+            

@@ -4,6 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import {Points} from './Points'
 
 class InternalTopmenu extends React.Component {
   constructor(props) {
@@ -37,6 +38,7 @@ class InternalTopmenu extends React.Component {
             <div className = "topmenu">
               <div id = "logo"><Link to={path}>LOGO :)</Link></div> 
               <ul className = "links">
+                <li><Points login = {this.props.login} ref='foo'/></li>
                 <li><IndexLink to={`${path}/projects`}>Projects</IndexLink></li>
                 <li><IndexLink to={`${path}/rules`}>Rules</IndexLink></li>
                 <li><button onClick = {this.logout}>Log out</button></li>

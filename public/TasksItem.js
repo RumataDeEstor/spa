@@ -4,6 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import { ee } from './Points'
 
 class TasksItem extends React.Component {
   constructor(props) {
@@ -39,12 +40,19 @@ class TasksItem extends React.Component {
     // this.props.onEdit(this); 
   }  
 
+  // overTheItem() {
+  //   this.refs.editBtn.style.display = "flex";
+  //   this.isOver = false;
+  // }
+
+  // leaveTheItem() {
+  //   this.refs.editBtn.style.display = "none";
+  // }
+
   complete() {
     let bodyJSON = JSON.stringify({
       points: this.props.points
     });
-
-    console.log(bodyJSON);
 
     let reqParams = {
       method: 'POST',
@@ -63,8 +71,8 @@ class TasksItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        console.log('taskItem');
-        this.props.onComplete(this.props.points); // tell parent
+        ee.emitEvent('pointsUpdated', [this.props.points]);
+        // this.props.onComplete(this.props.points); // tell parent
       })
       .catch(err => {
         console.log(err);
@@ -81,8 +89,7 @@ class TasksItem extends React.Component {
             </div>
             <div id = "points"> {this.props.points} </div>
             <div> 
-              <button onClick = {this.delete}> Delete </button>
-              <button onClick = {this.edit}> Edit </button>
+              <button ref = "editBtn" onClick = {this.edit}> Edit </button>
             </div>
           </div>
   }
@@ -91,7 +98,6 @@ class TasksItem extends React.Component {
 TasksItem.propTypes = {
   onDelete: React.PropTypes.func,
   onEdit: React.PropTypes.func,
-  onComplete: React.PropTypes.func
 };
 
 export default TasksItem;

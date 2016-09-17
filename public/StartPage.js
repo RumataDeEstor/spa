@@ -17,7 +17,6 @@ class StartPage extends React.Component {
               <ul className = "links">
                 <li><IndexLink to="/signup">Signup</IndexLink></li>
                 <li><IndexLink to="/login">Login</IndexLink></li>
-                <li><IndexLink to="/about">About</IndexLink></li>
               </ul>
             </div>
             {this.props.children}
@@ -25,10 +24,4 @@ class StartPage extends React.Component {
   }
 }
 
-const About = () => (
-  <div id = "about">
-    © Rumata Estorskij, 2016.
-  </div>
-)
-
-export {StartPage, About};
+export default StartPage;

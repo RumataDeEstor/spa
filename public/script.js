@@ -14,7 +14,7 @@ import Projects from './Projects';
 import ProjectsAddNew from './ProjectsAddNew';
 import ProjectsList from './ProjectsList';
 import Signup from './Signup';
-import {About, StartPage} from './StartPage';
+import StartPage from './StartPage';
 import ProjectEditing from './ProjectEditing';
 import Rules from './Rules';
 import Points from './Points';
@@ -25,7 +25,6 @@ render((
       <IndexRedirect to="/signup"/> 
       <Route path="/signup" component={Signup}/>
       <Route path="/login" component={Login}/>
-      <Route path="/about" component={About}/>
     </Route>
     <Route path="app/:login" component={App}>
       <IndexRedirect to="projects"/> 
@@ -33,8 +32,7 @@ render((
       <Route path="projects" component={Projects}>
         <IndexRedirect to="list"/> 
         <Route path="list" component={ProjectsList}/>
-        <Route path="p/:projectID" component={Project}/>        
-        <Route path="new" component={ProjectsAddNew}/>
+        <Route path="p/:projectID" component={Project}/>  
       </Route>
     </Route>
     <Route path="*" component={NotFound}/>

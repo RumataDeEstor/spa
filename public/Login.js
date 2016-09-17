@@ -41,14 +41,15 @@ class Login extends React.Component {
   }
 
   render () {
-    return <div className = "lpForm">
-            <p id = "canlogin"> If you are already registered, you can login.</p>     
-            Login: 
-            <input id="login" onFocus={this.fieldOnFocus}/>
-            Password:
-            <input type="password" id="password"/>
-            <p><button id = "loginBtn" onClick={this.logIn}>Log in</button></p>              
-            <div id="lwarn" className ="warn"></div>    
+    return <div className = "authForms">
+              <div className = "lpForm">    
+                Login: 
+                <input id="login" onFocus={this.fieldOnFocus}/>
+                Password:
+                <input type="password" id="password"/>
+                <div id="lwarn" className ="warn"></div>    
+                <p id = "pBtn"><button id = "loginBtn" onClick={this.logIn}>Log in</button></p>              
+              </div>
           </div>
   }
 }

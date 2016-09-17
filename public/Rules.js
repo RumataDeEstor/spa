@@ -13,7 +13,6 @@ class Rules extends React.Component {
   
   render () {
     return <div>
-          <Points login = {this.props.params.login}/>
             My rules
           </div>
   }
