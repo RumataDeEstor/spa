@@ -6,12 +6,17 @@ import {
 } from 'react-router'
 import ProjectsAddNew from './ProjectsAddNew'
 import ProjectsItem from './ProjectsItem'
+import ee from './EventEmitter';
 
 class ProjectsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {projects: [], isEditing: null};
     this.loadProjects = this.loadProjects.bind(this);
+    this.cancelChildEditing = this.cancelChildEditing.bind(this);
+    this.updateChild = this.updateChild.bind(this);
+    ee.addListener('cancelEdit', this.cancelChildEditing);
+    ee.addListener('saveEdit', this.updateChild);
   }
 
   loadProjects() {
@@ -56,6 +61,23 @@ class ProjectsList extends React.Component {
     this.setState({isEditing: itemID});
   }
 
+  updateChild(itemID, newData) {
+    console.log('here');
+    let newProjects = this.state.projects.map(el => {
+      if (el._id == itemID) {
+        el.name = newData.name;
+        el.label = newData.label;
+        console.log(el);
+      }
+      return el;
+    });
+    this.setState({projects: newProjects});
+  }
+
+  cancelChildEditing() {
+    this.setState({isEditing: null});
+  }
+
   // handleChildOpen(id) {
   //   let login = this.props.params.login;
   //   browserHistory.push(`/app/${login}/projects/p/${id}`); 
@@ -69,7 +91,6 @@ class ProjectsList extends React.Component {
   },*/
 
   render () {
-    let projects = this.state.projects;
     return <div id = "projectsList">
             List Page
             <ProjectsAddNew 
@@ -78,14 +99,16 @@ class ProjectsList extends React.Component {
             />
             <div id = "projectsList">
               {
-                projects.map((el,i) => {
+                this.state.projects.map((el,i) => {
                   let editing = (this.state.isEditing == el._id) ? true : false;
+                  let cNameEdit = (editing) ? "editing" : "";
                   return <ProjectsItem key = {i} 
                     id ={el._id} 
                     name = {el.name} 
                     label = {el.label}
                     login = {this.props.params.login}
                     editing = {editing}
+                    cNameEdit = {cNameEdit}
                     onEdit={this.handleChildEdit.bind(this)}
                   />
                 })

@@ -13,24 +13,27 @@ class TaskAddNew extends React.Component {
   }
 
   onCancel () {
-    contentToHide.style.display  = "none";
+    addNewForm.style.height = "0";   
+    addNewForm.style.borderBottom = "none";
   }
 
   onExpand () {
-    contentToHide.style.display  = "flex";
+    addNewForm.style.height  = "76px";
+    addNewForm.style.borderBottom = "1px solid #424242";
   }
 
   clearFields() {
     newName.value = "";
-    description.value = "";
     newPoints.value = newPoints.defaultValue;
   }
 
   addNew (){
+    let validPoints = (newPoints.value > 500) ? 500 : newPoints.value;
+    let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
+
     let bodyJSON = JSON.stringify({
-      name: newName.value,
-      description: description.value,
-      points: newPoints.value
+      name: validName,
+      points: validPoints
     });
       
     let reqParams = {
@@ -63,18 +66,15 @@ class TaskAddNew extends React.Component {
     return <div id = "taskAddNew">
             <div id = "lineExpand">
               <div id = "expand" onClick = {this.onExpand}>+</div>
-            </div>
-            <div id = "contentToHide">
-              <div id = "addNewForm">
-                <input type = "text" placeholder = "Name" id = "newName"/>
-                <textarea id = "description" maxLength = "500" placeholder = "Description..."></textarea>
-                <div id = "addNewOpt">
-                  <input type = "number" id = "newPoints" defaultValue = "5" min = "0"/>
-                  <button id = "add" onClick = {this.addNew}>Add</button>
-                  <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
-                </div>
+            </div>            
+            <div id = "addNewForm">
+              <input type = "text" placeholder = "Name" id = "newName" maxLength = "100"/>
+              <div id = "addNewOpt">
+                <input type = "number" id = "newPoints" defaultValue = "5" min = "0" max = "500"/>
+                <button id = "add" onClick = {this.addNew}>Add</button>
+                <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
               </div>
-            </div>
+            </div>            
           </div>
   }
 }

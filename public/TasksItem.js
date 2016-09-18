@@ -4,7 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-import { ee } from './Points'
+import ee from './EventEmitter'
 
 class TasksItem extends React.Component {
   constructor(props) {

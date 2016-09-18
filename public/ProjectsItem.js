@@ -4,18 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-
-class Pish extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return <div id = "editingProject">
-            I'm editing just now!
-            {this.props.target.props.name}
-          </div>
-  }
-}
+import ProjectEditing from './ProjectEditing';
 
 class ProjectsItem extends React.Component {
   constructor(props) {
@@ -24,17 +13,6 @@ class ProjectsItem extends React.Component {
     this.edit = this.edit.bind(this);
     this.open = this.open.bind(this);
   }
-
-  // overTheItem() {
-  //   this.refs.editBtn.style.display = "flex";
-  //   this.isOver = false;
-  //   this.setState({editing: true});
-  // }
-
-  // leaveTheItem() {
-  //   this.refs.editBtn.style.display = "none";
-  //   this.setState({editing: false});
-  // }
 
   delete(){
     let reqParams = {
@@ -65,9 +43,8 @@ class ProjectsItem extends React.Component {
     browserHistory.push(`/app/${this.props.login}/projects/p/${this.props.id}`); 
   }
   
-  
   render () {
-    let component = this.props.editing ? <Pish target = {this}/> : null;
+    let component = this.props.editing ? <ProjectEditing target = {this} login = {this.props.login}/> : null;
     return <div>
             <div id = "projectsItem">
               <div id = "projectLine" onClick = {this.open}> 
@@ -75,9 +52,9 @@ class ProjectsItem extends React.Component {
                 </div>
                 {this.props.name}
               </div>
-              <div> 
-                <button ref = "editBtn" onClick = {this.edit}> Edit </button>
-              </div>              
+              <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
+                <i className="fa fa-pencil-square-o"></i>
+              </div>             
             </div>
             {component}
           </div>

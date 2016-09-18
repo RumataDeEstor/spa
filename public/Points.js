@@ -4,9 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
-import EventEmitter from 'wolfy87-eventemitter';
-
-let ee = new EventEmitter();
+import ee from './EventEmitter';
 
 class Points extends React.Component {
   constructor(props) {
@@ -52,4 +50,4 @@ class Points extends React.Component {
   }
 }
 
-export {Points, ee};
+export {Points};

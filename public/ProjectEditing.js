@@ -4,22 +4,51 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import ee from './EventEmitter';
 
 class ProjectEditing extends React.Component {
   constructor(props) {
     super(props);
     this.saveChanges = this.saveChanges.bind(this);
+    this.onCancelEdit = this.onCancelEdit.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
-  selectLabel (e) {
-    projLabel.value = e.target.className;
+  componentDidMount(){
+    console.log('didmount');
+    setTimeout( () =>{
+      editForm.style.height = "76px";
+    }, 1);    
+  }
+
+  onCancelEdit() {
+    editForm.style.height = "0";
+    setTimeout( () =>{
+      ee.emitEvent('cancelEdit');
+    }, 200);
+  }
+
+  onDelete(){
+
+  }
+
+  showColors () {
+    editOptions.style.width = "150px";
+    editOptions.style.borderRight = "1px solid black";  
+  }
+
+  hideColors (e) {
+    if (e.target.className) {
+      editChosenColor.className = e.target.className;
+    } 
+    editOptions.style.width = "0";
+    editOptions.style.borderRight = "none"; 
   }
 
   saveChanges () {
     let bodyJSON = JSON.stringify({
-      name: projName.value,
-      label: projLabel.value,
-      points: projPoints.value
+      name: editName.value,
+      label: editChosenColor.className
     });
       
     let reqParams = {
@@ -31,8 +60,8 @@ class ProjectEditing extends React.Component {
       body: bodyJSON
     }
 
-    let login = this.props.params.login;
-    let projID = this.props.id;
+    let login = this.props.login;
+    let projID = this.props.target.props.id;
     // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
     fetch(`/api/userdata/${login}/${projID}`, reqParams)
       .then(res => res.json())
@@ -41,30 +70,45 @@ class ProjectEditing extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        // ?
+        let newData = {name: editName.value, label: editChosenColor.className};
+        ee.emitEvent('saveEdit', [projID, newData]);
+        this.onCancelEdit();
       })
       .catch(err => {
         console.log(err);
       })
   }
   render () {
-    console.log(this.props.params.login);
-    return <div id = "projectsAddNew">
-            <h2> </h2>
-            <div id = "newProjectForm">
-              Name: <input id="projName"/>
-              Label: <input id="projLabel"/>
-              <ol id = "selectLabel" onClick = {this.selectLabel}>
-                <li className = "red">RED</li>
-                <li className = "blue">BLUE</li>
-                <li className = "white">WHITE</li>
-                <li className = "green">GREEN</li>
-                <li className = "yellow">YELLOW</li>
-              </ol>  
-              Points: <input id="projPoints" type="number"/>
+    console.log(this.props.target);   
+      return<div id = "editForm">
+              <input type = "text" defaultValue = {this.props.target.props.name} id = "editName"/>
+              <div id = "editOpt">
+                <div id = "editLabelForm">
+                  Label:  
+                  <div id = "editChosen" onClick = {this.showColors}>
+                    <div id = "editChosenColor" className = {this.props.target.props.label}></div>
+                  </div>  
+                  <div id = "editOptions" onClick = {this.hideColors}>
+                    <div className = "red"></div>
+                    <div className = "green"></div>
+                    <div className = "blue"></div>
+                    <div className = "yellow"></div>
+                    <div className = "purple"></div>
+                    <div className = "orange"></div>
+                    <div className = "violet"></div>
+                    <div className = "gray"></div>
+                    <div className = "brown"></div>
+                  </div>
+                </div> 
+                <div id = "editButtons">           
+                  <button id = "editSave" onClick = {this.saveChanges}>Save</button>
+                  <button id = "editCancel" onClick = {this.onCancelEdit}>Cancel</button>
+                  <button id = "editDelete" onClick = {this.onDelete}>
+                    <i className="fa fa-trash"></i>
+                  </button>                  
+                </div>  
+              </div>
             </div>
-            <button onClick = {this.saveChanges}>Save changes</button>
-          </div>
   }
 }
 

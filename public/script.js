@@ -15,7 +15,6 @@ import ProjectsAddNew from './ProjectsAddNew';
 import ProjectsList from './ProjectsList';
 import Signup from './Signup';
 import StartPage from './StartPage';
-import ProjectEditing from './ProjectEditing';
 import Rules from './Rules';
 import Points from './Points';
 

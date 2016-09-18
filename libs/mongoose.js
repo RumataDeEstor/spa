@@ -4,6 +4,8 @@ const debug = require('debug')('server:mongoose')
 mongoose.connect(process.env.MONGO_URI);
 const db = mongoose.connection;
 
+mongoose.connection.db.dropDatabase();
+
 db.on('error', (err) => { 
   debug('connection error:', err.message);
 });

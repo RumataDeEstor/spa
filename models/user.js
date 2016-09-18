@@ -27,7 +27,6 @@ const taskSchema = new Schema({
     type: String,
     default: 'white',
   },
-  description: String,
   points: {
     type: Number,
     default: 5
@@ -55,8 +54,8 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    unique: true,
-    required: true
+    required: true,
+    unique: false
   },
   projects: [projectSchema],
   rules: [ruleSchema],

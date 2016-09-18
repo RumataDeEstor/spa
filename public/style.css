@@ -26,6 +26,7 @@ body {
 
 #appContent {
   margin-left: 10px;
+  margin-top: 65px;
   display: flex;
  /* flex-direction: row;
   justify-content: space-between;*/
@@ -81,6 +82,10 @@ li {
   white-space: pre;
 }
 
+#sOk #toLogin {
+  color: #249f2f;
+}
+
 li.chosen {
   color: red;
 }
@@ -95,6 +100,7 @@ li.chosen {
 
 #projectsList {
   margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 .topmenu {
@@ -102,9 +108,11 @@ li.chosen {
   justify-content: space-between;
   padding: 0;
   border: 2px solid #2D9B51;
+  background-color: #5aaa6e;
   margin-bottom: 20px;
   position: fixed;
   right: 0;
+  top: 0;
   width: 100%;
 }
 
@@ -194,7 +202,7 @@ li.chosen {
   border-radius: 6px;
   font: 20px Arial;
   width: 650px;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 #pBtn {
@@ -298,15 +306,23 @@ div .authForms {
 
 /*-----ADD NEW PROJECT EXPAND---------*/
 
-#contentToHide {
-  width: 643px; 
+#addNewForm, #editForm {
+  height: 0;
+  width: 650px; 
   border: 1px solid #424242;
+  border-top: none;
+  border-bottom: none;
   background-color: white;
   border-radius: 12px;
-  padding: 4px;
-  display: none;
+  display: flex;
   flex-direction: column;
+  transition: height 0.2s linear;
+  overflow: hidden;
 }
+
+/*#editForm {
+  height: 76px;
+}*/
 
 #lineExpand {  
   background-color: white;
@@ -332,53 +348,64 @@ div .authForms {
 }
 /*-----ADD NEW PROJECT AND TASK---------*/
 
-#addNewForm {
+#labelForm, #editLabelForm {
   display: flex;
-  flex-direction: column;
+  width: 248px;
+  border: 1px solid black;
+  /*padding: 4px;*/
 }
 
-#addNewForm textarea {
-  width: 205px;
-  height: 100px;
-}
-
-#addNewForm input {
+#newName, #editName {
+  margin: 5px 0 2px 5px;
+  width: 238px;
   height: 20px; 
 }
 
-#newName {
-  width: 200px;
-  margin-bottom: 0;
-}
-
 #newPoints {
-  width: 40px;
+  width: 70px;
   height: 16px;
+  margin-right: 6px;
 }
 
-#addNewOpt {
+#addNewOpt, #editOpt {
+  display: flex;
+  margin: 4px 0 5px 5px;
+}
+
+#addNewOpt button, #editOpt button {
+  height: 36px;
+  border: 1px solid black;
+  background-color: white;
+  border-radius: 3px;
+  margin-right: 6px;
   display: flex;
 }
 
-#addNewOpt button {
-  height: 22px;
+#addNewOpt #buttons, #editButtons {
+  margin-left: 6px;
+  display: flex;
 }
 
-#options div {
-  width: 16px;
-  height: 16px;
-  border-radius: 12px;
-  margin-right: 3px;
-  margin-bottom: 3px;
+#options div, #editOptions div {
+  width: 13px;
+  height: 15px; 
 }
 
-#options div:nth-child(3n){
-  margin-right: 0px;
+#options div:first-child,
+#editOptions div:first-child {
+  margin-left: 4px;
 }
 
-#chosen {
-  width: 62px;
-  height: 20px;
+#options div:last-child,
+#editOptions div:last-child {
+  margin-right: 4px;
+}
+
+#chosen, #editChosen {
+  margin-left: 10px;
+  padding: 3px;
+  width: 18px;
+  height: 18px;
   background-color: white;
   display: flex;
   justify-content: center;
@@ -387,21 +414,25 @@ div .authForms {
   cursor: pointer;
 }
 
-#chosenColor {
+#chosenColor, #editChosenColor {
   width: 16px;
   height: 16px;
   border-radius: 12px;
   border: 1px solid black;
 }
 
-#options {
-  display: none;
-  flex-wrap: wrap;
+#options, #editOptions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   background-color: white;
-  width: 54px;
+  width: 0;
+  height: 24px;
   border: 1px solid black;
-  padding: 4px 4px 1px 4px;
+  border-left: none;
+  border-right: none;
   cursor: pointer;
+  transition: all 0.2s linear;
 }
 
 .red {
@@ -493,3 +524,24 @@ div .authForms {
   color: white;
   font: 20px Arial;
 }
+
+#editItem {
+  padding: 0 4px;
+  background-color: inherit;
+}
+
+#editItem:hover{
+  background-color: #decfcf;
+}
+
+#editItem.editing{
+  background-color: #decfcf;
+}
+
+.fa {
+  cursor: pointer;
+}
+
+/*i.fa.fa-pencil-square-o:hover {
+
+}*/

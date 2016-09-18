@@ -9,32 +9,41 @@ class ProjectsAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
+    this.clearFields = this.clearFields.bind(this);
+  }
+
+  clearFields() {
+    newName.value = "";
+    chosenColor.className = "white";
   }
 
   showColors () {
-    options.style.display = "flex";
+    options.style.width = "150px";
+    options.style.borderRight = "1px solid black";  
   }
 
   hideColors (e) {
     if (e.target.className) {
       chosenColor.className = e.target.className;
     } 
-    options.style.display = "none";
+    options.style.width = "0";
+    options.style.borderRight = "none"; 
   }
 
   onCancel () {
-    console.log(contentToHide);
-    contentToHide.style.display  = "none";    
+    addNewForm.style.height = "0";   
+    addNewForm.style.borderBottom = "none";
   }
 
   onExpand () {
-    console.log(contentToHide);
-    contentToHide.style.display  = "flex";    
+    addNewForm.style.height  = "76px";
+    addNewForm.style.borderBottom = "1px solid #424242";
   }
 
   addNew (){
+    let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
     let bodyJSON = JSON.stringify({
-      name: newName.value,
+      name: validName,
       label: chosenColor.className
     });
       
@@ -56,6 +65,7 @@ class ProjectsAddNew extends React.Component {
           console.log(res.error); // handle;
           return;
         }
+        this.clearFields();
         this.props.onAddingNew(res.project);
       })
       .catch(err => {
@@ -67,29 +77,30 @@ class ProjectsAddNew extends React.Component {
             <div id = "lineExpand">
               <div id = "expand" onClick = {this.onExpand}>+</div>
             </div>
-            <div id = "contentToHide">
-              <div id = "addNewForm">
-                <input type = "text" placeholder = "Name" id = "newName"/>
-                <div id = "addNewOpt">
-                  <div id = "labelForm">
-                    <div id = "chosen" onClick = {this.showColors}>
-                      <div id = "chosenColor" className = "white"></div>
-                    </div>  
-                    <div id = "options" onClick = {this.hideColors}>
-                      <div className = "red"></div>
-                      <div className = "green"></div>
-                      <div className = "blue"></div>
-                      <div className = "yellow"></div>
-                      <div className = "purple"></div>
-                      <div className = "orange"></div>
-                      <div className = "violet"></div>
-                      <div className = "gray"></div>
-                      <div className = "brown"></div>
-                    </div>
-                  </div>              
+            <div id = "addNewForm">
+              <input type = "text" placeholder = "Name" id = "newName" maxLength = "100"/>
+              <div id = "addNewOpt">
+                <div id = "labelForm">
+                  Label:  
+                  <div id = "chosen" onClick = {this.showColors}>
+                    <div id = "chosenColor" className = "white"></div>
+                  </div>  
+                  <div id = "options" onClick = {this.hideColors}>
+                    <div className = "red"></div>
+                    <div className = "green"></div>
+                    <div className = "blue"></div>
+                    <div className = "yellow"></div>
+                    <div className = "purple"></div>
+                    <div className = "orange"></div>
+                    <div className = "violet"></div>
+                    <div className = "gray"></div>
+                    <div className = "brown"></div>
+                  </div>
+                </div> 
+                <div id = "buttons">           
                   <button id = "add" onClick = {this.addNew}>Add</button>
                   <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
-                </div>
+                </div>  
               </div>
             </div>
           </div>

@@ -5,10 +5,24 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
+class Message extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
+  render() {
+    return <div id = "sOk">
+            {`Welcome aboard,\n${this.props.login}!\nYou may want to `}
+             <IndexLink id = "toLogin" to="/login">log in</IndexLink>
+          </div>
+  }
+}         
+
 class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.signUp = this.signUp.bind(this);
+    this.state = {registered: false, login: null};
   }
 
   fieldOnFocus () {
@@ -35,12 +49,15 @@ class Signup extends React.Component {
           return;
         }
         this.fieldOnFocus();
-        sOk.innerHTML = `Welcome aboard,\n${res.login}!\nYou may want to login.`                     
+        this.setState({registered: true, login: res.login});
+        
+        // sOk.innerHTML = `Welcome aboard,\n${res.login}!\nYou may want to ${link()}.`                     
       })
       .catch(console.log);
   }
 
   render() {
+    let readyMessage = (this.state.registered) ? <Message login = {this.state.login}/> : null;
     return <div className = "authForms">
               <div className = "lpForm">
                 Login: 
@@ -49,7 +66,7 @@ class Signup extends React.Component {
                 <input type="password" id="spassword"/>
                 <div id="swarn" className ="warn"></div>  
                 <p id = "pBtn"><button id = "signupBtn" onClick = {this.signUp}>Sign up</button></p>         
-                <div id="sOk"></div>    
+                {readyMessage}   
               </div>
             </div>
   }

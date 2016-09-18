@@ -65,7 +65,7 @@ app.use((req,res,next) => {
 });
 
 app.get('/api/allusers', (req,res,next) => {  // only for debugging!
-  User.remove({},(err)=> console.log(err));
+  // User.remove({},(err)=> console.log(err));
   User.find({}, (err, result) => {
     if (err) debug(err);
     res.send(result);
@@ -235,6 +235,46 @@ app.get('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => 
     }
   });
 });
+
+app.put('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
+  debug('here');
+  if (req.params.login !== req.user.login) {  // can't get other people's page
+    debug('forb');
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) { 
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {
+      debug('success get user');
+      user.projects.map(project => {
+        if (project._id == req.params.projectID) {
+          project.name = req.body.name;
+          project.label = req.body.label;
+        }
+      });     
+
+      user.save((err) => {
+      if (!err) {
+        debug('updated.');
+        res.status(200).send({message: 'updated'});
+        return;
+      }
+        debug(err);
+        if(err.name == 'ValidationError') {
+          res.statusCode = 400;
+          res.send({ error: 'Validation error' });
+        } else {
+          res.statusCode = 500;
+          res.send({error: 'Internal Server Error'});
+          return;
+        }        
+      });          
+    }
+  });
+});
+
 
 app.post('/api/userdata/:login/:projectID', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  // can't get other people's page

@@ -62,47 +62,43 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Login = __webpack_require__(241);
+	var _Login = __webpack_require__(242);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _NotFound = __webpack_require__(242);
+	var _NotFound = __webpack_require__(243);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Tasks = __webpack_require__(243);
+	var _Tasks = __webpack_require__(244);
 
 	var _Tasks2 = _interopRequireDefault(_Tasks);
 
-	var _Project = __webpack_require__(244);
+	var _Project = __webpack_require__(245);
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(250);
+	var _Projects = __webpack_require__(251);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(251);
+	var _ProjectsAddNew = __webpack_require__(252);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(252);
+	var _ProjectsList = __webpack_require__(253);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(254);
+	var _Signup = __webpack_require__(256);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(255);
+	var _StartPage = __webpack_require__(257);
 
 	var _StartPage2 = _interopRequireDefault(_StartPage);
 
-	var _ProjectEditing = __webpack_require__(256);
-
-	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
-
-	var _Rules = __webpack_require__(257);
+	var _Rules = __webpack_require__(258);
 
 	var _Rules2 = _interopRequireDefault(_Rules);
 
@@ -27164,7 +27160,7 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Promotions = __webpack_require__(239);
+	var _Promotions = __webpack_require__(240);
 
 	var _Promotions2 = _interopRequireDefault(_Promotions);
 
@@ -27342,7 +27338,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.ee = exports.Points = undefined;
+	exports.Points = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -27354,9 +27350,9 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _wolfy87Eventemitter = __webpack_require__(238);
+	var _EventEmitter = __webpack_require__(238);
 
-	var _wolfy87Eventemitter2 = _interopRequireDefault(_wolfy87Eventemitter);
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27365,8 +27361,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ee = new _wolfy87Eventemitter2.default();
 
 	var Points = function (_React$Component) {
 	  _inherits(Points, _React$Component);
@@ -27379,7 +27373,7 @@
 	    _this.state = { points: null };
 	    _this.getScores = _this.getScores.bind(_this);
 	    _this.updatePoints = _this.updatePoints.bind(_this);
-	    ee.addListener('pointsUpdated', _this.updatePoints);
+	    _EventEmitter2.default.addListener('pointsUpdated', _this.updatePoints);
 	    return _this;
 	  }
 
@@ -27431,10 +27425,29 @@
 	}(_react2.default.Component);
 
 	exports.Points = Points;
-	exports.ee = ee;
 
 /***/ },
 /* 238 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _wolfy87Eventemitter = __webpack_require__(239);
+
+	var _wolfy87Eventemitter2 = _interopRequireDefault(_wolfy87Eventemitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var ee = new _wolfy87Eventemitter2.default();
+
+	exports.default = ee;
+
+/***/ },
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -27926,7 +27939,7 @@
 
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27945,7 +27958,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _PromotionItem = __webpack_require__(240);
+	var _PromotionItem = __webpack_require__(241);
 
 	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
 
@@ -27988,7 +28001,7 @@
 	exports.default = Promotions;
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28064,7 +28077,7 @@
 	exports.default = PromotionItem;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28166,7 +28179,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28219,7 +28232,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28273,7 +28286,7 @@
 	exports.default = Tasks;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28292,15 +28305,15 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskAddNew = __webpack_require__(245);
+	var _TaskAddNew = __webpack_require__(246);
 
 	var _TaskAddNew2 = _interopRequireDefault(_TaskAddNew);
 
-	var _TasksList = __webpack_require__(246);
+	var _TasksList = __webpack_require__(247);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(248);
+	var _reactAddonsUpdate = __webpack_require__(249);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -28428,7 +28441,7 @@
 	exports.default = Project;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28471,18 +28484,19 @@
 	  _createClass(TaskAddNew, [{
 	    key: 'onCancel',
 	    value: function onCancel() {
-	      contentToHide.style.display = "none";
+	      addNewForm.style.height = "0";
+	      addNewForm.style.borderBottom = "none";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      contentToHide.style.display = "flex";
+	      addNewForm.style.height = "76px";
+	      addNewForm.style.borderBottom = "1px solid #424242";
 	    }
 	  }, {
 	    key: 'clearFields',
 	    value: function clearFields() {
 	      newName.value = "";
-	      description.value = "";
 	      newPoints.value = newPoints.defaultValue;
 	    }
 	  }, {
@@ -28490,10 +28504,12 @@
 	    value: function addNew() {
 	      var _this2 = this;
 
+	      var validPoints = newPoints.value > 500 ? 500 : newPoints.value;
+	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
+
 	      var bodyJSON = JSON.stringify({
-	        name: newName.value,
-	        description: description.value,
-	        points: newPoints.value
+	        name: validName,
+	        points: validPoints
 	      });
 
 	      var reqParams = {
@@ -28538,26 +28554,21 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'contentToHide' },
+	          { id: 'addNewForm' },
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '100' }),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'addNewForm' },
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName' }),
-	            _react2.default.createElement('textarea', { id: 'description', maxLength: '500', placeholder: 'Description...' }),
+	            { id: 'addNewOpt' },
+	            _react2.default.createElement('input', { type: 'number', id: 'newPoints', defaultValue: '5', min: '0', max: '500' }),
 	            _react2.default.createElement(
-	              'div',
-	              { id: 'addNewOpt' },
-	              _react2.default.createElement('input', { type: 'number', id: 'newPoints', defaultValue: '5', min: '0' }),
-	              _react2.default.createElement(
-	                'button',
-	                { id: 'add', onClick: this.addNew },
-	                'Add'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { id: 'cancel', onClick: this.onCancel },
-	                'Cancel'
-	              )
+	              'button',
+	              { id: 'add', onClick: this.addNew },
+	              'Add'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'cancel', onClick: this.onCancel },
+	              'Cancel'
 	            )
 	          )
 	        )
@@ -28575,7 +28586,7 @@
 	exports.default = TaskAddNew;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28594,7 +28605,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksItem = __webpack_require__(247);
+	var _TasksItem = __webpack_require__(248);
 
 	var _TasksItem2 = _interopRequireDefault(_TasksItem);
 
@@ -28717,7 +28728,7 @@
 	exports.default = TasksList;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28736,7 +28747,9 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _Points = __webpack_require__(237);
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28826,7 +28839,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _Points.ee.emitEvent('pointsUpdated', [_this3.props.points]);
+	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this3.props.points]);
 	        // this.props.onComplete(this.props.points); // tell parent
 	      }).catch(function (err) {
 	        console.log(err);
@@ -28880,13 +28893,13 @@
 	exports.default = TasksItem;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(249);
+	module.exports = __webpack_require__(250);
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29005,7 +29018,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29028,11 +29041,11 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _ProjectsAddNew = __webpack_require__(251);
+	var _ProjectsAddNew = __webpack_require__(252);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(252);
+	var _ProjectsList = __webpack_require__(253);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
@@ -29081,7 +29094,7 @@
 	//     );
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29117,13 +29130,21 @@
 	    var _this = _possibleConstructorReturn(this, (ProjectsAddNew.__proto__ || Object.getPrototypeOf(ProjectsAddNew)).call(this, props));
 
 	    _this.addNew = _this.addNew.bind(_this);
+	    _this.clearFields = _this.clearFields.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ProjectsAddNew, [{
+	    key: 'clearFields',
+	    value: function clearFields() {
+	      newName.value = "";
+	      chosenColor.className = "white";
+	    }
+	  }, {
 	    key: 'showColors',
 	    value: function showColors() {
-	      options.style.display = "flex";
+	      options.style.width = "150px";
+	      options.style.borderRight = "1px solid black";
 	    }
 	  }, {
 	    key: 'hideColors',
@@ -29131,27 +29152,29 @@
 	      if (e.target.className) {
 	        chosenColor.className = e.target.className;
 	      }
-	      options.style.display = "none";
+	      options.style.width = "0";
+	      options.style.borderRight = "none";
 	    }
 	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
-	      console.log(contentToHide);
-	      contentToHide.style.display = "none";
+	      addNewForm.style.height = "0";
+	      addNewForm.style.borderBottom = "none";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      console.log(contentToHide);
-	      contentToHide.style.display = "flex";
+	      addNewForm.style.height = "76px";
+	      addNewForm.style.borderBottom = "1px solid #424242";
 	    }
 	  }, {
 	    key: 'addNew',
 	    value: function addNew() {
 	      var _this2 = this;
 
+	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
 	      var bodyJSON = JSON.stringify({
-	        name: newName.value,
+	        name: validName,
 	        label: chosenColor.className
 	      });
 
@@ -29173,6 +29196,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
+	        _this2.clearFields();
 	        _this2.props.onAddingNew(res.project);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -29195,36 +29219,37 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'contentToHide' },
+	          { id: 'addNewForm' },
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '100' }),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'addNewForm' },
-	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName' }),
+	            { id: 'addNewOpt' },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'addNewOpt' },
+	              { id: 'labelForm' },
+	              'Label:',
 	              _react2.default.createElement(
 	                'div',
-	                { id: 'labelForm' },
-	                _react2.default.createElement(
-	                  'div',
-	                  { id: 'chosen', onClick: this.showColors },
-	                  _react2.default.createElement('div', { id: 'chosenColor', className: 'white' })
-	                ),
-	                _react2.default.createElement(
-	                  'div',
-	                  { id: 'options', onClick: this.hideColors },
-	                  _react2.default.createElement('div', { className: 'red' }),
-	                  _react2.default.createElement('div', { className: 'green' }),
-	                  _react2.default.createElement('div', { className: 'blue' }),
-	                  _react2.default.createElement('div', { className: 'yellow' }),
-	                  _react2.default.createElement('div', { className: 'purple' }),
-	                  _react2.default.createElement('div', { className: 'orange' }),
-	                  _react2.default.createElement('div', { className: 'violet' }),
-	                  _react2.default.createElement('div', { className: 'gray' }),
-	                  _react2.default.createElement('div', { className: 'brown' })
-	                )
+	                { id: 'chosen', onClick: this.showColors },
+	                _react2.default.createElement('div', { id: 'chosenColor', className: 'white' })
 	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { id: 'options', onClick: this.hideColors },
+	                _react2.default.createElement('div', { className: 'red' }),
+	                _react2.default.createElement('div', { className: 'green' }),
+	                _react2.default.createElement('div', { className: 'blue' }),
+	                _react2.default.createElement('div', { className: 'yellow' }),
+	                _react2.default.createElement('div', { className: 'purple' }),
+	                _react2.default.createElement('div', { className: 'orange' }),
+	                _react2.default.createElement('div', { className: 'violet' }),
+	                _react2.default.createElement('div', { className: 'gray' }),
+	                _react2.default.createElement('div', { className: 'brown' })
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'buttons' },
 	              _react2.default.createElement(
 	                'button',
 	                { id: 'add', onClick: this.addNew },
@@ -29252,7 +29277,7 @@
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29271,13 +29296,17 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsAddNew = __webpack_require__(251);
+	var _ProjectsAddNew = __webpack_require__(252);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsItem = __webpack_require__(253);
+	var _ProjectsItem = __webpack_require__(254);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -29299,6 +29328,10 @@
 
 	    _this.state = { projects: [], isEditing: null };
 	    _this.loadProjects = _this.loadProjects.bind(_this);
+	    _this.cancelChildEditing = _this.cancelChildEditing.bind(_this);
+	    _this.updateChild = _this.updateChild.bind(_this);
+	    _EventEmitter2.default.addListener('cancelEdit', _this.cancelChildEditing);
+	    _EventEmitter2.default.addListener('saveEdit', _this.updateChild);
 	    return _this;
 	  }
 
@@ -29350,6 +29383,25 @@
 	    value: function handleChildEdit(itemID) {
 	      this.setState({ isEditing: itemID });
 	    }
+	  }, {
+	    key: 'updateChild',
+	    value: function updateChild(itemID, newData) {
+	      console.log('here');
+	      var newProjects = this.state.projects.map(function (el) {
+	        if (el._id == itemID) {
+	          el.name = newData.name;
+	          el.label = newData.label;
+	          console.log(el);
+	        }
+	        return el;
+	      });
+	      this.setState({ projects: newProjects });
+	    }
+	  }, {
+	    key: 'cancelChildEditing',
+	    value: function cancelChildEditing() {
+	      this.setState({ isEditing: null });
+	    }
 
 	    // handleChildOpen(id) {
 	    //   let login = this.props.params.login;
@@ -29368,7 +29420,6 @@
 	    value: function render() {
 	      var _this3 = this;
 
-	      var projects = this.state.projects;
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'projectsList' },
@@ -29380,14 +29431,16 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'projectsList' },
-	          projects.map(function (el, i) {
+	          this.state.projects.map(function (el, i) {
 	            var editing = _this3.state.isEditing == el._id ? true : false;
+	            var cNameEdit = editing ? "editing" : "";
 	            return _react2.default.createElement(_ProjectsItem2.default, { key: i,
 	              id: el._id,
 	              name: el.name,
 	              label: el.label,
 	              login: _this3.props.params.login,
 	              editing: editing,
+	              cNameEdit: cNameEdit,
 	              onEdit: _this3.handleChildEdit.bind(_this3)
 	            });
 	          })
@@ -29403,162 +29456,6 @@
 	//   onDelete={this.handleChildDelete.bind(this)} 
 	//   onEdit={this.handleChildEdit.bind(this)}
 	//   onOpen={this.handleChildOpen.bind(this)}
-
-/***/ },
-/* 253 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Pish = function (_React$Component) {
-	  _inherits(Pish, _React$Component);
-
-	  function Pish(props) {
-	    _classCallCheck(this, Pish);
-
-	    return _possibleConstructorReturn(this, (Pish.__proto__ || Object.getPrototypeOf(Pish)).call(this, props));
-	  }
-
-	  _createClass(Pish, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'editingProject' },
-	        'I\'m editing just now!',
-	        this.props.target.props.name,
-	        _react2.default.createElement('img', { src: 'https://clck.ru/A7LLd' }),
-	        _react2.default.createElement('i', { className: 'fa fa-twitter' }),
-	        _react2.default.createElement('i', { className: 'fa fa-twitter' })
-	      );
-	    }
-	  }]);
-
-	  return Pish;
-	}(_react2.default.Component);
-
-	var ProjectsItem = function (_React$Component2) {
-	  _inherits(ProjectsItem, _React$Component2);
-
-	  function ProjectsItem(props) {
-	    _classCallCheck(this, ProjectsItem);
-
-	    var _this2 = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
-
-	    _this2.delete = _this2.delete.bind(_this2);
-	    _this2.edit = _this2.edit.bind(_this2);
-	    _this2.open = _this2.open.bind(_this2);
-	    return _this2;
-	  }
-
-	  // overTheItem() {
-	  //   this.refs.editBtn.style.display = "flex";
-	  //   this.isOver = false;
-	  //   this.setState({editing: true});
-	  // }
-
-	  // leaveTheItem() {
-	  //   this.refs.editBtn.style.display = "none";
-	  //   this.setState({editing: false});
-	  // }
-
-	  _createClass(ProjectsItem, [{
-	    key: 'delete',
-	    value: function _delete() {
-	      var _this3 = this;
-
-	      var reqParams = {
-	        method: 'DELETE',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      var projID = this.props.id;
-	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	        }
-	        _this3.props.onDelete(_this3.props.id); // tell to parent
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
-	    key: 'edit',
-	    value: function edit() {
-	      this.props.onEdit(this.props.id);
-	    }
-	  }, {
-	    key: 'open',
-	    value: function open() {
-	      // this.props.onOpen(this.props.id); 
-	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/projects/p/' + this.props.id);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var component = this.props.editing ? _react2.default.createElement(Pish, { target: this }) : null;
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'projectsItem' },
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'projectLine', onClick: this.open },
-	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
-	            this.props.name
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            null,
-	            _react2.default.createElement(
-	              'button',
-	              { ref: 'editBtn', onClick: this.edit },
-	              ' Edit '
-	            )
-	          )
-	        ),
-	        component
-	      );
-	    }
-	  }]);
-
-	  return ProjectsItem;
-	}(_react2.default.Component);
-
-	ProjectsItem.propTypes = {
-	  onDelete: _react2.default.PropTypes.func,
-	  onEdit: _react2.default.PropTypes.func,
-	  onOpen: _react2.default.PropTypes.func
-	};
-
-	exports.default = ProjectsItem;
 
 /***/ },
 /* 254 */
@@ -29580,6 +29477,10 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _ProjectEditing = __webpack_require__(255);
+
+	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29588,16 +29489,338 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Signup = function (_React$Component) {
-	  _inherits(Signup, _React$Component);
+	var ProjectsItem = function (_React$Component) {
+	  _inherits(ProjectsItem, _React$Component);
+
+	  function ProjectsItem(props) {
+	    _classCallCheck(this, ProjectsItem);
+
+	    var _this = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
+
+	    _this.delete = _this.delete.bind(_this);
+	    _this.edit = _this.edit.bind(_this);
+	    _this.open = _this.open.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(ProjectsItem, [{
+	    key: 'delete',
+	    value: function _delete() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.id;
+	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _this2.props.onDelete(_this2.props.id); // tell to parent
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'edit',
+	    value: function edit() {
+	      this.props.onEdit(this.props.id);
+	    }
+	  }, {
+	    key: 'open',
+	    value: function open() {
+	      // this.props.onOpen(this.props.id); 
+	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/projects/p/' + this.props.id);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var component = this.props.editing ? _react2.default.createElement(_ProjectEditing2.default, { target: this, login: this.props.login }) : null;
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'projectsItem' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'projectLine', onClick: this.open },
+	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
+	            this.props.name
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editItem', className: this.props.cNameEdit, onClick: this.edit },
+	            _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
+	          )
+	        ),
+	        component
+	      );
+	    }
+	  }]);
+
+	  return ProjectsItem;
+	}(_react2.default.Component);
+
+	ProjectsItem.propTypes = {
+	  onDelete: _react2.default.PropTypes.func,
+	  onEdit: _react2.default.PropTypes.func,
+	  onOpen: _react2.default.PropTypes.func
+	};
+
+	exports.default = ProjectsItem;
+
+/***/ },
+/* 255 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ProjectEditing = function (_React$Component) {
+	  _inherits(ProjectEditing, _React$Component);
+
+	  function ProjectEditing(props) {
+	    _classCallCheck(this, ProjectEditing);
+
+	    var _this = _possibleConstructorReturn(this, (ProjectEditing.__proto__ || Object.getPrototypeOf(ProjectEditing)).call(this, props));
+
+	    _this.saveChanges = _this.saveChanges.bind(_this);
+	    _this.onCancelEdit = _this.onCancelEdit.bind(_this);
+	    _this.onDelete = _this.onDelete.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(ProjectEditing, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('didmount');
+	      setTimeout(function () {
+	        editForm.style.height = "76px";
+	      }, 1);
+	    }
+	  }, {
+	    key: 'onCancelEdit',
+	    value: function onCancelEdit() {
+	      editForm.style.height = "0";
+	      setTimeout(function () {
+	        _EventEmitter2.default.emitEvent('cancelEdit');
+	      }, 200);
+	    }
+	  }, {
+	    key: 'onDelete',
+	    value: function onDelete() {}
+	  }, {
+	    key: 'showColors',
+	    value: function showColors() {
+	      editOptions.style.width = "150px";
+	      editOptions.style.borderRight = "1px solid black";
+	    }
+	  }, {
+	    key: 'hideColors',
+	    value: function hideColors(e) {
+	      if (e.target.className) {
+	        editChosenColor.className = e.target.className;
+	      }
+	      editOptions.style.width = "0";
+	      editOptions.style.borderRight = "none";
+	    }
+	  }, {
+	    key: 'saveChanges',
+	    value: function saveChanges() {
+	      var _this2 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        name: editName.value,
+	        label: editChosenColor.className
+	      });
+
+	      var reqParams = {
+	        method: 'PUT',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.target.props.id;
+	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        var newData = { name: editName.value, label: editChosenColor.className };
+	        _EventEmitter2.default.emitEvent('saveEdit', [projID, newData]);
+	        _this2.onCancelEdit();
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      console.log(this.props.target);
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'editForm' },
+	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editName' }),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'editOpt' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editLabelForm' },
+	            'Label:',
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'editChosen', onClick: this.showColors },
+	              _react2.default.createElement('div', { id: 'editChosenColor', className: this.props.target.props.label })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'editOptions', onClick: this.hideColors },
+	              _react2.default.createElement('div', { className: 'red' }),
+	              _react2.default.createElement('div', { className: 'green' }),
+	              _react2.default.createElement('div', { className: 'blue' }),
+	              _react2.default.createElement('div', { className: 'yellow' }),
+	              _react2.default.createElement('div', { className: 'purple' }),
+	              _react2.default.createElement('div', { className: 'orange' }),
+	              _react2.default.createElement('div', { className: 'violet' }),
+	              _react2.default.createElement('div', { className: 'gray' }),
+	              _react2.default.createElement('div', { className: 'brown' })
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editButtons' },
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'editSave', onClick: this.saveChanges },
+	              'Save'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'editCancel', onClick: this.onCancelEdit },
+	              'Cancel'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'editDelete', onClick: this.onDelete },
+	              _react2.default.createElement('i', { className: 'fa fa-trash' })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ProjectEditing;
+	}(_react2.default.Component);
+
+	exports.default = ProjectEditing;
+
+/***/ },
+/* 256 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Message = function (_React$Component) {
+	  _inherits(Message, _React$Component);
+
+	  function Message(props) {
+	    _classCallCheck(this, Message);
+
+	    return _possibleConstructorReturn(this, (Message.__proto__ || Object.getPrototypeOf(Message)).call(this, props));
+	  }
+
+	  _createClass(Message, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'sOk' },
+	        'Welcome aboard,\n' + this.props.login + '!\nYou may want to ',
+	        _react2.default.createElement(
+	          _reactRouter.IndexLink,
+	          { id: 'toLogin', to: '/login' },
+	          'log in'
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Message;
+	}(_react2.default.Component);
+
+	var Signup = function (_React$Component2) {
+	  _inherits(Signup, _React$Component2);
 
 	  function Signup(props) {
 	    _classCallCheck(this, Signup);
 
-	    var _this = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this, props));
+	    var _this2 = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this, props));
 
-	    _this.signUp = _this.signUp.bind(_this);
-	    return _this;
+	    _this2.signUp = _this2.signUp.bind(_this2);
+	    _this2.state = { registered: false, login: null };
+	    return _this2;
 	  }
 
 	  _createClass(Signup, [{
@@ -29610,7 +29833,7 @@
 	  }, {
 	    key: 'signUp',
 	    value: function signUp() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var reqParams = {
 	        method: 'POST',
@@ -29627,13 +29850,16 @@
 	          swarn.innerHTML = res.error;
 	          return;
 	        }
-	        _this2.fieldOnFocus();
-	        sOk.innerHTML = 'Welcome aboard,\n' + res.login + '!\nYou may want to login.';
+	        _this3.fieldOnFocus();
+	        _this3.setState({ registered: true, login: res.login });
+
+	        // sOk.innerHTML = `Welcome aboard,\n${res.login}!\nYou may want to ${link()}.`                     
 	      }).catch(console.log);
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var readyMessage = this.state.registered ? _react2.default.createElement(Message, { login: this.state.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'authForms' },
@@ -29654,7 +29880,7 @@
 	              'Sign up'
 	            )
 	          ),
-	          _react2.default.createElement('div', { id: 'sOk' })
+	          readyMessage
 	        )
 	      );
 	    }
@@ -29666,7 +29892,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 255 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29754,150 +29980,7 @@
 	exports.default = StartPage;
 
 /***/ },
-/* 256 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var ProjectEditing = function (_React$Component) {
-	  _inherits(ProjectEditing, _React$Component);
-
-	  function ProjectEditing(props) {
-	    _classCallCheck(this, ProjectEditing);
-
-	    var _this = _possibleConstructorReturn(this, (ProjectEditing.__proto__ || Object.getPrototypeOf(ProjectEditing)).call(this, props));
-
-	    _this.saveChanges = _this.saveChanges.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(ProjectEditing, [{
-	    key: 'selectLabel',
-	    value: function selectLabel(e) {
-	      projLabel.value = e.target.className;
-	    }
-	  }, {
-	    key: 'saveChanges',
-	    value: function saveChanges() {
-	      var bodyJSON = JSON.stringify({
-	        name: projName.value,
-	        label: projLabel.value,
-	        points: projPoints.value
-	      });
-
-	      var reqParams = {
-	        method: 'PUT',
-	        headers: {
-	          "Content-type": "application/json; charset=UTF-8"
-	        },
-	        credentials: 'include',
-	        body: bodyJSON
-	      };
-
-	      var login = this.props.params.login;
-	      var projID = this.props.id;
-	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error); // handle;
-	          return;
-	        }
-	        // ?
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      console.log(this.props.params.login);
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'projectsAddNew' },
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          ' '
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'newProjectForm' },
-	          'Name: ',
-	          _react2.default.createElement('input', { id: 'projName' }),
-	          'Label: ',
-	          _react2.default.createElement('input', { id: 'projLabel' }),
-	          _react2.default.createElement(
-	            'ol',
-	            { id: 'selectLabel', onClick: this.selectLabel },
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'red' },
-	              'RED'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'blue' },
-	              'BLUE'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'white' },
-	              'WHITE'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'green' },
-	              'GREEN'
-	            ),
-	            _react2.default.createElement(
-	              'li',
-	              { className: 'yellow' },
-	              'YELLOW'
-	            )
-	          ),
-	          'Points: ',
-	          _react2.default.createElement('input', { id: 'projPoints', type: 'number' })
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.saveChanges },
-	          'Save changes'
-	        )
-	      );
-	    }
-	  }]);
-
-	  return ProjectEditing;
-	}(_react2.default.Component);
-
-	exports.default = ProjectEditing;
-
-/***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
