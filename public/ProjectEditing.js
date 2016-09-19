@@ -14,7 +14,7 @@ class ProjectEditing extends React.Component {
     this.onDelete = this.onDelete.bind(this);
   }
 
-  componentDidMount(){
+  componentDidMount() {
     console.log('didmount');
     setTimeout( () =>{
       editForm.style.height = "76px";

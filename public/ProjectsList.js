@@ -62,16 +62,13 @@ class ProjectsList extends React.Component {
   }
 
   updateChild(itemID, newData) {
-    console.log('here');
-    let newProjects = this.state.projects.map(el => {
+    this.state.projects.map(el => {
       if (el._id == itemID) {
         el.name = newData.name;
         el.label = newData.label;
-        console.log(el);
       }
       return el;
     });
-    this.setState({projects: newProjects});
   }
 
   cancelChildEditing() {

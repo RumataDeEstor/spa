@@ -29386,16 +29386,13 @@
 	  }, {
 	    key: 'updateChild',
 	    value: function updateChild(itemID, newData) {
-	      console.log('here');
-	      var newProjects = this.state.projects.map(function (el) {
+	      this.state.projects.map(function (el) {
 	        if (el._id == itemID) {
 	          el.name = newData.name;
 	          el.label = newData.label;
-	          console.log(el);
 	        }
 	        return el;
 	      });
-	      this.setState({ projects: newProjects });
 	    }
 	  }, {
 	    key: 'cancelChildEditing',
