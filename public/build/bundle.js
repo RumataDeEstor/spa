@@ -78,27 +78,27 @@
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(251);
+	var _Projects = __webpack_require__(252);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(252);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(253);
+	var _ProjectsList = __webpack_require__(254);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(256);
+	var _Signup = __webpack_require__(257);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(257);
+	var _StartPage = __webpack_require__(258);
 
 	var _StartPage2 = _interopRequireDefault(_StartPage);
 
-	var _Rules = __webpack_require__(258);
+	var _Rules = __webpack_require__(259);
 
 	var _Rules2 = _interopRequireDefault(_Rules);
 
@@ -28310,21 +28310,15 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskAddNew = __webpack_require__(246);
-
-	var _TaskAddNew2 = _interopRequireDefault(_TaskAddNew);
-
-	var _TasksList = __webpack_require__(247);
+	var _TasksList = __webpack_require__(246);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(249);
+	var _reactAddonsUpdate = __webpack_require__(250);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -28342,7 +28336,6 @@
 
 	    _this.loadPage = _this.loadPage.bind(_this);
 	    _this.state = {};
-	    _this.handleAdding = _this.handleAdding.bind(_this);
 	    return _this;
 	  }
 
@@ -28365,15 +28358,9 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newTasks = [];
-	        res.tasks.map(function (task) {
-	          newTasks = [task].concat(_toConsumableArray(newTasks));
-	        });
-	        _this2.setState(res);
-	        var newData = (0, _reactAddonsUpdate2.default)(_this2.state, {
-	          tasks: { $set: newTasks }
-	        });
-	        _this2.setState(newData);
+	        var proj = res.project;
+	        var newState = { _id: proj._id, label: proj.label, name: proj.name };
+	        _this2.setState(newState);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28382,31 +28369,6 @@
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
 	      this.loadPage();
-	    }
-	  }, {
-	    key: 'handleAdding',
-	    value: function handleAdding(task) {
-	      var newData = (0, _reactAddonsUpdate2.default)(this.state, {
-	        tasks: { $set: [task].concat(_toConsumableArray(this.state.tasks)) }
-	      });
-	      this.setState(newData);
-	    }
-	  }, {
-	    key: 'handleDeleting',
-	    value: function handleDeleting(taskID) {
-	      // let newTasks = this.state.tasks.slice();
-	      // newTasks = newTasks.filter(el => el._id !== taskID);
-	      // let newData = update(this.state, {
-	      //   tasks: {$set: newTasks}
-	      // });
-	      // this.setState(newData);
-	    }
-	  }, {
-	    key: 'handleCompleting',
-	    value: function handleCompleting(points) {
-	      // console.log('Project');
-	      // console.log(points);
-	      // this.props.onComplete(points);
 	    }
 	  }, {
 	    key: 'render',
@@ -28425,16 +28387,9 @@
 	            this.state.name
 	          )
 	        ),
-	        _react2.default.createElement(_TaskAddNew2.default, {
-	          login: this.props.params.login,
-	          projectID: this.props.params.projectID,
-	          onAdding: this.handleAdding.bind(this)
-	        }),
 	        _react2.default.createElement(_TasksList2.default, { ref: 'tlist',
 	          login: this.props.params.login,
-	          projectID: this.props.params.projectID,
-	          tasks: this.state.tasks || [],
-	          onChildDelete: this.handleDeleting.bind(this)
+	          projectID: this.props.params.projectID
 	        })
 	      );
 	    }
@@ -28465,6 +28420,199 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _TasksItem = __webpack_require__(247);
+
+	var _TasksItem2 = _interopRequireDefault(_TasksItem);
+
+	var _TasksAddNew = __webpack_require__(249);
+
+	var _TasksAddNew2 = _interopRequireDefault(_TasksAddNew);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TasksList = function (_React$Component) {
+	  _inherits(TasksList, _React$Component);
+
+	  function TasksList(props) {
+	    _classCallCheck(this, TasksList);
+
+	    var _this = _possibleConstructorReturn(this, (TasksList.__proto__ || Object.getPrototypeOf(TasksList)).call(this, props));
+
+	    _this.state = { tasks: [], isEditing: null };
+	    _this.loadTasks = _this.loadTasks.bind(_this);
+	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
+	    _this.updateChild = _this.updateChild.bind(_this);
+	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(TasksList, [{
+	    key: 'loadTasks',
+	    value: function loadTasks() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projectID = this.props.projectID;
+
+	      console.log(login);
+	      console.log(projectID);
+
+	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        res.project.tasks.map(function (task) {
+	          _this2.setState({ tasks: [task].concat(_toConsumableArray(_this2.state.tasks)) });
+	        });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('taskFinishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.addListener('taskSaveEdit', this.updateChild);
+	      _EventEmitter2.default.addListener('taskDeleted', this.handleChildDelete);
+	      this.loadTasks();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('taskFinishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.removeListener('taskSaveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('taskDeleted', this.handleChildDelete);
+	    }
+	  }, {
+	    key: 'finishChildEditing',
+	    value: function finishChildEditing() {
+	      this.setState({ isEditing: null });
+	    }
+	  }, {
+	    key: 'handleAddingNew',
+	    value: function handleAddingNew(task) {
+	      this.setState({ tasks: [task].concat(_toConsumableArray(this.state.tasks)) });
+	    }
+	  }, {
+	    key: 'updateChild',
+	    value: function updateChild(itemID, newData) {
+	      this.state.tasks.map(function (el) {
+	        if (el._id == itemID) {
+	          el.name = newData.name;
+	          el.points = newData.points;
+	        }
+	        return el;
+	      });
+	    }
+	  }, {
+	    key: 'handleChildDelete',
+	    value: function handleChildDelete(id) {
+	      var newTasks = this.state.tasks.slice();
+	      newTasks = newTasks.filter(function (el) {
+	        return el._id !== id;
+	      });
+	      this.setState({ tasks: newTasks });
+	    }
+	  }, {
+	    key: 'handleChildEdit',
+	    value: function handleChildEdit(id) {
+	      this.setState({ isEditing: id });
+	    }
+	  }, {
+	    key: 'handleChildComplete',
+	    value: function handleChildComplete(points) {
+	      console.log('taskList');
+	      console.log(points);
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this3 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        'List Page',
+	        _react2.default.createElement(_TasksAddNew2.default, {
+	          login: this.props.login,
+	          projectID: this.props.projectID,
+	          onAddingNew: this.handleAddingNew.bind(this)
+	        }),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'tasksList' },
+	          this.state.tasks.map(function (el, i) {
+	            var editing = _this3.state.isEditing == el._id ? true : false;
+	            var cNameEdit = editing ? "editing" : "";
+	            return _react2.default.createElement(_TasksItem2.default, { key: i,
+	              id: el._id,
+	              onEdit: _this3.handleChildEdit.bind(_this3),
+	              points: el.points,
+	              name: el.name,
+	              login: _this3.props.login,
+	              cNameEdit: cNameEdit,
+	              editing: editing,
+	              projectID: _this3.props.projectID
+	            });
+	          })
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TasksList;
+	}(_react2.default.Component);
+
+	exports.default = TasksList;
+
+/***/ },
+/* 247 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _TaskEditing = __webpack_require__(248);
+
+	var _TaskEditing2 = _interopRequireDefault(_TaskEditing);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28473,20 +28621,318 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var TaskAddNew = function (_React$Component) {
-	  _inherits(TaskAddNew, _React$Component);
+	var TasksItem = function (_React$Component) {
+	  _inherits(TasksItem, _React$Component);
 
-	  function TaskAddNew(props) {
-	    _classCallCheck(this, TaskAddNew);
+	  function TasksItem(props) {
+	    _classCallCheck(this, TasksItem);
 
-	    var _this = _possibleConstructorReturn(this, (TaskAddNew.__proto__ || Object.getPrototypeOf(TaskAddNew)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (TasksItem.__proto__ || Object.getPrototypeOf(TasksItem)).call(this, props));
+
+	    _this.edit = _this.edit.bind(_this);
+	    _this.complete = _this.complete.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(TasksItem, [{
+	    key: 'edit',
+	    value: function edit() {
+	      this.props.onEdit(this.props.id);
+	    }
+	  }, {
+	    key: 'complete',
+	    value: function complete() {
+	      var _this2 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        points: this.props.points
+	      });
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+
+	      fetch('/api/userdata/' + login + '/points', reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this2.props.points]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var component = this.props.editing ? _react2.default.createElement(_TaskEditing2.default, { target: this,
+	        login: this.props.login,
+	        projectID: this.props.projectID
+	      }) : null;
+
+	      return _react2.default.createElement(
+	        'div',
+	        null,
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'tasksItem' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'taskLine' },
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'taskCheckbox', onClick: this.complete },
+	              ' complete'
+	            ),
+	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
+	            this.props.name
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'points' },
+	            ' ',
+	            this.props.points,
+	            ' '
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editItem', className: this.props.cNameEdit, onClick: this.edit },
+	            _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
+	          )
+	        ),
+	        component
+	      );
+	    }
+	  }]);
+
+	  return TasksItem;
+	}(_react2.default.Component);
+
+	TasksItem.propTypes = {
+	  onEdit: _react2.default.PropTypes.func
+	};
+
+	exports.default = TasksItem;
+
+/***/ },
+/* 248 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TaskEditing = function (_React$Component) {
+	  _inherits(TaskEditing, _React$Component);
+
+	  function TaskEditing(props) {
+	    _classCallCheck(this, TaskEditing);
+
+	    var _this = _possibleConstructorReturn(this, (TaskEditing.__proto__ || Object.getPrototypeOf(TaskEditing)).call(this, props));
+
+	    _this.saveChanges = _this.saveChanges.bind(_this);
+	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
+	    _this.onDelete = _this.onDelete.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(TaskEditing, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      setTimeout(function () {
+	        editForm.style.height = "76px";
+	      }, 1);
+	    }
+	  }, {
+	    key: 'onFinishEdit',
+	    value: function onFinishEdit() {
+	      var promise = new Promise(function (resolve) {
+	        editForm.style.height = "0";
+	        setTimeout(function () {
+	          _EventEmitter2.default.emitEvent('taskFinishEdit');
+	          resolve();
+	        }, 200);
+	      });
+	      return promise;
+	    }
+	  }, {
+	    key: 'onDelete',
+	    value: function onDelete() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.projectID;
+	      var taskID = this.props.target.props.id;
+
+	      fetch('/api/userdata/' + login + '/' + projID + '/' + taskID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _this2.onFinishEdit().then(function (res) {
+	          return _EventEmitter2.default.emitEvent('taskDeleted', [taskID]);
+	        });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'saveChanges',
+	    value: function saveChanges() {
+	      var _this3 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        name: editName.value,
+	        points: editPoints.value
+	      });
+
+	      var reqParams = {
+	        method: 'PUT',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.projectID;
+	      var taskID = this.props.target.props.id;
+	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+	      fetch('/api/userdata/' + login + '/' + projID + '/' + taskID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        var newData = { name: editName.value, points: editPoints.value };
+	        _EventEmitter2.default.emitEvent('taskSaveEdit', [taskID, newData]);
+	        _this3.onFinishEdit();
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'editForm' },
+	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editName' }),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'editOpt' },
+	          _react2.default.createElement('input', { type: 'number', id: 'editPoints', defaultValue: this.props.target.props.points, min: '0', max: '500' }),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editButtons' },
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'editSave', onClick: this.saveChanges },
+	              'Save'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'editFinish', onClick: this.onFinishEdit },
+	              'Cancel'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'editDelete', onClick: this.onDelete },
+	              _react2.default.createElement('i', { className: 'fa fa-trash' })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return TaskEditing;
+	}(_react2.default.Component);
+
+	exports.default = TaskEditing;
+
+/***/ },
+/* 249 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var TasksAddNew = function (_React$Component) {
+	  _inherits(TasksAddNew, _React$Component);
+
+	  function TasksAddNew(props) {
+	    _classCallCheck(this, TasksAddNew);
+
+	    var _this = _possibleConstructorReturn(this, (TasksAddNew.__proto__ || Object.getPrototypeOf(TasksAddNew)).call(this, props));
 
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.clearFields = _this.clearFields.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(TaskAddNew, [{
+	  _createClass(TasksAddNew, [{
 	    key: 'onCancel',
 	    value: function onCancel() {
 	      addNewForm.style.height = "0";
@@ -28537,7 +28983,7 @@
 	          return;
 	        }
 	        _this2.clearFields();
-	        _this2.props.onAdding(res.task);
+	        _this2.props.onAddingNew(res.task);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28581,326 +29027,23 @@
 	    }
 	  }]);
 
-	  return TaskAddNew;
+	  return TasksAddNew;
 	}(_react2.default.Component);
 
-	TaskAddNew.propTypes = {
-	  onAdding: _react2.default.PropTypes.func
+	TasksAddNew.propTypes = {
+	  onAddingNew: _react2.default.PropTypes.func
 	};
 
-	exports.default = TaskAddNew;
-
-/***/ },
-/* 247 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	var _TasksItem = __webpack_require__(248);
-
-	var _TasksItem2 = _interopRequireDefault(_TasksItem);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var TasksList = function (_React$Component) {
-	  _inherits(TasksList, _React$Component);
-
-	  function TasksList(props) {
-	    _classCallCheck(this, TasksList);
-
-	    var _this = _possibleConstructorReturn(this, (TasksList.__proto__ || Object.getPrototypeOf(TasksList)).call(this, props));
-
-	    _this.state = { tasks: [] };
-	    _this.loadTasks = _this.loadTasks.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(TasksList, [{
-	    key: 'loadTasks',
-	    value: function loadTasks() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      var projectID = this.props.projectID;
-
-	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error); // handle;
-	          return;
-	        }
-	        res.tasks.map(function (task) {
-	          _this2.setState({ tasks: [task].concat(_toConsumableArray(_this2.state.tasks)) });
-	        });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.loadTasks();
-	    }
-
-	    // componentWillReceiveProps(){
-	    //   this.loadTasks();
-	    // }
-
-	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      // let newTasks = this.state.tasks.slice();
-	      // newTasks = newTasks.filter(el => el._id !== id);
-	      // this.setState({tasks: newTasks});
-	      this.props.onChildDelete(id); // tell parent
-	    }
-	  }, {
-	    key: 'handleChildEdit',
-	    value: function handleChildEdit(task) {
-	      // return <div> {task.id} </div>
-	    }
-	  }, {
-	    key: 'handleChildComplete',
-	    value: function handleChildComplete(points) {
-	      console.log('taskList');
-	      console.log(points);
-	      this.props.onChildComplete(points);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this3 = this;
-
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'List Page',
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'tasksList' },
-	          this.props.tasks.map(function (el, i) {
-	            return _react2.default.createElement(_TasksItem2.default, { key: i,
-	              id: el._id,
-	              onDelete: _this3.handleChildDelete.bind(_this3),
-	              onEdit: _this3.handleChildEdit.bind(_this3),
-	              points: el.points,
-	              name: el.name,
-	              label: el.label,
-	              login: _this3.props.login,
-	              projectID: _this3.props.projectID
-	            });
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return TasksList;
-	}(_react2.default.Component);
-
-	TasksList.propTypes = {
-	  onChildDelete: _react2.default.PropTypes.func
-	};
-
-	exports.default = TasksList;
-
-/***/ },
-/* 248 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	var _EventEmitter = __webpack_require__(238);
-
-	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var TasksItem = function (_React$Component) {
-	  _inherits(TasksItem, _React$Component);
-
-	  function TasksItem(props) {
-	    _classCallCheck(this, TasksItem);
-
-	    var _this = _possibleConstructorReturn(this, (TasksItem.__proto__ || Object.getPrototypeOf(TasksItem)).call(this, props));
-
-	    _this.delete = _this.delete.bind(_this);
-	    _this.edit = _this.edit.bind(_this);
-	    _this.complete = _this.complete.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(TasksItem, [{
-	    key: 'delete',
-	    value: function _delete() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'DELETE',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      var projID = this.props.projectID;
-	      var taskID = this.props.id;
-
-	      fetch('/api/userdata/' + login + '/' + projID + '/' + taskID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	        }
-	        _this2.props.onDelete(_this2.props.id); // tell parent
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
-	    key: 'edit',
-	    value: function edit() {}
-	    // this.props.onEdit(this); 
-
-
-	    // overTheItem() {
-	    //   this.refs.editBtn.style.display = "flex";
-	    //   this.isOver = false;
-	    // }
-
-	    // leaveTheItem() {
-	    //   this.refs.editBtn.style.display = "none";
-	    // }
-
-	  }, {
-	    key: 'complete',
-	    value: function complete() {
-	      var _this3 = this;
-
-	      var bodyJSON = JSON.stringify({
-	        points: this.props.points
-	      });
-
-	      var reqParams = {
-	        method: 'POST',
-	        headers: {
-	          "Content-type": "application/json; charset=UTF-8"
-	        },
-	        credentials: 'include',
-	        body: bodyJSON
-	      };
-
-	      var login = this.props.login;
-
-	      fetch('/api/userdata/' + login + '/points', reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	        }
-	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this3.props.points]);
-	        // this.props.onComplete(this.props.points); // tell parent
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'tasksItem' },
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'taskLine' },
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'taskCheckbox', onClick: this.complete },
-	            ' complete'
-	          ),
-	          _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
-	          this.props.name
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'points' },
-	          ' ',
-	          this.props.points,
-	          ' '
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'editItem', onClick: this.edit },
-	          _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return TasksItem;
-	}(_react2.default.Component);
-
-	TasksItem.propTypes = {
-	  onDelete: _react2.default.PropTypes.func,
-	  onEdit: _react2.default.PropTypes.func
-	};
-
-	exports.default = TasksItem;
-
-/***/ },
-/* 249 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(250);
+	exports.default = TasksAddNew;
 
 /***/ },
 /* 250 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(251);
+
+/***/ },
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29019,7 +29162,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29042,11 +29185,11 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _ProjectsAddNew = __webpack_require__(252);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(253);
+	var _ProjectsList = __webpack_require__(254);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
@@ -29095,7 +29238,7 @@
 	//     );
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29278,7 +29421,7 @@
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29297,11 +29440,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsAddNew = __webpack_require__(252);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsItem = __webpack_require__(254);
+	var _ProjectsItem = __webpack_require__(255);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -29364,17 +29507,17 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      _EventEmitter2.default.addListener('finishEdit', this.finishChildEditing);
-	      _EventEmitter2.default.addListener('saveEdit', this.updateChild);
-	      _EventEmitter2.default.addListener('childDelete', this.handleChildDelete);
+	      _EventEmitter2.default.addListener('projectFinishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.addListener('projectSaveEdit', this.updateChild);
+	      _EventEmitter2.default.addListener('projectDeleted', this.handleChildDelete);
 	      this.loadProjects();
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      _EventEmitter2.default.removeListener('finishEdit', this.finishChildEditing);
-	      _EventEmitter2.default.removeListener('saveEdit', this.updateChild);
-	      _EventEmitter2.default.removeListener('childDelete', this.handleChildDelete);
+	      _EventEmitter2.default.removeListener('projectFinishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.removeListener('projectSaveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('projectDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'handleAddingNew',
@@ -29392,8 +29535,8 @@
 	    }
 	  }, {
 	    key: 'handleChildEdit',
-	    value: function handleChildEdit(itemID) {
-	      this.setState({ isEditing: itemID });
+	    value: function handleChildEdit(id) {
+	      this.setState({ isEditing: id });
 	    }
 	  }, {
 	    key: 'updateChild',
@@ -29462,12 +29605,9 @@
 	}(_react2.default.Component);
 
 	exports.default = ProjectsList;
-	//   onDelete={this.handleChildDelete.bind(this)} 
-	//   onEdit={this.handleChildEdit.bind(this)}
-	//   onOpen={this.handleChildOpen.bind(this)}
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29486,7 +29626,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectEditing = __webpack_require__(255);
+	var _ProjectEditing = __webpack_require__(256);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
@@ -29506,36 +29646,12 @@
 
 	    var _this = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
 
-	    _this.delete = _this.delete.bind(_this);
 	    _this.edit = _this.edit.bind(_this);
 	    _this.open = _this.open.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ProjectsItem, [{
-	    key: 'delete',
-	    value: function _delete() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'DELETE',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      var projID = this.props.id;
-	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	        }
-	        _this2.props.onDelete(_this2.props.id); // tell to parent
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
-	    }
-	  }, {
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
@@ -29543,7 +29659,6 @@
 	  }, {
 	    key: 'open',
 	    value: function open() {
-	      // this.props.onOpen(this.props.id); 
 	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/projects/p/' + this.props.id);
 	    }
 	  }, {
@@ -29577,15 +29692,13 @@
 	}(_react2.default.Component);
 
 	ProjectsItem.propTypes = {
-	  onDelete: _react2.default.PropTypes.func,
-	  onEdit: _react2.default.PropTypes.func,
-	  onOpen: _react2.default.PropTypes.func
+	  onEdit: _react2.default.PropTypes.func
 	};
 
 	exports.default = ProjectsItem;
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29643,7 +29756,7 @@
 	      var promise = new Promise(function (resolve) {
 	        editForm.style.height = "0";
 	        setTimeout(function () {
-	          _EventEmitter2.default.emitEvent('finishEdit');
+	          _EventEmitter2.default.emitEvent('projectFinishEdit');
 	          resolve();
 	        }, 200);
 	      });
@@ -29668,7 +29781,7 @@
 	          console.log(res.error);
 	        }
 	        _this2.onFinishEdit().then(function (res) {
-	          return _EventEmitter2.default.emitEvent('childDelete', [projID]);
+	          return _EventEmitter2.default.emitEvent('projectDeleted', [projID]);
 	        });
 	      }).catch(function (err) {
 	        console.log(err);
@@ -29719,7 +29832,7 @@
 	          return;
 	        }
 	        var newData = { name: editName.value, label: editChosenColor.className };
-	        _EventEmitter2.default.emitEvent('saveEdit', [projID, newData]);
+	        _EventEmitter2.default.emitEvent('projectSaveEdit', [projID, newData]);
 	        _this3.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
@@ -29788,7 +29901,7 @@
 	exports.default = ProjectEditing;
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29925,7 +30038,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30013,7 +30126,7 @@
 	exports.default = StartPage;
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

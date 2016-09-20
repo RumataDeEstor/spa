@@ -11,7 +11,7 @@ import ee from './EventEmitter';
 class ProjectsList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {projects: [], isEditing: null};
+    this.state = { projects: [], isEditing: null };
     this.loadProjects = this.loadProjects.bind(this);
     this.finishChildEditing = this.finishChildEditing.bind(this);
     this.updateChild = this.updateChild.bind(this);
@@ -43,16 +43,16 @@ class ProjectsList extends React.Component {
   }
 
   componentDidMount() {
-    ee.addListener('finishEdit', this.finishChildEditing);
-    ee.addListener('saveEdit', this.updateChild);
-    ee.addListener('childDelete', this.handleChildDelete);
+    ee.addListener('projectFinishEdit', this.finishChildEditing);
+    ee.addListener('projectSaveEdit', this.updateChild);
+    ee.addListener('projectDeleted', this.handleChildDelete);
     this.loadProjects();
   }
 
   componentWillUnmount() { 
-    ee.removeListener('finishEdit', this.finishChildEditing);
-    ee.removeListener('saveEdit', this.updateChild);
-    ee.removeListener('childDelete', this.handleChildDelete);
+    ee.removeListener('projectFinishEdit', this.finishChildEditing);
+    ee.removeListener('projectSaveEdit', this.updateChild);
+    ee.removeListener('projectDeleted', this.handleChildDelete);
   }
 
   handleAddingNew(proj){
@@ -65,8 +65,8 @@ class ProjectsList extends React.Component {
     this.setState({projects: newProjects});
   }
 
-  handleChildEdit(itemID) {
-    this.setState({isEditing: itemID});
+  handleChildEdit(id) {
+    this.setState({isEditing: id});
   }
 
   updateChild(itemID, newData) {
@@ -124,7 +124,4 @@ class ProjectsList extends React.Component {
 }
 
 export default ProjectsList;
- //   onDelete={this.handleChildDelete.bind(this)} 
-              //   onEdit={this.handleChildEdit.bind(this)}
-              //   onOpen={this.handleChildOpen.bind(this)} 
             

@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class TaskAddNew extends React.Component {
+class TasksAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
@@ -56,7 +56,7 @@ class TaskAddNew extends React.Component {
           return;
         }
         this.clearFields();
-        this.props.onAdding(res.task);
+        this.props.onAddingNew(res.task);
       })
       .catch(err => {
         console.log(err);
@@ -79,8 +79,8 @@ class TaskAddNew extends React.Component {
   }
 }
 
-TaskAddNew.propTypes = {
-  onAdding: React.PropTypes.func
+TasksAddNew.propTypes = {
+  onAddingNew: React.PropTypes.func
 };
 
-export default TaskAddNew;
+export default TasksAddNew;

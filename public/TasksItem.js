@@ -4,50 +4,19 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import TaskEditing from './TaskEditing';
 import ee from './EventEmitter'
 
 class TasksItem extends React.Component {
   constructor(props) {
     super(props);
-    this.delete = this.delete.bind(this);
     this.edit = this.edit.bind(this);
     this.complete = this.complete.bind(this);
   }
-
-  delete() {
-    let reqParams = {
-      method: 'DELETE',
-      credentials: 'include'
-    }
-
-    let login = this.props.login;
-    let projID = this.props.projectID;
-    let taskID = this.props.id;
-
-    fetch(`/api/userdata/${login}/${projID}/${taskID}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error);
-        }
-        this.props.onDelete(this.props.id); // tell parent
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
+ 
   edit() {
-    // this.props.onEdit(this); 
+    this.props.onEdit(this.props.id); 
   }  
-
-  // overTheItem() {
-  //   this.refs.editBtn.style.display = "flex";
-  //   this.isOver = false;
-  // }
-
-  // leaveTheItem() {
-  //   this.refs.editBtn.style.display = "none";
-  // }
 
   complete() {
     let bodyJSON = JSON.stringify({
@@ -72,7 +41,6 @@ class TasksItem extends React.Component {
           console.log(res.error);
         }
         ee.emitEvent('pointsUpdated', [this.props.points]);
-        // this.props.onComplete(this.props.points); // tell parent
       })
       .catch(err => {
         console.log(err);
@@ -80,25 +48,32 @@ class TasksItem extends React.Component {
   }
   
   render () {
-    return<div id = "tasksItem">
-            <div id = "taskLine"> 
-              <div id = "taskCheckbox" onClick = {this.complete}> complete
+    let component = this.props.editing ? <TaskEditing target = {this} 
+        login = {this.props.login}
+        projectID = {this.props.projectID}
+      /> : null;
+      
+    return<div>
+            <div id = "tasksItem">
+              <div id = "taskLine"> 
+                <div id = "taskCheckbox" onClick = {this.complete}> complete
+                </div>
+                <div className = {this.props.label} id = "projectLabel"> 
+                </div>
+              {this.props.name}
               </div>
-              <div className = {this.props.label} id = "projectLabel"> 
+              <div id = "points"> {this.props.points} </div>
+              <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
+                <i className="fa fa-pencil-square-o"></i>
               </div>
-            {this.props.name}
             </div>
-            <div id = "points"> {this.props.points} </div>
-            <div id = "editItem" onClick = {this.edit}>
-              <i className="fa fa-pencil-square-o"></i>
-            </div>
+            {component}
           </div>
   }
 }
 
 TasksItem.propTypes = {
-  onDelete: React.PropTypes.func,
-  onEdit: React.PropTypes.func,
+  onEdit: React.PropTypes.func
 };
 
 export default TasksItem;

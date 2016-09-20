@@ -4,13 +4,18 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-import TasksItem from './TasksItem'
+import TasksItem from './TasksItem';
+import TasksAddNew from './TasksAddNew';
+import ee from './EventEmitter';
 
 class TasksList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {tasks: []};
+    this.state = { tasks: [], isEditing: null };
     this.loadTasks = this.loadTasks.bind(this);
+    this.finishChildEditing = this.finishChildEditing.bind(this);
+    this.updateChild = this.updateChild.bind(this);
+    this.handleChildDelete = this.handleChildDelete.bind(this);
   }
 
   loadTasks() {
@@ -22,6 +27,9 @@ class TasksList extends React.Component {
     let login = this.props.login;
     let projectID = this.props.projectID;
 
+    console.log(login);
+    console.log(projectID);
+
     fetch(`/api/userdata/${login}/${projectID}`, reqParams)
       .then(res => res.json())
       .then(res => {
@@ -29,7 +37,7 @@ class TasksList extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        res.tasks.map(task => {
+        res.project.tasks.map(task => {
           this.setState( {tasks: [task, ...this.state.tasks] });
         });
       })
@@ -39,43 +47,71 @@ class TasksList extends React.Component {
   }
 
   componentDidMount() {
+    ee.addListener('taskFinishEdit', this.finishChildEditing);
+    ee.addListener('taskSaveEdit', this.updateChild);
+    ee.addListener('taskDeleted', this.handleChildDelete);
     this.loadTasks();
+  }  
+
+  componentWillUnmount() { 
+    ee.removeListener('taskFinishEdit', this.finishChildEditing);
+    ee.removeListener('taskSaveEdit', this.updateChild);
+    ee.removeListener('taskDeleted', this.handleChildDelete);
   }
 
-  // componentWillReceiveProps(){
-  //   this.loadTasks();
-  // }
+  finishChildEditing() {
+    this.setState({isEditing: null});
+  }
+
+  handleAddingNew (task) {
+    this.setState({tasks: [task, ...this.state.tasks] });
+  }
+
+  updateChild(itemID, newData) {
+    this.state.tasks.map(el => {
+      if (el._id == itemID) {
+        el.name = newData.name;
+        el.points = newData.points;
+      }
+      return el;
+    });
+  }
 
   handleChildDelete(id) {
-    // let newTasks = this.state.tasks.slice();
-    // newTasks = newTasks.filter(el => el._id !== id);
-    // this.setState({tasks: newTasks});
-    this.props.onChildDelete(id); // tell parent
+    let newTasks = this.state.tasks.slice();
+    newTasks = newTasks.filter(el => el._id !== id);
+    this.setState({tasks: newTasks});
   }
 
-  handleChildEdit(task) {
-    // return <div> {task.id} </div>
+  handleChildEdit(id) {
+    this.setState({isEditing: id});
   }
 
   handleChildComplete(points) {
     console.log('taskList');
     console.log(points);
-    this.props.onChildComplete(points);
   }
 
   render () {
     return <div>
             List Page
+            <TasksAddNew 
+              login = {this.props.login}
+              projectID = {this.props.projectID}
+              onAddingNew = {this.handleAddingNew.bind(this)}
+            />
             <div id = "tasksList">
-              {this.props.tasks.map((el,i) => {
+              {this.state.tasks.map((el,i) => {
+                let editing = (this.state.isEditing == el._id) ? true : false;
+                let cNameEdit = (editing) ? "editing" : "";
                 return <TasksItem key = {i} 
                   id ={el._id} 
-                  onDelete={this.handleChildDelete.bind(this)} 
                   onEdit={this.handleChildEdit.bind(this)}
                   points = {el.points} 
                   name = {el.name} 
-                  label = {el.label}
                   login = {this.props.login}
+                  cNameEdit = {cNameEdit}
+                  editing = {editing}
                   projectID = {this.props.projectID}
                 />
               })}       
@@ -83,9 +119,5 @@ class TasksList extends React.Component {
           </div>
   }
 }
-
-TasksList.propTypes = {
-  onChildDelete: React.PropTypes.func
-};
 
 export default TasksList;
