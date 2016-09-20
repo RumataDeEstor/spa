@@ -28855,14 +28855,14 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projectsItem' },
+	        { id: 'tasksItem' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'projectLine' },
+	          { id: 'taskLine' },
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'taskCheckbox', onClick: this.complete },
-	            ' complete '
+	            ' complete'
 	          ),
 	          _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
 	          this.props.name
@@ -28876,12 +28876,8 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          _react2.default.createElement(
-	            'button',
-	            { ref: 'editBtn', onClick: this.edit },
-	            ' Edit '
-	          )
+	          { id: 'editItem', onClick: this.edit },
+	          _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
 	        )
 	      );
 	    }

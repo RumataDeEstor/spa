@@ -80,16 +80,17 @@ class TasksItem extends React.Component {
   }
   
   render () {
-    return <div id = "projectsItem">
-            <div id = "projectLine"> 
-              <div id = "taskCheckbox" onClick = {this.complete}> complete </div>
+    return<div id = "tasksItem">
+            <div id = "taskLine"> 
+              <div id = "taskCheckbox" onClick = {this.complete}> complete
+              </div>
               <div className = {this.props.label} id = "projectLabel"> 
               </div>
-              {this.props.name}
+            {this.props.name}
             </div>
             <div id = "points"> {this.props.points} </div>
-            <div> 
-              <button ref = "editBtn" onClick = {this.edit}> Edit </button>
+            <div id = "editItem" onClick = {this.edit}>
+              <i className="fa fa-pencil-square-o"></i>
             </div>
           </div>
   }

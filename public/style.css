@@ -163,36 +163,23 @@ li.chosen {
 
 /*TODO: crooked due to different price values*/
 
-#projectsItem, #projectsItem div {
+#projectsItem, #projectsItem div, 
+#tasksItem, #tasksItem div {
   display: flex;
 }
 
-#editingProject img {
+#tasksItem #points {
+  width: 60px;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+/*#editingProject img {
   width: 20px;
   height: 20px;
-}
+}*/
 
-#projectsItem #customCheckbox {
-  padding: 0;
-  width: 10px;
-  height: 9.631px;
-  margin: 0 20px;
-  border-radius: 90%;
-  cursor: pointer;
-  border: 1px solid #186755;
-  display: flex;
-  align-self: center;
-}
-
-#projectsItem #customCheckbox.checked {
-  background-color: #6ADE17;
-}
-
-#projectsItem #customCheckbox.unchecked {
-  background-color: inherit;
-}
-
-#projectsItem {  
+#projectsItem, #tasksItem {  
   /*background-color: #4FC4B4;*/
   background-color: white;
   /*color: #186755; */
@@ -228,7 +215,6 @@ li.chosen {
 #signupBtn:hover {
   background-color: #ff9024;
 }
-
 
 #loginBtn:hover {
   color: white;
@@ -295,8 +281,8 @@ div .authForms {
   margin: 0 10px;
 }
 
-#projectLine {
-  width: 80%;
+#projectLine, #taskLine {
+  width: 520px;
   margin-right: 30px;
 }
 
@@ -528,6 +514,7 @@ div .authForms {
 #editItem {
   padding: 0 4px;
   background-color: inherit;
+  margin-right: 70px;
 }
 
 #editItem:hover{
