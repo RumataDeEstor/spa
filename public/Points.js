@@ -12,7 +12,6 @@ class Points extends React.Component {
     this.state = {points: null};
     this.getScores = this.getScores.bind(this);
     this.updatePoints = this.updatePoints.bind(this);
-    ee.addListener('pointsUpdated', this.updatePoints);
   }
 
   updatePoints(newPoints) {
@@ -39,9 +38,15 @@ class Points extends React.Component {
       })
   }
   
-  componentWillMount () {
+  componentDidMount () {
+    ee.addListener('pointsUpdated', this.updatePoints);
     this.getScores();
   }
+
+  componentWillUnmount() {
+    ee.removeListener('pointsUpdated', this.updatePoints);
+  }
+
   render () {
     return <div id = "userPoints">
             Your points:

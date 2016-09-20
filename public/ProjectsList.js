@@ -13,10 +13,9 @@ class ProjectsList extends React.Component {
     super(props);
     this.state = {projects: [], isEditing: null};
     this.loadProjects = this.loadProjects.bind(this);
-    this.cancelChildEditing = this.cancelChildEditing.bind(this);
+    this.finishChildEditing = this.finishChildEditing.bind(this);
     this.updateChild = this.updateChild.bind(this);
-    ee.addListener('cancelEdit', this.cancelChildEditing);
-    ee.addListener('saveEdit', this.updateChild);
+    this.handleChildDelete = this.handleChildDelete.bind(this);    
   }
 
   loadProjects() {
@@ -44,18 +43,27 @@ class ProjectsList extends React.Component {
   }
 
   componentDidMount() {
+    ee.addListener('finishEdit', this.finishChildEditing);
+    ee.addListener('saveEdit', this.updateChild);
+    ee.addListener('childDelete', this.handleChildDelete);
     this.loadProjects();
+  }
+
+  componentWillUnmount() { 
+    ee.removeListener('finishEdit', this.finishChildEditing);
+    ee.removeListener('saveEdit', this.updateChild);
+    ee.removeListener('childDelete', this.handleChildDelete);
   }
 
   handleAddingNew(proj){
     this.setState({projects: [proj, ...this.state.projects] });
   }
 
-  // handleChildDelete(id) {
-  //   let newProjects = this.state.projects.slice();
-  //   newProjects = newProjects.filter(el => el._id !== id);
-  //   this.setState({projects: newProjects});
-  // }
+  handleChildDelete(id) {
+    let newProjects = this.state.projects.slice();
+    newProjects = newProjects.filter(el => el._id !== id);
+    this.setState({projects: newProjects});
+  }
 
   handleChildEdit(itemID) {
     this.setState({isEditing: itemID});
@@ -71,7 +79,7 @@ class ProjectsList extends React.Component {
     });
   }
 
-  cancelChildEditing() {
+  finishChildEditing() {
     this.setState({isEditing: null});
   }
 

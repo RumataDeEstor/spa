@@ -27373,7 +27373,6 @@
 	    _this.state = { points: null };
 	    _this.getScores = _this.getScores.bind(_this);
 	    _this.updatePoints = _this.updatePoints.bind(_this);
-	    _EventEmitter2.default.addListener('pointsUpdated', _this.updatePoints);
 	    return _this;
 	  }
 
@@ -27405,9 +27404,15 @@
 	      });
 	    }
 	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
 	      this.getScores();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('pointsUpdated', this.updatePoints);
 	    }
 	  }, {
 	    key: 'render',
@@ -29328,10 +29333,9 @@
 
 	    _this.state = { projects: [], isEditing: null };
 	    _this.loadProjects = _this.loadProjects.bind(_this);
-	    _this.cancelChildEditing = _this.cancelChildEditing.bind(_this);
+	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
-	    _EventEmitter2.default.addListener('cancelEdit', _this.cancelChildEditing);
-	    _EventEmitter2.default.addListener('saveEdit', _this.updateChild);
+	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
@@ -29364,20 +29368,32 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('finishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.addListener('saveEdit', this.updateChild);
+	      _EventEmitter2.default.addListener('childDelete', this.handleChildDelete);
 	      this.loadProjects();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('finishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.removeListener('saveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('childDelete', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'handleAddingNew',
 	    value: function handleAddingNew(proj) {
 	      this.setState({ projects: [proj].concat(_toConsumableArray(this.state.projects)) });
 	    }
-
-	    // handleChildDelete(id) {
-	    //   let newProjects = this.state.projects.slice();
-	    //   newProjects = newProjects.filter(el => el._id !== id);
-	    //   this.setState({projects: newProjects});
-	    // }
-
+	  }, {
+	    key: 'handleChildDelete',
+	    value: function handleChildDelete(id) {
+	      var newProjects = this.state.projects.slice();
+	      newProjects = newProjects.filter(function (el) {
+	        return el._id !== id;
+	      });
+	      this.setState({ projects: newProjects });
+	    }
 	  }, {
 	    key: 'handleChildEdit',
 	    value: function handleChildEdit(itemID) {
@@ -29395,8 +29411,8 @@
 	      });
 	    }
 	  }, {
-	    key: 'cancelChildEditing',
-	    value: function cancelChildEditing() {
+	    key: 'finishChildEditing',
+	    value: function finishChildEditing() {
 	      this.setState({ isEditing: null });
 	    }
 
@@ -29613,7 +29629,7 @@
 	    var _this = _possibleConstructorReturn(this, (ProjectEditing.__proto__ || Object.getPrototypeOf(ProjectEditing)).call(this, props));
 
 	    _this.saveChanges = _this.saveChanges.bind(_this);
-	    _this.onCancelEdit = _this.onCancelEdit.bind(_this);
+	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
 	    _this.onDelete = _this.onDelete.bind(_this);
 	    return _this;
 	  }
@@ -29621,22 +29637,47 @@
 	  _createClass(ProjectEditing, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      console.log('didmount');
 	      setTimeout(function () {
 	        editForm.style.height = "76px";
 	      }, 1);
 	    }
 	  }, {
-	    key: 'onCancelEdit',
-	    value: function onCancelEdit() {
-	      editForm.style.height = "0";
-	      setTimeout(function () {
-	        _EventEmitter2.default.emitEvent('cancelEdit');
-	      }, 200);
+	    key: 'onFinishEdit',
+	    value: function onFinishEdit() {
+	      var promise = new Promise(function (resolve) {
+	        editForm.style.height = "0";
+	        setTimeout(function () {
+	          _EventEmitter2.default.emitEvent('finishEdit');
+	          resolve();
+	        }, 200);
+	      });
+	      return promise;
 	    }
 	  }, {
 	    key: 'onDelete',
-	    value: function onDelete() {}
+	    value: function onDelete() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.target.props.id;
+	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _this2.onFinishEdit().then(function (res) {
+	          return _EventEmitter2.default.emitEvent('childDelete', [projID]);
+	        });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
 	  }, {
 	    key: 'showColors',
 	    value: function showColors() {
@@ -29655,7 +29696,7 @@
 	  }, {
 	    key: 'saveChanges',
 	    value: function saveChanges() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      var bodyJSON = JSON.stringify({
 	        name: editName.value,
@@ -29683,7 +29724,7 @@
 	        }
 	        var newData = { name: editName.value, label: editChosenColor.className };
 	        _EventEmitter2.default.emitEvent('saveEdit', [projID, newData]);
-	        _this2.onCancelEdit();
+	        _this3.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29691,7 +29732,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.props.target);
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'editForm' },
@@ -29732,7 +29772,7 @@
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editCancel', onClick: this.onCancelEdit },
+	              { id: 'editFinish', onClick: this.onFinishEdit },
 	              'Cancel'
 	            ),
 	            _react2.default.createElement(

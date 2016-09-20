@@ -10,26 +10,46 @@ class ProjectEditing extends React.Component {
   constructor(props) {
     super(props);
     this.saveChanges = this.saveChanges.bind(this);
-    this.onCancelEdit = this.onCancelEdit.bind(this);
+    this.onFinishEdit = this.onFinishEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
   }
 
   componentDidMount() {
-    console.log('didmount');
     setTimeout( () =>{
       editForm.style.height = "76px";
     }, 1);    
   }
 
-  onCancelEdit() {
-    editForm.style.height = "0";
-    setTimeout( () =>{
-      ee.emitEvent('cancelEdit');
-    }, 200);
+  onFinishEdit() {
+    let promise = new Promise (resolve => {
+      editForm.style.height = "0";
+      setTimeout( () =>{
+        ee.emitEvent('finishEdit');
+        resolve();
+      }, 200);
+    })
+    return promise;   
   }
 
   onDelete(){
+    let reqParams = {
+      method: 'DELETE',
+      credentials: 'include'
+    }
 
+    let login = this.props.login;
+    let projID = this.props.target.props.id;
+    fetch(`/api/userdata/${login}/${projID}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        this.onFinishEdit().then(res => ee.emitEvent('childDelete', [projID]));        
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   showColors () {
@@ -72,14 +92,13 @@ class ProjectEditing extends React.Component {
         }
         let newData = {name: editName.value, label: editChosenColor.className};
         ee.emitEvent('saveEdit', [projID, newData]);
-        this.onCancelEdit();
+        this.onFinishEdit();
       })
       .catch(err => {
         console.log(err);
       })
   }
   render () {
-    console.log(this.props.target);   
       return<div id = "editForm">
               <input type = "text" defaultValue = {this.props.target.props.name} id = "editName"/>
               <div id = "editOpt">
@@ -102,7 +121,7 @@ class ProjectEditing extends React.Component {
                 </div> 
                 <div id = "editButtons">           
                   <button id = "editSave" onClick = {this.saveChanges}>Save</button>
-                  <button id = "editCancel" onClick = {this.onCancelEdit}>Cancel</button>
+                  <button id = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
                   <button id = "editDelete" onClick = {this.onDelete}>
                     <i className="fa fa-trash"></i>
                   </button>                  
