@@ -19,8 +19,8 @@ class PromotionItem extends React.Component {
                 </div>     
               </div>
             </div>
-            <div>Аффинаж</div>
-            <div> 160 </div>            
+            <div>{this.props.name}</div>
+            <div>{this.props.price}</div>            
           </div>
   }
 }

@@ -34,7 +34,7 @@ class ProjectsList extends React.Component {
         // res.projects.map(proj => {
         //   this.setState( {projects: [proj, ...this.state.projects] });
         // });
-        let newProjects = res.projects.reverse();
+        let newProjects = res.user.projects.reverse();
         this.setState({projects: newProjects});
       })
       .catch(err => {

@@ -66,9 +66,9 @@ app.use((req,res,next) => {
 
 app.get('/api/allusers', (req,res,next) => {  // only for debugging!
   // User.remove({},(err)=> console.log(err));
-  User.find({}, (err, result) => {
+  User.find({}, (err, users) => {
     if (err) debug(err);
-    res.send(result);
+    res.send(users);
   });
   
 });
@@ -128,13 +128,13 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
     debug('forb');
     return res.status(403).send({error: 'Forbidden'});
   }
-  User.findOne({login: req.params.login}, (err, result) => {
+  User.findOne({login: req.params.login}, (err, user) => {
     if (err) { 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
       debug('success get userdata');
-      res.send(result);
+      res.status(200).send({user: user});
     }
   });
 });
@@ -144,19 +144,19 @@ app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
-  User.findOne({login: req.params.login}, (err, result) => {
+  User.findOne({login: req.params.login}, (err, user) => {
     if (err) { 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {  
       let newProject = req.body;
       newProject.name = newProject.name || "Unnamed";
-      let len = result.projects.push(newProject);
-      result.save((err) =>{
+      let len = user.projects.push(newProject);
+      user.save((err) =>{
         if (!err) {
           debug('updated.');
-          // res.status(200).send({'_id': result.projects[len-1]._id});
-          res.status(200).send({message: 'OK', project: result.projects[len-1]});
+          // res.status(200).send({'_id': user.projects[len-1]._id});
+          res.status(200).send({message: 'OK', project: user.projects[len-1]});
         } else {
           debug(err);
           if(err.name == 'ValidationError') {
@@ -187,6 +187,36 @@ app.post('/api/userdata/:login/points', isAuthenticated, (req,res,next) => {
         if (!err) {
           debug('updated.');
           res.status(200).send({message: 'points updated'});
+        } else {
+          debug(err);
+          if(err.name == 'ValidationError') {
+            res.statusCode = 400;
+            res.send({ error: 'Validation error' });
+          } else {
+            res.statusCode = 500;
+            res.send({error: 'Internal Server Error'});
+          }
+        }
+      });
+    }
+  })  
+});
+
+app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
+  if (req.params.login !== req.user.login) {  
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) { 
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {  
+      let newPromo = req.body;
+      let len = user.promotions.push(newPromo);
+      user.save((err) =>{
+        if (!err) {
+          debug('updated.');
+          res.status(200).send({message: 'OK', promotion: user.promotions[len-1]});
         } else {
           debug(err);
           if(err.name == 'ValidationError') {

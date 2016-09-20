@@ -17,6 +17,7 @@ import Signup from './Signup';
 import StartPage from './StartPage';
 import Rules from './Rules';
 import Points from './Points';
+import Promotions from './Promotions';
 
 render((
   <Router history={browserHistory}>
@@ -28,6 +29,7 @@ render((
     <Route path="app/:login" component={App}>
       <IndexRedirect to="projects"/> 
       <Route path="rules" component={Rules}/>
+      <Route path="promotions" component={Promotions}/>
       <Route path="projects" component={Projects}>
         <IndexRedirect to="list"/> 
         <Route path="list" component={ProjectsList}/>

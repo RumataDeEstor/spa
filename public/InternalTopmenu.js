@@ -41,6 +41,7 @@ class InternalTopmenu extends React.Component {
                 <li><Points login = {this.props.login} ref='foo'/></li>
                 <li><IndexLink to={`${path}/projects`}>Projects</IndexLink></li>
                 <li><IndexLink to={`${path}/rules`}>Rules</IndexLink></li>
+                <li><IndexLink to={`${path}/promotions`}>Promotions</IndexLink></li>
                 <li><button onClick = {this.logout}>Log out</button></li>
               </ul>
             </div>           

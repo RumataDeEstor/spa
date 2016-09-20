@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 import InternalTopmenu from './InternalTopmenu';
-import Promotions from './Promotions';
+import PromotionsShortList from './PromotionsShortList';
 
 class App extends React.Component {
   constructor(props) {
@@ -17,7 +17,7 @@ class App extends React.Component {
             <InternalTopmenu login = {this.props.params.login}/>
             <div id = "appContent">
               {this.props.children}
-              <Promotions/>
+              <PromotionsShortList/>
             </div>
           </div>
   }

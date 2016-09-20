@@ -32,7 +32,7 @@ body {
   justify-content: space-between;*/
 }
 
-#promotions {
+#promoShort {
   background-color: #175496;
   color: white;
   /*margin-right: 10px;*/
@@ -286,6 +286,9 @@ div .authForms {
   margin-right: 30px;
 }
 
+#projectLine {
+  cursor: pointer;
+}
 /*#selectedLabel {
   border: 2px solid black;
 }*/
@@ -493,7 +496,7 @@ div .authForms {
   background-color: #ef84da;
   width: 80px;
   height: 18.5px;
-  z-index: -1;
+  z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;  

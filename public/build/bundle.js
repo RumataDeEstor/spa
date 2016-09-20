@@ -106,6 +106,10 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
+	var _Promotions = __webpack_require__(260);
+
+	var _Promotions2 = _interopRequireDefault(_Promotions);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -123,6 +127,7 @@
 	    { path: 'app/:login', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'projects' }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _Rules2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'promotions', component: _Promotions2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: 'projects', component: _Projects2.default },
@@ -27160,9 +27165,9 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Promotions = __webpack_require__(240);
+	var _PromotionsShortList = __webpack_require__(240);
 
-	var _Promotions2 = _interopRequireDefault(_Promotions);
+	var _PromotionsShortList2 = _interopRequireDefault(_PromotionsShortList);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -27194,7 +27199,7 @@
 	          'div',
 	          { id: 'appContent' },
 	          this.props.children,
-	          _react2.default.createElement(_Promotions2.default, null)
+	          _react2.default.createElement(_PromotionsShortList2.default, null)
 	        )
 	      );
 	    }
@@ -27313,6 +27318,15 @@
 	              'li',
 	              null,
 	              _react2.default.createElement(
+	                _reactRouter.IndexLink,
+	                { to: path + '/promotions' },
+	                'Promotions'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.logout },
 	                'Log out'
@@ -27371,7 +27385,7 @@
 	    var _this = _possibleConstructorReturn(this, (Points.__proto__ || Object.getPrototypeOf(Points)).call(this, props));
 
 	    _this.state = { points: null };
-	    _this.getScores = _this.getScores.bind(_this);
+	    _this.getPoints = _this.getPoints.bind(_this);
 	    _this.updatePoints = _this.updatePoints.bind(_this);
 	    return _this;
 	  }
@@ -27382,8 +27396,8 @@
 	      this.setState({ points: this.state.points + newPoints });
 	    }
 	  }, {
-	    key: 'getScores',
-	    value: function getScores() {
+	    key: 'getPoints',
+	    value: function getPoints() {
 	      var _this2 = this;
 
 	      console.log('get scores');
@@ -27398,7 +27412,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        _this2.setState({ points: res.points });
+	        _this2.setState({ points: res.user.points });
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -27407,7 +27421,7 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
-	      this.getScores();
+	      this.getPoints();
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -27975,24 +27989,24 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Promotions = function (_React$Component) {
-	  _inherits(Promotions, _React$Component);
+	var PromotionsShortList = function (_React$Component) {
+	  _inherits(PromotionsShortList, _React$Component);
 
-	  function Promotions(props) {
-	    _classCallCheck(this, Promotions);
+	  function PromotionsShortList(props) {
+	    _classCallCheck(this, PromotionsShortList);
 
-	    return _possibleConstructorReturn(this, (Promotions.__proto__ || Object.getPrototypeOf(Promotions)).call(this, props));
+	    return _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
 	  }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
 
-	  _createClass(Promotions, [{
+	  _createClass(PromotionsShortList, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'promotions' },
-	        'HERE IS YOUR PROMOTIONS',
+	        { id: 'promoShort' },
+	        'TOP PROMOTIONS',
 	        _react2.default.createElement(_PromotionItem2.default, null),
 	        _react2.default.createElement(_PromotionItem2.default, null),
 	        _react2.default.createElement(_PromotionItem2.default, null)
@@ -28000,10 +28014,10 @@
 	    }
 	  }]);
 
-	  return Promotions;
+	  return PromotionsShortList;
 	}(_react2.default.Component);
 
-	exports.default = Promotions;
+	exports.default = PromotionsShortList;
 
 /***/ },
 /* 241 */
@@ -28065,12 +28079,12 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          'Аффинаж'
+	          this.props.name
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          ' 160 '
+	          this.props.price
 	        )
 	      );
 	    }
@@ -29498,7 +29512,7 @@
 	        // res.projects.map(proj => {
 	        //   this.setState( {projects: [proj, ...this.state.projects] });
 	        // });
-	        var newProjects = res.projects.reverse();
+	        var newProjects = res.user.projects.reverse();
 	        _this2.setState({ projects: newProjects });
 	      }).catch(function (err) {
 	        console.log(err);
@@ -30181,6 +30195,201 @@
 	}(_react2.default.Component);
 
 	exports.default = Rules;
+
+/***/ },
+/* 260 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _PromotionItem = __webpack_require__(241);
+
+	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
+
+	var _PromotionsAddNew = __webpack_require__(261);
+
+	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Promotions = function (_React$Component) {
+	  _inherits(Promotions, _React$Component);
+
+	  function Promotions(props) {
+	    _classCallCheck(this, Promotions);
+
+	    var _this = _possibleConstructorReturn(this, (Promotions.__proto__ || Object.getPrototypeOf(Promotions)).call(this, props));
+
+	    _this.loadItems = _this.loadItems.bind(_this);
+	    _this.state = { promotions: [] };
+	    return _this;
+	  }
+	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
+	  _createClass(Promotions, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.loadItems();
+	    }
+	  }, {
+	    key: 'loadItems',
+	    value: function loadItems() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+	      var login = this.props.params.login;
+	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        var newPromos = res.user.promotions.reverse();
+	        _this2.setState({ promotions: newPromos });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'promotions' },
+	        _react2.default.createElement(_PromotionsAddNew2.default, { login: this.props.params.login }),
+	        'HERE IS YOUR PROMOTIONS',
+	        this.state.promotions.map(function (el, i) {
+	          return _react2.default.createElement(_PromotionItem2.default, {
+	            key: i,
+	            id: el._id,
+	            name: el.name,
+	            price: el.price
+	          });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return Promotions;
+	}(_react2.default.Component);
+
+	exports.default = Promotions;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var PromotionsAddNew = function (_React$Component) {
+	  _inherits(PromotionsAddNew, _React$Component);
+
+	  function PromotionsAddNew(props) {
+	    _classCallCheck(this, PromotionsAddNew);
+
+	    var _this = _possibleConstructorReturn(this, (PromotionsAddNew.__proto__ || Object.getPrototypeOf(PromotionsAddNew)).call(this, props));
+
+	    _this.addNew = _this.addNew.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(PromotionsAddNew, [{
+	    key: 'addNew',
+	    value: function addNew() {
+	      var bodyJSON = JSON.stringify({
+	        name: newPromoName.value,
+	        price: newPromoPrice.value
+	      });
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+	      var login = this.props.login;
+	      fetch('/api/userdata/' + login + '/promotions', reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        // res.promotion
+	        // tell parent - promotions or List
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { id: 'promotionsAddNew' },
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'name', id: 'newPromoName' }),
+	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5', max: '500', id: 'newPromoPrice' }),
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.addNew },
+	          ' Add '
+	        )
+	      );
+	    }
+	  }]);
+
+	  return PromotionsAddNew;
+	}(_react2.default.Component);
+
+	exports.default = PromotionsAddNew;
 
 /***/ }
 /******/ ]);

@@ -10,7 +10,7 @@ class Points extends React.Component {
   constructor(props) {
     super(props);
     this.state = {points: null};
-    this.getScores = this.getScores.bind(this);
+    this.getPoints = this.getPoints.bind(this);
     this.updatePoints = this.updatePoints.bind(this);
   }
 
@@ -18,7 +18,7 @@ class Points extends React.Component {
     this.setState({points: this.state.points+newPoints});
   }
 
-  getScores() {
+  getPoints() {
     console.log('get scores');
     let reqParams = {
       method: 'GET',
@@ -31,7 +31,7 @@ class Points extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        this.setState({points: res.points});
+        this.setState({points: res.user.points});
       })
       .catch(err => {
         console.log(err);
@@ -40,7 +40,7 @@ class Points extends React.Component {
   
   componentDidMount () {
     ee.addListener('pointsUpdated', this.updatePoints);
-    this.getScores();
+    this.getPoints();
   }
 
   componentWillUnmount() {

@@ -10,9 +10,22 @@ const ruleSchema = new Schema({
     type: String,
     default: 'white',
   },
-  price: {
+  fine: { 
     type: Number,
     default: 0,
+    required: true
+  }
+});
+
+const promotionSchema = new Schema({
+  name: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  price: {
+    type: Number,
+    default: 10,
     required: true
   }
 });
@@ -54,11 +67,11 @@ const userSchema = new Schema({
   },
   password: {
     type: String,
-    required: true,
-    unique: false
+    required: true
   },
   projects: [projectSchema],
   rules: [ruleSchema],
+  promotions: [promotionSchema],
   points: {
     type: Number,
     default: 0
