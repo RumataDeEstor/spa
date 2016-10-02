@@ -16,6 +16,7 @@ class Points extends React.Component {
 
   updatePoints(newPoints) {
     this.setState({points: this.state.points+newPoints});
+    ee.emitEvent('getPoints', [newPoints]);
   }
 
   getPoints() {
@@ -32,6 +33,7 @@ class Points extends React.Component {
           return;
         }
         this.setState({points: res.user.points});
+        ee.emitEvent('getPoints', [res.user.points]);
       })
       .catch(err => {
         console.log(err);
@@ -48,11 +50,11 @@ class Points extends React.Component {
   }
 
   render () {
-    return <div id = "userPoints">
+    return <div className = "userPoints">
             Your points:
             {this.state.points}
             </div>
   }
 }
 
-export {Points};
+export default Points;

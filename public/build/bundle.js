@@ -27232,6 +27232,8 @@
 
 	var _Points = __webpack_require__(237);
 
+	var _Points2 = _interopRequireDefault(_Points);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27294,7 +27296,7 @@
 	            _react2.default.createElement(
 	              'li',
 	              null,
-	              _react2.default.createElement(_Points.Points, { login: this.props.login, ref: 'foo' })
+	              _react2.default.createElement(_Points2.default, { login: this.props.login, ref: 'foo' })
 	            ),
 	            _react2.default.createElement(
 	              'li',
@@ -27352,7 +27354,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.Points = undefined;
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -27394,6 +27395,7 @@
 	    key: 'updatePoints',
 	    value: function updatePoints(newPoints) {
 	      this.setState({ points: this.state.points + newPoints });
+	      _EventEmitter2.default.emitEvent('getPoints', [newPoints]);
 	    }
 	  }, {
 	    key: 'getPoints',
@@ -27413,6 +27415,7 @@
 	          return;
 	        }
 	        _this2.setState({ points: res.user.points });
+	        _EventEmitter2.default.emitEvent('getPoints', [res.user.points]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -27433,7 +27436,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'userPoints' },
+	        { className: 'userPoints' },
 	        'Your points:',
 	        this.state.points
 	      );
@@ -27443,7 +27446,7 @@
 	  return Points;
 	}(_react2.default.Component);
 
-	exports.Points = Points;
+	exports.default = Points;
 
 /***/ },
 /* 238 */
@@ -28053,10 +28056,48 @@
 	  function PromotionItem(props) {
 	    _classCallCheck(this, PromotionItem);
 
-	    return _possibleConstructorReturn(this, (PromotionItem.__proto__ || Object.getPrototypeOf(PromotionItem)).call(this, props));
+	    // this.state = {percentsValue: 0};
+	    var _this = _possibleConstructorReturn(this, (PromotionItem.__proto__ || Object.getPrototypeOf(PromotionItem)).call(this, props));
+
+	    _this.showEditName = _this.showEditName.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(PromotionItem, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      console.log('will mount');
+
+	      // console.log(`
+	      //   key: ${this.props.key}
+	      //   points:${this.props.points}
+	      //   price:${this.props.price}
+	      //   value:${value}
+	      //   `);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('did mount');
+	      var value = Math.round(this.props.points / this.props.price * 100);
+	      value = value > 100 ? 100 : value;
+	      // this.setState({percentsValue: value});
+
+	      var fullHeight = 74;
+	      // let newHeight = fullHeight * this.state.percentsValue / 100;
+	      var newHeight = fullHeight * value / 100;
+	      this.refs.lvl.style.height = newHeight + 'px';
+	      this.refs.pers.innerHTML = value;
+
+	      // make it clean; state? Appropriate percents; z-index with percents;
+	    }
+	  }, {
+	    key: 'showEditName',
+	    value: function showEditName(e) {
+	      this.refs.editPromoName.style.display = "flex";
+	      e.target.style.display = "none";
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -28070,21 +28111,31 @@
 	            { id: 'inCircle' },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'percents' },
-	              ' 25% '
+	              { id: 'percents', ref: 'pers' },
+	              ' '
 	            ),
-	            _react2.default.createElement('div', { id: 'square' })
+	            _react2.default.createElement('div', { id: 'square', ref: 'lvl' })
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
+	          { onClick: this.showEditName },
 	          this.props.name
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          { ref: 'editPromoName', id: 'editPromoName' },
+	          _react2.default.createElement('input', { type: 'text' })
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          null,
 	          this.props.price
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          this.props.points
 	        )
 	      );
 	    }
@@ -29322,7 +29373,7 @@
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      addNewForm.style.height = "76px";
+	      addNewForm.style.height = "36px";
 	      addNewForm.style.borderBottom = "1px solid #424242";
 	    }
 	  }, {
@@ -29597,10 +29648,10 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'projectsList' },
-	          this.state.projects.map(function (el, i) {
+	          this.state.projects.map(function (el, i, arr) {
 	            var editing = _this3.state.isEditing == el._id ? true : false;
 	            var cNameEdit = editing ? "editing" : "";
-	            return _react2.default.createElement(_ProjectsItem2.default, { key: i,
+	            return _react2.default.createElement(_ProjectsItem2.default, { key: arr.length - i - 1,
 	              id: el._id,
 	              name: el.name,
 	              label: el.label,
@@ -29761,7 +29812,7 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      setTimeout(function () {
-	        editForm.style.height = "76px";
+	        editForm.style.height = "36px";
 	      }, 1);
 	    }
 	  }, {
@@ -30224,7 +30275,17 @@
 
 	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
 
+	var _Points = __webpack_require__(237);
+
+	var _Points2 = _interopRequireDefault(_Points);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -30241,7 +30302,8 @@
 	    var _this = _possibleConstructorReturn(this, (Promotions.__proto__ || Object.getPrototypeOf(Promotions)).call(this, props));
 
 	    _this.loadItems = _this.loadItems.bind(_this);
-	    _this.state = { promotions: [] };
+	    _this.state = { promotions: [], points: null };
+	    _this.getPoints = _this.getPoints.bind(_this);
 	    return _this;
 	  }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
@@ -30249,7 +30311,23 @@
 	  _createClass(Promotions, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      this.loadItems();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
+	    }
+	  }, {
+	    key: 'getPoints',
+	    value: function getPoints(points) {
+	      this.setState({ points: points });
+	    }
+	  }, {
+	    key: 'handleNewPromoAdding',
+	    value: function handleNewPromoAdding(promo) {
+	      this.setState({ promotions: [promo].concat(_toConsumableArray(this.state.promotions)) });
 	    }
 	  }, {
 	    key: 'loadItems',
@@ -30277,19 +30355,28 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promotions' },
-	        _react2.default.createElement(_PromotionsAddNew2.default, { login: this.props.params.login }),
-	        'HERE IS YOUR PROMOTIONS',
-	        this.state.promotions.map(function (el, i) {
-	          return _react2.default.createElement(_PromotionItem2.default, {
-	            key: i,
-	            id: el._id,
-	            name: el.name,
-	            price: el.price
-	          });
-	        })
+	        _react2.default.createElement(_Points2.default, { login: this.props.params.login, ref: 'foo' }),
+	        _react2.default.createElement(_PromotionsAddNew2.default, { login: this.props.params.login,
+	          onNewPromoAdded: this.handleNewPromoAdding.bind(this)
+	        }),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'promoList' },
+	          this.state.promotions.map(function (el, i, arr) {
+	            return _react2.default.createElement(_PromotionItem2.default, {
+	              key: arr.length - i - 1,
+	              id: el._id,
+	              name: el.name,
+	              price: el.price,
+	              points: _this3.state.points
+	            });
+	          })
+	        )
 	      );
 	    }
 	  }]);
@@ -30342,6 +30429,8 @@
 	  _createClass(PromotionsAddNew, [{
 	    key: 'addNew',
 	    value: function addNew() {
+	      var _this2 = this;
+
 	      var bodyJSON = JSON.stringify({
 	        name: newPromoName.value,
 	        price: newPromoPrice.value
@@ -30363,8 +30452,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        // res.promotion
-	        // tell parent - promotions or List
+	        _this2.props.onNewPromoAdded(res.promotion);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -30388,6 +30476,10 @@
 
 	  return PromotionsAddNew;
 	}(_react2.default.Component);
+
+	PromotionsAddNew.propTypes = {
+	  onNewPromoAdded: _react2.default.PropTypes.func
+	};
 
 	exports.default = PromotionsAddNew;
 

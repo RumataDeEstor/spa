@@ -4,7 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-import {Points} from './Points'
+import Points from './Points'
 
 class InternalTopmenu extends React.Component {
   constructor(props) {

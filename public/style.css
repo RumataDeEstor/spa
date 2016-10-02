@@ -40,7 +40,8 @@ body {
   height: 100%;
   position: fixed;
   right: 0;
-  top: 60px;
+  top: 15%;
+  display: none;
 }
 
 a {
@@ -114,6 +115,7 @@ li.chosen {
   right: 0;
   top: 0;
   width: 100%;
+  z-index: 3;
 }
 
 .links {
@@ -304,7 +306,6 @@ div .authForms {
   background-color: white;
   border-radius: 12px;
   display: flex;
-  flex-direction: column;
   transition: height 0.2s linear;
   overflow: hidden;
 }
@@ -340,14 +341,17 @@ div .authForms {
 #labelForm, #editLabelForm {
   display: flex;
   width: 248px;
-  border: 1px solid black;
+  height: 26px;
+  align-items: center;
+  font: 18px Arial;
+  /*border: 1px solid black;*/
   /*padding: 4px;*/
 }
 
 #newName, #editName {
-  margin: 5px 0 2px 5px;
+  margin: 5px 0 5px 5px;
   width: 238px;
-  height: 20px; 
+  height: 22px; 
 }
 
 #newPoints {
@@ -358,11 +362,12 @@ div .authForms {
 
 #addNewOpt, #editOpt {
   display: flex;
-  margin: 4px 0 5px 5px;
+  height: 26px;
+  margin: 5px 0 5px 5px;
 }
 
 #addNewOpt button, #editOpt button {
-  height: 36px;
+  height: 26px;
   border: 1px solid black;
   background-color: white;
   border-radius: 3px;
@@ -370,7 +375,12 @@ div .authForms {
   display: flex;
 }
 
-#addNewOpt #buttons, #editButtons {
+#addNewOpt #buttons {
+  margin-left: 30px;
+  display: flex;
+}
+
+#editButtons {
   margin-left: 6px;
   display: flex;
 }
@@ -484,7 +494,7 @@ div .authForms {
   width: 74px;
   height: 74px;
   border-radius: 50px;
-  border: 3px solid #ef84da;
+  /*border: 3px solid #ef84da;*/
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -495,7 +505,7 @@ div .authForms {
 #square {
   background-color: #ef84da;
   width: 80px;
-  height: 18.5px;
+  /*min-height: 0;*/
   z-index: 1;
   display: flex;
   justify-content: center;
@@ -510,8 +520,14 @@ div .authForms {
   height: 20px;
   left: 12px;
   top: 27px;
+  z-index: 2;
   color: white;
   font: 20px Arial;
+}
+
+#editPromoName {
+  display: none;
+  width: 140px;
 }
 
 #editItem {
@@ -532,6 +548,11 @@ div .authForms {
   cursor: pointer;
 }
 
+#promoList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
 /*i.fa.fa-pencil-square-o:hover {
 
 }*/

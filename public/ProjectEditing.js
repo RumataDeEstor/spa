@@ -16,7 +16,7 @@ class ProjectEditing extends React.Component {
 
   componentDidMount() {
     setTimeout( () =>{
-      editForm.style.height = "76px";
+      editForm.style.height = "36px";
     }, 1);    
   }
 

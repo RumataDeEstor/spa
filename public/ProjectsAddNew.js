@@ -36,7 +36,7 @@ class ProjectsAddNew extends React.Component {
   }
 
   onExpand () {
-    addNewForm.style.height  = "76px";
+    addNewForm.style.height  = "36px";
     addNewForm.style.borderBottom = "1px solid #424242";
   }
 

@@ -104,10 +104,10 @@ class ProjectsList extends React.Component {
             />
             <div id = "projectsList">
               {
-                this.state.projects.map((el,i) => {
+                this.state.projects.map((el,i,arr) => {
                   let editing = (this.state.isEditing == el._id) ? true : false;
                   let cNameEdit = (editing) ? "editing" : "";
-                  return <ProjectsItem key = {i} 
+                  return <ProjectsItem key = {arr.length - i - 1} 
                     id ={el._id} 
                     name = {el.name} 
                     label = {el.label}
