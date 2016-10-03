@@ -28056,56 +28056,86 @@
 	  function PromotionItem(props) {
 	    _classCallCheck(this, PromotionItem);
 
-	    // this.state = {percentsValue: 0};
 	    var _this = _possibleConstructorReturn(this, (PromotionItem.__proto__ || Object.getPrototypeOf(PromotionItem)).call(this, props));
 
+	    _this.state = {
+	      name: _this.props.name,
+	      price: _this.props.price,
+	      points: _this.props.points,
+	      id: _this.props.id,
+	      percentsValue: 0
+	    };
+
 	    _this.showEditName = _this.showEditName.bind(_this);
-	    _this.pishSubmit = _this.pishSubmit.bind(_this);
+	    _this.hideEditName = _this.hideEditName.bind(_this);
+	    _this.hideEditPrice = _this.hideEditPrice.bind(_this);
+	    _this.showEditPrice = _this.showEditPrice.bind(_this);
+	    _this.submitName = _this.submitName.bind(_this);
+	    _this.submitPrice = _this.submitPrice.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(PromotionItem, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      console.log('will mount');
-
-	      // console.log(`
-	      //   key: ${this.props.key}
-	      //   points:${this.props.points}
-	      //   price:${this.props.price}
-	      //   value:${value}
-	      //   `);
+	      var value = Math.round(this.props.points / this.props.price * 100);
+	      value = value > 100 ? 100 : value;
+	      this.setState({ percentsValue: value });
 	    }
 	  }, {
-	    key: 'pishSubmit',
-	    value: function pishSubmit(e) {
+	    key: 'submitName',
+	    value: function submitName(e) {
 	      e.preventDefault();
-	      console.log('pish submit!');
+	      // console.log(this.props.id);
+	      // console.log(`sending request..`)
+	      // console.dir(e.target.fieldName.value);
+	      //AJAX
+	      var newName = e.target.fieldName.value;
+	      this.setState({ name: newName });
+	      this.hideEditName();
+	    }
+	  }, {
+	    key: 'submitPrice',
+	    value: function submitPrice(e) {
+	      e.preventDefault();
+	      //AJAX
+	      var newPrice = e.target.fieldPrice.value;
+	      this.setState({ price: newPrice });
+	      this.hideEditPrice();
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      // this.refs.editPromoName.onsubmit = () => {
-	      //   console.log('submit!');
-	      // }
-	      this.refs.editPromoName.addEventListener('submit', this.pishSubmit, false);
-	      console.log('did mount');
-	      var value = Math.round(this.props.points / this.props.price * 100);
-	      value = value > 100 ? 100 : value;
-	      // this.setState({percentsValue: value});
-
+	      this.refs.editPromoName.addEventListener('submit', this.submitName, false);
+	      this.refs.editPromoPrice.addEventListener('submit', this.submitPrice, false);
 	      var fullHeight = 74;
-	      // let newHeight = fullHeight * this.state.percentsValue / 100;
-	      var newHeight = fullHeight * value / 100;
+	      var newHeight = fullHeight * this.state.percentsValue / 100;
 	      this.refs.lvl.style.height = newHeight + 'px';
-	      this.refs.pers.innerHTML = value;
-
-	      // make it clean; state? Appropriate percents; z-index with percents;
+	    }
+	  }, {
+	    key: 'hideEditName',
+	    value: function hideEditName() {
+	      this.refs.editPromoName.style.display = "none";
+	      this.refs.promoName.style.display = "flex";
 	    }
 	  }, {
 	    key: 'showEditName',
 	    value: function showEditName(e) {
+	      this.hideEditPrice();
 	      this.refs.editPromoName.style.display = "flex";
+	      e.target.style.display = "none";
+	    }
+	  }, {
+	    key: 'hideEditPrice',
+	    value: function hideEditPrice() {
+	      this.refs.editPromoPrice.style.display = "none";
+	      this.refs.promoPrice.style.display = "flex";
+	    }
+	  }, {
+	    key: 'showEditPrice',
+	    value: function showEditPrice(e) {
+	      this.hideEditName();
+	      this.refs.editPromoPrice.style.display = "flex";
 	      e.target.style.display = "none";
 	    }
 	  }, {
@@ -28123,30 +28153,31 @@
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'percents', ref: 'pers' },
-	              ' '
+	              ' ',
+	              this.state.percentsValue + '%'
 	            ),
 	            _react2.default.createElement('div', { id: 'square', ref: 'lvl' })
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { onClick: this.showEditName },
-	          this.props.name
+	          { id: 'promoName', ref: 'promoName', onClick: this.showEditName },
+	          this.state.name
 	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoName', id: 'editPromoName' },
-	          _react2.default.createElement('input', { type: 'text' })
+	          _react2.default.createElement('input', { type: 'text', name: 'fieldName' })
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          this.props.price
+	          { id: 'promoPrice', ref: 'promoPrice', onClick: this.showEditPrice },
+	          this.state.price
 	        ),
 	        _react2.default.createElement(
-	          'div',
-	          null,
-	          this.props.points
+	          'form',
+	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
+	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500', name: 'fieldPrice' })
 	        )
 	      );
 	    }

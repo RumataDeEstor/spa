@@ -41,6 +41,7 @@ body {
   position: fixed;
   right: 0;
   top: 15%;
+  z-index: 3;
  /* display: none;*/
 }
 
@@ -525,9 +526,13 @@ div .authForms {
   font: 20px Arial;
 }
 
-#editPromoName {
+#editPromoName, #editPromoPrice {
   display: none;
   width: 140px;
+}
+
+#editPromoName input, #editPromoPrice input {
+  width: inherit;
 }
 
 #editItem {
