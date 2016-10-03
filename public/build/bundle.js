@@ -27199,7 +27199,7 @@
 	          'div',
 	          { id: 'appContent' },
 	          this.props.children,
-	          _react2.default.createElement(_PromotionsShortList2.default, null)
+	          _react2.default.createElement(_PromotionsShortList2.default, { login: this.props.params.login })
 	        )
 	      );
 	    }
@@ -27998,21 +27998,64 @@
 	  function PromotionsShortList(props) {
 	    _classCallCheck(this, PromotionsShortList);
 
-	    return _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
-	  }
-	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+	    var _this = _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
 
+	    _this.state = { topPromos: [] };
+	    _this.loadItems = _this.loadItems.bind(_this);
+	    return _this;
+	  }
 
 	  _createClass(PromotionsShortList, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.loadItems();
+	    }
+	  }, {
+	    key: 'loadItems',
+	    value: function loadItems() {
+	      var _this2 = this;
+
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+	      var login = this.props.login;
+	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        var newTopPromos = res.user.promotions.sort(function (first, second) {
+	          if (first.price < second.price) return -1;
+	          return 1;
+	        }).slice(0, 3);
+	        _this2.setState({ topPromos: newTopPromos });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+
+	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promoShort' },
 	        'TOP PROMOTIONS',
-	        _react2.default.createElement(_PromotionItem2.default, null),
-	        _react2.default.createElement(_PromotionItem2.default, null),
-	        _react2.default.createElement(_PromotionItem2.default, null)
+	        this.state.topPromos.map(function (el, i) {
+	          return _react2.default.createElement(_PromotionItem2.default, {
+	            key: i,
+	            id: el._id,
+	            name: el.name,
+	            price: el.price
+	            // points = {this.state.points}
+	            , points: 60
+	          });
+	        })
 	      );
 	    }
 	  }]);

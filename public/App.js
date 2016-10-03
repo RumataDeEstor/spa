@@ -17,7 +17,7 @@ class App extends React.Component {
             <InternalTopmenu login = {this.props.params.login}/>
             <div id = "appContent">
               {this.props.children}
-              <PromotionsShortList/>
+              <PromotionsShortList login = {this.props.params.login}/>
             </div>
           </div>
   }
