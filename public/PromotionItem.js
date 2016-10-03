@@ -10,6 +10,7 @@ class PromotionItem extends React.Component {
     super(props);
     // this.state = {percentsValue: 0};
     this.showEditName = this.showEditName.bind(this);
+    this.pishSubmit = this.pishSubmit.bind(this);
   }
 
   componentWillMount() {
@@ -23,8 +24,16 @@ class PromotionItem extends React.Component {
     //   `);
     
   }
+  pishSubmit (e){
+    e.preventDefault();
+    console.log('pish submit!');
+  }
 
   componentDidMount() {
+    // this.refs.editPromoName.onsubmit = () => {
+    //   console.log('submit!');
+    // }
+    this.refs.editPromoName.addEventListener('submit',this.pishSubmit, false);
     console.log('did mount');
     let value = Math.round( this.props.points / this.props.price * 100 );
     value = (value > 100) ? 100 : value;

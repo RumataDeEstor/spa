@@ -28060,6 +28060,7 @@
 	    var _this = _possibleConstructorReturn(this, (PromotionItem.__proto__ || Object.getPrototypeOf(PromotionItem)).call(this, props));
 
 	    _this.showEditName = _this.showEditName.bind(_this);
+	    _this.pishSubmit = _this.pishSubmit.bind(_this);
 	    return _this;
 	  }
 
@@ -28076,8 +28077,18 @@
 	      //   `);
 	    }
 	  }, {
+	    key: 'pishSubmit',
+	    value: function pishSubmit(e) {
+	      e.preventDefault();
+	      console.log('pish submit!');
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      // this.refs.editPromoName.onsubmit = () => {
+	      //   console.log('submit!');
+	      // }
+	      this.refs.editPromoName.addEventListener('submit', this.pishSubmit, false);
 	      console.log('did mount');
 	      var value = Math.round(this.props.points / this.props.price * 100);
 	      value = value > 100 ? 100 : value;
