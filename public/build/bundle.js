@@ -27403,7 +27403,7 @@
 	    key: 'updatePoints',
 	    value: function updatePoints(newPoints) {
 	      this.setState({ points: this.state.points + newPoints });
-	      _EventEmitter2.default.emitEvent('getPoints', [newPoints]);
+	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
 	    }
 	  }, {
 	    key: 'giveCurPoints',
@@ -28157,11 +28157,32 @@
 	  }
 
 	  _createClass(PromotionItem, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      var value = Math.round(this.props.points / this.props.price * 100);
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      this.setState({ points: newProps.points });
+	      var value = Math.round(newProps.points / newProps.price * 100);
 	      value = value > 100 ? 100 : value;
 	      this.setState({ percentsValue: value });
+
+	      var fullHeight = 74;
+	      var newHeight = fullHeight * this.state.percentsValue / 100;
+	      this.refs.lvl.style.height = newHeight + 'px';
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      var value = Math.round(this.state.points / this.state.price * 100);
+	      value = value > 100 ? 100 : value;
+	      this.setState({ percentsValue: value });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.editPromoName.addEventListener('submit', this.submitName, false);
+	      this.refs.editPromoPrice.addEventListener('submit', this.submitPrice, false);
+	      var fullHeight = 74;
+	      var newHeight = fullHeight * this.state.percentsValue / 100;
+	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
 	    key: 'submitData',
@@ -28220,15 +28241,6 @@
 	      this.setState({ price: newPrice }); // update from server, not here.
 	      this.submitData({ price: newPrice });
 	      this.hideEditPrice();
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.refs.editPromoName.addEventListener('submit', this.submitName, false);
-	      this.refs.editPromoPrice.addEventListener('submit', this.submitPrice, false);
-	      var fullHeight = 74;
-	      var newHeight = fullHeight * this.state.percentsValue / 100;
-	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
 	    key: 'hideEditName',

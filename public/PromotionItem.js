@@ -24,12 +24,30 @@ export default class PromotionItem extends React.Component {
     this.submitPrice = this.submitPrice.bind(this); // rename validate?
     this.submitData = this.submitData.bind(this);
   }
+  // almost the same as while mounting; may be separated;
+  componentWillReceiveProps(newProps){
+    this.setState({points: newProps.points});
+    let value = Math.round( newProps.points / newProps.price * 100 );
+    value = (value > 100) ? 100 : value;
+    this.setState({percentsValue: value}); 
+    const fullHeight = 74;
+    let newHeight = fullHeight * this.state.percentsValue / 100;    
+    this.refs.lvl.style.height = `${newHeight}px`;   
+  }
 
   componentWillMount() {
-    let value = Math.round( this.props.points / this.props.price * 100 );
+    let value = Math.round( this.state.points / this.state.price * 100 );
     value = (value > 100) ? 100 : value;
     this.setState({percentsValue: value});    
   }
+
+  componentDidMount() {
+    this.refs.editPromoName.addEventListener('submit',this.submitName, false);
+    this.refs.editPromoPrice.addEventListener('submit',this.submitPrice, false);
+    const fullHeight = 74;
+    let newHeight = fullHeight * this.state.percentsValue / 100;    
+    this.refs.lvl.style.height = `${newHeight}px`;
+  } 
 
   submitData(data){
     console.log('submitData');
@@ -86,14 +104,6 @@ export default class PromotionItem extends React.Component {
     this.submitData({price: newPrice});
     this.hideEditPrice();
   }
-
-  componentDidMount() {
-    this.refs.editPromoName.addEventListener('submit',this.submitName, false);
-    this.refs.editPromoPrice.addEventListener('submit',this.submitPrice, false);
-    const fullHeight = 74;
-    let newHeight = fullHeight * this.state.percentsValue / 100;    
-    this.refs.lvl.style.height = `${newHeight}px`;
-  } 
 
   hideEditName(){
     this.refs.editPromoName.style.display = "none";
