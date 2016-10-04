@@ -20,10 +20,10 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    ee.addListener('showingPromos', this.handleShowingPromos);
+    ee.addListener('showPromoShortList', this.handleShowingPromos);
   }
   componentWillUnmount() {
-    ee.removeListener('showingPromos', this.handleShowingPromos);
+    ee.removeListener('showPromoShortList', this.handleShowingPromos);
   }
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   render () {

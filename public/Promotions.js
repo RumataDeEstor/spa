@@ -18,17 +18,19 @@ class Promotions extends React.Component {
   }
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   componentWillMount() {
-    ee.emitEvent('showingPromos', [false]);
+    ee.emitEvent('showPromoShortList', [false]);
+    console.log('will');
   }
 
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
     this.loadItems();
+    console.log('did');
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
-    ee.emitEvent('showingPromos', [true]);
+    ee.emitEvent('showPromoShortList', [true]);
   }
 
   getPoints(points){

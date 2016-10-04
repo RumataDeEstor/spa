@@ -27202,12 +27202,12 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      _EventEmitter2.default.addListener('showingPromos', this.handleShowingPromos);
+	      _EventEmitter2.default.addListener('showPromoShortList', this.handleShowingPromos);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      _EventEmitter2.default.removeListener('showingPromos', this.handleShowingPromos);
+	      _EventEmitter2.default.removeListener('showPromoShortList', this.handleShowingPromos);
 	    }
 	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
@@ -28196,7 +28196,7 @@
 	      // console.dir(e.target.fieldName.value);
 	      //AJAX
 	      var newName = e.target.fieldName.value;
-	      this.setState({ name: newName });
+	      this.setState({ name: newName }); // update from server, not here.
 	      this.submitData({ name: newName });
 	      this.hideEditName();
 	    }
@@ -28206,7 +28206,7 @@
 	      e.preventDefault();
 	      //AJAX
 	      var newPrice = e.target.fieldPrice.value;
-	      this.setState({ price: newPrice });
+	      this.setState({ price: newPrice }); // update from server, not here.
 	      this.submitData({ price: newPrice });
 	      this.hideEditPrice();
 	    }
@@ -30462,19 +30462,21 @@
 	  _createClass(Promotions, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      _EventEmitter2.default.emitEvent('showingPromos', [false]);
+	      _EventEmitter2.default.emitEvent('showPromoShortList', [false]);
+	      console.log('will');
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      this.loadItems();
+	      console.log('did');
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.emitEvent('showingPromos', [true]);
+	      _EventEmitter2.default.emitEvent('showPromoShortList', [true]);
 	    }
 	  }, {
 	    key: 'getPoints',
