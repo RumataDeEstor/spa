@@ -32,10 +32,11 @@ class PromotionsShortList extends React.Component {
         }
         let newTopPromos = res.user.promotions
           .sort((first, second) => {
-            if (first.price < second.price) return -1;
+            if (first.price > second.price) return -1;
             return 1;
           }).slice(0, 3);
         this.setState({topPromos: newTopPromos});
+        return;
       })
       .catch(err => {
         console.log(err);

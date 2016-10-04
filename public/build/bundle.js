@@ -27169,6 +27169,10 @@
 
 	var _PromotionsShortList2 = _interopRequireDefault(_PromotionsShortList);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27183,14 +27187,34 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-	  }
-	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
+	    _this.state = { showPromoShort: true };
+	    _this.handleShowingPromos = _this.handleShowingPromos.bind(_this);
+	    return _this;
+	  }
 
 	  _createClass(App, [{
+	    key: 'handleShowingPromos',
+	    value: function handleShowingPromos(bool) {
+	      this.setState({ showPromoShort: bool });
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('showingPromos', this.handleShowingPromos);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('showingPromos', this.handleShowingPromos);
+	    }
+	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var component = this.state.showPromoShort ? _react2.default.createElement(_PromotionsShortList2.default, { login: this.props.params.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'app' },
@@ -27199,7 +27223,7 @@
 	          'div',
 	          { id: 'appContent' },
 	          this.props.children,
-	          _react2.default.createElement(_PromotionsShortList2.default, { login: this.props.params.login })
+	          component
 	        )
 	      );
 	    }
@@ -28000,7 +28024,7 @@
 
 	    var _this = _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
 
-	    _this.state = { topPromos: [] };
+	    _this.state = { topPromos: [], test: 0 };
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    return _this;
 	  }
@@ -28028,10 +28052,11 @@
 	          return;
 	        }
 	        var newTopPromos = res.user.promotions.sort(function (first, second) {
-	          if (first.price < second.price) return -1;
+	          if (first.price > second.price) return -1;
 	          return 1;
 	        }).slice(0, 3);
 	        _this2.setState({ topPromos: newTopPromos });
+	        return;
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -30393,7 +30418,13 @@
 	  }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
+
 	  _createClass(Promotions, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      _EventEmitter2.default.emitEvent('showingPromos', [false]);
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
@@ -30403,6 +30434,7 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.emitEvent('showingPromos', [true]);
 	    }
 	  }, {
 	    key: 'getPoints',
