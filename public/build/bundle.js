@@ -27471,9 +27471,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var ee = new _wolfy87Eventemitter2.default();
-
-	exports.default = ee;
+	exports.default = new _wolfy87Eventemitter2.default();
 
 /***/ },
 /* 239 */
@@ -27999,7 +27997,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	// export default already in line;
 	// forms everywhere;
 	// true Points here
 	// can I edit through Short List?
@@ -28076,9 +28073,6 @@
 	  return PromotionsShortList;
 	}(_react2.default.Component);
 
-	// export default PromotionsShortList;
-
-
 	exports.default = PromotionsShortList;
 
 /***/ },
@@ -28145,6 +28139,7 @@
 	  }, {
 	    key: 'submitData',
 	    value: function submitData(data) {
+	      console.log('submitData');
 	      var bodyJSON = JSON.stringify({
 	        name: data.name || null,
 	        price: data.price || null
@@ -28182,9 +28177,7 @@
 	    key: 'submitName',
 	    value: function submitName(e) {
 	      e.preventDefault();
-	      // console.log(this.props.id);
-	      // console.log(`sending request..`)
-	      // console.dir(e.target.fieldName.value);
+	      console.log('submit Name');
 	      //AJAX
 	      var newName = e.target.fieldName.value;
 	      this.setState({ name: newName }); // update from server, not here.
@@ -28921,11 +28914,12 @@
 	  return TasksItem;
 	}(_react2.default.Component);
 
+	exports.default = TasksItem;
+
+
 	TasksItem.propTypes = {
 	  onEdit: _react2.default.PropTypes.func
 	};
-
-	exports.default = TasksItem;
 
 /***/ },
 /* 248 */
@@ -28958,6 +28952,8 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	//TODO:forms
 
 	var TaskEditing = function (_React$Component) {
 	  _inherits(TaskEditing, _React$Component);
@@ -29124,6 +29120,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	//TODO:forms
 	var TasksAddNew = function (_React$Component) {
 	  _inherits(TasksAddNew, _React$Component);
 
@@ -29235,11 +29232,12 @@
 	  return TasksAddNew;
 	}(_react2.default.Component);
 
+	exports.default = TasksAddNew;
+
+
 	TasksAddNew.propTypes = {
 	  onAddingNew: _react2.default.PropTypes.func
 	};
-
-	exports.default = TasksAddNew;
 
 /***/ },
 /* 250 */
@@ -29386,18 +29384,6 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _Points = __webpack_require__(237);
-
-	var _Points2 = _interopRequireDefault(_Points);
-
-	var _ProjectsAddNew = __webpack_require__(253);
-
-	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
-
-	var _ProjectsList = __webpack_require__(254);
-
-	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -29405,8 +29391,6 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	// import ProjectsMenu from './ProjectsMenu';
-
 
 	var Projects = function (_React$Component) {
 	  _inherits(Projects, _React$Component);
@@ -29427,20 +29411,12 @@
 	        this.props.children
 	      );
 	    }
-	    // <ProjectsMenu login = {this.props.params.login}/>
-	    // <Points login = {this.props.params.login} ref='foo'/>
-
 	  }]);
 
 	  return Projects;
 	}(_react2.default.Component);
 
 	exports.default = Projects;
-	// const childrenWithProps = React.Children.map(this.props.children,
-	//       (child) => React.cloneElement(child, {
-	//        doSomething: this.doSomething
-	//      })
-	//     );
 
 /***/ },
 /* 253 */
@@ -29700,9 +29676,6 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        // res.projects.map(proj => {
-	        //   this.setState( {projects: [proj, ...this.state.projects] });
-	        // });
 	        var newProjects = res.user.projects.reverse();
 	        _this2.setState({ projects: newProjects });
 	      }).catch(function (err) {
@@ -29759,19 +29732,6 @@
 	    value: function finishChildEditing() {
 	      this.setState({ isEditing: null });
 	    }
-
-	    // handleChildOpen(id) {
-	    //   let login = this.props.params.login;
-	    //   browserHistory.push(`/app/${login}/projects/p/${id}`); 
-	    // }
-
-	    /*removing
-	      onRemovePerson: function(index) {
-	      var newData = this.state.data.slice(); //copy array
-	      newData.splice(index, 1); //remove element
-	      this.setState({data: newData}); //update state
-	    },*/
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -29896,11 +29856,12 @@
 	  return ProjectsItem;
 	}(_react2.default.Component);
 
+	exports.default = ProjectsItem;
+
+
 	ProjectsItem.propTypes = {
 	  onEdit: _react2.default.PropTypes.func
 	};
-
-	exports.default = ProjectsItem;
 
 /***/ },
 /* 256 */
@@ -30134,6 +30095,7 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	//TODO: forms
 	var Message = function (_React$Component) {
 	  _inherits(Message, _React$Component);
 
@@ -30375,6 +30337,7 @@
 	  _createClass(Rules, [{
 	    key: 'render',
 	    value: function render() {
+	      //TODO
 	      return _react2.default.createElement(
 	        'div',
 	        null,
@@ -30619,11 +30582,12 @@
 	  return PromotionsAddNew;
 	}(_react2.default.Component);
 
+	exports.default = PromotionsAddNew;
+
+
 	PromotionsAddNew.propTypes = {
 	  onNewPromoAdded: _react2.default.PropTypes.func
 	};
-
-	exports.default = PromotionsAddNew;
 
 /***/ }
 /******/ ]);

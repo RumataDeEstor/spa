@@ -32,6 +32,7 @@ export default class PromotionItem extends React.Component {
   }
 
   submitData(data){
+    console.log('submitData');
     let bodyJSON = JSON.stringify({
       name: data.name || null,
       price: data.price || null
@@ -69,6 +70,7 @@ export default class PromotionItem extends React.Component {
 
   submitName (e){
     e.preventDefault();
+    console.log('submit Name')
     //AJAX
     let newName = e.target.fieldName.value;
     this.setState({name: newName}); // update from server, not here.

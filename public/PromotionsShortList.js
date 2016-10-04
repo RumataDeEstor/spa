@@ -5,7 +5,6 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 import PromotionItem from './PromotionItem';
-// export default already in line;
 // forms everywhere;
 // true Points here
 // can I edit through Short List?
