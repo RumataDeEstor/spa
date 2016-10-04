@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 
-class PromotionsAddNew extends React.Component {
+export default class PromotionsAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
@@ -52,5 +52,3 @@ class PromotionsAddNew extends React.Component {
 PromotionsAddNew.propTypes = {
   onNewPromoAdded: React.PropTypes.func
 }
-
-export default PromotionsAddNew;

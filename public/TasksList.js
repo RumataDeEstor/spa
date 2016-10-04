@@ -8,7 +8,7 @@ import TasksItem from './TasksItem';
 import TasksAddNew from './TasksAddNew';
 import ee from './EventEmitter';
 
-class TasksList extends React.Component {
+export default class TasksList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { tasks: [], isEditing: null };
@@ -119,5 +119,3 @@ class TasksList extends React.Component {
           </div>
   }
 }
-
-export default TasksList;

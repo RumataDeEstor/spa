@@ -5,8 +5,11 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 import PromotionItem from './PromotionItem';
-
-class PromotionsShortList extends React.Component {
+// export default already in line;
+// forms everywhere;
+// true Points here
+// can I edit through Short List?
+export default class PromotionsShortList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {topPromos: []};
@@ -22,6 +25,7 @@ class PromotionsShortList extends React.Component {
       method: 'GET',
       credentials: 'include'
     }
+    
     let login = this.props.login;
     fetch(`/api/userdata/${login}`, reqParams)
       .then(res => res.json())
@@ -61,5 +65,3 @@ class PromotionsShortList extends React.Component {
           </div>
   }
 }
-
-export default PromotionsShortList;

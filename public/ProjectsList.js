@@ -8,7 +8,7 @@ import ProjectsAddNew from './ProjectsAddNew'
 import ProjectsItem from './ProjectsItem'
 import ee from './EventEmitter';
 
-class ProjectsList extends React.Component {
+export default class ProjectsList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { projects: [], isEditing: null };
@@ -31,9 +31,6 @@ class ProjectsList extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        // res.projects.map(proj => {
-        //   this.setState( {projects: [proj, ...this.state.projects] });
-        // });
         let newProjects = res.user.projects.reverse();
         this.setState({projects: newProjects});
       })
@@ -82,19 +79,7 @@ class ProjectsList extends React.Component {
   finishChildEditing() {
     this.setState({isEditing: null});
   }
-
-  // handleChildOpen(id) {
-  //   let login = this.props.params.login;
-  //   browserHistory.push(`/app/${login}/projects/p/${id}`); 
-  // }
-
-  /*removing
-    onRemovePerson: function(index) {
-    var newData = this.state.data.slice(); //copy array
-    newData.splice(index, 1); //remove element
-    this.setState({data: newData}); //update state
-  },*/
-
+  
   render () {
     return <div id = "projectsList">
             List Page
@@ -122,6 +107,4 @@ class ProjectsList extends React.Component {
           </div>
   }
 }
-
-export default ProjectsList;
             

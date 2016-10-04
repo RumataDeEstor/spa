@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class ProjectsMenu extends React.Component {
+export default class ProjectsMenu extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -20,4 +20,3 @@ class ProjectsMenu extends React.Component {
           </div>
   }
 }
-export default ProjectsMenu;

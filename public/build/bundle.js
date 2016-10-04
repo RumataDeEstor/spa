@@ -27187,34 +27187,17 @@
 	  function App(props) {
 	    _classCallCheck(this, App);
 
-	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
-
-	    _this.state = { showPromoShort: true };
-	    _this.handleShowingPromos = _this.handleShowingPromos.bind(_this);
-	    return _this;
+	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	  }
 
-	  _createClass(App, [{
-	    key: 'handleShowingPromos',
-	    value: function handleShowingPromos(bool) {
-	      this.setState({ showPromoShort: bool });
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      _EventEmitter2.default.addListener('showPromoShortList', this.handleShowingPromos);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      _EventEmitter2.default.removeListener('showPromoShortList', this.handleShowingPromos);
-	    }
-	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
-	  }, {
+
+	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
-	      var component = this.state.showPromoShort ? _react2.default.createElement(_PromotionsShortList2.default, { login: this.props.params.login }) : null;
+	      var shouldShowShortList = this.props.children.type.name !== "Promotions";
+	      var component = shouldShowShortList ? _react2.default.createElement(_PromotionsShortList2.default, { login: this.props.params.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'app' },
@@ -28016,6 +27999,10 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	// export default already in line;
+	// forms everywhere;
+	// true Points here
+	// can I edit through Short List?
 	var PromotionsShortList = function (_React$Component) {
 	  _inherits(PromotionsShortList, _React$Component);
 
@@ -28043,6 +28030,7 @@
 	        method: 'GET',
 	        credentials: 'include'
 	      };
+
 	      var login = this.props.login;
 	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
 	        return res.json();
@@ -28087,6 +28075,9 @@
 
 	  return PromotionsShortList;
 	}(_react2.default.Component);
+
+	// export default PromotionsShortList;
+
 
 	exports.default = PromotionsShortList;
 
@@ -30458,25 +30449,16 @@
 	  }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
-
 	  _createClass(Promotions, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      _EventEmitter2.default.emitEvent('showPromoShortList', [false]);
-	      console.log('will');
-	    }
-	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      this.loadItems();
-	      console.log('did');
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.emitEvent('showPromoShortList', [true]);
 	    }
 	  }, {
 	    key: 'getPoints',

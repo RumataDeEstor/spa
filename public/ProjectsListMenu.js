@@ -6,7 +6,7 @@ import {
 } from 'react-router'
 
 //USELESS (but --> tasks)
-class ProjectsListMenu extends React.Component {
+export default class ProjectsListMenu extends React.Component {
   constructor(props) {
     super(props);
     this.delete = this.delete.bind(this);
@@ -24,5 +24,3 @@ class ProjectsListMenu extends React.Component {
           </div>
   }
 }
-
-export default ProjectsListMenu;

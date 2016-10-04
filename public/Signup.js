@@ -4,7 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-
+//TODO: forms
 class Message extends React.Component {
   constructor(props) {
     super(props);
@@ -18,7 +18,7 @@ class Message extends React.Component {
   }
 }         
 
-class Signup extends React.Component {
+export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.signUp = this.signUp.bind(this);
@@ -71,5 +71,3 @@ class Signup extends React.Component {
             </div>
   }
 }
-
-export default Signup;

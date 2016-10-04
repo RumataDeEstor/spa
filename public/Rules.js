@@ -6,16 +6,15 @@ import {
 } from 'react-router'
 import Points from './Points';
 
-class Rules extends React.Component {
+export default class Rules extends React.Component {
   constructor(props) {
     super(props);
   }  
   
   render () {
+    //TODO
     return <div>
             My rules
           </div>
   }
 }
-
-export default Rules;

@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 
-class PromotionItem extends React.Component {
+export default class PromotionItem extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -69,9 +69,6 @@ class PromotionItem extends React.Component {
 
   submitName (e){
     e.preventDefault();
-    // console.log(this.props.id);
-    // console.log(`sending request..`)
-    // console.dir(e.target.fieldName.value);
     //AJAX
     let newName = e.target.fieldName.value;
     this.setState({name: newName}); // update from server, not here.
@@ -118,7 +115,6 @@ class PromotionItem extends React.Component {
     e.target.style.display = "none";
   }
 
-
   render () {
     return<div id = "promotionItem">            
             <div id = "exCircle">
@@ -146,5 +142,3 @@ class PromotionItem extends React.Component {
           </div>
   }
 }
-
-export default PromotionItem;

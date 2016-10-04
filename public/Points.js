@@ -6,7 +6,7 @@ import {
 } from 'react-router';
 import ee from './EventEmitter';
 
-class Points extends React.Component {
+export default class Points extends React.Component {
   constructor(props) {
     super(props);
     this.state = {points: null};
@@ -56,5 +56,3 @@ class Points extends React.Component {
             </div>
   }
 }
-
-export default Points;

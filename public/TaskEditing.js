@@ -6,7 +6,9 @@ import {
 } from 'react-router'
 import ee from './EventEmitter';
 
-class TaskEditing extends React.Component {
+//TODO:forms
+
+export default class TaskEditing extends React.Component {
   constructor(props) {
     super(props);
     this.saveChanges = this.saveChanges.bind(this);
@@ -104,5 +106,3 @@ class TaskEditing extends React.Component {
             </div>
   }
 }
-
-export default TaskEditing;

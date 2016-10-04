@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class StartPage extends React.Component {
+export default class StartPage extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -23,5 +23,3 @@ class StartPage extends React.Component {
           </div>
   }
 }
-
-export default StartPage;

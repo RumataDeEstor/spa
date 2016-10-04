@@ -4,8 +4,8 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-
-class TasksAddNew extends React.Component {
+//TODO:forms
+export default class TasksAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
@@ -82,5 +82,3 @@ class TasksAddNew extends React.Component {
 TasksAddNew.propTypes = {
   onAddingNew: React.PropTypes.func
 };
-
-export default TasksAddNew;

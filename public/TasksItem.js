@@ -7,7 +7,7 @@ import {
 import TaskEditing from './TaskEditing';
 import ee from './EventEmitter'
 
-class TasksItem extends React.Component {
+export default class TasksItem extends React.Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -75,5 +75,3 @@ class TasksItem extends React.Component {
 TasksItem.propTypes = {
   onEdit: React.PropTypes.func
 };
-
-export default TasksItem;

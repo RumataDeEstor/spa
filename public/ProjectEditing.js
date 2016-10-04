@@ -6,7 +6,7 @@ import {
 } from 'react-router'
 import ee from './EventEmitter';
 
-class ProjectEditing extends React.Component {
+export default class ProjectEditing extends React.Component {
   constructor(props) {
     super(props);
     this.saveChanges = this.saveChanges.bind(this);
@@ -131,5 +131,3 @@ class ProjectEditing extends React.Component {
             </div>
   }
 }
-
-export default ProjectEditing;

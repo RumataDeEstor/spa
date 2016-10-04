@@ -6,7 +6,7 @@ import {
 } from 'react-router'
 import ProjectEditing from './ProjectEditing';
 
-class ProjectsItem extends React.Component {
+export default class ProjectsItem extends React.Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
@@ -42,5 +42,3 @@ class ProjectsItem extends React.Component {
 ProjectsItem.propTypes = {
   onEdit: React.PropTypes.func
 };
-
-export default ProjectsItem;

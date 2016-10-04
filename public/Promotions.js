@@ -9,7 +9,7 @@ import PromotionsAddNew from './PromotionsAddNew';
 import Points from './Points';
 import ee from './EventEmitter';
 
-class Promotions extends React.Component {
+export default class Promotions extends React.Component {
   constructor(props) {
     super(props);
     this.loadItems = this.loadItems.bind(this);
@@ -17,20 +17,14 @@ class Promotions extends React.Component {
     this.getPoints = this.getPoints.bind(this);
   }
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-  componentWillMount() {
-    ee.emitEvent('showPromoShortList', [false]);
-    console.log('will');
-  }
-
+  
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
     this.loadItems();
-    console.log('did');
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
-    ee.emitEvent('showPromoShortList', [true]);
   }
 
   getPoints(points){
@@ -85,5 +79,3 @@ class Promotions extends React.Component {
           </div>
   }
 }
-
-export default Promotions;

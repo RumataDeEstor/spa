@@ -5,17 +5,15 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class Tasks extends React.Component {
+export default class Tasks extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render () {
     return <div>
-          Tasks!
-          {this.props.children}
+            Tasks!
+            {this.props.children}
           </div>
   }
 }
-
-export default Tasks;

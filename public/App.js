@@ -8,26 +8,16 @@ import InternalTopmenu from './InternalTopmenu';
 import PromotionsShortList from './PromotionsShortList';
 import ee from './EventEmitter';
 
-class App extends React.Component {
+export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {showPromoShort: true};
-    this.handleShowingPromos = this.handleShowingPromos.bind(this);
-  }
-
-  handleShowingPromos(bool){
-    this.setState({showPromoShort: bool});
-  }
-
-  componentDidMount() {
-    ee.addListener('showPromoShortList', this.handleShowingPromos);
-  }
-  componentWillUnmount() {
-    ee.removeListener('showPromoShortList', this.handleShowingPromos);
-  }
+  } 
+ 
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   render () {
-    let component = this.state.showPromoShort ? <PromotionsShortList login = {this.props.params.login}/> : null;
+    let shouldShowShortList = (this.props.children.type.name !== "Promotions");
+    let component = shouldShowShortList ? 
+      <PromotionsShortList login = {this.props.params.login}/> : null;
     return <div id = "app">
             <InternalTopmenu login = {this.props.params.login}/>
             <div id = "appContent">
@@ -37,5 +27,3 @@ class App extends React.Component {
           </div>
   }
 }
-
-export default App;

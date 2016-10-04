@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class Login extends React.Component {
+export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.logIn = this.logIn.bind(this);
@@ -53,4 +53,3 @@ class Login extends React.Component {
           </div>
   }
 }
-export default Login;

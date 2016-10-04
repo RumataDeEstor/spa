@@ -7,7 +7,7 @@ import {
 import TasksList from './TasksList';
 import update from 'react-addons-update';
 
-class Project extends React.Component {
+export default class Project extends React.Component {
   constructor(props){
     super(props);
     this.loadPage = this.loadPage.bind(this);
@@ -55,5 +55,3 @@ class Project extends React.Component {
           </div>
   }
 }
-
-export default Project;

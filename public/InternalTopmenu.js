@@ -6,7 +6,7 @@ import {
 } from 'react-router'
 import Points from './Points'
 
-class InternalTopmenu extends React.Component {
+export default class InternalTopmenu extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -48,5 +48,3 @@ class InternalTopmenu extends React.Component {
           </div>
   }
 }
-
-export default InternalTopmenu;
