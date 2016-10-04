@@ -75,6 +75,7 @@ class Promotions extends React.Component {
                     name = {el.name} 
                     price = {el.price} 
                     points = {this.state.points}
+                    login = {this.props.params.login}
                   />
                 })
               }

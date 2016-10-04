@@ -91,6 +91,7 @@ class ProjectEditing extends React.Component {
           return;
         }
         let newData = {name: editName.value, label: editChosenColor.className};
+        //take from server?
         ee.emitEvent('projectSaveEdit', [projID, newData]);
         this.onFinishEdit();
       })

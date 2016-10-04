@@ -28024,7 +28024,7 @@
 
 	    var _this = _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
 
-	    _this.state = { topPromos: [], test: 0 };
+	    _this.state = { topPromos: [] };
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    return _this;
 	  }
@@ -28138,8 +28138,9 @@
 	    _this.hideEditName = _this.hideEditName.bind(_this);
 	    _this.hideEditPrice = _this.hideEditPrice.bind(_this);
 	    _this.showEditPrice = _this.showEditPrice.bind(_this);
-	    _this.submitName = _this.submitName.bind(_this);
-	    _this.submitPrice = _this.submitPrice.bind(_this);
+	    _this.submitName = _this.submitName.bind(_this); // rename 
+	    _this.submitPrice = _this.submitPrice.bind(_this); // rename validate?
+	    _this.submitData = _this.submitData.bind(_this);
 	    return _this;
 	  }
 
@@ -28151,6 +28152,42 @@
 	      this.setState({ percentsValue: value });
 	    }
 	  }, {
+	    key: 'submitData',
+	    value: function submitData(data) {
+	      var bodyJSON = JSON.stringify({
+	        name: data.name || null,
+	        price: data.price || null
+	      });
+
+	      var reqParams = {
+	        method: 'PUT',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+	      var promoID = this.state.id;
+
+	      fetch('/api/userdata/' + login + '/promotions/' + promoID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        console.log(res);
+	        // let newData = {name: editName.value, label: editChosenColor.className};
+	        //take from server?
+	        // ee.emitEvent('projectSaveEdit', [projID, newData]);
+	        // this.onFinishEdit();
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
 	    key: 'submitName',
 	    value: function submitName(e) {
 	      e.preventDefault();
@@ -28160,6 +28197,7 @@
 	      //AJAX
 	      var newName = e.target.fieldName.value;
 	      this.setState({ name: newName });
+	      this.submitData({ name: newName });
 	      this.hideEditName();
 	    }
 	  }, {
@@ -28169,6 +28207,7 @@
 	      //AJAX
 	      var newPrice = e.target.fieldPrice.value;
 	      this.setState({ price: newPrice });
+	      this.submitData({ price: newPrice });
 	      this.hideEditPrice();
 	    }
 	  }, {
@@ -30007,6 +30046,7 @@
 	          return;
 	        }
 	        var newData = { name: editName.value, label: editChosenColor.className };
+	        //take from server?
 	        _EventEmitter2.default.emitEvent('projectSaveEdit', [projID, newData]);
 	        _this3.onFinishEdit();
 	      }).catch(function (err) {
@@ -30490,7 +30530,8 @@
 	              id: el._id,
 	              name: el.name,
 	              price: el.price,
-	              points: _this3.state.points
+	              points: _this3.state.points,
+	              login: _this3.props.params.login
 	            });
 	          })
 	        )

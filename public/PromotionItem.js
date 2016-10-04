@@ -20,14 +20,51 @@ class PromotionItem extends React.Component {
     this.hideEditName = this.hideEditName.bind(this);
     this.hideEditPrice = this.hideEditPrice.bind(this);
     this.showEditPrice = this.showEditPrice.bind(this);
-    this.submitName = this.submitName.bind(this);
-    this.submitPrice = this.submitPrice.bind(this);
+    this.submitName = this.submitName.bind(this); // rename 
+    this.submitPrice = this.submitPrice.bind(this); // rename validate?
+    this.submitData = this.submitData.bind(this);
   }
 
   componentWillMount() {
     let value = Math.round( this.props.points / this.props.price * 100 );
     value = (value > 100) ? 100 : value;
     this.setState({percentsValue: value});    
+  }
+
+  submitData(data){
+    let bodyJSON = JSON.stringify({
+      name: data.name || null,
+      price: data.price || null
+    });
+      
+    let reqParams = {
+      method: 'PUT',
+      headers: {  
+        "Content-type": "application/json; charset=UTF-8"  
+      },
+      credentials: 'include',
+      body: bodyJSON
+    }
+
+    let login = this.props.login;
+    let promoID = this.state.id;
+
+    fetch(`/api/userdata/${login}/promotions/${promoID}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error); // handle;
+          return;
+        }
+        console.log(res);
+        // let newData = {name: editName.value, label: editChosenColor.className};
+        //take from server?
+        // ee.emitEvent('projectSaveEdit', [projID, newData]);
+        // this.onFinishEdit();
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   submitName (e){
@@ -37,7 +74,8 @@ class PromotionItem extends React.Component {
     // console.dir(e.target.fieldName.value);
     //AJAX
     let newName = e.target.fieldName.value;
-    this.setState({name: newName});
+    this.setState({name: newName}); // update from server, not here.
+    this.submitData({name: newName});
     this.hideEditName();
   }
 
@@ -45,7 +83,8 @@ class PromotionItem extends React.Component {
     e.preventDefault();
     //AJAX
     let newPrice = e.target.fieldPrice.value;
-    this.setState({price: newPrice});
+    this.setState({price: newPrice}); // update from server, not here.
+    this.submitData({price: newPrice});
     this.hideEditPrice();
   }
 

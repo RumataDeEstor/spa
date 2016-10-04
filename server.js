@@ -232,6 +232,44 @@ app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
   })  
 });
 
+app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,next) => {
+  if (req.params.login !== req.user.login) {  
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) { 
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {  
+      let updatedPromo = null;
+      user.promotions.map(promo => {
+        if (promo._id == req.params.promoID) {
+          promo.name = req.body.name || promo.name;
+          promo.price = req.body.price || promo.price;
+          updatedPromo = promo;
+        } 
+      }); 
+      // or byID?
+
+      user.save((err) =>{
+        if (!err) {
+          debug('updated.');
+          res.status(200).send({message: 'updated', promotion: updatedPromo});
+        } else {
+          debug(err);
+          if(err.name == 'ValidationError') {
+            res.statusCode = 400;
+            res.send({ error: 'Validation error' });
+          } else {
+            res.statusCode = 500;
+            res.send({error: 'Internal Server Error'});
+          }
+        }
+      });
+    }
+  })  
+});
+
 // open single project
 app.get('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
   debug('here');
