@@ -5,18 +5,30 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 import PromotionItem from './PromotionItem';
+import ee from './EventEmitter';
 // forms everywhere;
 // true Points here
 // can I edit through Short List?
 export default class PromotionsShortList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {topPromos: []};
+    this.state = {topPromos: [], points: null};
     this.loadItems = this.loadItems.bind(this);
+    this.getPoints = this.getPoints.bind(this);
   }
 
   componentDidMount(){
+    ee.addListener('getPoints', this.getPoints);
+    ee.emitEvent('reqForPoints');
     this.loadItems();
+  }
+
+  componentWillUnmount() {
+    ee.removeListener('getPoints', this.getPoints);
+  }
+
+  getPoints(points){
+    this.setState({points: points});
   }
 
   loadItems(){
@@ -56,8 +68,8 @@ export default class PromotionsShortList extends React.Component {
                   id ={el._id} 
                   name = {el.name} 
                   price = {el.price} 
-                  // points = {this.state.points}
-                  points = {60}
+                  points = {this.state.points}
+                  login = {this.props.login}
                 />
               })
             } 

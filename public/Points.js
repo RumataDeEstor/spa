@@ -12,11 +12,16 @@ export default class Points extends React.Component {
     this.state = {points: null};
     this.getPoints = this.getPoints.bind(this);
     this.updatePoints = this.updatePoints.bind(this);
+    this.giveCurPoints = this.giveCurPoints.bind(this);
   }
 
   updatePoints(newPoints) {
     this.setState({points: this.state.points+newPoints});
     ee.emitEvent('getPoints', [newPoints]);
+  }
+
+  giveCurPoints(){
+    ee.emitEvent('getPoints', [this.state.points]);
   }
 
   getPoints() {
@@ -41,12 +46,14 @@ export default class Points extends React.Component {
   }
   
   componentDidMount () {
+    ee.addListener('reqForPoints', this.giveCurPoints);
     ee.addListener('pointsUpdated', this.updatePoints);
     this.getPoints();
   }
 
   componentWillUnmount() {
     ee.removeListener('pointsUpdated', this.updatePoints);
+    ee.removeListener('reqForPoints', this.giveCurPoints);
   }
 
   render () {

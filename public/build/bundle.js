@@ -27395,6 +27395,7 @@
 	    _this.state = { points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
 	    _this.updatePoints = _this.updatePoints.bind(_this);
+	    _this.giveCurPoints = _this.giveCurPoints.bind(_this);
 	    return _this;
 	  }
 
@@ -27403,6 +27404,11 @@
 	    value: function updatePoints(newPoints) {
 	      this.setState({ points: this.state.points + newPoints });
 	      _EventEmitter2.default.emitEvent('getPoints', [newPoints]);
+	    }
+	  }, {
+	    key: 'giveCurPoints',
+	    value: function giveCurPoints() {
+	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
 	    }
 	  }, {
 	    key: 'getPoints',
@@ -27430,6 +27436,7 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('reqForPoints', this.giveCurPoints);
 	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
 	      this.getPoints();
 	    }
@@ -27437,6 +27444,7 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('pointsUpdated', this.updatePoints);
+	      _EventEmitter2.default.removeListener('reqForPoints', this.giveCurPoints);
 	    }
 	  }, {
 	    key: 'render',
@@ -27989,6 +27997,10 @@
 
 	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28008,15 +28020,28 @@
 
 	    var _this = _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
 
-	    _this.state = { topPromos: [] };
+	    _this.state = { topPromos: [], points: null };
 	    _this.loadItems = _this.loadItems.bind(_this);
+	    _this.getPoints = _this.getPoints.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(PromotionsShortList, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
+	    }
+	  }, {
+	    key: 'getPoints',
+	    value: function getPoints(points) {
+	      this.setState({ points: points });
 	    }
 	  }, {
 	    key: 'loadItems',
@@ -28052,6 +28077,8 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var _this3 = this;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promoShort' },
@@ -28061,9 +28088,9 @@
 	            key: i,
 	            id: el._id,
 	            name: el.name,
-	            price: el.price
-	            // points = {this.state.points}
-	            , points: 60
+	            price: el.price,
+	            points: _this3.state.points,
+	            login: _this3.props.login
 	          });
 	        })
 	      );
