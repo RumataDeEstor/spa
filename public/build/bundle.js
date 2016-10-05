@@ -28155,6 +28155,8 @@
 	    _this.submitData = _this.submitData.bind(_this);
 	    return _this;
 	  }
+	  // almost the same as while mounting; may be separated;
+
 
 	  _createClass(PromotionItem, [{
 	    key: 'componentWillReceiveProps',
@@ -28163,7 +28165,6 @@
 	      var value = Math.round(newProps.points / newProps.price * 100);
 	      value = value > 100 ? 100 : value;
 	      this.setState({ percentsValue: value });
-
 	      var fullHeight = 74;
 	      var newHeight = fullHeight * this.state.percentsValue / 100;
 	      this.refs.lvl.style.height = newHeight + 'px';
@@ -30380,7 +30381,34 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'My rules'
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'rulesList' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'ruleItem' },
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'back' },
+	              '!'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'itemText' },
+	              'Не забывать уносить тарелки сразу после еды.'
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'fine' },
+	              '200'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { id: 'break' },
+	              'Break!'
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);

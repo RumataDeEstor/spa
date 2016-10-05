@@ -14,7 +14,18 @@ export default class Rules extends React.Component {
   render () {
     //TODO
     return <div>
-            My rules
+            <div id = "rulesList">
+              <div id = "ruleItem">
+                <div id = "back">!</div>
+                <div id = "itemText">
+                  Не забывать уносить тарелки сразу после еды.
+                </div>
+                <div id = "fine">
+                  200
+                </div>
+                <button id = "break">Break!</button>
+              </div>
+            </div>
           </div>
   }
 }

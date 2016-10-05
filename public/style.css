@@ -42,7 +42,7 @@ body {
   right: 0;
   top: 15%;
   z-index: 3;
- /* display: none;*/
+  user-select: none
 }
 
 a {
@@ -67,6 +67,10 @@ li, button {
   list-style-type: none;     
   outline: none; 
   border: none;
+}
+
+button {
+  user-select: none
 }
 
 li {
@@ -117,6 +121,7 @@ li.chosen {
   top: 0;
   width: 100%;
   z-index: 3;
+  user-select: none
 }
 
 .links {
@@ -193,6 +198,7 @@ li.chosen {
   font: 20px Arial;
   width: 650px;
   margin-top: 20px;
+  box-shadow: 0 2px 10px black;
 }
 
 #pBtn {
@@ -232,7 +238,6 @@ input {
   border: 1px ridge #cdcfd2;
   border-radius: 5px;
   font: 18px Arial;  
-  margin-bottom: 20px;
   background-color: white;
   padding-left: 10px;
 }
@@ -255,10 +260,12 @@ div .authForms {
   border-radius: 6px;
   /*background-color: #97defe;*/
   background-color: white;
+  box-shadow: 0 4px 10px black;
 }
 
 #password, #login, #spassword, #slogin {
   margin-top: 5px;
+  margin-bottom: 20px;
 }
 
 .lpForm p {
@@ -318,12 +325,13 @@ div .authForms {
 #lineExpand {  
   background-color: white;
   color: #424242;
-  border: 1px solid #424242;
+  border: 2px groove gray;
   border-radius: 6px;
   font: 24px Arial;
   width: 650px;  
   display: flex;
   justify-content: center;
+  user-select: none
 }
 
 #expand {
@@ -472,12 +480,16 @@ div .authForms {
 
 #promotionItem {
   border: 1px solid black;
+  border-radius: 3px;
   width: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center; 
   align-items: center;
   padding: 10px;
+  box-shadow: 0 0 10px black;
+  cursor: pointer;
+  position: relative;
 }
 
 #exCircle {
@@ -488,7 +500,11 @@ div .authForms {
   display: flex;
   justify-content: center;
   align-items: center;
-  
+}
+
+#exCircle:hover {
+  border-color: red;
+  transition: all 0.3s linear;
 }
 
 #inCircle {
@@ -526,6 +542,11 @@ div .authForms {
   font: 20px Arial;
 }
 
+
+#promoName:hover, #promoPrice:hover {
+  opacity: 0.4;
+}
+
 #editPromoName, #editPromoPrice {
   display: none;
   width: 140px;
@@ -557,7 +578,57 @@ div .authForms {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  user-select: none
 }
 /*i.fa.fa-pencil-square-o:hover {
 
 }*/
+
+/*RULE ITEM--------------------------------------------------------*/
+#back {
+  position: absolute;
+  font-size: 200px;  
+  color: #E32636;
+  opacity: 0.2;
+  top: -15px;
+  user-select: none;
+  pointer-events: none;
+}
+
+#ruleItem {
+  overflow: hidden;
+  background-color: #ECA9A7;
+  width: 170px;
+  height: 200px;
+ /* border: 2px ridge #E32636;*/
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  box-shadow: 3px 3px 10px #E32636;
+  user-select: none
+}
+#itemText {
+  border-radius: 5px;
+  margin-top: 10px;
+  background-color: #FEF49A;
+  width: 136px;
+  padding: 7px;
+  font: 18px Arial;
+  color: #E32636;
+}
+#fine {
+  margin-bottom: 7px;
+  font: 22px Arial bold;
+  color: #E32636;
+}
+#break {
+  border-radius: 10px;
+  background-color: red;
+  color: white;
+  padding: 3px;
+  border: none;
+  margin-bottom: 3px;
+}
