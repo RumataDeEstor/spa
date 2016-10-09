@@ -28082,7 +28082,11 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promoShort' },
-	        'TOP PROMOTIONS',
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'pshortTitle' },
+	          ' Top Promotions '
+	        ),
 	        this.state.topPromos.map(function (el, i) {
 	          return _react2.default.createElement(_PromotionItem2.default, {
 	            key: i,
@@ -28090,7 +28094,8 @@
 	            name: el.name,
 	            price: el.price,
 	            points: _this3.state.points,
-	            login: _this3.props.login
+	            login: _this3.props.login,
+	            loc: 'short'
 	          });
 	        })
 	      );
@@ -28143,7 +28148,8 @@
 	      price: _this.props.price,
 	      points: _this.props.points,
 	      id: _this.props.id,
-	      percentsValue: 0
+	      percentsValue: 0,
+	      loc: _this.props.loc
 	    };
 
 	    _this.showEditName = _this.showEditName.bind(_this);
@@ -28153,6 +28159,8 @@
 	    _this.submitName = _this.submitName.bind(_this); // rename 
 	    _this.submitPrice = _this.submitPrice.bind(_this); // rename validate?
 	    _this.submitData = _this.submitData.bind(_this);
+	    _this.showPercents = _this.showPercents.bind(_this);
+	    _this.hidePercents = _this.hidePercents.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28179,6 +28187,10 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      if (this.state.loc == "full") {
+	        this.refs.promoPrice.addEventListener('click', this.showEditPrice);
+	        this.refs.promoName.addEventListener('click', this.showEditName);
+	      }
 	      this.refs.editPromoName.addEventListener('submit', this.submitName, false);
 	      this.refs.editPromoPrice.addEventListener('submit', this.submitPrice, false);
 	      var fullHeight = 74;
@@ -28244,6 +28256,16 @@
 	      this.hideEditPrice();
 	    }
 	  }, {
+	    key: 'showPercents',
+	    value: function showPercents() {
+	      this.refs.pers.style.visibility = "visible";
+	    }
+	  }, {
+	    key: 'hidePercents',
+	    value: function hidePercents() {
+	      this.refs.pers.style.visibility = "hidden";
+	    }
+	  }, {
 	    key: 'hideEditName',
 	    value: function hideEditName() {
 	      this.refs.editPromoName.style.display = "none";
@@ -28267,7 +28289,7 @@
 	    value: function showEditPrice(e) {
 	      this.hideEditName();
 	      this.refs.editPromoPrice.style.display = "flex";
-	      e.target.style.display = "none";
+	      this.refs.promoPrice.style.display = "none";
 	    }
 	  }, {
 	    key: 'render',
@@ -28277,38 +28299,40 @@
 	        { id: 'promotionItem' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'exCircle' },
+	          { id: 'promoPrice', ref: 'promoPrice' },
+	          this.state.price,
+	          _react2.default.createElement('i', { className: 'fa fa-circle', 'aria-hidden': 'true' })
+	        ),
+	        _react2.default.createElement(
+	          'form',
+	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
+	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500', name: 'fieldPrice' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'exCircle',
+	            onMouseOver: this.showPercents,
+	            onMouseOut: this.hidePercents },
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'inCircle' },
-	            _react2.default.createElement(
-	              'div',
-	              { id: 'percents', ref: 'pers' },
-	              ' ',
-	              this.state.percentsValue + '%'
-	            ),
 	            _react2.default.createElement('div', { id: 'square', ref: 'lvl' })
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'promoName', ref: 'promoName', onClick: this.showEditName },
+	          { id: 'percents', ref: 'pers' },
+	          this.state.percentsValue + '%'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'promoName', ref: 'promoName' },
 	          this.state.name
 	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoName', id: 'editPromoName' },
 	          _react2.default.createElement('input', { type: 'text', name: 'fieldName' })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'promoPrice', ref: 'promoPrice', onClick: this.showEditPrice },
-	          this.state.price
-	        ),
-	        _react2.default.createElement(
-	          'form',
-	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
-	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500', name: 'fieldPrice' })
 	        )
 	      );
 	    }
@@ -28873,6 +28897,15 @@
 	  }
 
 	  _createClass(TasksItem, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.editing) {
+	        this.refs.itemNorm.style.display = "none";
+	        return;
+	      }
+	      this.refs.itemNorm.style.display = "flex";
+	    }
+	  }, {
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
@@ -28918,17 +28951,17 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { id: 'tasksItem' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'tasksItem' },
+	          { id: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'taskLine' },
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'taskCheckbox', onClick: this.complete },
-	              ' complete'
+	              ' !'
 	            ),
 	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
 	            this.props.name
@@ -29012,9 +29045,9 @@
 	  _createClass(TaskEditing, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      setTimeout(function () {
-	        editForm.style.height = "76px";
-	      }, 1);
+	      // setTimeout( () =>{
+	      //   editForm.style.height = "76px";
+	      // }, 1);    
 	    }
 	  }, {
 	    key: 'onFinishEdit',
@@ -29857,6 +29890,15 @@
 	  }
 
 	  _createClass(ProjectsItem, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.editing) {
+	        this.refs.itemNorm.style.display = "none";
+	        return;
+	      }
+	      this.refs.itemNorm.style.display = "flex";
+	    }
+	  }, {
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
@@ -29872,15 +29914,19 @@
 	      var component = this.props.editing ? _react2.default.createElement(_ProjectEditing2.default, { target: this, login: this.props.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { id: 'projectsItem' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'projectsItem' },
+	          { id: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'projectLine', onClick: this.open },
 	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
-	            this.props.name
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'projName' },
+	              this.props.name
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
@@ -29952,9 +29998,7 @@
 	  _createClass(ProjectEditing, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      setTimeout(function () {
-	        editForm.style.height = "36px";
-	      }, 1);
+	      // editForm.style.height = "35px";   
 	    }
 	  }, {
 	    key: 'onFinishEdit',
@@ -30545,7 +30589,8 @@
 	              name: el.name,
 	              price: el.price,
 	              points: _this3.state.points,
-	              login: _this3.props.params.login
+	              login: _this3.props.params.login,
+	              loc: 'full'
 	            });
 	          })
 	        )

@@ -12,6 +12,7 @@ body {
       #CAFBFC,
       #1470C8
     );
+  font-family: Verdana;
 }
 
 #root {
@@ -28,21 +29,45 @@ body {
   margin-left: 10px;
   margin-top: 65px;
   display: flex;
+  background-color: #EDEEF0;
  /* flex-direction: row;
   justify-content: space-between;*/
 }
 
 #promoShort {
-  background-color: #175496;
-  color: white;
+  background-color: white;
+  color: #6A6A6D;
   /*margin-right: 10px;*/
   margin-top: 0px; 
+  width: 170px;
   height: 100%;
   position: fixed;
   right: 0;
-  top: 15%;
+  top: 8%;
   z-index: 3;
-  user-select: none
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  box-shadow: 0 0 0px 1px #dadada,  
+   0 0 0px 2px #e7e7e7;
+}
+
+#promoShort #promotionItem {
+  font: 14px Verdana;
+  font-weight: bold;
+}
+
+#pshortTitle {
+  height: 45px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #333333;
+  color: white;
+  font: 18px Verdana;
+  box-shadow: inset 1px 1px 0px #505050,
+    inset -1px -2px 0px #505050;
 }
 
 a {
@@ -70,7 +95,7 @@ li, button {
 }
 
 button {
-  user-select: none
+  /*user-select: none*/
 }
 
 li {
@@ -121,7 +146,10 @@ li.chosen {
   top: 0;
   width: 100%;
   z-index: 3;
-  user-select: none
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .links {
@@ -134,7 +162,7 @@ li.chosen {
 #logo {
   display: flex;
   align-self: center;
-  font: 38px Arial;
+  font: 38px Verdana;
   padding: 0;
   color: black;
 }
@@ -147,7 +175,7 @@ li.chosen {
   background-color: #5AAA6E;
   border: 4px outset #7CC59A;
   color: #19570F;
-  font: 32px Arial;
+  font: 32px Verdana;
 }
 
 .links li:hover {
@@ -161,8 +189,8 @@ li.chosen {
 }
 
 .links li button {
-  background-color: inherit;
-  font: 32px Arial;
+  background-color: #5AAA6E;
+  font: 32px Verdana;
   color: #19570F;
   border: none;
   padding: 0 30px;
@@ -191,14 +219,16 @@ li.chosen {
   /*background-color: #4FC4B4;*/
   background-color: white;
   /*color: #186755; */
-  color: #424242;
+  color: #5e5e61;
   /*#186755*/
-  border: 1px solid #424242;
-  border-radius: 6px;
-  font: 20px Arial;
+  font: 20px Verdana;
   width: 650px;
+  height: 35px;
   margin-top: 20px;
-  box-shadow: 0 2px 10px black;
+  /*box-shadow: 0 2px 10px black;*/
+  box-shadow: 0 0 0px 1px #d1d1d1,  
+   0 0 0px 2px #dadada,
+   0 0 0px 3px #e5e5e5;
 }
 
 #pBtn {
@@ -231,13 +261,13 @@ li.chosen {
 }
 
 #about {
-  font: 24px Arial;
+  font: 24px Verdana;
 }
 
 input {
   border: 1px ridge #cdcfd2;
   border-radius: 5px;
-  font: 18px Arial;  
+  font: 18px Verdana;  
   background-color: white;
   padding-left: 10px;
 }
@@ -252,7 +282,7 @@ div .authForms {
   max-width: 240px;
   display: flex;
   flex-direction: column;
-  font: 24px Arial;
+  font: 24px Verdana;
   /*font-weight: bold;*/
   margin-top: 160px;
   padding: 15px 20px;
@@ -273,8 +303,8 @@ div .authForms {
 }
 
 #projectLabel {
-  width: 10px;
-  margin: 0 10px 0 20px;
+  width: 15px;
+  margin: 0 20px 0 25px;
   height: inherit;
 }
 
@@ -283,7 +313,9 @@ div .authForms {
   height: 40px;
   background-color: white;
   display: flex;
-  border-radius: 20px;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  /*border-radius: 20px;*/
   margin-bottom: 20px;
 }
 
@@ -296,8 +328,18 @@ div .authForms {
   margin-right: 30px;
 }
 
+#taskLine {
+  width: 490px;
+}
+
 #projectLine {
   cursor: pointer;
+}
+
+#projName {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
 }
 /*#selectedLabel {
   border: 2px solid black;
@@ -305,7 +347,7 @@ div .authForms {
 
 /*-----ADD NEW PROJECT EXPAND---------*/
 
-#addNewForm, #editForm {
+#addNewForm {
   height: 0;
   width: 650px; 
   border: 1px solid #424242;
@@ -314,24 +356,40 @@ div .authForms {
   background-color: white;
   border-radius: 12px;
   display: flex;
-  transition: height 0.2s linear;
+  /*transition: height 0.2s linear;*/
   overflow: hidden;
 }
 
-/*#editForm {
-  height: 76px;
-}*/
+
+#editForm {
+  height: 35px;
+  width: 648px; 
+  /*border-top: none;
+  border-bottom: none;*/
+  background-color: white;
+  /*border-radius: 12px;*/
+  display: flex;
+  /*transition: height 0.2s linear;*/
+  overflow: hidden;
+}
+
+#itemNormal {
+  width: 648px;
+}
 
 #lineExpand {  
   background-color: white;
   color: #424242;
   border: 2px groove gray;
   border-radius: 6px;
-  font: 24px Arial;
+  font: 24px Verdana;
   width: 650px;  
   display: flex;
   justify-content: center;
-  user-select: none
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 #expand {
@@ -352,7 +410,7 @@ div .authForms {
   width: 248px;
   height: 26px;
   align-items: center;
-  font: 18px Arial;
+  font: 18px Verdana;
   /*border: 1px solid black;*/
   /*padding: 4px;*/
 }
@@ -390,7 +448,6 @@ div .authForms {
 }
 
 #editButtons {
-  margin-left: 6px;
   display: flex;
 }
 
@@ -479,44 +536,96 @@ div .authForms {
 /*-----PROMOTION ITEM---------*/
 
 #promotionItem {
-  border: 1px solid black;
-  border-radius: 3px;
+  /*border: 1px solid black;
+  border-radius: 3px;*/
   width: 150px;
   display: flex;
   flex-direction: column;
   justify-content: center; 
   align-items: center;
   padding: 10px;
-  box-shadow: 0 0 10px black;
+  /*box-shadow: 0 0 10px black;*/
   cursor: pointer;
   position: relative;
+  font: 16px Verdana;
+  color: #535356;
+  font-weight: bold;
+}
+
+.fa.fa-circle {
+  color: #8AC176;
+  font-size: 9px;
+  display: flex;
+  align-self: center;
+  margin-left: 3px;
 }
 
 #exCircle {
-  width: 90px;
+/* width: 90px;
   height: 90px;
   border-radius: 60px;
   border: 6px solid #ef84da;
+  border-left-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
+  animation: spin 1s linear 0s infinite normal;*/
+  width: 100px;
+  height: 100px;
+  border-radius: 60px;
+ /* border: 2px solid #EDEEF0*/;
+  box-shadow: 0 0 0px 1px #dadada,  
+   0 0 0px 2px #e7e7e7;
+  background-color: #EF84DA;
+ /* border-left-color: transparent;*/
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /*animation: spin 1s linear 0s infinite normal;*/
+}
+@keyframes spin { 
+  from { 
+    transform: rotate(0deg); 
+  } 
+  to { 
+    transform: rotate(360deg); 
+  } 
 }
 
+@keyframes notspin { 
+  from { 
+    transform: rotate(360deg); 
+  } 
+  to { 
+    transform: rotate(0deg); 
+  } 
+}
 #exCircle:hover {
   border-color: red;
   transition: all 0.3s linear;
 }
 
 #inCircle {
+  /* width: 74px;
+  height: 74px;
+  border-radius: 50px;*/
+  /*border: 3px solid #ef84da;*/
+  /*  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  overflow: hidden;
+  position: relative;*/
+  /*animation: notspin 1s linear 0s infinite normal;*/
   width: 74px;
   height: 74px;
+  border: 3px solid white;
   border-radius: 50px;
-  /*border: 3px solid #ef84da;*/
   display: flex;
   justify-content: center;
   align-items: flex-end;
   overflow: hidden;
   position: relative;
+  background-color: white;
 }
 
 #square {
@@ -530,21 +639,42 @@ div .authForms {
 }
 
 #percents {
-  position: absolute;
+  /*position: absolute;*/
   display: flex;
   justify-content: center;
   width: 50px;
   height: 20px;
   left: 12px;
   top: 27px;
-  z-index: 2;
-  color: white;
-  font: 20px Arial;
+  /*z-index: 2;*/
+  /*color: #6A6A6D;*/
+  color: #828285;
+  font: 10px Verdana;
+  font-weight: bold;
+  visibility: hidden;
 }
 
+#promoPrice {
+  display: flex;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+#promoName {
+  text-transform: uppercase;
+}
 
 #promoName:hover, #promoPrice:hover {
   opacity: 0.4;
+}
+
+#promoShort #promoPrice, #promoShort #promoName{
+  cursor: default;
+}
+
+#promoShort #promoPrice:hover,
+#promoShort #promoName:hover {
+  opacity: 1;
 }
 
 #editPromoName, #editPromoPrice {
@@ -560,6 +690,7 @@ div .authForms {
   padding: 0 4px;
   background-color: inherit;
   margin-right: 70px;
+  align-items: center;
 }
 
 #editItem:hover{
@@ -578,7 +709,10 @@ div .authForms {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  user-select: none
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 /*i.fa.fa-pencil-square-o:hover {
 
@@ -588,19 +722,21 @@ div .authForms {
 #back {
   position: absolute;
   font-size: 200px;  
-  color: #E32636;
+  color: #9C0014;
   opacity: 0.2;
   top: -15px;
   user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
   pointer-events: none;
 }
 
 #ruleItem {
   overflow: hidden;
-  background-color: #ECA9A7;
+  background-color: #C11B32;
   width: 170px;
   height: 200px;
- /* border: 2px ridge #E32636;*/
   border-radius: 5px;
   display: flex;
   flex-direction: column;
@@ -608,7 +744,10 @@ div .authForms {
   align-items: center;
   position: relative;
   box-shadow: 3px 3px 10px #E32636;
-  user-select: none
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 #itemText {
   border-radius: 5px;
@@ -616,19 +755,20 @@ div .authForms {
   background-color: #FEF49A;
   width: 136px;
   padding: 7px;
-  font: 18px Arial;
+  font: 18px Verdana;
   color: #E32636;
 }
 #fine {
   margin-bottom: 7px;
-  font: 22px Arial bold;
-  color: #E32636;
+  font: 22px Verdana;
+  color: #F53B56;
 }
 #break {
   border-radius: 10px;
-  background-color: red;
+  background-color: #F53B56;
+  font: 18px Verdana;
   color: white;
-  padding: 3px;
+  padding: 2px 9px;
   border: none;
   margin-bottom: 3px;
 }

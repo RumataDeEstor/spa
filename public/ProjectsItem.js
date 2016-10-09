@@ -12,9 +12,17 @@ export default class ProjectsItem extends React.Component {
     this.edit = this.edit.bind(this);
     this.open = this.open.bind(this);
   }
+
+  componentWillReceiveProps(newProps){
+    if (newProps.editing) {
+      this.refs.itemNorm.style.display = "none";
+      return;
+    }
+    this.refs.itemNorm.style.display = "flex";
+  }
   
   edit() {
-    this.props.onEdit(this.props.id); 
+    this.props.onEdit(this.props.id);
   }
 
   open() {
@@ -23,19 +31,19 @@ export default class ProjectsItem extends React.Component {
   
   render () {
     let component = this.props.editing ? <ProjectEditing target = {this} login = {this.props.login}/> : null;
-    return <div>
-            <div id = "projectsItem">
-              <div id = "projectLine" onClick = {this.open}> 
-                <div className = {this.props.label} id = "projectLabel"> 
+    return <div id = "projectsItem">
+              <div id = "itemNormal" ref = "itemNorm">
+                <div id = "projectLine" onClick = {this.open}> 
+                  <div className = {this.props.label} id = "projectLabel"> 
+                  </div>
+                  <div id = "projName">{this.props.name}</div>                
                 </div>
-                {this.props.name}
-              </div>
-              <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
-                <i className="fa fa-pencil-square-o"></i>
-              </div>             
-            </div>
-            {component}
-          </div>
+                <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
+                  <i className="fa fa-pencil-square-o"></i>
+                </div> 
+              </div> 
+              {component}           
+            </div>          
   }
 }
 

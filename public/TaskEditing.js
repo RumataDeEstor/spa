@@ -17,9 +17,9 @@ export default class TaskEditing extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout( () =>{
-      editForm.style.height = "76px";
-    }, 1);    
+    // setTimeout( () =>{
+    //   editForm.style.height = "76px";
+    // }, 1);    
   }
 
   onFinishEdit() {

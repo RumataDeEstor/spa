@@ -13,6 +13,14 @@ export default class TasksItem extends React.Component {
     this.edit = this.edit.bind(this);
     this.complete = this.complete.bind(this);
   }
+
+  componentWillReceiveProps(newProps){
+    if (newProps.editing) {
+      this.refs.itemNorm.style.display = "none";
+      return;
+    }
+    this.refs.itemNorm.style.display = "flex";
+  }
  
   edit() {
     this.props.onEdit(this.props.id); 
@@ -53,21 +61,21 @@ export default class TasksItem extends React.Component {
         projectID = {this.props.projectID}
       /> : null;
       
-    return<div>
-            <div id = "tasksItem">
-              <div id = "taskLine"> 
-                <div id = "taskCheckbox" onClick = {this.complete}> complete
+    return <div id = "tasksItem">
+              <div id = "itemNormal" ref = "itemNorm">
+                <div id = "taskLine"> 
+                  <div id = "taskCheckbox" onClick = {this.complete}> !
+                  </div>
+                  <div className = {this.props.label} id = "projectLabel"> 
+                  </div>
+                {this.props.name}
                 </div>
-                <div className = {this.props.label} id = "projectLabel"> 
+                <div id = "points"> {this.props.points} </div>
+                <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
+                  <i className="fa fa-pencil-square-o"></i>
                 </div>
-              {this.props.name}
               </div>
-              <div id = "points"> {this.props.points} </div>
-              <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
-                <i className="fa fa-pencil-square-o"></i>
-              </div>
-            </div>
-            {component}
+              {component}
           </div>
   }
 }

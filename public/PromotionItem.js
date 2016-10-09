@@ -13,7 +13,8 @@ export default class PromotionItem extends React.Component {
       price: this.props.price,
       points: this.props.points,
       id: this.props.id,
-      percentsValue: 0
+      percentsValue: 0,
+      loc: this.props.loc
     };
 
     this.showEditName = this.showEditName.bind(this);
@@ -23,6 +24,8 @@ export default class PromotionItem extends React.Component {
     this.submitName = this.submitName.bind(this); // rename 
     this.submitPrice = this.submitPrice.bind(this); // rename validate?
     this.submitData = this.submitData.bind(this);
+    this.showPercents = this.showPercents.bind(this);
+    this.hidePercents = this.hidePercents.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -42,6 +45,10 @@ export default class PromotionItem extends React.Component {
   }
 
   componentDidMount() {
+    if (this.state.loc == "full") {
+      this.refs.promoPrice.addEventListener('click', this.showEditPrice);
+      this.refs.promoName.addEventListener('click', this.showEditName)
+    } 
     this.refs.editPromoName.addEventListener('submit',this.submitName, false);
     this.refs.editPromoPrice.addEventListener('submit',this.submitPrice, false);
     const fullHeight = 74;
@@ -105,6 +112,14 @@ export default class PromotionItem extends React.Component {
     this.hideEditPrice();
   }
 
+  showPercents() {
+    this.refs.pers.style.visibility = "visible";
+  }
+
+  hidePercents() {
+    this.refs.pers.style.visibility = "hidden";
+  }
+
   hideEditName(){
     this.refs.editPromoName.style.display = "none";
     this.refs.promoName.style.display = "flex";
@@ -124,33 +139,39 @@ export default class PromotionItem extends React.Component {
   showEditPrice(e) {
     this.hideEditName();
     this.refs.editPromoPrice.style.display = "flex";
-    e.target.style.display = "none";
+    this.refs.promoPrice.style.display = "none";
   }
 
   render () {
-    return<div id = "promotionItem">            
-            <div id = "exCircle">
+    return<div id = "promotionItem">
+
+            <div id = "promoPrice" ref = "promoPrice">
+              {this.state.price}
+              <i className="fa fa-circle" aria-hidden="true"></i>
+            </div>
+
+            <form ref = "editPromoPrice" id = "editPromoPrice">
+              <input type = "number" min = "5" max = "500" name = "fieldPrice"/>
+            </form>      
+
+            <div id = "exCircle" 
+              onMouseOver = {this.showPercents}
+              onMouseOut = {this.hidePercents}> 
               <div id = "inCircle">
-                <div id = "percents" ref = "pers"> {
-                  `${this.state.percentsValue}%`
-                }
-                 </div>
                 <div id = "square" ref = "lvl">         
                 </div>     
               </div>
             </div>
-            <div id = "promoName" ref = "promoName" onClick = {this.showEditName}>
+            <div id = "percents" ref = "pers"> 
+              {`${this.state.percentsValue}%`}
+            </div>
+            <div id = "promoName" ref = "promoName">
               {this.state.name}
             </div>
             <form ref = "editPromoName" id = "editPromoName">
               <input type = "text" name = "fieldName"/>
             </form>
-            <div id = "promoPrice" ref = "promoPrice" onClick = {this.showEditPrice}>
-              {this.state.price}
-            </div>
-            <form ref = "editPromoPrice" id = "editPromoPrice">
-              <input type = "number" min = "5" max = "500" name = "fieldPrice"/>
-            </form>         
+               
           </div>
   }
 }

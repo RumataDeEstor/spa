@@ -15,9 +15,7 @@ export default class ProjectEditing extends React.Component {
   }
 
   componentDidMount() {
-    setTimeout( () =>{
-      editForm.style.height = "36px";
-    }, 1);    
+    // editForm.style.height = "35px";   
   }
 
   onFinishEdit() {

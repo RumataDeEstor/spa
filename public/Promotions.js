@@ -72,6 +72,7 @@ export default class Promotions extends React.Component {
                     price = {el.price} 
                     points = {this.state.points}
                     login = {this.props.params.login}
+                    loc = "full"
                   />
                 })
               }

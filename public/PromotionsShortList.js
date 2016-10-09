@@ -61,7 +61,7 @@ export default class PromotionsShortList extends React.Component {
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   render () {
     return <div id = "promoShort">
-            TOP PROMOTIONS
+            <div id = "pshortTitle"> Top Promotions </div>
               {this.state.topPromos.map((el, i) => {
                 return <PromotionItem
                   key = {i} 
@@ -70,6 +70,7 @@ export default class PromotionsShortList extends React.Component {
                   price = {el.price} 
                   points = {this.state.points}
                   login = {this.props.login}
+                  loc = "short"
                 />
               })
             } 
