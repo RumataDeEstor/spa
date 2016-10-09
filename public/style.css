@@ -552,6 +552,19 @@ div .authForms {
   font-weight: bold;
 }
 
+#promoModal {
+  display: flex;
+  flex-direction: column;
+  background-color: #ABDDAE;
+  opacity: 0.7;
+  position: absolute;
+  z-index: 2;
+}
+
+#promoModal button {
+  margin-top: 10px;
+}
+
 .fa.fa-circle {
   color: #8AC176;
   font-size: 9px;

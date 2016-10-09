@@ -4,6 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
+import PromoModal from './PromoModal';
 
 export default class PromotionItem extends React.Component {
   constructor(props) {
@@ -14,7 +15,8 @@ export default class PromotionItem extends React.Component {
       points: this.props.points,
       id: this.props.id,
       percentsValue: 0,
-      loc: this.props.loc
+      loc: this.props.loc,
+      modal: false
     };
 
     this.showEditName = this.showEditName.bind(this);
@@ -26,6 +28,7 @@ export default class PromotionItem extends React.Component {
     this.submitData = this.submitData.bind(this);
     this.showPercents = this.showPercents.bind(this);
     this.hidePercents = this.hidePercents.bind(this);
+    this.showModal = this.showModal.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -55,6 +58,11 @@ export default class PromotionItem extends React.Component {
     let newHeight = fullHeight * this.state.percentsValue / 100;    
     this.refs.lvl.style.height = `${newHeight}px`;
   } 
+
+  showModal () {
+    console.log('show');
+    this.setState({modal: true});
+  }
 
   submitData(data){
     console.log('submitData');
@@ -143,6 +151,7 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
+    let modal = (this.state.modal) ? <PromoModal/> : null;
     return<div id = "promotionItem">
 
             <div id = "promoPrice" ref = "promoPrice">
@@ -153,10 +162,12 @@ export default class PromotionItem extends React.Component {
             <form ref = "editPromoPrice" id = "editPromoPrice">
               <input type = "number" min = "5" max = "500" name = "fieldPrice"/>
             </form>      
-
+            
             <div id = "exCircle" 
               onMouseOver = {this.showPercents}
-              onMouseOut = {this.hidePercents}> 
+              onMouseOut = {this.hidePercents}
+              onClick = {this.showModal}>
+              {modal}
               <div id = "inCircle">
                 <div id = "square" ref = "lvl">         
                 </div>     
@@ -171,7 +182,6 @@ export default class PromotionItem extends React.Component {
             <form ref = "editPromoName" id = "editPromoName">
               <input type = "text" name = "fieldName"/>
             </form>
-               
           </div>
   }
 }
