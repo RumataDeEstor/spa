@@ -27,6 +27,10 @@ const promotionSchema = new Schema({
     type: Number,
     default: 10,
     required: true
+  },
+  reusable: {
+    type: Boolean,
+    default: false
   }
 });
 

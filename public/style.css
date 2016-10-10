@@ -34,6 +34,21 @@ body {
   justify-content: space-between;*/
 }
 
+#checkBoxReuse {
+  width: 10px;
+  height: 10px;
+  border: 2px solid green;
+  border-radius: 10px;
+}
+
+#checkBoxReuse.unchecked {
+  background-color: transparent;
+}
+
+#checkBoxReuse.checked {
+  background-color: #7CC59A;
+}
+
 #promoShort {
   background-color: white;
   color: #6A6A6D;
@@ -574,7 +589,7 @@ button#promoDelete:hover {
   position: absolute;
   z-index: 2;
   font-size: 38px;
-  color: #76d67a;
+  color: white;
   display: none;
 }
 

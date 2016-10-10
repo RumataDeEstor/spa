@@ -6,6 +6,7 @@ import {
 } from 'react-router';
 
 export default class PromotionItem extends React.Component {
+  // TODO: add Bool reusable;
   constructor(props) {
     super(props);
     this.state = {
@@ -13,7 +14,8 @@ export default class PromotionItem extends React.Component {
       price: this.props.price,
       points: this.props.points,
       percentsValue: 0,
-      modal: false
+      modal: false,
+      unlocked: false
     };
 
     this.showEditName = this.showEditName.bind(this);
@@ -26,6 +28,7 @@ export default class PromotionItem extends React.Component {
     this.showMore = this.showMore.bind(this);
     this.hideMore = this.hideMore.bind(this);
     this.deletePromo = this.deletePromo.bind(this);
+    this.getPromo = this.getPromo.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -33,16 +36,23 @@ export default class PromotionItem extends React.Component {
     let value = Math.round( newProps.points / newProps.price * 100 );
     value = (value > 100) ? 100 : value;
     this.setState({percentsValue: value}); 
+    if (value == 100) {
+      this.setState({unlocked: true});
+    }
     const fullHeight = 74;
     let newHeight = fullHeight * value / 100;  
     console.log(newHeight);
     this.refs.lvl.style.height = `${newHeight}px`; 
+    this.refs.lvl.style.WebkitAnimationName = "pish";
   }
 
   componentWillMount() {
     let value = Math.round( this.state.points / this.state.price * 100 );
     value = (value > 100) ? 100 : value;
-    this.setState({percentsValue: value});    
+    this.setState({percentsValue: value});   
+    if (value == 100) {
+      this.setState({unlocked: true});
+    }
   }
 
   componentDidMount() {
@@ -58,9 +68,17 @@ export default class PromotionItem extends React.Component {
     this.refs.lvl.style.height = `${newHeight}px`;
   } 
 
+  getPromo () {
+    // 1: points --> change
+    // 2: points upd --> handle, change percents@level
+    // 3: delete (but not surely)
+  }
+
   showMore() {
     this.refs.pers.style.visibility = "visible";
-    this.refs.getPWindow.style.display = "flex";
+    if (this.state.unlocked) {
+      this.refs.getPWindow.style.display = "flex";
+    }    
   }
 
   hideMore() {
@@ -170,6 +188,7 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
+    let reuse = (this.props.reusable) ? "reusable" : "one-off";
     return<div id = "promotionItem">         
             <div id = "promoPrice" ref = "promoPrice">
               {this.state.price}
@@ -186,7 +205,8 @@ export default class PromotionItem extends React.Component {
               onMouseOver = {this.showMore}
               onMouseOut = {this.hideMore}
             >
-              <div id = "getPromoWindow" ref = "getPWindow">
+              <div id = "getPromoWindow" ref = "getPWindow" 
+                onClick = {this.getPromo}>
                 <i className ="fa fa-check" aria-hidden="true"></i>
               </div>
               <div id = "inCircle">
@@ -203,6 +223,7 @@ export default class PromotionItem extends React.Component {
             <form ref = "editPromoName" id = "editPromoName">
               <input type = "text" name = "fieldName"/>
             </form>
+            <div id = "isReusable">{reuse}</div>
           </div>
   }
 }

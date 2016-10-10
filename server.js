@@ -202,6 +202,7 @@ app.post('/api/userdata/:login/points', isAuthenticated, (req,res,next) => {
   })  
 });
 
+//add new promo
 app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
@@ -210,7 +211,8 @@ app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
     if (err) { 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
-    } else {  
+    } else { 
+      //checkdata? 
       let newPromo = req.body;
       let len = user.promotions.push(newPromo);
       user.save((err) =>{

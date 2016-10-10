@@ -9,12 +9,19 @@ export default class PromotionsAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
+    this.checkReuse = this.checkReuse.bind(this);
+  }
+
+  checkReuse(e) {
+    e.target.className = (e.target.className == "checked") ? "unchecked" : "checked";
   }
 
   addNew(){
+    let reusable = (checkBoxReuse.className == "checked") ? true : false;
     let bodyJSON = JSON.stringify({
       name: newPromoName.value,
-      price: newPromoPrice.value
+      price: newPromoPrice.value,
+      reusable: reusable
     });
 
     let reqParams = {
@@ -44,6 +51,9 @@ export default class PromotionsAddNew extends React.Component {
     return <div id = "promotionsAddNew">
              <input type = "text" placeholder = "name" id = "newPromoName"/>
              <input type = "number" defaultValue = "10" min = "5" max = "500" id = "newPromoPrice"/>
+             <div id = "checkBoxReuse" className = "unchecked" ref = "cReuse"
+              onClick = {this.checkReuse}>
+             </div>
              <button onClick = {this.addNew}> Add </button>
           </div>
   }

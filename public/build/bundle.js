@@ -28138,6 +28138,7 @@
 	var PromotionItem = function (_React$Component) {
 	  _inherits(PromotionItem, _React$Component);
 
+	  // TODO: add Bool reusable;
 	  function PromotionItem(props) {
 	    _classCallCheck(this, PromotionItem);
 
@@ -28148,7 +28149,8 @@
 	      price: _this.props.price,
 	      points: _this.props.points,
 	      percentsValue: 0,
-	      modal: false
+	      modal: false,
+	      unlocked: false
 	    };
 
 	    _this.showEditName = _this.showEditName.bind(_this);
@@ -28161,6 +28163,7 @@
 	    _this.showMore = _this.showMore.bind(_this);
 	    _this.hideMore = _this.hideMore.bind(_this);
 	    _this.deletePromo = _this.deletePromo.bind(_this);
+	    _this.getPromo = _this.getPromo.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28173,10 +28176,14 @@
 	      var value = Math.round(newProps.points / newProps.price * 100);
 	      value = value > 100 ? 100 : value;
 	      this.setState({ percentsValue: value });
+	      if (value == 100) {
+	        this.setState({ unlocked: true });
+	      }
 	      var fullHeight = 74;
 	      var newHeight = fullHeight * value / 100;
 	      console.log(newHeight);
 	      this.refs.lvl.style.height = newHeight + 'px';
+	      this.refs.lvl.style.WebkitAnimationName = "pish";
 	    }
 	  }, {
 	    key: 'componentWillMount',
@@ -28184,6 +28191,9 @@
 	      var value = Math.round(this.state.points / this.state.price * 100);
 	      value = value > 100 ? 100 : value;
 	      this.setState({ percentsValue: value });
+	      if (value == 100) {
+	        this.setState({ unlocked: true });
+	      }
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -28200,10 +28210,19 @@
 	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
+	    key: 'getPromo',
+	    value: function getPromo() {
+	      // 1: points --> change
+	      // 2: points upd --> handle, change percents@level
+	      // 3: delete (but not surely)
+	    }
+	  }, {
 	    key: 'showMore',
 	    value: function showMore() {
 	      this.refs.pers.style.visibility = "visible";
-	      this.refs.getPWindow.style.display = "flex";
+	      if (this.state.unlocked) {
+	        this.refs.getPWindow.style.display = "flex";
+	      }
 	    }
 	  }, {
 	    key: 'hideMore',
@@ -28321,6 +28340,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var reuse = this.props.reusable ? "reusable" : "one-off";
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promotionItem' },
@@ -28348,7 +28368,8 @@
 	          },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'getPromoWindow', ref: 'getPWindow' },
+	            { id: 'getPromoWindow', ref: 'getPWindow',
+	              onClick: this.getPromo },
 	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
@@ -28371,6 +28392,11 @@
 	          'form',
 	          { ref: 'editPromoName', id: 'editPromoName' },
 	          _react2.default.createElement('input', { type: 'text', name: 'fieldName' })
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'isReusable' },
+	          reuse
 	        )
 	      );
 	    }
@@ -30626,6 +30652,7 @@
 	              id: el._id,
 	              name: el.name,
 	              price: el.price,
+	              reusable: el.reusable,
 	              points: _this3.state.points,
 	              login: _this3.props.params.login,
 	              loc: 'full'
@@ -30678,17 +30705,25 @@
 	    var _this = _possibleConstructorReturn(this, (PromotionsAddNew.__proto__ || Object.getPrototypeOf(PromotionsAddNew)).call(this, props));
 
 	    _this.addNew = _this.addNew.bind(_this);
+	    _this.checkReuse = _this.checkReuse.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(PromotionsAddNew, [{
+	    key: 'checkReuse',
+	    value: function checkReuse(e) {
+	      e.target.className = e.target.className == "checked" ? "unchecked" : "checked";
+	    }
+	  }, {
 	    key: 'addNew',
 	    value: function addNew() {
 	      var _this2 = this;
 
+	      var reusable = checkBoxReuse.className == "checked" ? true : false;
 	      var bodyJSON = JSON.stringify({
 	        name: newPromoName.value,
-	        price: newPromoPrice.value
+	        price: newPromoPrice.value,
+	        reusable: reusable
 	      });
 
 	      var reqParams = {
@@ -30720,6 +30755,8 @@
 	        { id: 'promotionsAddNew' },
 	        _react2.default.createElement('input', { type: 'text', placeholder: 'name', id: 'newPromoName' }),
 	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5', max: '500', id: 'newPromoPrice' }),
+	        _react2.default.createElement('div', { id: 'checkBoxReuse', className: 'unchecked', ref: 'cReuse',
+	          onClick: this.checkReuse }),
 	        _react2.default.createElement(
 	          'button',
 	          { onClick: this.addNew },
