@@ -110,7 +110,8 @@ li {
 }
 
 #sOk {
-  white-space: pre;
+  white-space: pre-line;
+  word-break: break-all;
 }
 
 #sOk #toLogin {
@@ -552,18 +553,37 @@ div .authForms {
   font-weight: bold;
 }
 
-#promoModal {
-  display: flex;
-  flex-direction: column;
-  background-color: #ABDDAE;
-  opacity: 0.7;
+button#promoDelete {
+  height: 26px;
+  width: 26px;
+  background-color: rgb(166, 166, 175);
+  border-radius: 14px;
+  margin-right: 6px;
+  display: none;
+  align-items: center;
+  justify-content: center;
   position: absolute;
-  z-index: 2;
+  top: 5px;
+  right: 25px;
+}
+button#promoDelete:hover {
+  background-color: #CACACF;
 }
 
-#promoModal button {
-  margin-top: 10px;
+#getPromoWindow {
+  position: absolute;
+  z-index: 2;
+  font-size: 38px;
+  color: #76d67a;
+  display: none;
 }
+
+#getPromoWindow:hover {
+  font-size: 50px;
+}
+/*#promoModal button {
+  margin-top: 10px;
+}*/
 
 .fa.fa-circle {
   color: #8AC176;

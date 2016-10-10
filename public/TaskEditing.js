@@ -43,7 +43,7 @@ export default class TaskEditing extends React.Component {
     let projID = this.props.projectID;
     let taskID = this.props.target.props.id;
 
-    fetch(`/api/userdata/${login}/${projID}/${taskID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projID}/${taskID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
@@ -75,7 +75,7 @@ export default class TaskEditing extends React.Component {
     let projID = this.props.projectID;
     let taskID = this.props.target.props.id;
     // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-    fetch(`/api/userdata/${login}/${projID}/${taskID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projID}/${taskID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {

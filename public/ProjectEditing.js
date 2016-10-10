@@ -37,7 +37,7 @@ export default class ProjectEditing extends React.Component {
 
     let login = this.props.login;
     let projID = this.props.target.props.id;
-    fetch(`/api/userdata/${login}/${projID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
@@ -81,7 +81,7 @@ export default class ProjectEditing extends React.Component {
     let login = this.props.login;
     let projID = this.props.target.props.id;
     // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-    fetch(`/api/userdata/${login}/${projID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {

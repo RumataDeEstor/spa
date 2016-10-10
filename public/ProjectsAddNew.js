@@ -58,7 +58,7 @@ class ProjectsAddNew extends React.Component {
 
     let login = this.props.login;
     
-    fetch(`/api/userdata/${login}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {

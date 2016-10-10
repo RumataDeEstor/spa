@@ -22,7 +22,7 @@ export default class Project extends React.Component {
     let login = this.props.params.login;
     let projectID = this.props.params.projectID;
 
-    fetch(`/api/userdata/${login}/${projectID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projectID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {

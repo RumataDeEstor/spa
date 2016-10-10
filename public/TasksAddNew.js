@@ -48,7 +48,7 @@ export default class TasksAddNew extends React.Component {
     let login = this.props.login;
     let projectID = this.props.projectID;
     
-    fetch(`/api/userdata/${login}/${projectID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projectID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {

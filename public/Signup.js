@@ -12,7 +12,7 @@ class Message extends React.Component {
 
   render() {
     return <div id = "sOk">
-            {`Welcome aboard,\n${this.props.login}!\nYou may want to `}
+            {`Welcome aboard,\n${this.props.login}!\nYou may want to\n`}
              <IndexLink id = "toLogin" to="/login">log in</IndexLink>
           </div>
   }

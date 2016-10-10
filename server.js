@@ -140,7 +140,7 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
 });
 
 // add new project
-app.post('/api/userdata/:login', isAuthenticated, (req,res,next) => {
+app.post('/api/userdata/:login/projects', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -270,8 +270,31 @@ app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,ne
   })  
 });
 
+app.delete('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req, res, next) => {
+  if (req.params.login !== req.user.login) {  
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) {
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {
+      user.promotions.id(req.params.promoID).remove();
+    }
+    user.save((err) => {
+      if (!err) {
+        debug('removed.');
+        res.status(200).send({message: 'promo removed'});
+      } else {
+        debug(err);
+        res.status(500).send({error: 'Internal Server Error'});
+      }
+    })
+  })
+})
+
 // open single project
-app.get('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
+app.get('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
   debug('here');
   if (req.params.login !== req.user.login) {  // can't get other people's page
     debug('forb');
@@ -291,7 +314,7 @@ app.get('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => 
 
 
 // update single project
-app.put('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
+app.put('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
   debug('here');
   if (req.params.login !== req.user.login) {  // can't get other people's page
     debug('forb');
@@ -331,7 +354,7 @@ app.put('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => 
 });
 
 // delete single project
-app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) => {
+app.delete('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -355,7 +378,7 @@ app.delete('/api/userdata/:login/:projectID', isAuthenticated, (req, res, next) 
 })
 
 // add new task
-app.post('/api/userdata/:login/:projectID', isAuthenticated, (req,res,next) => {
+app.post('/api/userdata/:login/projects/:projectID', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  // can't get other people's page
     debug('forb');
     return res.status(403).send({error: 'Forbidden'});
@@ -395,7 +418,7 @@ app.post('/api/userdata/:login/:projectID', isAuthenticated, (req,res,next) => {
 });
 
 // delete single task
-app.delete('/api/userdata/:login/:projectID/:taskID', isAuthenticated, (req, res, next) => {
+app.delete('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -426,7 +449,7 @@ app.delete('/api/userdata/:login/:projectID/:taskID', isAuthenticated, (req, res
 
 // update single task
 
-app.put('/api/userdata/:login/:projectID/:taskID', isAuthenticated, (req, res, next) => {
+app.put('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }

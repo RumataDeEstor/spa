@@ -30,7 +30,7 @@ export default class TasksList extends React.Component {
     console.log(login);
     console.log(projectID);
 
-    fetch(`/api/userdata/${login}/${projectID}`, reqParams)
+    fetch(`/api/userdata/${login}/projects/${projectID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {

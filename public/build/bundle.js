@@ -62,43 +62,43 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Login = __webpack_require__(243);
+	var _Login = __webpack_require__(242);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _NotFound = __webpack_require__(244);
+	var _NotFound = __webpack_require__(243);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Tasks = __webpack_require__(245);
+	var _Tasks = __webpack_require__(244);
 
 	var _Tasks2 = _interopRequireDefault(_Tasks);
 
-	var _Project = __webpack_require__(246);
+	var _Project = __webpack_require__(245);
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(253);
+	var _Projects = __webpack_require__(252);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(254);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(255);
+	var _ProjectsList = __webpack_require__(254);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(258);
+	var _Signup = __webpack_require__(257);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(259);
+	var _StartPage = __webpack_require__(258);
 
 	var _StartPage2 = _interopRequireDefault(_StartPage);
 
-	var _Rules = __webpack_require__(260);
+	var _Rules = __webpack_require__(259);
 
 	var _Rules2 = _interopRequireDefault(_Rules);
 
@@ -106,7 +106,7 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _Promotions = __webpack_require__(261);
+	var _Promotions = __webpack_require__(260);
 
 	var _Promotions2 = _interopRequireDefault(_Promotions);
 
@@ -28127,10 +28127,6 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _PromoModal = __webpack_require__(242);
-
-	var _PromoModal2 = _interopRequireDefault(_PromoModal);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28151,9 +28147,7 @@
 	      name: _this.props.name,
 	      price: _this.props.price,
 	      points: _this.props.points,
-	      id: _this.props.id,
 	      percentsValue: 0,
-	      loc: _this.props.loc,
 	      modal: false
 	    };
 
@@ -28164,9 +28158,9 @@
 	    _this.submitName = _this.submitName.bind(_this); // rename 
 	    _this.submitPrice = _this.submitPrice.bind(_this); // rename validate?
 	    _this.submitData = _this.submitData.bind(_this);
-	    _this.showPercents = _this.showPercents.bind(_this);
-	    _this.hidePercents = _this.hidePercents.bind(_this);
-	    _this.showModal = _this.showModal.bind(_this);
+	    _this.showMore = _this.showMore.bind(_this);
+	    _this.hideMore = _this.hideMore.bind(_this);
+	    _this.deletePromo = _this.deletePromo.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28180,7 +28174,8 @@
 	      value = value > 100 ? 100 : value;
 	      this.setState({ percentsValue: value });
 	      var fullHeight = 74;
-	      var newHeight = fullHeight * this.state.percentsValue / 100;
+	      var newHeight = fullHeight * value / 100;
+	      console.log(newHeight);
 	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
@@ -28193,9 +28188,10 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      if (this.state.loc == "full") {
+	      if (this.props.loc == "full") {
 	        this.refs.promoPrice.addEventListener('click', this.showEditPrice);
 	        this.refs.promoName.addEventListener('click', this.showEditName);
+	        this.refs.del.style.display = "flex";
 	      }
 	      this.refs.editPromoName.addEventListener('submit', this.submitName, false);
 	      this.refs.editPromoPrice.addEventListener('submit', this.submitPrice, false);
@@ -28204,10 +28200,39 @@
 	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
-	    key: 'showModal',
-	    value: function showModal() {
-	      console.log('show');
-	      this.setState({ modal: true });
+	    key: 'showMore',
+	    value: function showMore() {
+	      this.refs.pers.style.visibility = "visible";
+	      this.refs.getPWindow.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideMore',
+	    value: function hideMore() {
+	      this.refs.pers.style.visibility = "hidden";
+	      this.refs.getPWindow.style.display = "none";
+	    }
+	  }, {
+	    key: 'deletePromo',
+	    value: function deletePromo() {
+	      // this.refs.msg.innerText = "*deleted*";
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var id = this.props.id;
+
+	      fetch('/api/userdata/' + login + '/promotions/' + id, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'submitData',
@@ -28228,7 +28253,7 @@
 	      };
 
 	      var login = this.props.login;
-	      var promoID = this.state.id;
+	      var promoID = this.props.id;
 
 	      fetch('/api/userdata/' + login + '/promotions/' + promoID, reqParams).then(function (res) {
 	        return res.json();
@@ -28268,16 +28293,6 @@
 	      this.hideEditPrice();
 	    }
 	  }, {
-	    key: 'showPercents',
-	    value: function showPercents() {
-	      this.refs.pers.style.visibility = "visible";
-	    }
-	  }, {
-	    key: 'hidePercents',
-	    value: function hidePercents() {
-	      this.refs.pers.style.visibility = "hidden";
-	    }
-	  }, {
 	    key: 'hideEditName',
 	    value: function hideEditName() {
 	      this.refs.editPromoName.style.display = "none";
@@ -28306,7 +28321,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var modal = this.state.modal ? _react2.default.createElement(_PromoModal2.default, null) : null;
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promotionItem' },
@@ -28317,6 +28331,11 @@
 	          _react2.default.createElement('i', { className: 'fa fa-circle', 'aria-hidden': 'true' })
 	        ),
 	        _react2.default.createElement(
+	          'button',
+	          { id: 'promoDelete', ref: 'del', onClick: this.deletePromo },
+	          _react2.default.createElement('i', { className: 'fa fa-trash' })
+	        ),
+	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
 	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500', name: 'fieldPrice' })
@@ -28324,10 +28343,14 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'exCircle',
-	            onMouseOver: this.showPercents,
-	            onMouseOut: this.hidePercents,
-	            onClick: this.showModal },
-	          modal,
+	            onMouseOver: this.showMore,
+	            onMouseOut: this.hideMore
+	          },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'getPromoWindow', ref: 'getPWindow' },
+	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
+	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'inCircle' },
@@ -28360,159 +28383,6 @@
 
 /***/ },
 /* 242 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	// import ee from './EventEmitter';
-
-	//TODO:forms
-
-	var PromoModal = function (_React$Component) {
-	  _inherits(PromoModal, _React$Component);
-
-	  function PromoModal(props) {
-	    _classCallCheck(this, PromoModal);
-
-	    var _this = _possibleConstructorReturn(this, (PromoModal.__proto__ || Object.getPrototypeOf(PromoModal)).call(this, props));
-
-	    _this.cancel = _this.cancel.bind(_this);
-	    _this.getPromo = _this.getPromo.bind(_this);
-	    _this.deletePromo = _this.deletePromo.bind(_this);
-	    return _this;
-	  }
-
-	  _createClass(PromoModal, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      // setTimeout( () =>{
-	      //   editForm.style.height = "76px";
-	      // }, 1);    
-	      console.log('didmount');
-	    }
-	  }, {
-	    key: 'cancel',
-	    value: function cancel() {
-	      this.refs.pm.style.display = "none"; // draft
-	    }
-	  }, {
-	    key: 'deletePromo',
-	    value: function deletePromo() {
-	      this.refs.msg.innerText = "*deleted*";
-	      // let reqParams = {
-	      //   method: 'DELETE',
-	      //   credentials: 'include'
-	      // }
-
-	      // let login = this.props.login;
-	      // let projID = this.props.projectID;
-	      // let taskID = this.props.target.props.id;
-
-	      // fetch(`/api/userdata/${login}/${projID}/${taskID}`, reqParams)
-	      //   .then(res => res.json())
-	      //   .then(res => {
-	      //     if (res.error) {
-	      //       console.log(res.error);
-	      //     }
-	      //     this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-	      //   })
-	      //   .catch(err => {
-	      //     console.log(err);
-	      //   })
-	    }
-	  }, {
-	    key: 'getPromo',
-	    value: function getPromo() {
-	      this.refs.msg.innerText = "*received*";
-	      // let bodyJSON = JSON.stringify({
-	      //   name: editName.value,
-	      //   points: editPoints.value
-	      // });
-
-	      // let reqParams = {
-	      //   method: 'PUT',
-	      //   headers: {  
-	      //     "Content-type": "application/json; charset=UTF-8"  
-	      //   },
-	      //   credentials: 'include',
-	      //   body: bodyJSON
-	      // }
-
-	      // let login = this.props.login;
-	      // let projID = this.props.projectID;
-	      // let taskID = this.props.target.props.id;
-	      // // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-	      // fetch(`/api/userdata/${login}/${projID}/${taskID}`, reqParams)
-	      //   .then(res => res.json())
-	      //   .then(res => {
-	      //     if (res.error) {
-	      //       console.log(res.error); // handle;
-	      //       return;
-	      //     }
-	      //     let newData = {name: editName.value, points: editPoints.value};
-	      //     ee.emitEvent('taskSaveEdit', [taskID, newData]);
-	      //     this.onFinishEdit();
-	      //   })
-	      //   .catch(err => {
-	      //     console.log(err);
-	      //   })
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { id: 'promoModal', ref: 'pm' },
-	        'What to do?',
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.deletePromo },
-	          'delete'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.getPromo },
-	          'get!'
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.cancel },
-	          'cancel'
-	        ),
-	        _react2.default.createElement('div', { ref: 'msg' })
-	      );
-	    }
-	  }]);
-
-	  return PromoModal;
-	}(_react2.default.Component);
-
-	exports.default = PromoModal;
-
-/***/ },
-/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28614,7 +28484,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 244 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28667,7 +28537,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 245 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28721,7 +28591,7 @@
 	exports.default = Tasks;
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28740,11 +28610,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksList = __webpack_require__(247);
+	var _TasksList = __webpack_require__(246);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(251);
+	var _reactAddonsUpdate = __webpack_require__(250);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -28781,7 +28651,7 @@
 	      var login = this.props.params.login;
 	      var projectID = this.props.params.projectID;
 
-	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projectID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -28831,7 +28701,7 @@
 	exports.default = Project;
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28850,11 +28720,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksItem = __webpack_require__(248);
+	var _TasksItem = __webpack_require__(247);
 
 	var _TasksItem2 = _interopRequireDefault(_TasksItem);
 
-	var _TasksAddNew = __webpack_require__(250);
+	var _TasksAddNew = __webpack_require__(249);
 
 	var _TasksAddNew2 = _interopRequireDefault(_TasksAddNew);
 
@@ -28904,7 +28774,7 @@
 	      console.log(login);
 	      console.log(projectID);
 
-	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projectID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -29016,7 +28886,7 @@
 	exports.default = TasksList;
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29035,7 +28905,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskEditing = __webpack_require__(249);
+	var _TaskEditing = __webpack_require__(248);
 
 	var _TaskEditing2 = _interopRequireDefault(_TaskEditing);
 
@@ -29163,7 +29033,7 @@
 	};
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29243,7 +29113,7 @@
 	      var projID = this.props.projectID;
 	      var taskID = this.props.target.props.id;
 
-	      fetch('/api/userdata/' + login + '/' + projID + '/' + taskID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projID + '/' + taskID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -29279,7 +29149,7 @@
 	      var projID = this.props.projectID;
 	      var taskID = this.props.target.props.id;
 	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-	      fetch('/api/userdata/' + login + '/' + projID + '/' + taskID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projID + '/' + taskID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -29334,7 +29204,7 @@
 	exports.default = TaskEditing;
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29418,7 +29288,7 @@
 	      var login = this.props.login;
 	      var projectID = this.props.projectID;
 
-	      fetch('/api/userdata/' + login + '/' + projectID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projectID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -29481,13 +29351,13 @@
 	};
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(252);
+	module.exports = __webpack_require__(251);
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29606,7 +29476,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29660,7 +29530,7 @@
 	exports.default = Projects;
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29755,7 +29625,7 @@
 
 	      var login = this.props.login;
 
-	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/', reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -29843,7 +29713,7 @@
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29862,11 +29732,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsAddNew = __webpack_require__(254);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsItem = __webpack_require__(256);
+	var _ProjectsItem = __webpack_require__(255);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -30013,7 +29883,7 @@
 	exports.default = ProjectsList;
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30032,7 +29902,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectEditing = __webpack_require__(257);
+	var _ProjectEditing = __webpack_require__(256);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
@@ -30118,7 +29988,7 @@
 	};
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30192,7 +30062,7 @@
 
 	      var login = this.props.login;
 	      var projID = this.props.target.props.id;
-	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -30242,7 +30112,7 @@
 	      var login = this.props.login;
 	      var projID = this.props.target.props.id;
 	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-	      fetch('/api/userdata/' + login + '/' + projID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/projects/' + projID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -30320,7 +30190,7 @@
 	exports.default = ProjectEditing;
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30363,7 +30233,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'sOk' },
-	        'Welcome aboard,\n' + this.props.login + '!\nYou may want to ',
+	        'Welcome aboard,\n' + this.props.login + '!\nYou may want to\n',
 	        _react2.default.createElement(
 	          _reactRouter.IndexLink,
 	          { id: 'toLogin', to: '/login' },
@@ -30458,7 +30328,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 259 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30546,7 +30416,7 @@
 	exports.default = StartPage;
 
 /***/ },
-/* 260 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30631,7 +30501,7 @@
 	exports.default = Rules;
 
 /***/ },
-/* 261 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30654,7 +30524,7 @@
 
 	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
 
-	var _PromotionsAddNew = __webpack_require__(262);
+	var _PromotionsAddNew = __webpack_require__(261);
 
 	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
 
@@ -30772,7 +30642,7 @@
 	exports.default = Promotions;
 
 /***/ },
-/* 262 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

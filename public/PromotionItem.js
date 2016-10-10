@@ -4,7 +4,6 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
-import PromoModal from './PromoModal';
 
 export default class PromotionItem extends React.Component {
   constructor(props) {
@@ -13,9 +12,7 @@ export default class PromotionItem extends React.Component {
       name: this.props.name, 
       price: this.props.price,
       points: this.props.points,
-      id: this.props.id,
       percentsValue: 0,
-      loc: this.props.loc,
       modal: false
     };
 
@@ -26,9 +23,9 @@ export default class PromotionItem extends React.Component {
     this.submitName = this.submitName.bind(this); // rename 
     this.submitPrice = this.submitPrice.bind(this); // rename validate?
     this.submitData = this.submitData.bind(this);
-    this.showPercents = this.showPercents.bind(this);
-    this.hidePercents = this.hidePercents.bind(this);
-    this.showModal = this.showModal.bind(this);
+    this.showMore = this.showMore.bind(this);
+    this.hideMore = this.hideMore.bind(this);
+    this.deletePromo = this.deletePromo.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -37,8 +34,9 @@ export default class PromotionItem extends React.Component {
     value = (value > 100) ? 100 : value;
     this.setState({percentsValue: value}); 
     const fullHeight = 74;
-    let newHeight = fullHeight * this.state.percentsValue / 100;    
-    this.refs.lvl.style.height = `${newHeight}px`;   
+    let newHeight = fullHeight * value / 100;  
+    console.log(newHeight);
+    this.refs.lvl.style.height = `${newHeight}px`; 
   }
 
   componentWillMount() {
@@ -48,9 +46,10 @@ export default class PromotionItem extends React.Component {
   }
 
   componentDidMount() {
-    if (this.state.loc == "full") {
+    if (this.props.loc == "full") {
       this.refs.promoPrice.addEventListener('click', this.showEditPrice);
       this.refs.promoName.addEventListener('click', this.showEditName)
+      this.refs.del.style.display = "flex";
     } 
     this.refs.editPromoName.addEventListener('submit',this.submitName, false);
     this.refs.editPromoPrice.addEventListener('submit',this.submitPrice, false);
@@ -59,10 +58,38 @@ export default class PromotionItem extends React.Component {
     this.refs.lvl.style.height = `${newHeight}px`;
   } 
 
-  showModal () {
-    console.log('show');
-    this.setState({modal: true});
+  showMore() {
+    this.refs.pers.style.visibility = "visible";
+    this.refs.getPWindow.style.display = "flex";
   }
+
+  hideMore() {
+    this.refs.pers.style.visibility = "hidden";
+    this.refs.getPWindow.style.display = "none";
+  }
+
+  deletePromo(){
+    // this.refs.msg.innerText = "*deleted*";
+    let reqParams = {
+      method: 'DELETE',
+      credentials: 'include'
+    }
+
+    let login = this.props.login;
+    let id = this.props.id;
+
+    fetch(`/api/userdata/${login}/promotions/${id}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }  
 
   submitData(data){
     console.log('submitData');
@@ -81,7 +108,7 @@ export default class PromotionItem extends React.Component {
     }
 
     let login = this.props.login;
-    let promoID = this.state.id;
+    let promoID = this.props.id;
 
     fetch(`/api/userdata/${login}/promotions/${promoID}`, reqParams)
       .then(res => res.json())
@@ -120,14 +147,6 @@ export default class PromotionItem extends React.Component {
     this.hideEditPrice();
   }
 
-  showPercents() {
-    this.refs.pers.style.visibility = "visible";
-  }
-
-  hidePercents() {
-    this.refs.pers.style.visibility = "hidden";
-  }
-
   hideEditName(){
     this.refs.editPromoName.style.display = "none";
     this.refs.promoName.style.display = "flex";
@@ -151,23 +170,25 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
-    let modal = (this.state.modal) ? <PromoModal/> : null;
-    return<div id = "promotionItem">
-
+    return<div id = "promotionItem">         
             <div id = "promoPrice" ref = "promoPrice">
               {this.state.price}
               <i className="fa fa-circle" aria-hidden="true"></i>
             </div>
-
+            <button id = "promoDelete" ref = "del" onClick = {this.deletePromo}>
+              <i className="fa fa-trash"></i>
+            </button>     
             <form ref = "editPromoPrice" id = "editPromoPrice">
               <input type = "number" min = "5" max = "500" name = "fieldPrice"/>
             </form>      
             
             <div id = "exCircle" 
-              onMouseOver = {this.showPercents}
-              onMouseOut = {this.hidePercents}
-              onClick = {this.showModal}>
-              {modal}
+              onMouseOver = {this.showMore}
+              onMouseOut = {this.hideMore}
+            >
+              <div id = "getPromoWindow" ref = "getPWindow">
+                <i className ="fa fa-check" aria-hidden="true"></i>
+              </div>
               <div id = "inCircle">
                 <div id = "square" ref = "lvl">         
                 </div>     
