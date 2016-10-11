@@ -48,13 +48,15 @@ export default class PromotionsAddNew extends React.Component {
   }
 
   render () {
-    return <div id = "promotionsAddNew">
-             <input type = "text" placeholder = "name" id = "newPromoName"/>
-             <input type = "number" defaultValue = "10" min = "5" max = "500" id = "newPromoPrice"/>
-             <div id = "checkBoxReuse" className = "unchecked" ref = "cReuse"
-              onClick = {this.checkReuse}>
-             </div>
-             <button onClick = {this.addNew}> Add </button>
+    return<div id = "promotionsAddNew">
+            <input type = "text" placeholder = "name" id = "newPromoName"/>
+            <input type = "number" defaultValue = "10" min = "5" max = "500" id = "newPromoPrice"/>
+            <div> reusable: 
+              <div id = "checkBoxReuse" className = "unchecked" ref = "cReuse"
+                onClick = {this.checkReuse}>
+              </div>
+            </div>
+            <button onClick = {this.addNew}> Add </button>
           </div>
   }
 }

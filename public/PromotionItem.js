@@ -4,9 +4,14 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
+import ee from './EventEmitter'
 
 export default class PromotionItem extends React.Component {
-  // TODO: add Bool reusable;
+  // !!! TODO: hot deleting; 
+  // mb changing Reuse
+  // !!! hot level changing after editing Points
+  // common method for points updating - here and in Tasks
+  // in top - user choice
   constructor(props) {
     super(props);
     this.state = {
@@ -29,6 +34,7 @@ export default class PromotionItem extends React.Component {
     this.hideMore = this.hideMore.bind(this);
     this.deletePromo = this.deletePromo.bind(this);
     this.getPromo = this.getPromo.bind(this);
+    this.tempUpdPoints = this.tempUpdPoints.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -38,6 +44,8 @@ export default class PromotionItem extends React.Component {
     this.setState({percentsValue: value}); 
     if (value == 100) {
       this.setState({unlocked: true});
+    } else {
+      this.setState({unlocked: false});
     }
     const fullHeight = 74;
     let newHeight = fullHeight * value / 100;  
@@ -52,6 +60,8 @@ export default class PromotionItem extends React.Component {
     this.setState({percentsValue: value});   
     if (value == 100) {
       this.setState({unlocked: true});
+    } else {
+      this.setState({unlocked: false});
     }
   }
 
@@ -69,9 +79,41 @@ export default class PromotionItem extends React.Component {
   } 
 
   getPromo () {
-    // 1: points --> change
-    // 2: points upd --> handle, change percents@level
-    // 3: delete (but not surely)
+   
+    this.tempUpdPoints();
+    if (!this.props.reusable) {
+      this.deletePromo();
+    }
+  }
+
+  //rewrite; also in tasks
+  tempUpdPoints(){
+    let bodyJSON = JSON.stringify({
+      points: -this.state.price
+    });
+
+    let reqParams = {
+      method: 'POST',
+      headers: {  
+        "Content-type": "application/json; charset=UTF-8"  
+      },
+      credentials: 'include',
+      body: bodyJSON
+    }
+
+    let login = this.props.login;
+
+    fetch(`/api/userdata/${login}/points`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        ee.emitEvent('pointsUpdated', [-this.state.price]);
+      })
+      .catch(err => {
+        console.log(err);
+      }) 
   }
 
   showMore() {

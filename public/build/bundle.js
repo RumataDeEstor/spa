@@ -28127,6 +28127,10 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -28138,7 +28142,8 @@
 	var PromotionItem = function (_React$Component) {
 	  _inherits(PromotionItem, _React$Component);
 
-	  // TODO: add Bool reusable;
+	  // TODO: hot deleting; 
+	  // mb changing Reuse
 	  function PromotionItem(props) {
 	    _classCallCheck(this, PromotionItem);
 
@@ -28164,6 +28169,7 @@
 	    _this.hideMore = _this.hideMore.bind(_this);
 	    _this.deletePromo = _this.deletePromo.bind(_this);
 	    _this.getPromo = _this.getPromo.bind(_this);
+	    _this.tempUpdPoints = _this.tempUpdPoints.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28178,6 +28184,8 @@
 	      this.setState({ percentsValue: value });
 	      if (value == 100) {
 	        this.setState({ unlocked: true });
+	      } else {
+	        this.setState({ unlocked: false });
 	      }
 	      var fullHeight = 74;
 	      var newHeight = fullHeight * value / 100;
@@ -28193,6 +28201,8 @@
 	      this.setState({ percentsValue: value });
 	      if (value == 100) {
 	        this.setState({ unlocked: true });
+	      } else {
+	        this.setState({ unlocked: false });
 	      }
 	    }
 	  }, {
@@ -28212,9 +28222,45 @@
 	  }, {
 	    key: 'getPromo',
 	    value: function getPromo() {
-	      // 1: points --> change
-	      // 2: points upd --> handle, change percents@level
-	      // 3: delete (but not surely)
+
+	      this.tempUpdPoints();
+	      if (!this.props.reusable) {
+	        this.deletePromo();
+	      }
+	    }
+
+	    //rewrite; also in tasks
+
+	  }, {
+	    key: 'tempUpdPoints',
+	    value: function tempUpdPoints() {
+	      var _this2 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        points: -this.state.price
+	      });
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+
+	      fetch('/api/userdata/' + login + '/points', reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _EventEmitter2.default.emitEvent('pointsUpdated', [-_this2.state.price]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'showMore',
@@ -30755,8 +30801,13 @@
 	        { id: 'promotionsAddNew' },
 	        _react2.default.createElement('input', { type: 'text', placeholder: 'name', id: 'newPromoName' }),
 	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5', max: '500', id: 'newPromoPrice' }),
-	        _react2.default.createElement('div', { id: 'checkBoxReuse', className: 'unchecked', ref: 'cReuse',
-	          onClick: this.checkReuse }),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          ' reusable:',
+	          _react2.default.createElement('div', { id: 'checkBoxReuse', className: 'unchecked', ref: 'cReuse',
+	            onClick: this.checkReuse })
+	        ),
 	        _react2.default.createElement(
 	          'button',
 	          { onClick: this.addNew },
