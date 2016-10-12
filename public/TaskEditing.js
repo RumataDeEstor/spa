@@ -23,14 +23,15 @@ export default class TaskEditing extends React.Component {
   }
 
   onFinishEdit() {
-    let promise = new Promise (resolve => {
-      editForm.style.height = "0";
-      setTimeout( () =>{
-        ee.emitEvent('taskFinishEdit');
-        resolve();
-      }, 200);
-    })
-    return promise;   
+    // let promise = new Promise (resolve => {
+    //   editForm.style.height = "0";
+    //   setTimeout( () =>{
+    //     ee.emitEvent('taskFinishEdit');
+    //     resolve();
+    //   }, 200);
+    // })
+    // return promise;   
+    ee.emitEvent('taskFinishEdit');
   }
 
   onDelete(){
@@ -49,7 +50,8 @@ export default class TaskEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
+        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
+        ee.emitEvent('taskDeleted', [taskID]);        
       })
       .catch(err => {
         console.log(err);

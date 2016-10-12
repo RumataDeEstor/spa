@@ -19,14 +19,15 @@ export default class ProjectEditing extends React.Component {
   }
 
   onFinishEdit() {
-    let promise = new Promise (resolve => {
-      editForm.style.height = "0";
-      setTimeout( () =>{
-        ee.emitEvent('projectFinishEdit');
-        resolve();
-      }, 200);
-    })
-    return promise;   
+    // let promise = new Promise (resolve => {
+    //   editForm.style.height = "0";
+    //   setTimeout( () =>{
+    //     ee.emitEvent('projectFinishEdit');
+    //     resolve();
+    //   }, 200);
+    // })
+    // return promise; 
+    ee.emitEvent('projectFinishEdit');  
   }
 
   onDelete(){
@@ -43,7 +44,8 @@ export default class ProjectEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));        
+        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
+        ee.emitEvent('projectDeleted', [projID]);
       })
       .catch(err => {
         console.log(err);
@@ -51,16 +53,14 @@ export default class ProjectEditing extends React.Component {
   }
 
   showColors () {
-    editOptions.style.width = "150px";
-    editOptions.style.borderRight = "1px solid black";  
+    editOptions.style.width = "150px";    
   }
 
   hideColors (e) {
     if (e.target.className) {
       editChosenColor.className = e.target.className;
     } 
-    editOptions.style.width = "0";
-    editOptions.style.borderRight = "none"; 
+    editOptions.style.width = "0"; 
   }
 
   saveChanges () {
@@ -99,10 +99,10 @@ export default class ProjectEditing extends React.Component {
   }
   render () {
       return<div id = "editForm">
+              <div className = {this.props.target.props.label} id = "projectLabel"></div>
               <input type = "text" defaultValue = {this.props.target.props.name} id = "editName"/>
               <div id = "editOpt">
                 <div id = "editLabelForm">
-                  Label:  
                   <div id = "editChosen" onClick = {this.showColors}>
                     <div id = "editChosenColor" className = {this.props.target.props.label}></div>
                   </div>  

@@ -27338,7 +27338,7 @@
 	              _react2.default.createElement(
 	                'button',
 	                { onClick: this.logout },
-	                'Log out'
+	                _react2.default.createElement('i', { className: 'fa fa-sign-out', 'aria-hidden': 'true' })
 	              )
 	            )
 	          )
@@ -28142,8 +28142,11 @@
 	var PromotionItem = function (_React$Component) {
 	  _inherits(PromotionItem, _React$Component);
 
-	  // TODO: hot deleting; 
+	  // !!! TODO: hot deleting; 
 	  // mb changing Reuse
+	  // !!! hot level changing after editing Points
+	  // common method for points updating - here and in Tasks
+	  // in top - user choice
 	  function PromotionItem(props) {
 	    _classCallCheck(this, PromotionItem);
 
@@ -29162,20 +29165,19 @@
 	  }, {
 	    key: 'onFinishEdit',
 	    value: function onFinishEdit() {
-	      var promise = new Promise(function (resolve) {
-	        editForm.style.height = "0";
-	        setTimeout(function () {
-	          _EventEmitter2.default.emitEvent('taskFinishEdit');
-	          resolve();
-	        }, 200);
-	      });
-	      return promise;
+	      // let promise = new Promise (resolve => {
+	      //   editForm.style.height = "0";
+	      //   setTimeout( () =>{
+	      //     ee.emitEvent('taskFinishEdit');
+	      //     resolve();
+	      //   }, 200);
+	      // })
+	      // return promise;   
+	      _EventEmitter2.default.emitEvent('taskFinishEdit');
 	    }
 	  }, {
 	    key: 'onDelete',
 	    value: function onDelete() {
-	      var _this2 = this;
-
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -29191,9 +29193,8 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _this2.onFinishEdit().then(function (res) {
-	          return _EventEmitter2.default.emitEvent('taskDeleted', [taskID]);
-	        });
+	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
+	        _EventEmitter2.default.emitEvent('taskDeleted', [taskID]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29201,7 +29202,7 @@
 	  }, {
 	    key: 'saveChanges',
 	    value: function saveChanges() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      var bodyJSON = JSON.stringify({
 	        name: editName.value,
@@ -29230,7 +29231,7 @@
 	        }
 	        var newData = { name: editName.value, points: editPoints.value };
 	        _EventEmitter2.default.emitEvent('taskSaveEdit', [taskID, newData]);
-	        _this3.onFinishEdit();
+	        _this2.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -30113,20 +30114,19 @@
 	  }, {
 	    key: 'onFinishEdit',
 	    value: function onFinishEdit() {
-	      var promise = new Promise(function (resolve) {
-	        editForm.style.height = "0";
-	        setTimeout(function () {
-	          _EventEmitter2.default.emitEvent('projectFinishEdit');
-	          resolve();
-	        }, 200);
-	      });
-	      return promise;
+	      // let promise = new Promise (resolve => {
+	      //   editForm.style.height = "0";
+	      //   setTimeout( () =>{
+	      //     ee.emitEvent('projectFinishEdit');
+	      //     resolve();
+	      //   }, 200);
+	      // })
+	      // return promise; 
+	      _EventEmitter2.default.emitEvent('projectFinishEdit');
 	    }
 	  }, {
 	    key: 'onDelete',
 	    value: function onDelete() {
-	      var _this2 = this;
-
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -30140,9 +30140,8 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _this2.onFinishEdit().then(function (res) {
-	          return _EventEmitter2.default.emitEvent('projectDeleted', [projID]);
-	        });
+	        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
+	        _EventEmitter2.default.emitEvent('projectDeleted', [projID]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -30151,7 +30150,6 @@
 	    key: 'showColors',
 	    value: function showColors() {
 	      editOptions.style.width = "150px";
-	      editOptions.style.borderRight = "1px solid black";
 	    }
 	  }, {
 	    key: 'hideColors',
@@ -30160,12 +30158,11 @@
 	        editChosenColor.className = e.target.className;
 	      }
 	      editOptions.style.width = "0";
-	      editOptions.style.borderRight = "none";
 	    }
 	  }, {
 	    key: 'saveChanges',
 	    value: function saveChanges() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      var bodyJSON = JSON.stringify({
 	        name: editName.value,
@@ -30194,7 +30191,7 @@
 	        var newData = { name: editName.value, label: editChosenColor.className };
 	        //take from server?
 	        _EventEmitter2.default.emitEvent('projectSaveEdit', [projID, newData]);
-	        _this3.onFinishEdit();
+	        _this2.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -30205,6 +30202,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'editForm' },
+	        _react2.default.createElement('div', { className: this.props.target.props.label, id: 'projectLabel' }),
 	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editName' }),
 	        _react2.default.createElement(
 	          'div',
@@ -30212,7 +30210,6 @@
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'editLabelForm' },
-	            'Label:',
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'editChosen', onClick: this.showColors },
