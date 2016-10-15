@@ -37,11 +37,11 @@ export default class InternalTopmenu extends React.Component {
     return <div>            
             <div className = "topmenu">
               <div id = "logo"><Link to={path}>LOGO :)</Link></div> 
-              <ul className = "links">
+              <ul ref = "linksList" className = "links">
                 <li><Points login = {this.props.login} ref='foo'/></li>
-                <li><IndexLink to={`${path}/projects`}>Projects</IndexLink></li>
-                <li><IndexLink to={`${path}/rules`}>Rules</IndexLink></li>
-                <li><IndexLink to={`${path}/promotions`}>Promotions</IndexLink></li>
+                <li><Link to={`${path}/projects`} activeClassName="active">Projects</Link></li>
+                <li><IndexLink to={`${path}/rules`} activeClassName="active">Rules</IndexLink></li>
+                <li><IndexLink to={`${path}/promotions`} activeClassName="active">Promotions</IndexLink></li>
                 <li><button onClick = {this.logout}>
                     <i className="fa fa-sign-out" aria-hidden="true"></i>
                   </button>

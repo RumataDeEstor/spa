@@ -27299,7 +27299,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'ul',
-	            { className: 'links' },
+	            { ref: 'linksList', className: 'links' },
 	            _react2.default.createElement(
 	              'li',
 	              null,
@@ -27309,8 +27309,8 @@
 	              'li',
 	              null,
 	              _react2.default.createElement(
-	                _reactRouter.IndexLink,
-	                { to: path + '/projects' },
+	                _reactRouter.Link,
+	                { to: path + '/projects', activeClassName: 'active' },
 	                'Projects'
 	              )
 	            ),
@@ -27319,7 +27319,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.IndexLink,
-	                { to: path + '/rules' },
+	                { to: path + '/rules', activeClassName: 'active' },
 	                'Rules'
 	              )
 	            ),
@@ -27328,7 +27328,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.IndexLink,
-	                { to: path + '/promotions' },
+	                { to: path + '/promotions', activeClassName: 'active' },
 	                'Promotions'
 	              )
 	            ),
