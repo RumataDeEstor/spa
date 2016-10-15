@@ -30460,7 +30460,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.IndexLink,
-	                { to: '/signup' },
+	                { to: '/signup', activeClassName: 'active' },
 	                'Signup'
 	              )
 	            ),
@@ -30469,7 +30469,7 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.IndexLink,
-	                { to: '/login' },
+	                { to: '/login', activeClassName: 'active' },
 	                'Login'
 	              )
 	            )
