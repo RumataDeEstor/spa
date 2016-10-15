@@ -395,7 +395,6 @@ div .authForms {
   border-top: none;
   border-bottom: none;
   background-color: white;
-  border-radius: 12px;
   display: flex;
   /*transition: height 0.2s linear;*/
   overflow: hidden;
@@ -520,18 +519,9 @@ button#editDelete {
 }
 
 #options div, #editOptions div {
-  width: 13px;
-  height: 15px; 
-}
-
-#options div:first-child,
-#editOptions div:first-child {
-  margin-left: 4px;
-}
-
-#options div:last-child,
-#editOptions div:last-child {
-  margin-right: 4px;
+  width: 10px;
+  height: 20px; 
+  margin-right: 3px;
 }
 
 #chosen, #editChosen {
@@ -555,7 +545,6 @@ button#editDelete {
 #options, #editOptions {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   background-color: white;
   width: 0;
   height: 24px;
@@ -564,40 +553,6 @@ button#editDelete {
   border-right: none;*/
   cursor: pointer;
   transition: all 0.2s linear;
-}
-
-.red {
-  background-color: red;
-}
-.green {
-  background-color: green;
-}
-.blue {
-  background-color: blue;
-}
-
-.yellow {
-  background-color: yellow;
-}
-
-.purple {
-  background-color: purple;
-}
-
-.orange {
-  background-color: orange;
-}
-
-.violet {
-  background-color: #EE82EE;
-}
-
-.gray {
-  background-color: gray;
-}
-
-.brown {
-  background-color: #A52A2A;
 }
 /*-----PROMOTION ITEM---------*/
 
@@ -656,6 +611,10 @@ button#promoDelete:hover {
   display: flex;
   align-self: center;
   margin-left: 3px;
+}
+
+.fa.fa-tags {
+  color: #878787;
 }
 
 #exCircle {

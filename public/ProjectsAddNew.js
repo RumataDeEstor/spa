@@ -10,24 +10,24 @@ class ProjectsAddNew extends React.Component {
     super(props);
     this.addNew = this.addNew.bind(this);
     this.clearFields = this.clearFields.bind(this);
+    this.hideColors = this.hideColors.bind(this);
   }
 
   clearFields() {
     newName.value = "";
-    chosenColor.className = "white";
+    this.refs.plabel.style.backgroundColor = "#FFFFFF";
   }
 
   showColors () {
-    options.style.width = "150px";
-    options.style.borderRight = "1px solid black";  
+    options.style.width = "150px"; 
   }
 
   hideColors (e) {
-    if (e.target.className) {
-      chosenColor.className = e.target.className;
+    if (e.target.className == "colorsList") {
+      this.refs.plabel.style.backgroundColor = 
+        e.target.style.backgroundColor;
     } 
     options.style.width = "0";
-    options.style.borderRight = "none"; 
   }
 
   onCancel () {
@@ -36,7 +36,7 @@ class ProjectsAddNew extends React.Component {
   }
 
   onExpand () {
-    addNewForm.style.height  = "36px";
+    addNewForm.style.height  = "35px";
     addNewForm.style.borderBottom = "1px solid #424242";
   }
 
@@ -44,7 +44,7 @@ class ProjectsAddNew extends React.Component {
     let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
     let bodyJSON = JSON.stringify({
       name: validName,
-      label: chosenColor.className
+      label: this.refs.plabel.style.backgroundColor
     });
       
     let reqParams = {
@@ -78,23 +78,23 @@ class ProjectsAddNew extends React.Component {
               <div id = "expand" onClick = {this.onExpand}>+</div>
             </div>
             <div id = "addNewForm">
+              <div style = {{backgroundColor: "#FFFFFF"}} id = "projectLabel" ref = "plabel"></div>
               <input type = "text" placeholder = "Name" id = "newName" maxLength = "100"/>
               <div id = "addNewOpt">
                 <div id = "labelForm">
-                  Label:  
                   <div id = "chosen" onClick = {this.showColors}>
-                    <div id = "chosenColor" className = "white"></div>
+                    <i className="fa fa-tags" aria-hidden="true"></i>
                   </div>  
                   <div id = "options" onClick = {this.hideColors}>
-                    <div className = "red"></div>
-                    <div className = "green"></div>
-                    <div className = "blue"></div>
-                    <div className = "yellow"></div>
-                    <div className = "purple"></div>
-                    <div className = "orange"></div>
-                    <div className = "violet"></div>
-                    <div className = "gray"></div>
-                    <div className = "brown"></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#ECEA48"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#BB5FF6"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#FFBE58"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#FF5BCE"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#58C6A0"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
                   </div>
                 </div> 
                 <div id = "buttons">           

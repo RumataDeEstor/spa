@@ -29640,6 +29640,7 @@
 
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.clearFields = _this.clearFields.bind(_this);
+	    _this.hideColors = _this.hideColors.bind(_this);
 	    return _this;
 	  }
 
@@ -29647,22 +29648,20 @@
 	    key: 'clearFields',
 	    value: function clearFields() {
 	      newName.value = "";
-	      chosenColor.className = "white";
+	      this.refs.plabel.style.backgroundColor = "#FFFFFF";
 	    }
 	  }, {
 	    key: 'showColors',
 	    value: function showColors() {
 	      options.style.width = "150px";
-	      options.style.borderRight = "1px solid black";
 	    }
 	  }, {
 	    key: 'hideColors',
 	    value: function hideColors(e) {
-	      if (e.target.className) {
-	        chosenColor.className = e.target.className;
+	      if (e.target.className == "colorsList") {
+	        this.refs.plabel.style.backgroundColor = e.target.style.backgroundColor;
 	      }
 	      options.style.width = "0";
-	      options.style.borderRight = "none";
 	    }
 	  }, {
 	    key: 'onCancel',
@@ -29673,7 +29672,7 @@
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      addNewForm.style.height = "36px";
+	      addNewForm.style.height = "35px";
 	      addNewForm.style.borderBottom = "1px solid #424242";
 	    }
 	  }, {
@@ -29684,7 +29683,7 @@
 	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
-	        label: chosenColor.className
+	        label: this.refs.plabel.style.backgroundColor
 	      });
 
 	      var reqParams = {
@@ -29729,6 +29728,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'addNewForm' },
+	          _react2.default.createElement('div', { style: { backgroundColor: "#FFFFFF" }, id: 'projectLabel', ref: 'plabel' }),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '100' }),
 	          _react2.default.createElement(
 	            'div',
@@ -29736,24 +29736,23 @@
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'labelForm' },
-	              'Label:',
 	              _react2.default.createElement(
 	                'div',
 	                { id: 'chosen', onClick: this.showColors },
-	                _react2.default.createElement('div', { id: 'chosenColor', className: 'white' })
+	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
 	              ),
 	              _react2.default.createElement(
 	                'div',
 	                { id: 'options', onClick: this.hideColors },
-	                _react2.default.createElement('div', { className: 'red' }),
-	                _react2.default.createElement('div', { className: 'green' }),
-	                _react2.default.createElement('div', { className: 'blue' }),
-	                _react2.default.createElement('div', { className: 'yellow' }),
-	                _react2.default.createElement('div', { className: 'purple' }),
-	                _react2.default.createElement('div', { className: 'orange' }),
-	                _react2.default.createElement('div', { className: 'violet' }),
-	                _react2.default.createElement('div', { className: 'gray' }),
-	                _react2.default.createElement('div', { className: 'brown' })
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -30032,7 +30031,7 @@
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'projectLine', onClick: this.open },
-	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
+	            _react2.default.createElement('div', { style: { backgroundColor: this.props.label }, id: 'projectLabel' }),
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'projName' },
@@ -30103,6 +30102,7 @@
 	    _this.saveChanges = _this.saveChanges.bind(_this);
 	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
 	    _this.onDelete = _this.onDelete.bind(_this);
+	    _this.hideColors = _this.hideColors.bind(_this);
 	    return _this;
 	  }
 
@@ -30154,8 +30154,8 @@
 	  }, {
 	    key: 'hideColors',
 	    value: function hideColors(e) {
-	      if (e.target.className) {
-	        editChosenColor.className = e.target.className;
+	      if (e.target.className == "colorsList") {
+	        this.refs.plabel.style.backgroundColor = e.target.style.backgroundColor;
 	      }
 	      editOptions.style.width = "0";
 	    }
@@ -30166,7 +30166,7 @@
 
 	      var bodyJSON = JSON.stringify({
 	        name: editName.value,
-	        label: editChosenColor.className
+	        label: this.refs.plabel.style.backgroundColor
 	      });
 
 	      var reqParams = {
@@ -30188,13 +30188,14 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newData = { name: editName.value, label: editChosenColor.className };
+	        var newData = { name: editName.value, label: _this2.refs.plabel.style.backgroundColor };
 	        //take from server?
 	        _EventEmitter2.default.emitEvent('projectSaveEdit', [projID, newData]);
 	        _this2.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
+	      // <div className = {this.props.target.props.label}
 	    }
 	  }, {
 	    key: 'render',
@@ -30202,7 +30203,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'editForm' },
-	        _react2.default.createElement('div', { className: this.props.target.props.label, id: 'projectLabel' }),
+	        _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label }, id: 'projectLabel', ref: 'plabel' }),
 	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editName' }),
 	        _react2.default.createElement(
 	          'div',
@@ -30213,20 +30214,20 @@
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'editChosen', onClick: this.showColors },
-	              _react2.default.createElement('div', { id: 'editChosenColor', className: this.props.target.props.label })
+	              _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
 	            ),
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'editOptions', onClick: this.hideColors },
-	              _react2.default.createElement('div', { className: 'red' }),
-	              _react2.default.createElement('div', { className: 'green' }),
-	              _react2.default.createElement('div', { className: 'blue' }),
-	              _react2.default.createElement('div', { className: 'yellow' }),
-	              _react2.default.createElement('div', { className: 'purple' }),
-	              _react2.default.createElement('div', { className: 'orange' }),
-	              _react2.default.createElement('div', { className: 'violet' }),
-	              _react2.default.createElement('div', { className: 'gray' }),
-	              _react2.default.createElement('div', { className: 'brown' })
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
 	            )
 	          ),
 	          _react2.default.createElement(

@@ -34,7 +34,7 @@ export default class ProjectsItem extends React.Component {
     return <div id = "projectsItem">
               <div id = "itemNormal" ref = "itemNorm">
                 <div id = "projectLine" onClick = {this.open}> 
-                  <div className = {this.props.label} id = "projectLabel"> 
+                  <div style = {{backgroundColor: this.props.label}} id = "projectLabel"> 
                   </div>
                   <div id = "projName">{this.props.name}</div>                
                 </div>

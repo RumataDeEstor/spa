@@ -12,6 +12,7 @@ export default class ProjectEditing extends React.Component {
     this.saveChanges = this.saveChanges.bind(this);
     this.onFinishEdit = this.onFinishEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.hideColors = this.hideColors.bind(this);
   }
 
   componentDidMount() {
@@ -57,8 +58,9 @@ export default class ProjectEditing extends React.Component {
   }
 
   hideColors (e) {
-    if (e.target.className) {
-      editChosenColor.className = e.target.className;
+    if (e.target.className == "colorsList") {
+      this.refs.plabel.style.backgroundColor = 
+        e.target.style.backgroundColor;
     } 
     editOptions.style.width = "0"; 
   }
@@ -66,7 +68,7 @@ export default class ProjectEditing extends React.Component {
   saveChanges () {
     let bodyJSON = JSON.stringify({
       name: editName.value,
-      label: editChosenColor.className
+      label: this.refs.plabel.style.backgroundColor
     });
       
     let reqParams = {
@@ -88,7 +90,7 @@ export default class ProjectEditing extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        let newData = {name: editName.value, label: editChosenColor.className};
+        let newData = {name: editName.value, label: this.refs.plabel.style.backgroundColor};
         //take from server?
         ee.emitEvent('projectSaveEdit', [projID, newData]);
         this.onFinishEdit();
@@ -96,26 +98,27 @@ export default class ProjectEditing extends React.Component {
       .catch(err => {
         console.log(err);
       })
+      // <div className = {this.props.target.props.label}
   }
   render () {
       return<div id = "editForm">
-              <div className = {this.props.target.props.label} id = "projectLabel"></div>
+              <div style = {{backgroundColor: this.props.target.props.label}} id = "projectLabel" ref = "plabel"></div>
               <input type = "text" defaultValue = {this.props.target.props.name} id = "editName"/>
               <div id = "editOpt">
                 <div id = "editLabelForm">
                   <div id = "editChosen" onClick = {this.showColors}>
-                    <div id = "editChosenColor" className = {this.props.target.props.label}></div>
+                    <i className="fa fa-tags" aria-hidden="true"></i>
                   </div>  
                   <div id = "editOptions" onClick = {this.hideColors}>
-                    <div className = "red"></div>
-                    <div className = "green"></div>
-                    <div className = "blue"></div>
-                    <div className = "yellow"></div>
-                    <div className = "purple"></div>
-                    <div className = "orange"></div>
-                    <div className = "violet"></div>
-                    <div className = "gray"></div>
-                    <div className = "brown"></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#ECEA48"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#BB5FF6"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#FFBE58"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#FF5BCE"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#58C6A0"}}></div>
+                    <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
                   </div>
                 </div> 
                 <div id = "editButtons">           
