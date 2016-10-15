@@ -29,7 +29,6 @@ body {
   margin-left: 10px;
   margin-top: 65px;
   display: flex;
-  background-color: #EDEEF0;
  /* flex-direction: row;
   justify-content: space-between;*/
 }
@@ -176,6 +175,7 @@ li.chosen {
   display: flex;
   margin: 0; 
   padding: 0;
+  color: white;
 }
 
 #logo {
@@ -193,7 +193,7 @@ li.chosen {
 .links li {
   /*background-color: #49c15d;*/
   /*border: 4px outset #7CC59A;*/
-  color: #19570F;
+  /*color: #19570F;*/
   font: 32px Verdana;
   height: 46px;
 }
@@ -205,7 +205,8 @@ li.chosen {
 
 .links li a {
   padding: 0 30px 7px 30px;
-  color: #19570F;
+  /*color: #19570F;*/
+  color: white;
 }
 
 @-moz-document url-prefix() {
@@ -215,7 +216,8 @@ li.chosen {
 .links li button {
   background-color: #49C15D;
   font: 32px Verdana;
-  color: #19570F;
+  /*color: #19570F;*/
+  color: white;
   border: none;
   padding: 0 30px;
 }
@@ -230,6 +232,7 @@ li.chosen {
 
 .links li a.active {
   background-color: white;
+  color: #5E5E5E;
 }
 
 /*TODO: crooked due to different price values*/
@@ -615,6 +618,7 @@ button#promoDelete:hover {
 
 .fa.fa-tags {
   color: #878787;
+  margin-right: 16px;
 }
 
 #exCircle {
