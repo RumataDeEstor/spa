@@ -79,7 +79,7 @@ class ProjectsAddNew extends React.Component {
             </div>
             <div id = "addNewForm">
               <div style = {{backgroundColor: "#FFFFFF"}} id = "projectLabel" ref = "plabel"></div>
-              <input type = "text" placeholder = "Name" id = "newName" maxLength = "100"/>
+              <input type = "text" placeholder = "Name" id = "newName" maxLength = "17"/>
               <div id = "addNewOpt">
                 <div id = "labelForm">
                   <div id = "chosen" onClick = {this.showColors}>

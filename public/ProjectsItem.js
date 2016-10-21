@@ -11,6 +11,8 @@ export default class ProjectsItem extends React.Component {
     super(props);
     this.edit = this.edit.bind(this);
     this.open = this.open.bind(this);
+    this.showEditBtn = this.showEditBtn.bind(this);
+    this.hideEditBtn = this.hideEditBtn.bind(this);
   }
 
   componentWillReceiveProps(newProps){
@@ -25,20 +27,31 @@ export default class ProjectsItem extends React.Component {
     this.props.onEdit(this.props.id);
   }
 
+  showEditBtn(){
+    this.refs.eBtn.style.display = "flex";
+  }
+
+  hideEditBtn(){
+    this.refs.eBtn.style.display = "none";
+  }
+
   open() {
     browserHistory.push(`/app/${this.props.login}/projects/p/${this.props.id}`); 
   }
   
   render () {
     let component = this.props.editing ? <ProjectEditing target = {this} login = {this.props.login}/> : null;
-    return <div id = "projectsItem">
+    return <div id = "projectsItem" 
+      onMouseOver = {this.showEditBtn}
+      onMouseOut = {this.hideEditBtn}>
               <div id = "itemNormal" ref = "itemNorm">
                 <div id = "projectLine" onClick = {this.open}> 
                   <div style = {{backgroundColor: this.props.label}} id = "projectLabel"> 
                   </div>
                   <div id = "projName">{this.props.name}</div>                
                 </div>
-                <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
+                <div id = "editItem" ref = "eBtn" className = {this.props.cNameEdit} 
+                  onClick = {this.edit}>
                   <i className="fa fa-pencil-square-o"></i>
                 </div> 
               </div> 

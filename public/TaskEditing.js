@@ -34,7 +34,7 @@ export default class TaskEditing extends React.Component {
     ee.emitEvent('taskFinishEdit');
   }
 
-  onDelete(){
+  onDelete(){   // mustn't be repeated with TasksItem
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -60,7 +60,7 @@ export default class TaskEditing extends React.Component {
 
   saveChanges () {
     let bodyJSON = JSON.stringify({
-      name: editName.value,
+      name: editTaskName.value,
       points: editPoints.value
     });
       
@@ -84,7 +84,7 @@ export default class TaskEditing extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        let newData = {name: editName.value, points: editPoints.value};
+        let newData = {name: editTaskName.value, points: editPoints.value};
         ee.emitEvent('taskSaveEdit', [taskID, newData]);
         this.onFinishEdit();
       })
@@ -94,7 +94,7 @@ export default class TaskEditing extends React.Component {
   }
   render () {
       return<div id = "editForm">
-              <input type = "text" defaultValue = {this.props.target.props.name} id = "editName"/>
+              <input type = "text" defaultValue = {this.props.target.props.name} id = "editTaskName"/>
               <div id = "editOpt">
                 <input type = "number" id = "editPoints" defaultValue = {this.props.target.props.points} min = "0" max = "500"/>
                 <div id = "editButtons">           

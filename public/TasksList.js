@@ -109,6 +109,7 @@ export default class TasksList extends React.Component {
                   onEdit={this.handleChildEdit.bind(this)}
                   points = {el.points} 
                   name = {el.name} 
+                  repeated = {el.repeated}
                   login = {this.props.login}
                   cNameEdit = {cNameEdit}
                   editing = {editing}

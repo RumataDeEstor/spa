@@ -28,7 +28,7 @@ const promotionSchema = new Schema({
     default: 10,
     required: true
   },
-  reusable: {
+  repeated: {
     type: Boolean,
     default: false
   }
@@ -47,6 +47,10 @@ const taskSchema = new Schema({
   points: {
     type: Number,
     default: 5
+  },
+  repeated: {
+    type: Boolean,
+    default: false
   }
 });
 

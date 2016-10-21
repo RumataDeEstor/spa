@@ -12,6 +12,11 @@ export default class TasksItem extends React.Component {
     super(props);
     this.edit = this.edit.bind(this);
     this.complete = this.complete.bind(this);
+    this.hideEditBtn = this.hideEditBtn.bind(this);
+    this.showEditBtn = this.showEditBtn.bind(this);
+    this.showMark = this.showMark.bind(this);
+    this.hideMark = this.hideMark.bind(this);
+    this.delete = this.delete.bind(this);
   }
 
   componentWillReceiveProps(newProps){
@@ -24,6 +29,54 @@ export default class TasksItem extends React.Component {
  
   edit() {
     this.props.onEdit(this.props.id); 
+  }  
+
+  showEditBtn(e){
+    // console.dir(e.target);
+    if (e.target.id == "checkBoxField"||
+        e.target.id == "taskCheckbox" ||
+        e.target.id == "check") {
+      
+      console.log('pish');
+      return;
+    }
+    this.refs.eBtn.style.display = "flex";
+  }
+
+  hideEditBtn(){
+    this.refs.eBtn.style.display = "none";
+  }
+
+  showMark () {
+    this.refs.check.style.display = "flex";
+  }
+
+  hideMark () {
+    this.refs.check.style.display = "none";
+  }
+
+  delete(){ // mustn't be repeated with TaskEditing!
+    let reqParams = {
+      method: 'DELETE',
+      credentials: 'include'
+    }
+
+    let login = this.props.login;
+    let projID = this.props.projectID;
+    let taskID = this.props.id;
+
+    fetch(`/api/userdata/${login}/projects/${projID}/${taskID}`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error);
+        }
+        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
+        ee.emitEvent('taskDeleted', [taskID]);        
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }  
 
   complete() {
@@ -49,6 +102,9 @@ export default class TasksItem extends React.Component {
           console.log(res.error);
         }
         ee.emitEvent('pointsUpdated', [this.props.points]);
+        if (!this.props.repeated) {
+          this.delete();
+        }
       })
       .catch(err => {
         console.log(err);
@@ -61,17 +117,27 @@ export default class TasksItem extends React.Component {
         projectID = {this.props.projectID}
       /> : null;
       
-    return <div id = "tasksItem">
+    return <div id = "tasksItem"
+            onMouseOver = {this.showEditBtn}
+            onMouseOut = {this.hideEditBtn}>
               <div id = "itemNormal" ref = "itemNorm">
-                <div id = "taskLine"> 
-                  <div id = "taskCheckbox" onClick = {this.complete}> !
+                <div id = "checkBoxField"
+                  onMouseOver = {this.showMark}
+                  onMouseOut = {this.hideMark}
+                  onClick = {this.complete}>
+                
+                  <div id = "taskCheckbox"> 
+                    
+                    <div id = "check"ref = "check"> ✔ </div>
                   </div>
-                  <div className = {this.props.label} id = "projectLabel"> 
-                  </div>
-                {this.props.name}
                 </div>
-                <div id = "points"> {this.props.points} </div>
-                <div id = "editItem" className = {this.props.cNameEdit} onClick = {this.edit}>
+                <div id = "taskLine">                   
+                  <div id = "taskName">{this.props.name}</div>
+                  <div id = "points"> {this.props.points} </div>
+                </div>
+                <div id = "editItem" ref = "eBtn" 
+                  className = {this.props.cNameEdit} 
+                  onClick = {this.edit}>
                   <i className="fa fa-pencil-square-o"></i>
                 </div>
               </div>

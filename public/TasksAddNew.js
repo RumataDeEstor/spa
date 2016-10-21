@@ -10,8 +10,12 @@ export default class TasksAddNew extends React.Component {
     super(props);
     this.addNew = this.addNew.bind(this);
     this.clearFields = this.clearFields.bind(this);
+    this.checkRepeated = this.checkRepeated.bind(this);
   }
 
+  checkRepeated(e) {
+    e.target.className = (e.target.className == "checked") ? "unchecked" : "checked";
+  }
   onCancel () {
     addNewForm.style.height = "0";   
     addNewForm.style.borderBottom = "none";
@@ -28,12 +32,14 @@ export default class TasksAddNew extends React.Component {
   }
 
   addNew (){
+    let repeated = this.refs.cRep.className == "checked";
     let validPoints = (newPoints.value > 500) ? 500 : newPoints.value;
     let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
 
     let bodyJSON = JSON.stringify({
       name: validName,
-      points: validPoints
+      points: validPoints,
+      repeated: repeated
     });
       
     let reqParams = {
@@ -68,9 +74,14 @@ export default class TasksAddNew extends React.Component {
               <div id = "expand" onClick = {this.onExpand}>+</div>
             </div>            
             <div id = "addNewForm">
-              <input type = "text" placeholder = "Name" id = "newName" maxLength = "100"/>
+              <input type = "text" placeholder = "Name" id = "newName" maxLength = "17"/>
               <div id = "addNewOpt">
                 <input type = "number" id = "newPoints" defaultValue = "5" min = "0" max = "500"/>
+                <div> repeated: 
+                  <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
+                    onClick = {this.checkRepeated}>
+                  </div>
+                </div>
                 <button id = "add" onClick = {this.addNew}>Add</button>
                 <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
               </div>

@@ -70,7 +70,7 @@ export default class Promotions extends React.Component {
                     id ={el._id} 
                     name = {el.name} 
                     price = {el.price} 
-                    reusable = {el.reusable}
+                    repeated = {el.repeated}
                     points = {this.state.points}
                     login = {this.props.params.login}
                     loc = "full"

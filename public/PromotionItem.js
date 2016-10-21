@@ -81,7 +81,7 @@ export default class PromotionItem extends React.Component {
   getPromo () {
    
     this.tempUpdPoints();
-    if (!this.props.reusable) {
+    if (!this.props.repeated) {
       this.deletePromo();
     }
   }
@@ -230,7 +230,7 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
-    let reuse = (this.props.reusable) ? "reusable" : "one-off";
+    let isRepeated = (this.props.repeated) ? "repeated" : "one-off";
     return<div id = "promotionItem">         
             <div id = "promoPrice" ref = "promoPrice">
               {this.state.price}
@@ -265,7 +265,7 @@ export default class PromotionItem extends React.Component {
             <form ref = "editPromoName" id = "editPromoName">
               <input type = "text" name = "fieldName"/>
             </form>
-            <div id = "isReusable">{reuse}</div>
+            <div id = "isRep">{isRepeated}</div>
           </div>
   }
 }

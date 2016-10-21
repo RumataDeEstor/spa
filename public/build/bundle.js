@@ -28227,7 +28227,7 @@
 	    value: function getPromo() {
 
 	      this.tempUpdPoints();
-	      if (!this.props.reusable) {
+	      if (!this.props.repeated) {
 	        this.deletePromo();
 	      }
 	    }
@@ -28389,7 +28389,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var reuse = this.props.reusable ? "reusable" : "one-off";
+	      var isRepeated = this.props.repeated ? "repeated" : "one-off";
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promotionItem' },
@@ -28444,8 +28444,8 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'isReusable' },
-	          reuse
+	          { id: 'isRep' },
+	          isRepeated
 	        )
 	      );
 	    }
@@ -28754,7 +28754,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'projectName' },
-	          _react2.default.createElement('div', { id: 'projectLabel', className: this.state.label }),
+	          _react2.default.createElement('div', { id: 'projectLabel', style: { backgroundColor: this.state.label } }),
 	          _react2.default.createElement(
 	            'h1',
 	            null,
@@ -28944,6 +28944,7 @@
 	              onEdit: _this3.handleChildEdit.bind(_this3),
 	              points: el.points,
 	              name: el.name,
+	              repeated: el.repeated,
 	              login: _this3.props.login,
 	              cNameEdit: cNameEdit,
 	              editing: editing,
@@ -29006,6 +29007,11 @@
 
 	    _this.edit = _this.edit.bind(_this);
 	    _this.complete = _this.complete.bind(_this);
+	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
+	    _this.showEditBtn = _this.showEditBtn.bind(_this);
+	    _this.showMark = _this.showMark.bind(_this);
+	    _this.hideMark = _this.hideMark.bind(_this);
+	    _this.delete = _this.delete.bind(_this);
 	    return _this;
 	  }
 
@@ -29022,6 +29028,57 @@
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
+	    }
+	  }, {
+	    key: 'showEditBtn',
+	    value: function showEditBtn(e) {
+	      // console.dir(e.target);
+	      if (e.target.id == "checkBoxField" || e.target.id == "taskCheckbox" || e.target.id == "check") {
+
+	        console.log('pish');
+	        return;
+	      }
+	      this.refs.eBtn.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideEditBtn',
+	    value: function hideEditBtn() {
+	      this.refs.eBtn.style.display = "none";
+	    }
+	  }, {
+	    key: 'showMark',
+	    value: function showMark() {
+	      this.refs.check.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideMark',
+	    value: function hideMark() {
+	      this.refs.check.style.display = "none";
+	    }
+	  }, {
+	    key: 'delete',
+	    value: function _delete() {
+	      // mustn't be repeated with TaskEditing!
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var projID = this.props.projectID;
+	      var taskID = this.props.id;
+
+	      fetch('/api/userdata/' + login + '/projects/' + projID + '/' + taskID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
+	        _EventEmitter2.default.emitEvent('taskDeleted', [taskID]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'complete',
@@ -29050,6 +29107,9 @@
 	          console.log(res.error);
 	        }
 	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this2.props.points]);
+	        if (!_this2.props.repeated) {
+	          _this2.delete();
+	        }
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29064,31 +29124,49 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'tasksItem' },
+	        { id: 'tasksItem',
+	          onMouseOver: this.showEditBtn,
+	          onMouseOut: this.hideEditBtn },
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
+	            { id: 'checkBoxField',
+	              onMouseOver: this.showMark,
+	              onMouseOut: this.hideMark,
+	              onClick: this.complete },
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'taskCheckbox' },
+	              _react2.default.createElement(
+	                'div',
+	                { id: 'check', ref: 'check' },
+	                ' ✔ '
+	              )
+	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
 	            { id: 'taskLine' },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'taskCheckbox', onClick: this.complete },
-	              ' !'
+	              { id: 'taskName' },
+	              this.props.name
 	            ),
-	            _react2.default.createElement('div', { className: this.props.label, id: 'projectLabel' }),
-	            this.props.name
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'points' },
+	              ' ',
+	              this.props.points,
+	              ' '
+	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'points' },
-	            ' ',
-	            this.props.points,
-	            ' '
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'editItem', className: this.props.cNameEdit, onClick: this.edit },
+	            { id: 'editItem', ref: 'eBtn',
+	              className: this.props.cNameEdit,
+	              onClick: this.edit },
 	            _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
 	          )
 	        ),
@@ -29178,6 +29256,7 @@
 	  }, {
 	    key: 'onDelete',
 	    value: function onDelete() {
+	      // mustn't be repeated with TasksItem
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -29205,7 +29284,7 @@
 	      var _this2 = this;
 
 	      var bodyJSON = JSON.stringify({
-	        name: editName.value,
+	        name: editTaskName.value,
 	        points: editPoints.value
 	      });
 
@@ -29229,7 +29308,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newData = { name: editName.value, points: editPoints.value };
+	        var newData = { name: editTaskName.value, points: editPoints.value };
 	        _EventEmitter2.default.emitEvent('taskSaveEdit', [taskID, newData]);
 	        _this2.onFinishEdit();
 	      }).catch(function (err) {
@@ -29242,7 +29321,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'editForm' },
-	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editName' }),
+	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editTaskName' }),
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'editOpt' },
@@ -29315,10 +29394,16 @@
 
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.clearFields = _this.clearFields.bind(_this);
+	    _this.checkRepeated = _this.checkRepeated.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(TasksAddNew, [{
+	    key: 'checkRepeated',
+	    value: function checkRepeated(e) {
+	      e.target.className = e.target.className == "checked" ? "unchecked" : "checked";
+	    }
+	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
 	      addNewForm.style.height = "0";
@@ -29341,12 +29426,14 @@
 	    value: function addNew() {
 	      var _this2 = this;
 
+	      var repeated = this.refs.cRep.className == "checked";
 	      var validPoints = newPoints.value > 500 ? 500 : newPoints.value;
 	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
 
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
-	        points: validPoints
+	        points: validPoints,
+	        repeated: repeated
 	      });
 
 	      var reqParams = {
@@ -29392,11 +29479,18 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'addNewForm' },
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '100' }),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '17' }),
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'addNewOpt' },
 	            _react2.default.createElement('input', { type: 'number', id: 'newPoints', defaultValue: '5', min: '0', max: '500' }),
+	            _react2.default.createElement(
+	              'div',
+	              null,
+	              ' repeated:',
+	              _react2.default.createElement('div', { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
+	                onClick: this.checkRepeated })
+	            ),
 	            _react2.default.createElement(
 	              'button',
 	              { id: 'add', onClick: this.addNew },
@@ -29729,7 +29823,7 @@
 	          'div',
 	          { id: 'addNewForm' },
 	          _react2.default.createElement('div', { style: { backgroundColor: "#FFFFFF" }, id: 'projectLabel', ref: 'plabel' }),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '100' }),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '17' }),
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'addNewOpt' },
@@ -29996,6 +30090,8 @@
 
 	    _this.edit = _this.edit.bind(_this);
 	    _this.open = _this.open.bind(_this);
+	    _this.showEditBtn = _this.showEditBtn.bind(_this);
+	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
 	    return _this;
 	  }
 
@@ -30014,6 +30110,16 @@
 	      this.props.onEdit(this.props.id);
 	    }
 	  }, {
+	    key: 'showEditBtn',
+	    value: function showEditBtn() {
+	      this.refs.eBtn.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideEditBtn',
+	    value: function hideEditBtn() {
+	      this.refs.eBtn.style.display = "none";
+	    }
+	  }, {
 	    key: 'open',
 	    value: function open() {
 	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/projects/p/' + this.props.id);
@@ -30024,7 +30130,9 @@
 	      var component = this.props.editing ? _react2.default.createElement(_ProjectEditing2.default, { target: this, login: this.props.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projectsItem' },
+	        { id: 'projectsItem',
+	          onMouseOver: this.showEditBtn,
+	          onMouseOut: this.hideEditBtn },
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'itemNormal', ref: 'itemNorm' },
@@ -30040,7 +30148,8 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'editItem', className: this.props.cNameEdit, onClick: this.edit },
+	            { id: 'editItem', ref: 'eBtn', className: this.props.cNameEdit,
+	              onClick: this.edit },
 	            _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
 	          )
 	        ),
@@ -30696,7 +30805,7 @@
 	              id: el._id,
 	              name: el.name,
 	              price: el.price,
-	              reusable: el.reusable,
+	              repeated: el.repeated,
 	              points: _this3.state.points,
 	              login: _this3.props.params.login,
 	              loc: 'full'
@@ -30749,13 +30858,13 @@
 	    var _this = _possibleConstructorReturn(this, (PromotionsAddNew.__proto__ || Object.getPrototypeOf(PromotionsAddNew)).call(this, props));
 
 	    _this.addNew = _this.addNew.bind(_this);
-	    _this.checkReuse = _this.checkReuse.bind(_this);
+	    _this.checkRepeated = _this.checkRepeated.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(PromotionsAddNew, [{
-	    key: 'checkReuse',
-	    value: function checkReuse(e) {
+	    key: 'checkRepeated',
+	    value: function checkRepeated(e) {
 	      e.target.className = e.target.className == "checked" ? "unchecked" : "checked";
 	    }
 	  }, {
@@ -30763,11 +30872,11 @@
 	    value: function addNew() {
 	      var _this2 = this;
 
-	      var reusable = checkBoxReuse.className == "checked" ? true : false;
+	      var repeated = this.refs.cRep.className == "checked";
 	      var bodyJSON = JSON.stringify({
 	        name: newPromoName.value,
 	        price: newPromoPrice.value,
-	        reusable: reusable
+	        repeated: repeated
 	      });
 
 	      var reqParams = {
@@ -30802,9 +30911,9 @@
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          ' reusable:',
-	          _react2.default.createElement('div', { id: 'checkBoxReuse', className: 'unchecked', ref: 'cReuse',
-	            onClick: this.checkReuse })
+	          ' repeated:',
+	          _react2.default.createElement('div', { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
+	            onClick: this.checkRepeated })
 	        ),
 	        _react2.default.createElement(
 	          'button',

@@ -45,7 +45,7 @@ export default class Project extends React.Component {
   render(){
     return <div>
             <div id = "projectName"> 
-              <div id = "projectLabel" className = {this.state.label}></div>
+              <div id = "projectLabel" style = {{backgroundColor: this.state.label}}></div>
               <h1> {this.state.name}</h1>
             </div>         
             <TasksList ref = "tlist"
