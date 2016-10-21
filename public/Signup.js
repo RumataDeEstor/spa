@@ -26,8 +26,6 @@ export default class Signup extends React.Component {
   }
 
   fieldOnFocus () {
-    slogin.value = '';
-    spassword.value = '';
     swarn.innerHTML = '';
   }
 
@@ -63,7 +61,7 @@ export default class Signup extends React.Component {
                 Login: 
                 <input id="slogin" onFocus={this.fieldOnFocus}/>
                 Password: 
-                <input type="password" id="spassword"/>
+                <input type="password" onFocus={this.fieldOnFocus} id="spassword"/>
                 <div id="swarn" className ="warn"></div>  
                 <p id = "pBtn"><button id = "signupBtn" onClick = {this.signUp}>Sign up</button></p>         
                 {readyMessage}   

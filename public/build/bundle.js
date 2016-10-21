@@ -28521,8 +28521,6 @@
 	  }, {
 	    key: 'fieldOnFocus',
 	    value: function fieldOnFocus() {
-	      login.value = '';
-	      password.value = '';
 	      lwarn.innerHTML = '';
 	    }
 	  }, {
@@ -28537,7 +28535,7 @@
 	          'Login:',
 	          _react2.default.createElement('input', { id: 'login', onFocus: this.fieldOnFocus }),
 	          'Password:',
-	          _react2.default.createElement('input', { type: 'password', id: 'password' }),
+	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus, id: 'password' }),
 	          _react2.default.createElement('div', { id: 'lwarn', className: 'warn' }),
 	          _react2.default.createElement(
 	            'p',
@@ -30441,8 +30439,6 @@
 	  _createClass(Signup, [{
 	    key: 'fieldOnFocus',
 	    value: function fieldOnFocus() {
-	      slogin.value = '';
-	      spassword.value = '';
 	      swarn.innerHTML = '';
 	    }
 	  }, {
@@ -30484,7 +30480,7 @@
 	          'Login:',
 	          _react2.default.createElement('input', { id: 'slogin', onFocus: this.fieldOnFocus }),
 	          'Password:',
-	          _react2.default.createElement('input', { type: 'password', id: 'spassword' }),
+	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus, id: 'spassword' }),
 	          _react2.default.createElement('div', { id: 'swarn', className: 'warn' }),
 	          _react2.default.createElement(
 	            'p',

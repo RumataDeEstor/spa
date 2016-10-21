@@ -35,8 +35,6 @@ export default class Login extends React.Component {
   }
 
   fieldOnFocus () {
-    login.value = '';
-    password.value = '';
     lwarn.innerHTML = '';
   }
 
@@ -46,7 +44,7 @@ export default class Login extends React.Component {
                 Login: 
                 <input id="login" onFocus={this.fieldOnFocus}/>
                 Password:
-                <input type="password" id="password"/>
+                <input type="password" onFocus={this.fieldOnFocus} id="password"/>
                 <div id="lwarn" className ="warn"></div>    
                 <p id = "pBtn"><button id = "loginBtn" onClick={this.logIn}>Log in</button></p>              
               </div>
