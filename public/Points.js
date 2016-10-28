@@ -58,7 +58,6 @@ export default class Points extends React.Component {
 
   render () {
     return <div className = "userPoints">
-            Your points:
             {this.state.points}
             </div>
   }

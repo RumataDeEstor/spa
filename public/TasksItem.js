@@ -128,7 +128,7 @@ export default class TasksItem extends React.Component {
                 
                   <div id = "taskCheckbox"> 
                     
-                    <div id = "check"ref = "check"> ✔ </div>
+                    <div id = "check"ref = "check"> ✓ </div>
                   </div>
                 </div>
                 <div id = "taskLine">                   

@@ -31,13 +31,13 @@ class ProjectsAddNew extends React.Component {
   }
 
   onCancel () {
-    addNewForm.style.height = "0";   
-    addNewForm.style.borderBottom = "none";
+    addNewForm.style.display = "none";  
+    lineExpand.style.display = "flex"; 
   }
 
   onExpand () {
-    addNewForm.style.height  = "35px";
-    addNewForm.style.borderBottom = "1px solid #424242";
+    addNewForm.style.display  = "flex";
+    lineExpand.style.display = "none"; 
   }
 
   addNew (){

@@ -27452,7 +27452,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'userPoints' },
-	        'Your points:',
 	        this.state.points
 	      );
 	    }
@@ -29140,7 +29139,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { id: 'check', ref: 'check' },
-	                ' ✔ '
+	                ' ✓ '
 	              )
 	            )
 	          ),
@@ -29683,7 +29682,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'projects' },
-	        'PROJECTS',
 	        this.props.children
 	      );
 	    }
@@ -29758,14 +29756,16 @@
 	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
-	      addNewForm.style.height = "0";
-	      addNewForm.style.borderBottom = "none";
+	      addNewForm.style.display = "none";
+	      lineExpand.style.display = "flex";
+	      // addNewForm.style.borderBottom = "none";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      addNewForm.style.height = "35px";
-	      addNewForm.style.borderBottom = "1px solid #424242";
+	      addNewForm.style.display = "flex";
+	      lineExpand.style.display = "none";
+	      // addNewForm.style.borderBottom = "1px solid #424242";
 	    }
 	  }, {
 	    key: 'addNew',
@@ -30015,7 +30015,11 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'projectsList' },
-	        'List Page',
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'pListTitle' },
+	          'Your current projects'
+	        ),
 	        _react2.default.createElement(_ProjectsAddNew2.default, {
 	          login: this.props.params.login,
 	          onAddingNew: this.handleAddingNew.bind(this)

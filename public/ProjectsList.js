@@ -82,7 +82,7 @@ export default class ProjectsList extends React.Component {
   
   render () {
     return <div id = "projectsList">
-            List Page
+            <div id = "pListTitle">Your current projects</div>
             <ProjectsAddNew 
               login = {this.props.params.login}
               onAddingNew = {this.handleAddingNew.bind(this)}
