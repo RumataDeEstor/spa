@@ -1,5 +1,5 @@
 body {
-  background-color: #CBDCC9;
+  background-color: #F5F5F5;
   /*background-image:
     repeating-linear-gradient(
       160deg,
@@ -156,7 +156,8 @@ li.chosen {
   justify-content: space-between;
   padding: 0;
   /*border: 2px solid #2D9B51;*/
-  background-color: #519A59;
+  background-color: #49C15D;
+  /*background-color: #519A59;*/
   margin-bottom: 20px;
   position: fixed;
   right: 0;
@@ -214,7 +215,8 @@ li.chosen {
 }
 
 .links li button {
-  background-color: #519A59;
+  /*background-color: #519A59; */
+  background-color: #49C15D;
   font: 32px Verdana;
   /*color: #19570F;*/
   color: white;
@@ -271,8 +273,8 @@ div#taskName {
   width: 650px;
   height: 35px;
   margin-top: 20px;
-  box-shadow: 0 0 0px 1px #d1d1d1, 
-    0 0 0px 2px #dadada;
+  box-shadow: 0 0 0px 1px #e2e2e2, 
+    0 0 0px 2px #e8e8e8;
 }
 
 div#checkBoxField {
