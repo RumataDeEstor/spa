@@ -16,14 +16,15 @@ export default class TasksAddNew extends React.Component {
   checkRepeated(e) {
     e.target.className = (e.target.className == "checked") ? "unchecked" : "checked";
   }
+
   onCancel () {
-    addNewForm.style.height = "0";   
-    addNewForm.style.borderBottom = "none";
+    addNewForm.style.display = "none";  
+    lineExpand.style.display = "flex"; 
   }
 
   onExpand () {
-    addNewForm.style.height  = "76px";
-    addNewForm.style.borderBottom = "1px solid #424242";
+    addNewForm.style.display  = "flex";
+    lineExpand.style.display = "none"; 
   }
 
   clearFields() {
@@ -82,8 +83,10 @@ export default class TasksAddNew extends React.Component {
                     onClick = {this.checkRepeated}>
                   </div>
                 </div>
-                <button id = "add" onClick = {this.addNew}>Add</button>
-                <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
+                <div id = "buttons">  
+                  <button id = "add" onClick = {this.addNew}>Add</button>
+                  <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
+                </div>  
               </div>
             </div>            
           </div>

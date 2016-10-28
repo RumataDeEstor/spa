@@ -29403,14 +29403,14 @@
 	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
-	      addNewForm.style.height = "0";
-	      addNewForm.style.borderBottom = "none";
+	      addNewForm.style.display = "none";
+	      lineExpand.style.display = "flex";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      addNewForm.style.height = "76px";
-	      addNewForm.style.borderBottom = "1px solid #424242";
+	      addNewForm.style.display = "flex";
+	      lineExpand.style.display = "none";
 	    }
 	  }, {
 	    key: 'clearFields',
@@ -29489,14 +29489,18 @@
 	                onClick: this.checkRepeated })
 	            ),
 	            _react2.default.createElement(
-	              'button',
-	              { id: 'add', onClick: this.addNew },
-	              'Add'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { id: 'cancel', onClick: this.onCancel },
-	              'Cancel'
+	              'div',
+	              { id: 'buttons' },
+	              _react2.default.createElement(
+	                'button',
+	                { id: 'add', onClick: this.addNew },
+	                'Add'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { id: 'cancel', onClick: this.onCancel },
+	                'Cancel'
+	              )
 	            )
 	          )
 	        )
@@ -29758,14 +29762,12 @@
 	    value: function onCancel() {
 	      addNewForm.style.display = "none";
 	      lineExpand.style.display = "flex";
-	      // addNewForm.style.borderBottom = "none";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
 	      addNewForm.style.display = "flex";
 	      lineExpand.style.display = "none";
-	      // addNewForm.style.borderBottom = "1px solid #424242";
 	    }
 	  }, {
 	    key: 'addNew',

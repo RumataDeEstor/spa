@@ -151,7 +151,7 @@ li.chosen {
   margin-bottom: 20px;
 }
 
-#projectsAddNew {
+#projectsAddNew, #taskAddNew {
   margin-top: 20px;
   width: 650px;
   box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;
@@ -230,20 +230,6 @@ div.userPoints {
   width: 70px;
 }
 
-@-moz-document url-prefix() {
-    .links li a {
-      padding: 8px 30px 10px 30px;
-    }
-    div#getPromoWindow {
-      top: 32px;
-      right: 32px;
-    }
-    div#getPromoWindow:hover {
-      top: 25px;
-      right: 25px;
-    }
-}
-
 .links li button {
   /*background-color: #519A59; */
   background-color: #27B43E;
@@ -258,9 +244,9 @@ div.userPoints {
   border: none;
 }
 
-.links li:first-child:hover {
+/*.links li:first-child:hover {
   background-color: #519A59;
-}
+}*/
 
 .links li a.active {
   background-color: white;
@@ -981,4 +967,21 @@ input#editPoints {
   padding: 2px 9px;
   border: none;
   margin-bottom: 3px;
+}
+
+@-moz-document url-prefix() {
+    .links li a {
+      padding: 8px 30px 10px 30px;
+    }
+    div#getPromoWindow {
+      top: 32px;
+      right: 32px;
+    }
+    div#getPromoWindow:hover {
+      top: 25px;
+      right: 25px;
+    }
+    #addNewForm button#cancel {
+      right: 6px;
+    }
 }
