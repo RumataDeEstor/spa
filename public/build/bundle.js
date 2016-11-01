@@ -29397,8 +29397,8 @@
 
 	  _createClass(TasksAddNew, [{
 	    key: 'checkRepeated',
-	    value: function checkRepeated(e) {
-	      e.target.className = e.target.className == "checked" ? "unchecked" : "checked";
+	    value: function checkRepeated() {
+	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
 	    }
 	  }, {
 	    key: 'onCancel',
@@ -29483,10 +29483,9 @@
 	            _react2.default.createElement('input', { type: 'number', id: 'newPoints', defaultValue: '5', min: '0', max: '500' }),
 	            _react2.default.createElement(
 	              'div',
-	              null,
-	              ' repeated:',
-	              _react2.default.createElement('div', { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
-	                onClick: this.checkRepeated })
+	              { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
+	                onClick: this.checkRepeated },
+	              _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
 	            ),
 	            _react2.default.createElement(
 	              'div',

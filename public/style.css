@@ -34,18 +34,18 @@ body {
 }
 
 #checkBoxRepeated {
-  width: 10px;
-  height: 10px;
-  border: 2px solid green;
-  border-radius: 10px;
+  display: flex;
+  align-self: center;
 }
 
 #checkBoxRepeated.unchecked {
-  background-color: transparent;
+  /*background-color: transparent;*/
+  color: #DADADA;
 }
 
 #checkBoxRepeated.checked {
-  background-color: #7CC59A;
+  /*background-color: #7CC59A;*/
+  color: #F12121;
 }
 
 #promoShort {
@@ -156,6 +156,11 @@ li.chosen {
   width: 650px;
   box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;
 }
+
+#taskAddNew input#newName {
+  margin-left: 15px;
+}
+
 
 .topmenu {
   display: flex;
@@ -480,7 +485,11 @@ div .authForms {
 #addNewForm div#buttons {
   position: relative;
   height: 38px;
-  width: 120px;
+  width: 120px;  
+}
+
+#taskAddNew #addNewForm div#buttons {
+  margin-left: 150px;
 }
 
 #addNewForm button {
@@ -542,10 +551,9 @@ div#tasksItem #editForm {
 }
 
 #expand {
-  height: 24px;
-  width: 24px;
-  border-radius: 12px;
-  background-color: #69AFBA;
+  height: 35px;
+  width: 65px;
+  background-color: #27B43E;
   color: white;
   display: flex;
   justify-content: center;
@@ -584,6 +592,11 @@ div#tasksItem #editForm {
   width: 70px;
   height: 16px;
   margin-right: 6px;
+  border: none;
+  padding: 0;
+  font: 16px Verdana;
+  color: #5E5E61;
+  align-self: center;
 }
 
 #addNewOpt, #editOpt {

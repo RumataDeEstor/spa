@@ -13,8 +13,8 @@ export default class TasksAddNew extends React.Component {
     this.checkRepeated = this.checkRepeated.bind(this);
   }
 
-  checkRepeated(e) {
-    e.target.className = (e.target.className == "checked") ? "unchecked" : "checked";
+  checkRepeated() {
+    this.refs.cRep.className = (this.refs.cRep.className == "checked") ? "unchecked" : "checked";
   }
 
   onCancel () {
@@ -78,10 +78,9 @@ export default class TasksAddNew extends React.Component {
               <input type = "text" placeholder = "Name" id = "newName" maxLength = "17"/>
               <div id = "addNewOpt">
                 <input type = "number" id = "newPoints" defaultValue = "5" min = "0" max = "500"/>
-                <div> repeated: 
-                  <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
-                    onClick = {this.checkRepeated}>
-                  </div>
+                <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
+                  onClick = {this.checkRepeated}>
+                  <i className="fa fa-repeat" aria-hidden="true"></i>
                 </div>
                 <div id = "buttons">  
                   <button id = "add" onClick = {this.addNew}>Add</button>
