@@ -295,8 +295,27 @@ div#taskName {
   width: 650px;
   height: 35px;
   margin-top: 20px;
-  box-shadow: 0 0 0px 1px #e2e2e2, 
-    0 0 0px 2px #e8e8e8;
+  box-shadow: 0 -1px 0px 0px #eeeeee, 
+    0 -2px 0px 0px #f1f1f1, 
+    0 1px 0px 0px #dadada, 
+    0 2px 0px 0px #e2e2e2, 
+    0 3px 0px 0px #e8e8e8, 
+    0 4px 0px 0px #eeeeee, 
+    0 5px 0px 0px #f1f1f1, 
+    0 -1px 0px 0px #eeeeee, 
+    0 -2px 0px 0px #f1f1f1, 
+    0 1px 0px 0px #dadada, 
+    0 2px 0px 0px #e2e2e2, 
+    0 3px 0px 0px #e8e8e8, 
+    0 4px 0px 0px #eeeeee, 
+    1px 0px 0px 0px #e2e2e2, 
+    2px 0px 0px 0px #e8e8e8, 
+    3px 0px 0px 0px #eeeeee, 
+    4px 0px 0px 0px #f1f1f1, 
+    -1px 0px 0px 0px #e2e2e2, 
+    -2px 0px 0px 0px #e8e8e8, 
+    -3px 0px 0px 0px #eeeeee, 
+    -4px 0px 0px 0px #f1f1f1;
 }
 
 div#checkBoxField {
@@ -710,8 +729,27 @@ button#editDelete {
 }
 
 #promoList div#promotionItem {
-  box-shadow: 0 0 0px 1px #e2e2e2, 
-    0 0 0px 2px #e8e8e8;
+  box-shadow: 0 -1px 0px 0px #eeeeee, 
+    0 -2px 0px 0px #f1f1f1, 
+    0 1px 0px 0px #dadada, 
+    0 2px 0px 0px #e2e2e2, 
+    0 3px 0px 0px #e8e8e8, 
+    0 4px 0px 0px #eeeeee, 
+    0 5px 0px 0px #f1f1f1, 
+    0 -1px 0px 0px #eeeeee, 
+    0 -2px 0px 0px #f1f1f1, 
+    0 1px 0px 0px #dadada, 
+    0 2px 0px 0px #e2e2e2, 
+    0 3px 0px 0px #e8e8e8, 
+    0 4px 0px 0px #eeeeee, 
+    1px 0px 0px 0px #e2e2e2, 
+    2px 0px 0px 0px #e8e8e8, 
+    3px 0px 0px 0px #eeeeee, 
+    4px 0px 0px 0px #f1f1f1, 
+    -1px 0px 0px 0px #e2e2e2, 
+    -2px 0px 0px 0px #e8e8e8, 
+    -3px 0px 0px 0px #eeeeee, 
+    -4px 0px 0px 0px #f1f1f1;
   background-color: white;
   margin-right: 30px;
   margin-bottom: 30px;  
