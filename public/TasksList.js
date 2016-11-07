@@ -37,9 +37,11 @@ export default class TasksList extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        res.project.tasks.map(task => {
-          this.setState( {tasks: [task, ...this.state.tasks] });
-        });
+        // res.project.tasks.map(task => {
+        //   this.setState( {tasks: [task, ...this.state.tasks] });
+        // });
+        let newTasks = res.project.tasks.reverse();
+        this.setState( {tasks: newTasks} );
       })
       .catch(err => {
         console.log(err);
@@ -72,6 +74,7 @@ export default class TasksList extends React.Component {
       if (el._id == itemID) {
         el.name = newData.name;
         el.points = newData.points;
+        el.repeated = newData.repeated;
       }
       return el;
     });
@@ -102,7 +105,7 @@ export default class TasksList extends React.Component {
             />
             <div id = "tasksList">
               {this.state.tasks.map((el,i) => {
-                let editing = (this.state.isEditing == el._id) ? true : false;
+                let editing = this.state.isEditing == el._id;
                 let cNameEdit = (editing) ? "editing" : "";
                 return <TasksItem key = {i} 
                   id ={el._id} 

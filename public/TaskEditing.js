@@ -14,6 +14,7 @@ export default class TaskEditing extends React.Component {
     this.saveChanges = this.saveChanges.bind(this);
     this.onFinishEdit = this.onFinishEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
+    this.checkRepeated = this.checkRepeated.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +33,10 @@ export default class TaskEditing extends React.Component {
     // })
     // return promise;   
     ee.emitEvent('taskFinishEdit');
+  }
+
+  checkRepeated() {
+    this.refs.cRep.className = (this.refs.cRep.className == "checked") ? "unchecked" : "checked";
   }
 
   onDelete(){   // mustn't be repeated with TasksItem
@@ -59,9 +64,12 @@ export default class TaskEditing extends React.Component {
   }  
 
   saveChanges () {
+    let repeated = this.refs.cRep.className == "checked";
+    console.log(repeated);
     let bodyJSON = JSON.stringify({
       name: editTaskName.value,
-      points: editPoints.value
+      points: editPoints.value,
+      repeated: repeated
     });
       
     let reqParams = {
@@ -84,7 +92,12 @@ export default class TaskEditing extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        let newData = {name: editTaskName.value, points: editPoints.value};
+        let newData = {
+          name: editTaskName.value, 
+          points: editPoints.value,
+          repeated: repeated
+        }; // rewrite
+        
         ee.emitEvent('taskSaveEdit', [taskID, newData]);
         this.onFinishEdit();
       })
@@ -93,10 +106,20 @@ export default class TaskEditing extends React.Component {
       })
   }
   render () {
+      let isRepeated = this.props.target.props.repeated ? "checked" : "unchecked";
       return<div id = "editForm">
               <input type = "text" defaultValue = {this.props.target.props.name} id = "editTaskName"/>
               <div id = "editOpt">
-                <input type = "number" id = "editPoints" defaultValue = {this.props.target.props.points} min = "0" max = "500"/>
+                <input type = "number" id = "editPoints" 
+                  defaultValue = {this.props.target.props.points} 
+                  min = "0" max = "500"
+                />
+                <div id = "editCheckBoxRepeated" 
+                  className = {isRepeated}
+                  ref = "cRep"
+                  onClick = {this.checkRepeated}>
+                  <i className="fa fa-repeat" aria-hidden="true"></i>
+                </div>
                 <div id = "editButtons">           
                   <button id = "editSave" onClick = {this.saveChanges}>Save</button>
                   <button id = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>

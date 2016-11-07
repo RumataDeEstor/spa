@@ -36,6 +36,7 @@ export default class TasksAddNew extends React.Component {
     let repeated = this.refs.cRep.className == "checked";
     let validPoints = (newPoints.value > 500) ? 500 : newPoints.value;
     let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
+    // rewrite validation
 
     let bodyJSON = JSON.stringify({
       name: validName,

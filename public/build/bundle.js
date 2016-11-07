@@ -28395,8 +28395,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'promoPrice', ref: 'promoPrice' },
-	          this.state.price,
-	          _react2.default.createElement('i', { className: 'fa fa-circle', 'aria-hidden': 'true' })
+	          this.state.price
 	        ),
 	        _react2.default.createElement(
 	          'button',
@@ -28853,9 +28852,11 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        res.project.tasks.map(function (task) {
-	          _this2.setState({ tasks: [task].concat(_toConsumableArray(_this2.state.tasks)) });
-	        });
+	        // res.project.tasks.map(task => {
+	        //   this.setState( {tasks: [task, ...this.state.tasks] });
+	        // });
+	        var newTasks = res.project.tasks.reverse();
+	        _this2.setState({ tasks: newTasks });
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28892,6 +28893,7 @@
 	        if (el._id == itemID) {
 	          el.name = newData.name;
 	          el.points = newData.points;
+	          el.repeated = newData.repeated;
 	        }
 	        return el;
 	      });
@@ -28934,7 +28936,7 @@
 	          'div',
 	          { id: 'tasksList' },
 	          this.state.tasks.map(function (el, i) {
-	            var editing = _this3.state.isEditing == el._id ? true : false;
+	            var editing = _this3.state.isEditing == el._id;
 	            var cNameEdit = editing ? "editing" : "";
 	            return _react2.default.createElement(_TasksItem2.default, { key: i,
 	              id: el._id,
@@ -29013,6 +29015,13 @@
 	  }
 
 	  _createClass(TasksItem, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      // if (!this.props.repeated) {
+	      //   this.refs.rep.style.display = "none";
+	      // }
+	    }
+	  }, {
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.editing) {
@@ -29031,8 +29040,6 @@
 	    value: function showEditBtn(e) {
 	      // console.dir(e.target);
 	      if (e.target.id == "checkBoxField" || e.target.id == "taskCheckbox" || e.target.id == "check") {
-
-	        console.log('pish');
 	        return;
 	      }
 	      this.refs.eBtn.style.display = "flex";
@@ -29118,6 +29125,7 @@
 	        login: this.props.login,
 	        projectID: this.props.projectID
 	      }) : null;
+	      var rep = this.props.repeated ? _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' }) : null;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -29157,6 +29165,11 @@
 	              ' ',
 	              this.props.points,
 	              ' '
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { id: 'repeatMark' },
+	              rep
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -29227,6 +29240,7 @@
 	    _this.saveChanges = _this.saveChanges.bind(_this);
 	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
 	    _this.onDelete = _this.onDelete.bind(_this);
+	    _this.checkRepeated = _this.checkRepeated.bind(_this);
 	    return _this;
 	  }
 
@@ -29249,6 +29263,11 @@
 	      // })
 	      // return promise;   
 	      _EventEmitter2.default.emitEvent('taskFinishEdit');
+	    }
+	  }, {
+	    key: 'checkRepeated',
+	    value: function checkRepeated() {
+	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
 	    }
 	  }, {
 	    key: 'onDelete',
@@ -29280,9 +29299,12 @@
 	    value: function saveChanges() {
 	      var _this2 = this;
 
+	      var repeated = this.refs.cRep.className == "checked";
+	      console.log(repeated);
 	      var bodyJSON = JSON.stringify({
 	        name: editTaskName.value,
-	        points: editPoints.value
+	        points: editPoints.value,
+	        repeated: repeated
 	      });
 
 	      var reqParams = {
@@ -29305,7 +29327,12 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newData = { name: editTaskName.value, points: editPoints.value };
+	        var newData = {
+	          name: editTaskName.value,
+	          points: editPoints.value,
+	          repeated: repeated
+	        }; // rewrite
+
 	        _EventEmitter2.default.emitEvent('taskSaveEdit', [taskID, newData]);
 	        _this2.onFinishEdit();
 	      }).catch(function (err) {
@@ -29315,6 +29342,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var isRepeated = this.props.target.props.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'editForm' },
@@ -29322,7 +29350,18 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'editOpt' },
-	          _react2.default.createElement('input', { type: 'number', id: 'editPoints', defaultValue: this.props.target.props.points, min: '0', max: '500' }),
+	          _react2.default.createElement('input', { type: 'number', id: 'editPoints',
+	            defaultValue: this.props.target.props.points,
+	            min: '0', max: '500'
+	          }),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editCheckBoxRepeated',
+	              className: isRepeated,
+	              ref: 'cRep',
+	              onClick: this.checkRepeated },
+	            _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
+	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { id: 'editButtons' },
@@ -29426,6 +29465,7 @@
 	      var repeated = this.refs.cRep.className == "checked";
 	      var validPoints = newPoints.value > 500 ? 500 : newPoints.value;
 	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
+	      // rewrite validation
 
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
@@ -30019,7 +30059,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'pListTitle' },
-	          'Your current projects'
+	          'Projects'
 	        ),
 	        _react2.default.createElement(_ProjectsAddNew2.default, {
 	          login: this.props.params.login,

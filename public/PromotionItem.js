@@ -234,7 +234,6 @@ export default class PromotionItem extends React.Component {
     return<div id = "promotionItem">         
             <div id = "promoPrice" ref = "promoPrice">
               {this.state.price}
-              <i className="fa fa-circle" aria-hidden="true"></i>
             </div>
             <button id = "promoDelete" ref = "del" onClick = {this.deletePromo}>
               <i className="fa fa-trash"></i>

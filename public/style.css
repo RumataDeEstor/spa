@@ -33,17 +33,26 @@ body {
   justify-content: space-between;*/
 }
 
-#checkBoxRepeated {
+div#checkBoxRepeated, 
+div#repeatMark,
+div#editCheckBoxRepeated{
   display: flex;
   align-self: center;
+  width: 14px;
 }
 
-#checkBoxRepeated.unchecked {
+div#repeatMark {
+  color: rgba(241, 33, 33, 0.5);
+}
+
+div#checkBoxRepeated.unchecked,
+div#editCheckBoxRepeated.unchecked {
   /*background-color: transparent;*/
   color: #DADADA;
 }
 
-#checkBoxRepeated.checked {
+div#checkBoxRepeated.checked,
+div#editCheckBoxRepeated.checked {
   /*background-color: #7CC59A;*/
   color: #F12121;
 }
@@ -63,8 +72,7 @@ body {
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
-  box-shadow: 0 0 0px 1px #dadada,  
-   0 0 0px 2px #e7e7e7;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
   cursor: default;
 }
 
@@ -158,7 +166,7 @@ li.chosen {
 }
 
 #taskAddNew input#newName {
-  margin-left: 15px;
+  margin-left: 35px;
 }
 
 
@@ -267,9 +275,9 @@ div.userPoints {
 }
 
 #tasksItem #points {
-  width: 60px;
+  width: 70px;
   justify-content: center;
-  margin-left: 60px;
+  margin-right: 70px;
   display: flex;
   align-self: center;
 }
@@ -295,27 +303,7 @@ div#taskName {
   width: 650px;
   height: 35px;
   margin-top: 20px;
-  box-shadow: 0 -1px 0px 0px #eeeeee, 
-    0 -2px 0px 0px #f1f1f1, 
-    0 1px 0px 0px #dadada, 
-    0 2px 0px 0px #e2e2e2, 
-    0 3px 0px 0px #e8e8e8, 
-    0 4px 0px 0px #eeeeee, 
-    0 5px 0px 0px #f1f1f1, 
-    0 -1px 0px 0px #eeeeee, 
-    0 -2px 0px 0px #f1f1f1, 
-    0 1px 0px 0px #dadada, 
-    0 2px 0px 0px #e2e2e2, 
-    0 3px 0px 0px #e8e8e8, 
-    0 4px 0px 0px #eeeeee, 
-    1px 0px 0px 0px #e2e2e2, 
-    2px 0px 0px 0px #e8e8e8, 
-    3px 0px 0px 0px #eeeeee, 
-    4px 0px 0px 0px #f1f1f1, 
-    -1px 0px 0px 0px #e2e2e2, 
-    -2px 0px 0px 0px #e8e8e8, 
-    -3px 0px 0px 0px #eeeeee, 
-    -4px 0px 0px 0px #f1f1f1;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
 }
 
 div#checkBoxField {
@@ -332,13 +320,14 @@ div#taskCheckbox {
   align-items: center;
   position: relative;
   cursor: pointer;
+  border-radius: 7px;
 }
 
 div#taskCheckbox div {
   position: absolute;
   font-size: 25px;
   left: -2px;
-  bottom: -5px;
+  bottom: -6px;
   color: #50bb50;
   display: none;
 }
@@ -440,13 +429,11 @@ div .authForms {
 }
 
 #pListTitle {
-  background-color: #333333;
-  color: white;
-  font-size: 22px;
+  color: #333333;
+  font-size: 24px;
   width: 700px;
   height: 30px;
   display: flex;
-  padding-left: 60px;
   border-bottom-right-radius: 20px;
   border-top-right-radius: 20px;
 }
@@ -508,7 +495,7 @@ div .authForms {
 }
 
 #taskAddNew #addNewForm div#buttons {
-  margin-left: 150px;
+  margin-left: 100px;
 }
 
 #addNewForm button {
@@ -610,7 +597,8 @@ div#tasksItem #editForm {
 #newPoints {
   width: 70px;
   height: 16px;
-  margin-right: 6px;
+  margin-right: 40px;
+  margin-left: 5px;
   border: none;
   padding: 0;
   font: 16px Verdana;
@@ -624,15 +612,15 @@ div#tasksItem #editForm {
   margin-left: 5px;
 }
 
+#addNewOpt {
+  margin-left: 25px;
+}
+
+
 #addNewOpt button, #editOpt button {
   height: 39px;
   background-color: white;
   margin-right: 6px;
-  display: flex;
-}
-
-#addNewOpt #buttons {
-  margin-left: 30px;
   display: flex;
 }
 
@@ -644,7 +632,7 @@ div#editButtons {
 }
 
 div#tasksItem div#editButtons {
-  margin-left: 85px;
+  margin-left: 70px;
 }
 
 
@@ -729,27 +717,7 @@ button#editDelete {
 }
 
 #promoList div#promotionItem {
-  box-shadow: 0 -1px 0px 0px #eeeeee, 
-    0 -2px 0px 0px #f1f1f1, 
-    0 1px 0px 0px #dadada, 
-    0 2px 0px 0px #e2e2e2, 
-    0 3px 0px 0px #e8e8e8, 
-    0 4px 0px 0px #eeeeee, 
-    0 5px 0px 0px #f1f1f1, 
-    0 -1px 0px 0px #eeeeee, 
-    0 -2px 0px 0px #f1f1f1, 
-    0 1px 0px 0px #dadada, 
-    0 2px 0px 0px #e2e2e2, 
-    0 3px 0px 0px #e8e8e8, 
-    0 4px 0px 0px #eeeeee, 
-    1px 0px 0px 0px #e2e2e2, 
-    2px 0px 0px 0px #e8e8e8, 
-    3px 0px 0px 0px #eeeeee, 
-    4px 0px 0px 0px #f1f1f1, 
-    -1px 0px 0px 0px #e2e2e2, 
-    -2px 0px 0px 0px #e8e8e8, 
-    -3px 0px 0px 0px #eeeeee, 
-    -4px 0px 0px 0px #f1f1f1;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
   background-color: white;
   margin-right: 30px;
   margin-bottom: 30px;  
@@ -937,7 +905,8 @@ input#editPoints {
   border: none;
   font: 16px Verdana;
   color: #5E5E61;
-  margin-left: 80px;
+  margin-left: 25px;
+  margin-right: 50px;
   padding: 0;
   width: 60px;
 }

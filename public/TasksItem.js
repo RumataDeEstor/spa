@@ -19,6 +19,12 @@ export default class TasksItem extends React.Component {
     this.delete = this.delete.bind(this);
   }
 
+  componentDidMount(){
+    // if (!this.props.repeated) {
+    //   this.refs.rep.style.display = "none";
+    // }
+  }
+
   componentWillReceiveProps(newProps){
     if (newProps.editing) {
       this.refs.itemNorm.style.display = "none";
@@ -36,8 +42,6 @@ export default class TasksItem extends React.Component {
     if (e.target.id == "checkBoxField"||
         e.target.id == "taskCheckbox" ||
         e.target.id == "check") {
-      
-      console.log('pish');
       return;
     }
     this.refs.eBtn.style.display = "flex";
@@ -116,6 +120,8 @@ export default class TasksItem extends React.Component {
         login = {this.props.login}
         projectID = {this.props.projectID}
       /> : null;
+    let rep = this.props.repeated ? <i className="fa fa-repeat" aria-hidden="true"></i>
+      : null;
       
     return <div id = "tasksItem"
             onMouseOver = {this.showEditBtn}
@@ -125,15 +131,16 @@ export default class TasksItem extends React.Component {
                   onMouseOver = {this.showMark}
                   onMouseOut = {this.hideMark}
                   onClick = {this.complete}>
-                
-                  <div id = "taskCheckbox"> 
-                    
+                  <div id = "taskCheckbox">                     
                     <div id = "check"ref = "check"> ✓ </div>
                   </div>
                 </div>
                 <div id = "taskLine">                   
                   <div id = "taskName">{this.props.name}</div>
                   <div id = "points"> {this.props.points} </div>
+                  <div id = "repeatMark">
+                    {rep}
+                  </div>
                 </div>
                 <div id = "editItem" ref = "eBtn" 
                   className = {this.props.cNameEdit} 

@@ -397,6 +397,7 @@ app.post('/api/userdata/:login/projects/:projectID', isAuthenticated, (req,res,n
         res.status(500).send({error: 'Cannot find such project'});
         return;
       }
+      // validation?
       let newTask = req.body;
       newTask.name = newTask.name || "Unnamed";
       let len = project.tasks.push(newTask);
@@ -470,6 +471,7 @@ app.put('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, (re
       if (task._id == req.params.taskID) {
         task.name = req.body.name;
         task.points = req.body.points;
+        task.repeated = req.body.repeated;
       }
     });  
 
