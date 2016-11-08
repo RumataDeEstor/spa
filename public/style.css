@@ -45,6 +45,20 @@ div#repeatMark {
   color: rgba(241, 33, 33, 0.5);
 }
 
+div#promotionItem div#repeatMark {
+  position: absolute;
+  left: 9px;
+  top: 9px;
+}
+
+div#promotionItem div#repeatMark.checked {
+  color: rgba(241, 33, 33, 0.5);
+}
+
+div#promotionItem div#repeatMark.unchecked {
+  color: #DADADA;
+}
+
 div#checkBoxRepeated.unchecked,
 div#editCheckBoxRepeated.unchecked {
   /*background-color: transparent;*/
@@ -55,6 +69,38 @@ div#checkBoxRepeated.checked,
 div#editCheckBoxRepeated.checked {
   /*background-color: #7CC59A;*/
   color: #F12121;
+}
+
+div#promotionItem input, 
+div#promotionsAddNew input {
+  border: none;
+  text-transform: uppercase;
+  color: #535356;
+  font-weight: bold;
+  font-size: 16px;
+  height: 22px;
+  align-self: center;
+}
+
+div#promotionsAddNew div#checkBoxRepeated {
+  margin-left: 100px;
+}
+
+div#promotionsAddNew button {
+  margin-left: 150px;
+}
+
+div#promotionsAddNew {
+  display: flex;
+  width: 650px;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
+  margin-bottom: 10px;
+  height: 35px;
+  background-color: white;
+}
+
+input#newPromoName {
+  width: 240px;
 }
 
 #promoShort {
@@ -162,7 +208,8 @@ li.chosen {
 #projectsAddNew, #taskAddNew {
   margin-top: 20px;
   width: 650px;
-  box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;
+  /*box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;*/
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
 }
 
 #taskAddNew input#newName {
@@ -699,7 +746,7 @@ button#editDelete {
 }
 /*-----PROMOTION ITEM---------*/
 
-#promotionItem {
+div#promotionItem {
   /*border: 1px solid black;
   border-radius: 3px;*/
   width: 150px;
@@ -797,8 +844,9 @@ button#promoDelete:hover {
   height: 100px;
   border-radius: 60px;
  /* border: 2px solid #EDEEF0*/;
-  box-shadow: 0 0 0px 1px #dadada,  
-   0 0 0px 2px #e7e7e7;
+  /*box-shadow: 0 0 0px 1px #dadada,  
+   0 0 0px 2px #e7e7e7;*/
+  box-shadow: 0 0px 7px rgba(128,128,128,.4);
   background-color: #EF84DA;
  /* border-left-color: transparent;*/
   display: flex;

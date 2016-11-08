@@ -28155,6 +28155,7 @@
 	      name: _this.props.name,
 	      price: _this.props.price,
 	      points: _this.props.points,
+	      repeated: _this.props.repeated,
 	      percentsValue: 0,
 	      modal: false,
 	      unlocked: false
@@ -28172,6 +28173,7 @@
 	    _this.deletePromo = _this.deletePromo.bind(_this);
 	    _this.getPromo = _this.getPromo.bind(_this);
 	    _this.tempUpdPoints = _this.tempUpdPoints.bind(_this);
+	    _this.sumbitIsRepeated = _this.sumbitIsRepeated.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28224,9 +28226,8 @@
 	  }, {
 	    key: 'getPromo',
 	    value: function getPromo() {
-
 	      this.tempUpdPoints();
-	      if (!this.props.repeated) {
+	      if (!this.state.repeated) {
 	        this.deletePromo();
 	      }
 	    }
@@ -28297,6 +28298,7 @@
 	          console.log(res.error);
 	        }
 	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
+	        _EventEmitter2.default.emitEvent('promoDeleted', [id]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28305,9 +28307,11 @@
 	    key: 'submitData',
 	    value: function submitData(data) {
 	      console.log('submitData');
+	      var repeated = data.repeated !== undefined ? data.repeated : null;
 	      var bodyJSON = JSON.stringify({
 	        name: data.name || null,
-	        price: data.price || null
+	        price: data.price || null,
+	        repeated: repeated
 	      });
 
 	      var reqParams = {
@@ -28345,7 +28349,7 @@
 	      console.log('submit Name');
 	      //AJAX
 	      var newName = e.target.fieldName.value;
-	      this.setState({ name: newName }); // update from server, not here.
+	      this.setState({ name: newName });
 	      this.submitData({ name: newName });
 	      this.hideEditName();
 	    }
@@ -28354,10 +28358,20 @@
 	    value: function submitPrice(e) {
 	      e.preventDefault();
 	      //AJAX
-	      var newPrice = e.target.fieldPrice.value;
-	      this.setState({ price: newPrice }); // update from server, not here.
+	      var newPrice = e.target.fieldPrice.value; // e?
+	      this.setState({ price: newPrice });
 	      this.submitData({ price: newPrice });
 	      this.hideEditPrice();
+	    }
+	  }, {
+	    key: 'sumbitIsRepeated',
+	    value: function sumbitIsRepeated() {
+	      this.refs.rep.className = this.refs.rep.className == "checked" ? "unchecked" : "checked";
+	      console.log(this.refs.rep.className);
+	      var repeated = this.refs.rep.className == "checked";
+	      console.log(repeated);
+	      this.setState({ repeated: repeated });
+	      this.submitData({ repeated: repeated });
 	    }
 	  }, {
 	    key: 'hideEditName',
@@ -28388,10 +28402,19 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var isRepeated = this.props.repeated ? "repeated" : "one-off";
+	      var isRepeated = this.state.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promotionItem' },
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'repeatMark',
+	            ref: 'rep',
+	            className: isRepeated,
+	            onClick: this.sumbitIsRepeated
+	          },
+	          _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
+	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'promoPrice', ref: 'promoPrice' },
@@ -28405,7 +28428,9 @@
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
-	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500', name: 'fieldPrice' })
+	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500',
+	            name: 'fieldPrice',
+	            defaultValue: this.state.price })
 	        ),
 	        _react2.default.createElement(
 	          'div',
@@ -28438,12 +28463,8 @@
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoName', id: 'editPromoName' },
-	          _react2.default.createElement('input', { type: 'text', name: 'fieldName' })
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'isRep' },
-	          isRepeated
+	          _react2.default.createElement('input', { type: 'text', name: 'fieldName',
+	            defaultValue: this.state.name })
 	        )
 	      );
 	    }
@@ -30777,6 +30798,7 @@
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.state = { promotions: [], points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
+	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
@@ -30785,17 +30807,28 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.addListener('promoDeleted', this.handleChildDelete);
 	      this.loadItems();
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.removeListener('promoDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints(points) {
 	      this.setState({ points: points });
+	    }
+	  }, {
+	    key: 'handleChildDelete',
+	    value: function handleChildDelete(id) {
+	      var newPromos = this.state.promotions.slice();
+	      newPromos = newPromos.filter(function (el) {
+	        return el._id !== id;
+	      });
+	      this.setState({ promotions: newPromos });
 	    }
 	  }, {
 	    key: 'handleNewPromoAdding',
@@ -30906,7 +30939,7 @@
 	  _createClass(PromotionsAddNew, [{
 	    key: 'checkRepeated',
 	    value: function checkRepeated(e) {
-	      e.target.className = e.target.className == "checked" ? "unchecked" : "checked";
+	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
 	    }
 	  }, {
 	    key: 'addNew',
@@ -30948,13 +30981,14 @@
 	        'div',
 	        { id: 'promotionsAddNew' },
 	        _react2.default.createElement('input', { type: 'text', placeholder: 'name', id: 'newPromoName' }),
-	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5', max: '500', id: 'newPromoPrice' }),
+	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5',
+	          max: '500',
+	          id: 'newPromoPrice' }),
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          ' repeated:',
-	          _react2.default.createElement('div', { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
-	            onClick: this.checkRepeated })
+	          { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
+	            onClick: this.checkRepeated },
+	          _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
 	        ),
 	        _react2.default.createElement(
 	          'button',

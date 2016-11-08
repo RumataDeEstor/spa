@@ -15,20 +15,29 @@ export default class Promotions extends React.Component {
     this.loadItems = this.loadItems.bind(this);
     this.state = {promotions: [], points: null};
     this.getPoints = this.getPoints.bind(this);
+    this.handleChildDelete = this.handleChildDelete.bind(this);
   }
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
+    ee.addListener('promoDeleted', this.handleChildDelete);
     this.loadItems();
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
+    ee.removeListener('promoDeleted', this.handleChildDelete);
   }
 
   getPoints(points){
     this.setState({points: points});
+  }
+
+  handleChildDelete(id) {
+    let newPromos = this.state.promotions.slice();
+    newPromos = newPromos.filter(el => el._id !== id);
+    this.setState({promotions: newPromos});
   }
 
   handleNewPromoAdding(promo) {

@@ -13,7 +13,8 @@ export default class PromotionsAddNew extends React.Component {
   }
 
   checkRepeated(e) {
-    e.target.className = (e.target.className == "checked") ? "unchecked" : "checked";
+    this.refs.cRep.className = (this.refs.cRep.className == "checked") ? 
+      "unchecked" : "checked";
   }
 
   addNew(){
@@ -50,11 +51,12 @@ export default class PromotionsAddNew extends React.Component {
   render () {
     return<div id = "promotionsAddNew">
             <input type = "text" placeholder = "name" id = "newPromoName"/>
-            <input type = "number" defaultValue = "10" min = "5" max = "500" id = "newPromoPrice"/>
-            <div> repeated: 
-              <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
-                onClick = {this.checkRepeated}>
-              </div>
+            <input type = "number" defaultValue = "10" min = "5" 
+              max = "500" 
+              id = "newPromoPrice"/>
+            <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
+              onClick = {this.checkRepeated}>
+              <i className="fa fa-repeat" aria-hidden="true"></i>
             </div>
             <button onClick = {this.addNew}> Add </button>
           </div>

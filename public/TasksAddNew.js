@@ -14,7 +14,8 @@ export default class TasksAddNew extends React.Component {
   }
 
   checkRepeated() {
-    this.refs.cRep.className = (this.refs.cRep.className == "checked") ? "unchecked" : "checked";
+    this.refs.cRep.className = (this.refs.cRep.className == "checked") ? 
+      "unchecked" : "checked";
   }
 
   onCancel () {

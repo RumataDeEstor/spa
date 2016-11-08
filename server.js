@@ -248,6 +248,8 @@ app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,ne
         if (promo._id == req.params.promoID) {
           promo.name = req.body.name || promo.name;
           promo.price = req.body.price || promo.price;
+          promo.repeated = (req.body.repeated !== undefined) ?
+            req.body.repeated : promo.repeated;
           updatedPromo = promo;
         } 
       }); 

@@ -18,6 +18,7 @@ export default class PromotionItem extends React.Component {
       name: this.props.name, 
       price: this.props.price,
       points: this.props.points,
+      repeated: this.props.repeated,
       percentsValue: 0,
       modal: false,
       unlocked: false
@@ -35,6 +36,7 @@ export default class PromotionItem extends React.Component {
     this.deletePromo = this.deletePromo.bind(this);
     this.getPromo = this.getPromo.bind(this);
     this.tempUpdPoints = this.tempUpdPoints.bind(this);
+    this.sumbitIsRepeated = this.sumbitIsRepeated.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -78,10 +80,9 @@ export default class PromotionItem extends React.Component {
     this.refs.lvl.style.height = `${newHeight}px`;
   } 
 
-  getPromo () {
-   
+  getPromo () {   
     this.tempUpdPoints();
-    if (!this.props.repeated) {
+    if (!this.state.repeated) {
       this.deletePromo();
     }
   }
@@ -145,6 +146,7 @@ export default class PromotionItem extends React.Component {
           console.log(res.error);
         }
         // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
+        ee.emitEvent('promoDeleted', [id]);  
       })
       .catch(err => {
         console.log(err);
@@ -153,9 +155,11 @@ export default class PromotionItem extends React.Component {
 
   submitData(data){
     console.log('submitData');
+    let repeated = (data.repeated !== undefined) ? data.repeated : null;
     let bodyJSON = JSON.stringify({
       name: data.name || null,
-      price: data.price || null
+      price: data.price || null,
+      repeated: repeated
     });
       
     let reqParams = {
@@ -193,7 +197,7 @@ export default class PromotionItem extends React.Component {
     console.log('submit Name')
     //AJAX
     let newName = e.target.fieldName.value;
-    this.setState({name: newName}); // update from server, not here.
+    this.setState({name: newName});
     this.submitData({name: newName});
     this.hideEditName();
   }
@@ -201,10 +205,20 @@ export default class PromotionItem extends React.Component {
   submitPrice (e) {
     e.preventDefault();
     //AJAX
-    let newPrice = e.target.fieldPrice.value;
-    this.setState({price: newPrice}); // update from server, not here.
+    let newPrice = e.target.fieldPrice.value; // e?
+    this.setState({price: newPrice}); 
     this.submitData({price: newPrice});
     this.hideEditPrice();
+  }
+
+  sumbitIsRepeated(){
+    this.refs.rep.className = (this.refs.rep.className == "checked") ? 
+      "unchecked" : "checked";
+    console.log(this.refs.rep.className);
+    let repeated = (this.refs.rep.className == "checked");
+    console.log(repeated);
+    this.setState({repeated: repeated});
+    this.submitData({repeated: repeated});
   }
 
   hideEditName(){
@@ -230,8 +244,16 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
-    let isRepeated = (this.props.repeated) ? "repeated" : "one-off";
-    return<div id = "promotionItem">         
+    let isRepeated = (this.state.repeated) ? 
+      "checked" : "unchecked";
+    return<div id = "promotionItem"> 
+            <div id = "repeatMark"
+              ref = "rep" 
+              className = {isRepeated}
+              onClick = {this.sumbitIsRepeated}
+            >
+              <i className="fa fa-repeat" aria-hidden="true"></i>
+            </div>        
             <div id = "promoPrice" ref = "promoPrice">
               {this.state.price}
             </div>
@@ -239,7 +261,9 @@ export default class PromotionItem extends React.Component {
               <i className="fa fa-trash"></i>
             </button>     
             <form ref = "editPromoPrice" id = "editPromoPrice">
-              <input type = "number" min = "5" max = "500" name = "fieldPrice"/>
+              <input type = "number" min = "5" max = "500" 
+              name = "fieldPrice"
+              defaultValue = {this.state.price}/>
             </form>      
             
             <div id = "exCircle" 
@@ -262,9 +286,9 @@ export default class PromotionItem extends React.Component {
               {this.state.name}
             </div>
             <form ref = "editPromoName" id = "editPromoName">
-              <input type = "text" name = "fieldName"/>
+              <input type = "text" name = "fieldName" 
+                defaultValue = {this.state.name}/>
             </form>
-            <div id = "isRep">{isRepeated}</div>
           </div>
   }
 }
