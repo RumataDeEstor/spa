@@ -104,10 +104,10 @@ export default class TasksList extends React.Component {
               onAddingNew = {this.handleAddingNew.bind(this)}
             />
             <div id = "tasksList">
-              {this.state.tasks.map((el,i) => {
+              {this.state.tasks.map((el,i,arr) => {
                 let editing = this.state.isEditing == el._id;
                 let cNameEdit = (editing) ? "editing" : "";
-                return <TasksItem key = {i} 
+                return <TasksItem key = {arr.length - i - 1} 
                   id ={el._id} 
                   onEdit={this.handleChildEdit.bind(this)}
                   points = {el.points} 

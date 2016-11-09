@@ -36,7 +36,7 @@ export default class PromotionItem extends React.Component {
     this.deletePromo = this.deletePromo.bind(this);
     this.getPromo = this.getPromo.bind(this);
     this.tempUpdPoints = this.tempUpdPoints.bind(this);
-    this.sumbitIsRepeated = this.sumbitIsRepeated.bind(this);
+    this.submitIsRepeated = this.submitIsRepeated.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -137,16 +137,17 @@ export default class PromotionItem extends React.Component {
     }
 
     let login = this.props.login;
-    let id = this.props.id;
+    let promoId = this.props.id;
 
-    fetch(`/api/userdata/${login}/promotions/${id}`, reqParams)
+    fetch(`/api/userdata/${login}/promotions/${promoId}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
           console.log(res.error);
         }
         // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-        ee.emitEvent('promoDeleted', [id]);  
+        console.log(promoId);
+        ee.emitEvent('promoDeleted', [promoId]);  
       })
       .catch(err => {
         console.log(err);
@@ -211,7 +212,8 @@ export default class PromotionItem extends React.Component {
     this.hideEditPrice();
   }
 
-  sumbitIsRepeated(){
+  submitIsRepeated(){
+    if (this.props.loc == "short") return; // remove handler at all?
     this.refs.rep.className = (this.refs.rep.className == "checked") ? 
       "unchecked" : "checked";
     console.log(this.refs.rep.className);
@@ -244,13 +246,14 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
+    console.log(this.props.id);
     let isRepeated = (this.state.repeated) ? 
       "checked" : "unchecked";
     return<div id = "promotionItem"> 
             <div id = "repeatMark"
               ref = "rep" 
               className = {isRepeated}
-              onClick = {this.sumbitIsRepeated}
+              onClick = {this.submitIsRepeated}
             >
               <i className="fa fa-repeat" aria-hidden="true"></i>
             </div>        

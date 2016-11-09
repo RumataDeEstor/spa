@@ -28022,6 +28022,7 @@
 	    _this.state = { topPromos: [], points: null };
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.getPoints = _this.getPoints.bind(_this);
+	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
@@ -28029,6 +28030,7 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.addListener('promoDeleted', this.handleChildDelete);
 	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
 	    }
@@ -28036,11 +28038,23 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.removeListener('promoDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints(points) {
 	      this.setState({ points: points });
+	    }
+	  }, {
+	    key: 'handleChildDelete',
+	    value: function handleChildDelete(id) {
+	      console.log(id);
+	      var newPromos = this.state.topPromos.slice();
+	      newPromos = newPromos.filter(function (el) {
+	        return el._id !== id;
+	      });
+	      console.log(newPromos);
+	      this.setState({ topPromos: newPromos });
 	    }
 	  }, {
 	    key: 'loadItems',
@@ -28173,7 +28187,7 @@
 	    _this.deletePromo = _this.deletePromo.bind(_this);
 	    _this.getPromo = _this.getPromo.bind(_this);
 	    _this.tempUpdPoints = _this.tempUpdPoints.bind(_this);
-	    _this.sumbitIsRepeated = _this.sumbitIsRepeated.bind(_this);
+	    _this.submitIsRepeated = _this.submitIsRepeated.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28289,16 +28303,17 @@
 	      };
 
 	      var login = this.props.login;
-	      var id = this.props.id;
+	      var promoId = this.props.id;
 
-	      fetch('/api/userdata/' + login + '/promotions/' + id, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/promotions/' + promoId, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
 	          console.log(res.error);
 	        }
 	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-	        _EventEmitter2.default.emitEvent('promoDeleted', [id]);
+	        console.log(promoId);
+	        _EventEmitter2.default.emitEvent('promoDeleted', [promoId]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28364,8 +28379,9 @@
 	      this.hideEditPrice();
 	    }
 	  }, {
-	    key: 'sumbitIsRepeated',
-	    value: function sumbitIsRepeated() {
+	    key: 'submitIsRepeated',
+	    value: function submitIsRepeated() {
+	      if (this.props.loc == "short") return; // remove handler at all?
 	      this.refs.rep.className = this.refs.rep.className == "checked" ? "unchecked" : "checked";
 	      console.log(this.refs.rep.className);
 	      var repeated = this.refs.rep.className == "checked";
@@ -28402,6 +28418,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log(this.props.id);
 	      var isRepeated = this.state.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
@@ -28411,7 +28428,7 @@
 	          { id: 'repeatMark',
 	            ref: 'rep',
 	            className: isRepeated,
-	            onClick: this.sumbitIsRepeated
+	            onClick: this.submitIsRepeated
 	          },
 	          _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
 	        ),
@@ -28956,10 +28973,10 @@
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'tasksList' },
-	          this.state.tasks.map(function (el, i) {
+	          this.state.tasks.map(function (el, i, arr) {
 	            var editing = _this3.state.isEditing == el._id;
 	            var cNameEdit = editing ? "editing" : "";
-	            return _react2.default.createElement(_TasksItem2.default, { key: i,
+	            return _react2.default.createElement(_TasksItem2.default, { key: arr.length - i - 1,
 	              id: el._id,
 	              onEdit: _this3.handleChildEdit.bind(_this3),
 	              points: el.points,

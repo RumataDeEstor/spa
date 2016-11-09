@@ -15,21 +15,33 @@ export default class PromotionsShortList extends React.Component {
     this.state = {topPromos: [], points: null};
     this.loadItems = this.loadItems.bind(this);
     this.getPoints = this.getPoints.bind(this);
+    this.handleChildDelete = this.handleChildDelete.bind(this);
   }
 
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
+    ee.addListener('promoDeleted', this.handleChildDelete)
     ee.emitEvent('reqForPoints');
     this.loadItems();
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
+    ee.removeListener('promoDeleted', this.handleChildDelete);
   }
 
   getPoints(points){
     this.setState({points: points});
   }
+
+  handleChildDelete(id) {
+    console.log(id);
+    let newPromos = this.state.topPromos.slice();
+    newPromos = newPromos.filter(el => el._id !== id);
+    console.log(newPromos);
+    this.setState({topPromos: newPromos});
+  }
+
 
   loadItems(){
     let reqParams = {

@@ -88,6 +88,13 @@ div#promotionsAddNew div#checkBoxRepeated {
 
 div#promotionsAddNew button {
   margin-left: 150px;
+  background-color: #49C15D;
+  color: white;
+  box-shadow: inset 0px -2px 0px 0px #1C1C1C;
+  position: absolute;
+  height: 39px;
+  top: -2px;
+  right: 40px;
 }
 
 div#promotionsAddNew {
@@ -97,6 +104,7 @@ div#promotionsAddNew {
   margin-bottom: 10px;
   height: 35px;
   background-color: white;
+  position: relative;
 }
 
 input#newPromoName {
@@ -750,6 +758,7 @@ div#promotionItem {
   /*border: 1px solid black;
   border-radius: 3px;*/
   width: 150px;
+  height: 170px;
   display: flex;
   flex-direction: column;
   justify-content: center; 
@@ -773,7 +782,7 @@ div#promotionItem {
 button#promoDelete {
   height: 26px;
   width: 26px;
-  background-color: rgb(166, 166, 175);
+  background-color: white;
   border-radius: 14px;
   margin-right: 6px;
   display: none;
@@ -781,10 +790,11 @@ button#promoDelete {
   justify-content: center;
   position: absolute;
   top: 5px;
-  right: 25px;
+  right: 2px;
+  font-size: 13px;
 }
 button#promoDelete:hover {
-  background-color: #CACACF;
+  font-size: 16px;
 }
 
 #getPromoWindow {
@@ -823,7 +833,7 @@ button#promoDelete:hover {
 
 .fa.fa-trash {
   color: #878787;
-  font-size: 16px;
+  font-size: inherit;
 }
 
 /*.fa.fa-check-circle-o {
