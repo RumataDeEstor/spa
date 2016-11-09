@@ -137,17 +137,17 @@ export default class PromotionItem extends React.Component {
     }
 
     let login = this.props.login;
-    let promoId = this.props.id;
+    let id = this.props.id;
 
-    fetch(`/api/userdata/${login}/promotions/${promoId}`, reqParams)
+    fetch(`/api/userdata/${login}/promotions/${id}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
           console.log(res.error);
         }
+        this.refs.item.style.display = "none";
         // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-        console.log(promoId);
-        ee.emitEvent('promoDeleted', [promoId]);  
+        // ee.emitEvent('promoDeleted', [id]);  
       })
       .catch(err => {
         console.log(err);
@@ -246,10 +246,9 @@ export default class PromotionItem extends React.Component {
   }
 
   render () {
-    console.log(this.props.id);
     let isRepeated = (this.state.repeated) ? 
       "checked" : "unchecked";
-    return<div id = "promotionItem"> 
+    return<div ref = "item" id = "promotionItem"> 
             <div id = "repeatMark"
               ref = "rep" 
               className = {isRepeated}

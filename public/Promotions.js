@@ -15,6 +15,7 @@ export default class Promotions extends React.Component {
     this.loadItems = this.loadItems.bind(this);
     this.state = {promotions: [], points: null};
     this.getPoints = this.getPoints.bind(this);
+    // this.updateChild = this.updateChild.bind(this);
     this.handleChildDelete = this.handleChildDelete.bind(this);
   }
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
@@ -22,13 +23,26 @@ export default class Promotions extends React.Component {
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
     ee.addListener('promoDeleted', this.handleChildDelete);
+    // ee.addListener('promoEdited', this.updateChild);
     this.loadItems();
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
     ee.removeListener('promoDeleted', this.handleChildDelete);
+    // ee.removeListener('promoEdited', this.updateChild);
   }
+
+  // updateChild(itemID, newData) {
+  //   this.state.promotions.map(el => {
+  //     if (el._id == itemID) {
+  //       el.name = newData.name;
+  //       el.price = newData.price;
+  //       el.repeated = newData.repeated;
+  //     }
+  //     return el;
+  //   });
+  // }
 
   getPoints(points){
     this.setState({points: points});

@@ -28022,7 +28022,6 @@
 	    _this.state = { topPromos: [], points: null };
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.getPoints = _this.getPoints.bind(_this);
-	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
@@ -28030,7 +28029,6 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.addListener('promoDeleted', this.handleChildDelete);
 	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
 	    }
@@ -28038,23 +28036,11 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.removeListener('promoDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints(points) {
 	      this.setState({ points: points });
-	    }
-	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      console.log(id);
-	      var newPromos = this.state.topPromos.slice();
-	      newPromos = newPromos.filter(function (el) {
-	        return el._id !== id;
-	      });
-	      console.log(newPromos);
-	      this.setState({ topPromos: newPromos });
 	    }
 	  }, {
 	    key: 'loadItems',
@@ -28296,6 +28282,8 @@
 	  }, {
 	    key: 'deletePromo',
 	    value: function deletePromo() {
+	      var _this3 = this;
+
 	      // this.refs.msg.innerText = "*deleted*";
 	      var reqParams = {
 	        method: 'DELETE',
@@ -28303,17 +28291,17 @@
 	      };
 
 	      var login = this.props.login;
-	      var promoId = this.props.id;
+	      var id = this.props.id;
 
-	      fetch('/api/userdata/' + login + '/promotions/' + promoId, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/promotions/' + id, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
 	          console.log(res.error);
 	        }
+	        _this3.refs.item.style.display = "none";
 	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-	        console.log(promoId);
-	        _EventEmitter2.default.emitEvent('promoDeleted', [promoId]);
+	        // ee.emitEvent('promoDeleted', [id]);  
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28418,11 +28406,10 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(this.props.id);
 	      var isRepeated = this.state.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'promotionItem' },
+	        { ref: 'item', id: 'promotionItem' },
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'repeatMark',
@@ -30815,6 +30802,7 @@
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.state = { promotions: [], points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
+	    // this.updateChild = this.updateChild.bind(this);
 	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
@@ -30825,6 +30813,7 @@
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.addListener('promoDeleted', this.handleChildDelete);
+	      // ee.addListener('promoEdited', this.updateChild);
 	      this.loadItems();
 	    }
 	  }, {
@@ -30832,7 +30821,20 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.removeListener('promoDeleted', this.handleChildDelete);
+	      // ee.removeListener('promoEdited', this.updateChild);
 	    }
+
+	    // updateChild(itemID, newData) {
+	    //   this.state.promotions.map(el => {
+	    //     if (el._id == itemID) {
+	    //       el.name = newData.name;
+	    //       el.price = newData.price;
+	    //       el.repeated = newData.repeated;
+	    //     }
+	    //     return el;
+	    //   });
+	    // }
+
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints(points) {
