@@ -74,11 +74,29 @@ div#editCheckBoxRepeated.checked {
 div#promotionItem input, 
 div#promotionsAddNew input {
   border: none;
-  text-transform: uppercase;
   color: #535356;
-  font-weight: bold;
   font-size: 16px;
   height: 22px;
+  align-self: center;
+}
+
+div#promotionItem input {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0;
+}
+
+div#promotionItem input#promoPriceEdit {
+  width: 70px;
+  margin-left: 50px;
+  margin-bottom: 2px;
+}
+
+div#promotionItem input#promoNameEdit {
+  width: 120px;
+  margin-left: 10px;
+  margin-bottom: 2px;
+  display: flex;
   align-self: center;
 }
 
@@ -908,7 +926,7 @@ button#promoDelete:hover {
   display: flex;
   justify-content: center;
   width: 50px;
-  height: 20px;
+  height: 17px;
   left: 12px;
   top: 27px;
   /*z-index: 2;*/

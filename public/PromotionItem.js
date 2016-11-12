@@ -263,9 +263,11 @@ export default class PromotionItem extends React.Component {
               <i className="fa fa-trash"></i>
             </button>     
             <form ref = "editPromoPrice" id = "editPromoPrice">
-              <input type = "number" min = "5" max = "500" 
-              name = "fieldPrice"
-              defaultValue = {this.state.price}/>
+              <input type = "number" 
+                id = "promoPriceEdit"
+                min = "5" max = "500" 
+                name = "fieldPrice"
+                defaultValue = {this.state.price}/>
             </form>      
             
             <div id = "exCircle" 
@@ -288,7 +290,7 @@ export default class PromotionItem extends React.Component {
               {this.state.name}
             </div>
             <form ref = "editPromoName" id = "editPromoName">
-              <input type = "text" name = "fieldName" 
+              <input type = "text" id = "promoNameEdit" name = "fieldName" 
                 defaultValue = {this.state.name}/>
             </form>
           </div>

@@ -214,6 +214,7 @@ app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
     } else { 
       //checkdata? 
       let newPromo = req.body;
+      newPromo.name = newPromo.name || "Unnamed";
       let len = user.promotions.push(newPromo);
       user.save((err) =>{
         if (!err) {

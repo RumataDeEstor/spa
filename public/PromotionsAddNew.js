@@ -50,7 +50,7 @@ export default class PromotionsAddNew extends React.Component {
 
   render () {
     return<div id = "promotionsAddNew">
-            <input type = "text" placeholder = "name" id = "newPromoName"/>
+            <input type = "text" placeholder = "Name" id = "newPromoName"/>
             <input type = "number" defaultValue = "10" min = "5" 
               max = "500" 
               id = "newPromoPrice"/>

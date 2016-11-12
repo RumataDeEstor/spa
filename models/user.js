@@ -20,8 +20,9 @@ const ruleSchema = new Schema({
 const promotionSchema = new Schema({
   name: {
     type: String,
+    default: 'Unnamed',
     required: true,
-    unique: false // true?
+    unique: false 
   },
   price: {
     type: Number,

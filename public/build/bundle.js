@@ -28433,7 +28433,9 @@
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
-	          _react2.default.createElement('input', { type: 'number', min: '5', max: '500',
+	          _react2.default.createElement('input', { type: 'number',
+	            id: 'promoPriceEdit',
+	            min: '5', max: '500',
 	            name: 'fieldPrice',
 	            defaultValue: this.state.price })
 	        ),
@@ -28468,7 +28470,7 @@
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editPromoName', id: 'editPromoName' },
-	          _react2.default.createElement('input', { type: 'text', name: 'fieldName',
+	          _react2.default.createElement('input', { type: 'text', id: 'promoNameEdit', name: 'fieldName',
 	            defaultValue: this.state.name })
 	        )
 	      );
@@ -31002,7 +31004,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'promotionsAddNew' },
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'name', id: 'newPromoName' }),
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newPromoName' }),
 	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5',
 	          max: '500',
 	          id: 'newPromoPrice' }),
