@@ -15,7 +15,8 @@ export default class Points extends React.Component {
     this.giveCurPoints = this.giveCurPoints.bind(this);
   }
 
-  updatePoints(newPoints) {
+  updatePoints(points) {
+    let newPoints = +points;
     this.setState({points: this.state.points+newPoints});
     ee.emitEvent('getPoints', [this.state.points]);
   }

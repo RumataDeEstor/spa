@@ -94,10 +94,10 @@ export default class TaskEditing extends React.Component {
         }
         let newData = {
           name: editTaskName.value, 
-          points: editPoints.value,
+          points: +editPoints.value,
           repeated: repeated
         }; // rewrite
-        
+        console.log(typeof editPoints.value);
         ee.emitEvent('taskSaveEdit', [taskID, newData]);
         this.onFinishEdit();
       })
