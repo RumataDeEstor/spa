@@ -27221,7 +27221,7 @@
 /* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	/* WEBPACK VAR INJECTION */(function(__dirname) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -27281,6 +27281,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      console.log(__dirname);
 	      var path = '/app/' + this.props.login;
 	      return _react2.default.createElement(
 	        'div',
@@ -27294,7 +27295,7 @@
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: path },
-	              _react2.default.createElement('img', { src: '/./logo/Logo.png' })
+	              _react2.default.createElement('img', { src: '/logo/Logo.png' })
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -27351,6 +27352,7 @@
 	}(_react2.default.Component);
 
 	exports.default = InternalTopmenu;
+	/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ },
 /* 237 */
@@ -30629,7 +30631,7 @@
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: '/' },
-	              _react2.default.createElement('img', { src: '/./logo/Logo.png' })
+	              _react2.default.createElement('img', { src: '/logo/Logo.png' })
 	            )
 	          ),
 	          _react2.default.createElement(

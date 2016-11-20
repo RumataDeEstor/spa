@@ -13,7 +13,7 @@ export default class StartPage extends React.Component {
   render () {
     return<div>
             <div className = "topmenu">
-              <div id = "logo"><Link to="/"><img src = "/./logo/Logo.png"/></Link></div> 
+              <div id = "logo"><Link to="/"><img src = "/logo/Logo.png"/></Link></div> 
               <ul className = "links">
                 <li><IndexLink to="/signup" activeClassName="active">Signup</IndexLink></li>
                 <li><IndexLink to="/login" activeClassName="active">Login</IndexLink></li>
