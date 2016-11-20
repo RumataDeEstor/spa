@@ -36,7 +36,7 @@ export default class InternalTopmenu extends React.Component {
     const path = `/app/${this.props.login}`;
     return <div>            
             <div className = "topmenu">
-              <div id = "logo"><Link to={path}>LOGO :)</Link></div> 
+              <div id = "logo"><Link to={path}><img src = "/./logo/Logo.png"/></Link></div> 
               <ul ref = "linksList" className = "links">
                 <li><Points login = {this.props.login} ref='foo'/></li>
                 <li><Link to={`${path}/projects`} activeClassName="active">Projects</Link></li>

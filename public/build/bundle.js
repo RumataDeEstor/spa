@@ -27294,7 +27294,7 @@
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: path },
-	              'LOGO :)'
+	              _react2.default.createElement('img', { src: '/./logo/Logo.png' })
 	            )
 	          ),
 	          _react2.default.createElement(
@@ -30629,7 +30629,7 @@
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: '/' },
-	              'LOGO :)'
+	              _react2.default.createElement('img', { src: '/./logo/Logo.png' })
 	            )
 	          ),
 	          _react2.default.createElement(

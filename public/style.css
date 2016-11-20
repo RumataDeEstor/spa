@@ -248,8 +248,8 @@ li.chosen {
   justify-content: space-between;
   padding: 0;
   /*border: 2px solid #2D9B51;*/
-  background-color: #27B43E;
-  /*background-color: #519A59;*/
+  /*background-color: #27B43E;*/
+  background-color: #333333;
   margin-bottom: 20px;
   position: fixed;
   right: 0;
@@ -267,24 +267,28 @@ li.chosen {
 
 
 .links {
-  /*background-color: #5AAA6E;*/
+  background-color: #27B43E;
   display: flex;
   margin: 0; 
   padding: 0;
   color: white;
 }
 
-#logo {
+div#logo {
   display: flex;
   align-self: center;
   font: 38px Verdana;
   padding: 0;
-  color: black;
 }
 
-#logo a:visited {
-  color: black;
+div#logo img {
+  width: 118px;
+  margin-top: 5px;
 }
+
+/*#logo a:visited {
+  color: black;
+}*/
 
 .links li {
   /*background-color: #49c15d;*/
