@@ -33,7 +33,6 @@ export default class InternalTopmenu extends React.Component {
   }
 
   render () {
-    console.log(__dirname);
     const path = `/app/${this.props.login}`;
     return <div>            
             <div className = "topmenu">
