@@ -80,12 +80,12 @@ export default class Promotions extends React.Component {
   }
 
   render () {
-    return <div id = "promotions">
+    return <div className = "promotions">
             <Points login = {this.props.params.login} ref = "foo"/>
             <PromotionsAddNew login = {this.props.params.login}
               onNewPromoAdded = {this.handleNewPromoAdding.bind(this)}
             />
-            <div id = "promoList">
+            <div className = "promoList">
               {
                 this.state.promotions.map((el,i,arr) => {
                   return <PromotionItem

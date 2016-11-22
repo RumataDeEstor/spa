@@ -11,8 +11,8 @@ class Message extends React.Component {
   }
 
   render() {
-    return <div id = "sOk">
-            {`Welcome aboard,\n${this.props.login}!\nYou may want to\n`}
+    return <div className = "wantToLogin">
+            { `Welcome aboard,\n${this.props.login}!\nYou may want to\n` }
              <IndexLink id = "toLogin" to="/login">log in</IndexLink>
           </div>
   }
@@ -22,34 +22,35 @@ export default class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.signUp = this.signUp.bind(this);
-    this.state = {registered: false, login: null};
+    this.fieldOnFocus = this.fieldOnFocus.bind(this);
+    this.state = { registered: false, login: null };
+    // WTF
   }
 
   fieldOnFocus () {
-    swarn.innerHTML = '';
+    this.refs.warn.innerHTML = '';
   }
 
   signUp() {
+    // JSON
     let reqParams = {
       method: 'POST',
       headers: {  
         "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"  
       },  
-      body: 'login=' + encodeURIComponent(slogin.value) +
-      '&password=' + encodeURIComponent(spassword.value)
+      body: 'login=' + encodeURIComponent(this.refs.login.value) +
+      '&password=' + encodeURIComponent(this.refs.password.value)
     }
 
     fetch('/api/signup', reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          swarn.innerHTML = res.error; 
+          this.refs.warn.innerHTML = res.error; 
           return;
         }
         this.fieldOnFocus();
-        this.setState({registered: true, login: res.login});
-        
-        // sOk.innerHTML = `Welcome aboard,\n${res.login}!\nYou may want to ${link()}.`                     
+        this.setState({ registered: true, login: res.login }); // ?                            
       })
       .catch(console.log);
   }
@@ -59,11 +60,15 @@ export default class Signup extends React.Component {
     return <div className = "authForms">
               <div className = "lpForm">
                 Login: 
-                <input id="slogin" onFocus={this.fieldOnFocus}/>
+                <input className="login" ref = "login" onFocus={this.fieldOnFocus}/>
                 Password: 
-                <input type="password" onFocus={this.fieldOnFocus} id="spassword"/>
-                <div id="swarn" className ="warn"></div>  
-                <p id = "pBtn"><button id = "signupBtn" onClick = {this.signUp}>Sign up</button></p>         
+                <input type="password" onFocus={this.fieldOnFocus} ref="password"
+                  className = "password"
+                />
+                <div ref ="warn" className ="warn"></div>  
+                <p className = "pBtn">
+                  <button id = "signupBtn" onClick = {this.signUp}>Sign up</button>
+                </p>         
                 {readyMessage}   
               </div>
             </div>

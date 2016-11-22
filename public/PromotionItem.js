@@ -248,7 +248,7 @@ export default class PromotionItem extends React.Component {
   render () {
     let isRepeated = (this.state.repeated) ? 
       "checked" : "unchecked";
-    return<div ref = "item" id = "promotionItem"> 
+    return<div ref = "item" className = "promotionItem"> 
             <div id = "repeatMark"
               ref = "rep" 
               className = {isRepeated}
@@ -256,42 +256,46 @@ export default class PromotionItem extends React.Component {
             >
               <i className="fa fa-repeat" aria-hidden="true"></i>
             </div>        
-            <div id = "promoPrice" ref = "promoPrice">
+            <div className = "promoPrice" ref = "promoPrice">
               {this.state.price}
             </div>
-            <button id = "promoDelete" ref = "del" onClick = {this.deletePromo}>
+            <button className = "promoDelete" ref = "del" 
+              onClick = {this.deletePromo}
+            >
               <i className="fa fa-trash"></i>
             </button>     
-            <form ref = "editPromoPrice" id = "editPromoPrice">
+            <form ref = "editPromoPrice" className = "editPromoPrice">
               <input type = "number" 
-                id = "promoPriceEdit"
+                className = "promoPriceEdit"
                 min = "5" max = "500" 
                 name = "fieldPrice"
                 defaultValue = {this.state.price}/>
             </form>      
             
-            <div id = "exCircle" 
+            <div className = "exCircle" 
               onMouseOver = {this.showMore}
               onMouseOut = {this.hideMore}
             >
-              <div id = "getPromoWindow" ref = "getPWindow" 
+              <div className = "getPromoWindow" ref = "getPWindow" 
                 onClick = {this.getPromo}>
                 <i className ="fa fa-check" aria-hidden="true"></i>
               </div>
-              <div id = "inCircle">
-                <div id = "square" ref = "lvl">         
+              <div className = "inCircle">
+                <div className = "square" ref = "lvl">         
                 </div>     
               </div>
             </div>
-            <div id = "percents" ref = "pers"> 
+            <div className = "percents" ref = "pers"> 
               {`${this.state.percentsValue}%`}
             </div>
-            <div id = "promoName" ref = "promoName">
+            <div className = "promoName" ref = "promoName">
               {this.state.name}
             </div>
-            <form ref = "editPromoName" id = "editPromoName">
-              <input type = "text" id = "promoNameEdit" name = "fieldName" 
-                defaultValue = {this.state.name}/>
+            <form ref = "editPromoName" className = "editPromoName">
+              <input type = "text" className = "promoNameEdit" 
+                name = "fieldName" 
+                defaultValue = {this.state.name}
+              />
             </form>
           </div>
   }

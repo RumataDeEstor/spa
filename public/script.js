@@ -8,14 +8,13 @@ import App from './App';
 import InternalTopmenu from './InternalTopmenu';
 import Login from './Login';
 import NotFound from './NotFound';
-import Tasks from './Tasks';
 import Project from './Project';
 import Projects from './Projects';
 import ProjectsAddNew from './ProjectsAddNew';
 import ProjectsList from './ProjectsList';
 import Signup from './Signup';
 import StartPage from './StartPage';
-import Rules from './Rules';
+import RuleList from './RuleList';
 import Points from './Points';
 import Promotions from './Promotions';
 
@@ -28,7 +27,7 @@ render((
     </Route>
     <Route path="app/:login" component={App}>
       <IndexRedirect to="projects"/> 
-      <Route path="rules" component={Rules}/>
+      <Route path="rules" component={RuleList}/>
       <Route path="promotions" component={Promotions}/>
       <Route path="projects" component={Projects}>
         <IndexRedirect to="list"/> 

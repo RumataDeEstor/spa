@@ -9,16 +9,18 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.logIn = this.logIn.bind(this);
+    this.fieldOnFocus = this.fieldOnFocus.bind(this);
   }
 
   logIn () {
+    // JSON
     let reqParams = {
       method: 'POST',
       headers: {  
         "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
       }, 
-      body: 'login=' + encodeURIComponent(login.value) +
-      '&password=' + encodeURIComponent(password.value), 
+      body: 'login=' + encodeURIComponent(this.refs.login.value) +
+      '&password=' + encodeURIComponent(this.refs.password.value), 
       credentials: 'include'
     }
 
@@ -26,7 +28,7 @@ export default class Login extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          lwarn.innerHTML = res.error; 
+          this.refs.warn.innerHTML = res.error; 
           return;
         }
         browserHistory.push(`app/${res.login}`);                    
@@ -35,18 +37,26 @@ export default class Login extends React.Component {
   }
 
   fieldOnFocus () {
-    lwarn.innerHTML = '';
+    this.refs.warn.innerHTML = '';
   }
 
   render () {
     return <div className = "authForms">
               <div className = "lpForm">    
                 Login: 
-                <input id="login" onFocus={this.fieldOnFocus}/>
+                <input className="login" 
+                  onFocus={this.fieldOnFocus}
+                  ref = "login"
+                />
                 Password:
-                <input type="password" onFocus={this.fieldOnFocus} id="password"/>
-                <div id="lwarn" className ="warn"></div>    
-                <p id = "pBtn"><button id = "loginBtn" onClick={this.logIn}>Log in</button></p>              
+                <input type="password" onFocus={this.fieldOnFocus} 
+                  className="password"
+                  ref = "password"
+                />
+                <div ref="warn" className ="warn"></div>    
+                <p className = "pBtn">
+                  <button id = "loginBtn" onClick={this.logIn}>Log in</button>
+                </p>              
               </div>
           </div>
   }

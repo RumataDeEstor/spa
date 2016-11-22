@@ -11,6 +11,8 @@ export default class TasksAddNew extends React.Component {
     this.addNew = this.addNew.bind(this);
     this.clearFields = this.clearFields.bind(this);
     this.checkRepeated = this.checkRepeated.bind(this);
+    this.onCancel = this.onCancel.bind(this);
+    this.onExpand = this.onExpand.bind(this);
   }
 
   checkRepeated() {
@@ -19,24 +21,24 @@ export default class TasksAddNew extends React.Component {
   }
 
   onCancel () {
-    addNewForm.style.display = "none";  
-    lineExpand.style.display = "flex"; 
+    this.refs.addNewForm.style.display = "none";  
+    this.refs.lineExpand.style.display = "flex"; 
   }
 
   onExpand () {
-    addNewForm.style.display  = "flex";
-    lineExpand.style.display = "none"; 
+    this.refs.addNewForm.style.display  = "flex";
+    this.refs.lineExpand.style.display = "none"; 
   }
 
   clearFields() {
-    newName.value = "";
-    newPoints.value = newPoints.defaultValue;
+    this.refs.newName.value = "";
+    this.refs.newPoints.value = this.refs.newPoints.defaultValue;
   }
 
   addNew (){
     let repeated = this.refs.cRep.className == "checked";
-    let validPoints = (newPoints.value > 500) ? 500 : newPoints.value;
-    let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
+    let validPoints = (this.refs.newPoints.value > 500) ? 500 : this.refs.newPoints.value;
+    let validName = (this.refs.newName.value.length > 100) ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
     // rewrite validation
 
     let bodyJSON = JSON.stringify({
@@ -72,21 +74,27 @@ export default class TasksAddNew extends React.Component {
       })
   }
   render () {
-    return <div id = "taskAddNew">
-            <div id = "lineExpand">
-              <div id = "expand" onClick = {this.onExpand}>+</div>
+    return <div className = "taskAddNew">
+            <div className = "lineExpand" ref = "lineExpand">
+              <div className = "expand" onClick = {this.onExpand}>+</div>
             </div>            
-            <div id = "addNewForm">
-              <input type = "text" placeholder = "Name" id = "newName" maxLength = "17"/>
-              <div id = "addNewOpt">
-                <input type = "number" id = "newPoints" defaultValue = "5" min = "0" max = "500"/>
+            <div className = "addNewForm" ref = "addNewForm">
+              <input type = "text" placeholder = "Name" 
+                className = "newName" maxLength = "17"
+                ref = "newName"
+              />
+              <div className = "addNewOpt">
+                <input type = "number" className = "newPoints" 
+                  defaultValue = "5" min = "0" max = "500"
+                  ref = "newPoints"
+                />
                 <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
                   onClick = {this.checkRepeated}>
                   <i className="fa fa-repeat" aria-hidden="true"></i>
                 </div>
-                <div id = "buttons">  
-                  <button id = "add" onClick = {this.addNew}>Add</button>
-                  <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
+                <div className = "buttons">  
+                  <button className = "add" onClick = {this.addNew}>Add</button>
+                  <button className = "cancel" onClick = {this.onCancel}>Cancel</button>
                 </div>  
               </div>
             </div>            

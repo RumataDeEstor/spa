@@ -81,13 +81,13 @@ export default class ProjectsList extends React.Component {
   }
   
   render () {
-    return <div id = "projectsList">
-            <div id = "pListTitle">Projects</div>
+    return <div className = "projListPage"> 
+            <div className = "pListTitle">Projects</div>
             <ProjectsAddNew 
               login = {this.props.params.login}
               onAddingNew = {this.handleAddingNew.bind(this)}
             />
-            <div id = "projectsList">
+            <div className = "projectsList">
               {
                 this.state.projects.map((el,i,arr) => {
                   let editing = (this.state.isEditing == el._id) ? true : false;

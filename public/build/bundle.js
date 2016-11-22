@@ -70,37 +70,33 @@
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Tasks = __webpack_require__(244);
-
-	var _Tasks2 = _interopRequireDefault(_Tasks);
-
-	var _Project = __webpack_require__(245);
+	var _Project = __webpack_require__(244);
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(252);
+	var _Projects = __webpack_require__(251);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(253);
+	var _ProjectsAddNew = __webpack_require__(252);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(254);
+	var _ProjectsList = __webpack_require__(253);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(257);
+	var _Signup = __webpack_require__(256);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(258);
+	var _StartPage = __webpack_require__(257);
 
 	var _StartPage2 = _interopRequireDefault(_StartPage);
 
-	var _Rules = __webpack_require__(259);
+	var _RuleList = __webpack_require__(258);
 
-	var _Rules2 = _interopRequireDefault(_Rules);
+	var _RuleList2 = _interopRequireDefault(_RuleList);
 
 	var _Points = __webpack_require__(237);
 
@@ -126,7 +122,7 @@
 	    _reactRouter.Route,
 	    { path: 'app/:login', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'projects' }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _Rules2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _RuleList2.default }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'promotions', component: _Promotions2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
@@ -27221,7 +27217,7 @@
 /* 236 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(__dirname) {'use strict';
+	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -27281,7 +27277,6 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      console.log(__dirname);
 	      var path = '/app/' + this.props.login;
 	      return _react2.default.createElement(
 	        'div',
@@ -27291,7 +27286,7 @@
 	          { className: 'topmenu' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'logo' },
+	            { className: 'logo' },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: path },
@@ -27352,7 +27347,6 @@
 	}(_react2.default.Component);
 
 	exports.default = InternalTopmenu;
-	/* WEBPACK VAR INJECTION */}.call(exports, "/"))
 
 /***/ },
 /* 237 */
@@ -28083,10 +28077,10 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'promoShort' },
+	        { className: 'promoShort' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'pshortTitle' },
+	          { className: 'pshortTitle' },
 	          ' Top Promotions '
 	        ),
 	        this.state.topPromos.map(function (el, i) {
@@ -28412,7 +28406,7 @@
 	      var isRepeated = this.state.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
-	        { ref: 'item', id: 'promotionItem' },
+	        { ref: 'item', className: 'promotionItem' },
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'repeatMark',
@@ -28424,56 +28418,60 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'promoPrice', ref: 'promoPrice' },
+	          { className: 'promoPrice', ref: 'promoPrice' },
 	          this.state.price
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { id: 'promoDelete', ref: 'del', onClick: this.deletePromo },
+	          { className: 'promoDelete', ref: 'del',
+	            onClick: this.deletePromo
+	          },
 	          _react2.default.createElement('i', { className: 'fa fa-trash' })
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { ref: 'editPromoPrice', id: 'editPromoPrice' },
+	          { ref: 'editPromoPrice', className: 'editPromoPrice' },
 	          _react2.default.createElement('input', { type: 'number',
-	            id: 'promoPriceEdit',
+	            className: 'promoPriceEdit',
 	            min: '5', max: '500',
 	            name: 'fieldPrice',
 	            defaultValue: this.state.price })
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'exCircle',
+	          { className: 'exCircle',
 	            onMouseOver: this.showMore,
 	            onMouseOut: this.hideMore
 	          },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'getPromoWindow', ref: 'getPWindow',
+	            { className: 'getPromoWindow', ref: 'getPWindow',
 	              onClick: this.getPromo },
 	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'inCircle' },
-	            _react2.default.createElement('div', { id: 'square', ref: 'lvl' })
+	            { className: 'inCircle' },
+	            _react2.default.createElement('div', { className: 'square', ref: 'lvl' })
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'percents', ref: 'pers' },
+	          { className: 'percents', ref: 'pers' },
 	          this.state.percentsValue + '%'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'promoName', ref: 'promoName' },
+	          { className: 'promoName', ref: 'promoName' },
 	          this.state.name
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { ref: 'editPromoName', id: 'editPromoName' },
-	          _react2.default.createElement('input', { type: 'text', id: 'promoNameEdit', name: 'fieldName',
-	            defaultValue: this.state.name })
+	          { ref: 'editPromoName', className: 'editPromoName' },
+	          _react2.default.createElement('input', { type: 'text', className: 'promoNameEdit',
+	            name: 'fieldName',
+	            defaultValue: this.state.name
+	          })
 	        )
 	      );
 	    }
@@ -28521,18 +28519,22 @@
 	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
 	    _this.logIn = _this.logIn.bind(_this);
+	    _this.fieldOnFocus = _this.fieldOnFocus.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Login, [{
 	    key: 'logIn',
 	    value: function logIn() {
+	      var _this2 = this;
+
+	      // JSON
 	      var reqParams = {
 	        method: 'POST',
 	        headers: {
 	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
 	        },
-	        body: 'login=' + encodeURIComponent(login.value) + '&password=' + encodeURIComponent(password.value),
+	        body: 'login=' + encodeURIComponent(this.refs.login.value) + '&password=' + encodeURIComponent(this.refs.password.value),
 	        credentials: 'include'
 	      };
 
@@ -28540,7 +28542,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          lwarn.innerHTML = res.error;
+	          _this2.refs.warn.innerHTML = res.error;
 	          return;
 	        }
 	        _reactRouter.browserHistory.push('app/' + res.login);
@@ -28549,7 +28551,7 @@
 	  }, {
 	    key: 'fieldOnFocus',
 	    value: function fieldOnFocus() {
-	      lwarn.innerHTML = '';
+	      this.refs.warn.innerHTML = '';
 	    }
 	  }, {
 	    key: 'render',
@@ -28561,13 +28563,19 @@
 	          'div',
 	          { className: 'lpForm' },
 	          'Login:',
-	          _react2.default.createElement('input', { id: 'login', onFocus: this.fieldOnFocus }),
+	          _react2.default.createElement('input', { className: 'login',
+	            onFocus: this.fieldOnFocus,
+	            ref: 'login'
+	          }),
 	          'Password:',
-	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus, id: 'password' }),
-	          _react2.default.createElement('div', { id: 'lwarn', className: 'warn' }),
+	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus,
+	            className: 'password',
+	            ref: 'password'
+	          }),
+	          _react2.default.createElement('div', { ref: 'warn', className: 'warn' }),
 	          _react2.default.createElement(
 	            'p',
-	            { id: 'pBtn' },
+	            { className: 'pBtn' },
 	            _react2.default.createElement(
 	              'button',
 	              { id: 'loginBtn', onClick: this.logIn },
@@ -28657,65 +28665,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var Tasks = function (_React$Component) {
-	  _inherits(Tasks, _React$Component);
-
-	  function Tasks(props) {
-	    _classCallCheck(this, Tasks);
-
-	    return _possibleConstructorReturn(this, (Tasks.__proto__ || Object.getPrototypeOf(Tasks)).call(this, props));
-	  }
-
-	  _createClass(Tasks, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        null,
-	        'Tasks!',
-	        this.props.children
-	      );
-	    }
-	  }]);
-
-	  return Tasks;
-	}(_react2.default.Component);
-
-	exports.default = Tasks;
-
-/***/ },
-/* 245 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _reactDom = __webpack_require__(34);
-
-	var _reactRouter = __webpack_require__(172);
-
-	var _TasksList = __webpack_require__(246);
+	var _TasksList = __webpack_require__(245);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(250);
+	var _reactAddonsUpdate = __webpack_require__(249);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -28779,8 +28733,8 @@
 	        null,
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'projectName' },
-	          _react2.default.createElement('div', { id: 'projectLabel', style: { backgroundColor: this.state.label } }),
+	          { className: 'projectName' },
+	          _react2.default.createElement('div', { className: 'projectLabel', style: { backgroundColor: this.state.label } }),
 	          _react2.default.createElement(
 	            'h1',
 	            null,
@@ -28802,7 +28756,7 @@
 	exports.default = Project;
 
 /***/ },
-/* 246 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28821,11 +28775,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksItem = __webpack_require__(247);
+	var _TasksItem = __webpack_require__(246);
 
 	var _TasksItem2 = _interopRequireDefault(_TasksItem);
 
-	var _TasksAddNew = __webpack_require__(249);
+	var _TasksAddNew = __webpack_require__(248);
 
 	var _TasksAddNew2 = _interopRequireDefault(_TasksAddNew);
 
@@ -28942,6 +28896,9 @@
 	    value: function handleChildEdit(id) {
 	      this.setState({ isEditing: id });
 	    }
+
+	    // is it it's necessary
+
 	  }, {
 	    key: 'handleChildComplete',
 	    value: function handleChildComplete(points) {
@@ -28955,8 +28912,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        'List Page',
+	        { className: 'tasksListPage' },
 	        _react2.default.createElement(_TasksAddNew2.default, {
 	          login: this.props.login,
 	          projectID: this.props.projectID,
@@ -28964,7 +28920,7 @@
 	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'tasksList' },
+	          { className: 'tasksList' },
 	          this.state.tasks.map(function (el, i, arr) {
 	            var editing = _this3.state.isEditing == el._id;
 	            var cNameEdit = editing ? "editing" : "";
@@ -28991,7 +28947,7 @@
 	exports.default = TasksList;
 
 /***/ },
-/* 247 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29010,7 +28966,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskEditing = __webpack_require__(248);
+	var _TaskEditing = __webpack_require__(247);
 
 	var _TaskEditing2 = _interopRequireDefault(_TaskEditing);
 
@@ -29069,7 +29025,7 @@
 	    key: 'showEditBtn',
 	    value: function showEditBtn(e) {
 	      // console.dir(e.target);
-	      if (e.target.id == "checkBoxField" || e.target.id == "taskCheckbox" || e.target.id == "check") {
+	      if (e.target.className == "checkBoxField" || e.target.classclassName == "taskCheckbox" || e.target.className == "check") {
 	        return;
 	      }
 	      this.refs.eBtn.style.display = "flex";
@@ -29159,46 +29115,46 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'tasksItem',
+	        { className: 'tasksItem',
 	          onMouseOver: this.showEditBtn,
 	          onMouseOut: this.hideEditBtn },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'itemNormal', ref: 'itemNorm' },
+	          { className: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'checkBoxField',
+	            { className: 'checkBoxField',
 	              onMouseOver: this.showMark,
 	              onMouseOut: this.hideMark,
 	              onClick: this.complete },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'taskCheckbox' },
+	              { className: 'taskCheckbox' },
 	              _react2.default.createElement(
 	                'div',
-	                { id: 'check', ref: 'check' },
+	                { className: 'check', ref: 'check' },
 	                ' ✓ '
 	              )
 	            )
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'taskLine' },
+	            { className: 'taskLine' },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'taskName' },
+	              { className: 'taskName' },
 	              this.props.name
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'points' },
+	              { className: 'points' },
 	              ' ',
 	              this.props.points,
 	              ' '
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'repeatMark' },
+	              { className: 'repeatMark' },
 	              rep
 	            )
 	          ),
@@ -29226,7 +29182,7 @@
 	};
 
 /***/ },
-/* 248 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29234,8 +29190,6 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -29334,8 +29288,8 @@
 	      var repeated = this.refs.cRep.className == "checked";
 	      console.log(repeated);
 	      var bodyJSON = JSON.stringify({
-	        name: editTaskName.value,
-	        points: editPoints.value,
+	        name: this.refs.editTaskName.value,
+	        points: this.refs.editPoints.value,
 	        repeated: repeated
 	      });
 
@@ -29360,11 +29314,10 @@
 	          return;
 	        }
 	        var newData = {
-	          name: editTaskName.value,
-	          points: +editPoints.value,
+	          name: _this2.refs.editTaskName.value,
+	          points: +_this2.refs.editPoints.value,
 	          repeated: repeated
 	        }; // rewrite
-	        console.log(_typeof(editPoints.value));
 	        _EventEmitter2.default.emitEvent('taskSaveEdit', [taskID, newData]);
 	        _this2.onFinishEdit();
 	      }).catch(function (err) {
@@ -29377,12 +29330,16 @@
 	      var isRepeated = this.props.target.props.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'editForm' },
-	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editTaskName' }),
+	        { className: 'editForm' },
+	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
+	          className: 'editTaskName',
+	          ref: 'editTaskName'
+	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'editOpt' },
-	          _react2.default.createElement('input', { type: 'number', id: 'editPoints',
+	          { className: 'editOpt' },
+	          _react2.default.createElement('input', { type: 'number', className: 'editPoints',
+	            ref: 'editPoints',
 	            defaultValue: this.props.target.props.points,
 	            min: '0', max: '500'
 	          }),
@@ -29396,20 +29353,20 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'editButtons' },
+	            { className: 'editButtons' },
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editSave', onClick: this.saveChanges },
+	              { className: 'editSave', onClick: this.saveChanges },
 	              'Save'
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editFinish', onClick: this.onFinishEdit },
+	              { className: 'editFinish', onClick: this.onFinishEdit },
 	              'Cancel'
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editDelete', onClick: this.onDelete },
+	              { className: 'editDelete', onClick: this.onDelete },
 	              _react2.default.createElement('i', { className: 'fa fa-trash' })
 	            )
 	          )
@@ -29424,7 +29381,7 @@
 	exports.default = TaskEditing;
 
 /***/ },
-/* 249 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29463,6 +29420,8 @@
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.clearFields = _this.clearFields.bind(_this);
 	    _this.checkRepeated = _this.checkRepeated.bind(_this);
+	    _this.onCancel = _this.onCancel.bind(_this);
+	    _this.onExpand = _this.onExpand.bind(_this);
 	    return _this;
 	  }
 
@@ -29474,20 +29433,20 @@
 	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
-	      addNewForm.style.display = "none";
-	      lineExpand.style.display = "flex";
+	      this.refs.addNewForm.style.display = "none";
+	      this.refs.lineExpand.style.display = "flex";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      addNewForm.style.display = "flex";
-	      lineExpand.style.display = "none";
+	      this.refs.addNewForm.style.display = "flex";
+	      this.refs.lineExpand.style.display = "none";
 	    }
 	  }, {
 	    key: 'clearFields',
 	    value: function clearFields() {
-	      newName.value = "";
-	      newPoints.value = newPoints.defaultValue;
+	      this.refs.newName.value = "";
+	      this.refs.newPoints.value = this.refs.newPoints.defaultValue;
 	    }
 	  }, {
 	    key: 'addNew',
@@ -29495,8 +29454,8 @@
 	      var _this2 = this;
 
 	      var repeated = this.refs.cRep.className == "checked";
-	      var validPoints = newPoints.value > 500 ? 500 : newPoints.value;
-	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
+	      var validPoints = this.refs.newPoints.value > 500 ? 500 : this.refs.newPoints.value;
+	      var validName = this.refs.newName.value.length > 100 ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
 	      // rewrite validation
 
 	      var bodyJSON = JSON.stringify({
@@ -29535,24 +29494,30 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'taskAddNew' },
+	        { className: 'taskAddNew' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'lineExpand' },
+	          { className: 'lineExpand', ref: 'lineExpand' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'expand', onClick: this.onExpand },
+	            { className: 'expand', onClick: this.onExpand },
 	            '+'
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'addNewForm' },
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '17' }),
+	          { className: 'addNewForm', ref: 'addNewForm' },
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
+	            className: 'newName', maxLength: '17',
+	            ref: 'newName'
+	          }),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'addNewOpt' },
-	            _react2.default.createElement('input', { type: 'number', id: 'newPoints', defaultValue: '5', min: '0', max: '500' }),
+	            { className: 'addNewOpt' },
+	            _react2.default.createElement('input', { type: 'number', className: 'newPoints',
+	              defaultValue: '5', min: '0', max: '500',
+	              ref: 'newPoints'
+	            }),
 	            _react2.default.createElement(
 	              'div',
 	              { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
@@ -29561,15 +29526,15 @@
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'buttons' },
+	              { className: 'buttons' },
 	              _react2.default.createElement(
 	                'button',
-	                { id: 'add', onClick: this.addNew },
+	                { className: 'add', onClick: this.addNew },
 	                'Add'
 	              ),
 	              _react2.default.createElement(
 	                'button',
-	                { id: 'cancel', onClick: this.onCancel },
+	                { className: 'cancel', onClick: this.onCancel },
 	                'Cancel'
 	              )
 	            )
@@ -29590,13 +29555,13 @@
 	};
 
 /***/ },
-/* 250 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(251);
+	module.exports = __webpack_require__(250);
 
 /***/ },
-/* 251 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29715,7 +29680,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 252 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29756,7 +29721,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projects' },
+	        { className: 'projects' },
 	        this.props.children
 	      );
 	    }
@@ -29768,7 +29733,7 @@
 	exports.default = Projects;
 
 /***/ },
-/* 253 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29806,19 +29771,22 @@
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.clearFields = _this.clearFields.bind(_this);
 	    _this.hideColors = _this.hideColors.bind(_this);
+	    _this.showColors = _this.showColors.bind(_this);
+	    _this.onExpand = _this.onExpand.bind(_this);
+	    _this.onCancel = _this.onCancel.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ProjectsAddNew, [{
 	    key: 'clearFields',
 	    value: function clearFields() {
-	      newName.value = "";
+	      this.refs.newName.value = "";
 	      this.refs.plabel.style.backgroundColor = "#FFFFFF";
 	    }
 	  }, {
 	    key: 'showColors',
 	    value: function showColors() {
-	      options.style.width = "150px";
+	      this.refs.options.style.width = "150px";
 	    }
 	  }, {
 	    key: 'hideColors',
@@ -29826,26 +29794,26 @@
 	      if (e.target.className == "colorsList") {
 	        this.refs.plabel.style.backgroundColor = e.target.style.backgroundColor;
 	      }
-	      options.style.width = "0";
+	      this.refs.options.style.width = "0";
 	    }
 	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
-	      addNewForm.style.display = "none";
-	      lineExpand.style.display = "flex";
+	      this.refs.addNewForm.style.display = "none";
+	      this.refs.lineExpand.style.display = "flex";
 	    }
 	  }, {
 	    key: 'onExpand',
 	    value: function onExpand() {
-	      addNewForm.style.display = "flex";
-	      lineExpand.style.display = "none";
+	      this.refs.addNewForm.style.display = "flex";
+	      this.refs.lineExpand.style.display = "none";
 	    }
 	  }, {
 	    key: 'addNew',
 	    value: function addNew() {
 	      var _this2 = this;
 
-	      var validName = newName.value.length > 100 ? newName.value.slice(0, 100) : newName.value;
+	      var validName = this.refs.newName.value.length > 100 ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
 	        label: this.refs.plabel.style.backgroundColor
@@ -29880,35 +29848,35 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projectsAddNew' },
+	        { className: 'projectsAddNew' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'lineExpand' },
+	          { className: 'lineExpand', ref: 'lineExpand' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'expand', onClick: this.onExpand },
+	            { className: 'expand', onClick: this.onExpand },
 	            '+'
 	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'addNewForm' },
-	          _react2.default.createElement('div', { style: { backgroundColor: "#FFFFFF" }, id: 'projectLabel', ref: 'plabel' }),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newName', maxLength: '17' }),
+	          { className: 'addNewForm', ref: 'addNewForm' },
+	          _react2.default.createElement('div', { style: { backgroundColor: "#FFFFFF" }, className: 'projectLabel', ref: 'plabel' }),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'addNewOpt' },
+	            { className: 'addNewOpt' },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'labelForm' },
+	              { className: 'labelForm' },
 	              _react2.default.createElement(
 	                'div',
-	                { id: 'chosen', onClick: this.showColors },
+	                { className: 'chosen', onClick: this.showColors },
 	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                { id: 'options', onClick: this.hideColors },
+	                { className: 'options', ref: 'options', onClick: this.hideColors },
 	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
 	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
 	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
@@ -29922,15 +29890,15 @@
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'buttons' },
+	              { className: 'buttons' },
 	              _react2.default.createElement(
 	                'button',
-	                { id: 'add', onClick: this.addNew },
+	                { className: 'add', onClick: this.addNew },
 	                'Add'
 	              ),
 	              _react2.default.createElement(
 	                'button',
-	                { id: 'cancel', onClick: this.onCancel },
+	                { className: 'cancel', onClick: this.onCancel },
 	                'Cancel'
 	              )
 	            )
@@ -29950,7 +29918,7 @@
 	exports.default = ProjectsAddNew;
 
 /***/ },
-/* 254 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29969,11 +29937,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsAddNew = __webpack_require__(253);
+	var _ProjectsAddNew = __webpack_require__(252);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsItem = __webpack_require__(255);
+	var _ProjectsItem = __webpack_require__(254);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -30087,10 +30055,10 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projectsList' },
+	        { className: 'projListPage' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'pListTitle' },
+	          { className: 'pListTitle' },
 	          'Projects'
 	        ),
 	        _react2.default.createElement(_ProjectsAddNew2.default, {
@@ -30099,7 +30067,7 @@
 	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'projectsList' },
+	          { className: 'projectsList' },
 	          this.state.projects.map(function (el, i, arr) {
 	            var editing = _this3.state.isEditing == el._id ? true : false;
 	            var cNameEdit = editing ? "editing" : "";
@@ -30124,7 +30092,7 @@
 	exports.default = ProjectsList;
 
 /***/ },
-/* 255 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30143,7 +30111,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectEditing = __webpack_require__(256);
+	var _ProjectEditing = __webpack_require__(255);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
@@ -30205,19 +30173,20 @@
 	      var component = this.props.editing ? _react2.default.createElement(_ProjectEditing2.default, { target: this, login: this.props.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'projectsItem',
+	        { className: 'projectsItem',
 	          onMouseOver: this.showEditBtn,
 	          onMouseOut: this.hideEditBtn },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'itemNormal', ref: 'itemNorm' },
+	          { className: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'projectLine', onClick: this.open },
-	            _react2.default.createElement('div', { style: { backgroundColor: this.props.label }, id: 'projectLabel' }),
+	            { className: 'projectLine', onClick: this.open },
+	            _react2.default.createElement('div', { style: { backgroundColor: this.props.label },
+	              className: 'projectLabel' }),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'projName' },
+	              { className: 'projName' },
 	              this.props.name
 	            )
 	          ),
@@ -30244,7 +30213,7 @@
 	};
 
 /***/ },
-/* 256 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30287,6 +30256,7 @@
 	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
 	    _this.onDelete = _this.onDelete.bind(_this);
 	    _this.hideColors = _this.hideColors.bind(_this);
+	    _this.showColors = _this.showColors.bind(_this);
 	    return _this;
 	  }
 
@@ -30333,7 +30303,7 @@
 	  }, {
 	    key: 'showColors',
 	    value: function showColors() {
-	      editOptions.style.width = "150px";
+	      this.refs.editOptions.style.width = "150px";
 	    }
 	  }, {
 	    key: 'hideColors',
@@ -30341,7 +30311,7 @@
 	      if (e.target.className == "colorsList") {
 	        this.refs.plabel.style.backgroundColor = e.target.style.backgroundColor;
 	      }
-	      editOptions.style.width = "0";
+	      this.refs.editOptions.style.width = "0";
 	    }
 	  }, {
 	    key: 'saveChanges',
@@ -30349,7 +30319,7 @@
 	      var _this2 = this;
 
 	      var bodyJSON = JSON.stringify({
-	        name: editName.value,
+	        name: this.refs.editName.value,
 	        label: this.refs.plabel.style.backgroundColor
 	      });
 
@@ -30372,7 +30342,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newData = { name: editName.value, label: _this2.refs.plabel.style.backgroundColor };
+	        var newData = { name: _this2.refs.editName.value, label: _this2.refs.plabel.style.backgroundColor };
 	        //take from server?
 	        _EventEmitter2.default.emitEvent('projectSaveEdit', [projID, newData]);
 	        _this2.onFinishEdit();
@@ -30386,23 +30356,28 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'editForm' },
-	        _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label }, id: 'projectLabel', ref: 'plabel' }),
-	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name, id: 'editName' }),
+	        { className: 'editForm' },
+	        _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label },
+	          className: 'projectLabel',
+	          ref: 'plabel' }),
+	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
+	          className: 'editName',
+	          ref: 'editName'
+	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'editOpt' },
+	          { className: 'editOpt' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'editLabelForm' },
+	            { className: 'editLabelForm' },
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'editChosen', onClick: this.showColors },
+	              { className: 'editChosen', onClick: this.showColors },
 	              _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'editOptions', onClick: this.hideColors },
+	              { className: 'editOptions', onClick: this.hideColors, ref: 'editOptions' },
 	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
 	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
 	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
@@ -30416,20 +30391,20 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'editButtons' },
+	            { className: 'editButtons' },
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editSave', onClick: this.saveChanges },
+	              { className: 'editSave', onClick: this.saveChanges },
 	              'Save'
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editFinish', onClick: this.onFinishEdit },
+	              { className: 'editFinish', onClick: this.onFinishEdit },
 	              'Cancel'
 	            ),
 	            _react2.default.createElement(
 	              'button',
-	              { id: 'editDelete', onClick: this.onDelete },
+	              { className: 'editDelete', onClick: this.onDelete },
 	              _react2.default.createElement('i', { className: 'fa fa-trash' })
 	            )
 	          )
@@ -30444,7 +30419,7 @@
 	exports.default = ProjectEditing;
 
 /***/ },
-/* 257 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30486,7 +30461,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'sOk' },
+	        { className: 'wantToLogin' },
 	        'Welcome aboard,\n' + this.props.login + '!\nYou may want to\n',
 	        _react2.default.createElement(
 	          _reactRouter.IndexLink,
@@ -30509,39 +30484,40 @@
 	    var _this2 = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this, props));
 
 	    _this2.signUp = _this2.signUp.bind(_this2);
+	    _this2.fieldOnFocus = _this2.fieldOnFocus.bind(_this2);
 	    _this2.state = { registered: false, login: null };
+	    // WTF
 	    return _this2;
 	  }
 
 	  _createClass(Signup, [{
 	    key: 'fieldOnFocus',
 	    value: function fieldOnFocus() {
-	      swarn.innerHTML = '';
+	      this.refs.warn.innerHTML = '';
 	    }
 	  }, {
 	    key: 'signUp',
 	    value: function signUp() {
 	      var _this3 = this;
 
+	      // JSON
 	      var reqParams = {
 	        method: 'POST',
 	        headers: {
 	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
 	        },
-	        body: 'login=' + encodeURIComponent(slogin.value) + '&password=' + encodeURIComponent(spassword.value)
+	        body: 'login=' + encodeURIComponent(this.refs.login.value) + '&password=' + encodeURIComponent(this.refs.password.value)
 	      };
 
 	      fetch('/api/signup', reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          swarn.innerHTML = res.error;
+	          _this3.refs.warn.innerHTML = res.error;
 	          return;
 	        }
 	        _this3.fieldOnFocus();
-	        _this3.setState({ registered: true, login: res.login });
-
-	        // sOk.innerHTML = `Welcome aboard,\n${res.login}!\nYou may want to ${link()}.`                     
+	        _this3.setState({ registered: true, login: res.login }); // ?                            
 	      }).catch(console.log);
 	    }
 	  }, {
@@ -30555,13 +30531,15 @@
 	          'div',
 	          { className: 'lpForm' },
 	          'Login:',
-	          _react2.default.createElement('input', { id: 'slogin', onFocus: this.fieldOnFocus }),
+	          _react2.default.createElement('input', { className: 'login', ref: 'login', onFocus: this.fieldOnFocus }),
 	          'Password:',
-	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus, id: 'spassword' }),
-	          _react2.default.createElement('div', { id: 'swarn', className: 'warn' }),
+	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus, ref: 'password',
+	            className: 'password'
+	          }),
+	          _react2.default.createElement('div', { ref: 'warn', className: 'warn' }),
 	          _react2.default.createElement(
 	            'p',
-	            { id: 'pBtn' },
+	            { className: 'pBtn' },
 	            _react2.default.createElement(
 	              'button',
 	              { id: 'signupBtn', onClick: this.signUp },
@@ -30580,7 +30558,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 258 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30627,7 +30605,7 @@
 	          { className: 'topmenu' },
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'logo' },
+	            { className: 'logo' },
 	            _react2.default.createElement(
 	              _reactRouter.Link,
 	              { to: '/' },
@@ -30668,6 +30646,104 @@
 	exports.default = StartPage;
 
 /***/ },
+/* 258 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _RuleItem = __webpack_require__(259);
+
+	var _RuleItem2 = _interopRequireDefault(_RuleItem);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RuleList = function (_React$Component) {
+	  _inherits(RuleList, _React$Component);
+
+	  function RuleList(props) {
+	    _classCallCheck(this, RuleList);
+
+	    var _this = _possibleConstructorReturn(this, (RuleList.__proto__ || Object.getPrototypeOf(RuleList)).call(this, props));
+
+	    _this.state = { rules: [] };
+	    _this.loadRules = _this.loadRules.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(RuleList, [{
+	    key: 'loadRules',
+	    value: function loadRules() {
+	      // temp
+	      var rule1 = {
+	        _id: "001",
+	        name: 'No rat',
+	        label: "red",
+	        fine: 2
+	      };
+
+	      var rule2 = {
+	        _id: "002",
+	        name: 'Let it be!',
+	        label: "green",
+	        fine: 5
+	      };
+
+	      var arr = [rule1, rule2];
+
+	      this.setState({ rules: arr });
+	    }
+	  }, {
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.loadRules();
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'rulesList' },
+	        this.state.rules.map(function (el, i, arr) {
+	          return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
+	            id: el._id,
+	            name: el.name,
+	            label: el.label,
+	            login: _this2.props.params.login,
+	            fine: el.fine
+	          });
+	        })
+	      );
+	    }
+	  }]);
+
+	  return RuleList;
+	}(_react2.default.Component);
+
+	exports.default = RuleList;
+
+/***/ },
 /* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30687,10 +30763,6 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _Points = __webpack_require__(237);
-
-	var _Points2 = _interopRequireDefault(_Points);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30699,47 +30771,40 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Rules = function (_React$Component) {
-	  _inherits(Rules, _React$Component);
+	var ProjectsItem = function (_React$Component) {
+	  _inherits(ProjectsItem, _React$Component);
 
-	  function Rules(props) {
-	    _classCallCheck(this, Rules);
+	  function ProjectsItem(props) {
+	    _classCallCheck(this, ProjectsItem);
 
-	    return _possibleConstructorReturn(this, (Rules.__proto__ || Object.getPrototypeOf(Rules)).call(this, props));
+	    return _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
 	  }
 
-	  _createClass(Rules, [{
+	  _createClass(ProjectsItem, [{
 	    key: 'render',
 	    value: function render() {
-	      //TODO
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'ruleItem' },
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'rulesList' },
+	          { className: 'itemNormal', ref: 'itemNorm' },
+	          _react2.default.createElement('div', { className: 'checkBoxField' }),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'ruleItem' },
+	            { className: 'ruleLine' },
+	            _react2.default.createElement('div', { style: { backgroundColor: this.props.label },
+	              className: 'projectLabel' }),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'back' },
-	              '!'
+	              { className: 'ruleName' },
+	              this.props.name
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'itemText' },
-	              'Не забывать уносить тарелки сразу после еды.'
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { id: 'fine' },
-	              '200'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { id: 'break' },
-	              'Break!'
+	              { className: 'fine' },
+	              ' ',
+	              this.props.fine
 	            )
 	          )
 	        )
@@ -30747,10 +30812,10 @@
 	    }
 	  }]);
 
-	  return Rules;
+	  return ProjectsItem;
 	}(_react2.default.Component);
 
-	exports.default = Rules;
+	exports.default = ProjectsItem;
 
 /***/ },
 /* 260 */
@@ -30891,14 +30956,14 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'promotions' },
+	        { className: 'promotions' },
 	        _react2.default.createElement(_Points2.default, { login: this.props.params.login, ref: 'foo' }),
 	        _react2.default.createElement(_PromotionsAddNew2.default, { login: this.props.params.login,
 	          onNewPromoAdded: this.handleNewPromoAdding.bind(this)
 	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'promoList' },
+	          { className: 'promoList' },
 	          this.state.promotions.map(function (el, i, arr) {
 	            return _react2.default.createElement(_PromotionItem2.default, {
 	              key: arr.length - i - 1,
@@ -30974,8 +31039,8 @@
 
 	      var repeated = this.refs.cRep.className == "checked";
 	      var bodyJSON = JSON.stringify({
-	        name: newPromoName.value,
-	        price: newPromoPrice.value,
+	        name: this.refs.newPromoName.value,
+	        price: this.refs.newPromoPrice.value,
 	        repeated: repeated
 	      });
 
@@ -31005,11 +31070,16 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { id: 'promotionsAddNew' },
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Name', id: 'newPromoName' }),
+	        { className: 'promotionsAddNew' },
+	        _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
+	          className: 'newPromoName',
+	          ref: 'newPromoName'
+	        }),
 	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5',
 	          max: '500',
-	          id: 'newPromoPrice' }),
+	          ref: 'newPromoPrice',
+	          className: 'newPromoPrice'
+	        }),
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',

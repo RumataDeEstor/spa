@@ -11,8 +11,8 @@ export default class Projects extends React.Component {
   }
 
   render () {
-    return <div id = "projects">
-          {this.props.children}
+    return<div className = "projects">
+            {this.props.children}
           </div>
   }
 }

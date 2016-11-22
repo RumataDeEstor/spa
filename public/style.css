@@ -1,17 +1,216 @@
+/*GENERAL STYLES--------------------------------*/
+
+a {
+  text-decoration: none;   
+}
+
+input {
+  border: 1px ridge #cdcfd2;
+  border-radius: 5px;
+  font: 18px Verdana;  
+  background-color: white;
+  padding-left: 10px;
+  outline: none; 
+}
+
+:focus::-webkit-input-placeholder {color: transparent}
+:focus::-moz-placeholder          {color: transparent}
+:focus:-moz-placeholder           {color: transparent}
+:focus:-ms-input-placeholder      {color: transparent}
+
+textarea {
+  resize: none;
+  outline: none; 
+}
+
+li, button {
+  cursor: pointer;
+  list-style-type: none;     
+  outline: none; 
+  border: none;
+  font-family: Verdana;
+}
+
+li {
+  padding: 0;
+}
+
+.fa {
+  cursor: pointer;
+}
+
+@-moz-document url-prefix() {
+    ul.links li a {
+      padding: 8px 30px 10px 30px;
+    }
+    div.getPromoWindow {
+      top: 32px;
+      right: 32px;
+    }
+    div.getPromoWindow:hover {
+      top: 25px;
+      right: 25px;
+    }
+    .addNewForm button#cancel {
+      right: 6px;
+    }
+}
+
+
+/*STARTPAGE----------------------------*/
+
+.topmenu {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  background-color: #333333;
+  margin-bottom: 20px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 100%;
+  height: 46px;
+  z-index: 3;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;
+  overflow: visible;
+}
+
+div.logo {
+  display: flex;
+  align-self: center;
+  font: 30px Verdana;
+  height: 40px;
+  width: 450px;
+  background-color: #565050;
+  border-radius: 7px;
+  padding-left: 5px;
+  color: #89b7a0;
+  margin-left: 20px;
+}
+
+div.logo img {
+  width: 50px;
+}
+
+ul.links {
+  background-color: #27B43E;
+  display: flex;
+  margin: 0; 
+  padding: 0;
+  color: white;
+}
+
+ul.links li {
+  height: 46px;
+}
+
+ul.links li a {
+  color: white;
+  padding: 8px 30px 12px 30px;
+  font-size: 24px;
+  display: flex;
+}
+
+.links li button {
+  background-color: #27B43E;
+  font: 32px Verdana;
+  color: white;
+  border: none;
+  padding: 0 30px;
+}
+
+.links li:first-child {
+  border: none;
+}
+
+.links li a.active {
+  background-color: white;
+  color: #5E5E5E;
+  border-bottom: 3px solid #333333;
+}
+
+/*LOGIN, SIGNUP------------------------------------------*/
+
+div .authForms { /*?? auth or div*/
+  display: flex;
+  justify-content: center;
+}
+
+div.lpForm {
+  width: 240px;
+  max-width: 240px;
+  display: flex;
+  flex-direction: column;
+  font: 24px Verdana;
+  margin-top: 160px;
+  padding: 15px 20px;
+  border: 2px outset #A8ADB3;
+  border-radius: 6px;
+  background-color: white;
+  box-shadow: 0 4px 10px black;
+}
+
+div.lpForm p {
+  margin-top: 0;
+}
+
+input.password, input.login {
+  margin-top: 5px;
+  margin-bottom: 20px;
+}
+
+.warn {
+  color: #E33B35;
+  font-size: 15px;
+  font-weight: bold;
+  height: 30px;
+}
+
+p.pBtn {
+  margin-bottom: 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+button#loginBtn, button#signupBtn {
+  font-size: 20px;
+  width: 100px;
+  color: white;
+  background-color: #249f2f;  
+  border-radius: 5px;
+  margin-bottom: 7px;
+}
+
+button#signupBtn {
+  background-color: #f48213;
+}
+
+button#signupBtn:hover {
+  background-color: #ff9024;
+}
+
+button#loginBtn:hover {
+  color: white;
+  background-color: #17c126; 
+}
+
+div.wantToLogin {
+  white-space: pre-line;
+  word-break: break-all;
+}
+
+div.wantToLogin #toLogin {
+  color: #249f2f;
+}
+
+/*APP-----------------------------*/
+
 body {
   background-color: #F5F5F5;
-  /*background-image:
-    repeating-linear-gradient(
-      160deg,
-      #CAFBFC,
-      #1470C8
-    );
-  background:
-    repeating-linear-gradient(
-      160deg,
-      #CAFBFC,
-      #1470C8
-    );*/
   font-family: Verdana;
 }
 
@@ -29,82 +228,471 @@ body {
   margin-left: 10px;
   margin-top: 65px;
   display: flex;
- /* flex-direction: row;
-  justify-content: space-between;*/
 }
 
+/*POINTS-------------------------------*/
+
+div.userPoints {
+  background-color: #333333;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+}
+
+/*PROJECTSLIST--------------------------*/
+/*or projListPage*/
+div.projectsList {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+div.pListTitle {
+  color: #333333;
+  font-size: 24px;
+  width: 700px;
+  height: 30px;
+  display: flex;
+  border-bottom-right-radius: 20px;
+  border-top-right-radius: 20px;
+}
+
+/*PROJECTSADDNEW--------------------------------*/
+
+div.projectsAddNew, div.taskAddNew {
+  margin-top: 20px;
+  width: 650px;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
+}
+
+div.lineExpand {  
+  background-color: white;
+  color: #424242;
+  font: 24px Verdana;
+  width: 650px;  
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+div.expand {
+  height: 35px;
+  width: 65px;
+  background-color: #27B43E;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  cursor: pointer;
+}
+
+div.addNewForm {
+  height: 35px;
+  width: 650px; 
+  background-color: white;
+  display: none;
+  font: 16px Verdana;
+  color: #5E5E61;
+  position: relative;
+}
+
+/*check repeated styles for these buttons*/
+
+div.addNewForm div.buttons {
+  position: relative;
+  height: 38px;
+  width: 120px;  
+}
+
+div.addNewOpt button, div.editOpt button {
+  height: 39px;
+  margin-right: 6px;
+  display: flex;
+}
+
+div.addNewForm button {
+  position: absolute;
+  height: 39px;
+}
+
+div.addNewForm button.add {
+  background-color: #49C15D;
+  color: white;
+  box-shadow: inset 0px -2px 0px 0px #1C1C1C;
+  top: -2px;
+}
+
+div.addNewForm button.cancel {
+  right: 12px;
+  height: 32px;
+  top: 2px;
+  color: #5B5B5B;
+  background-color: white;
+}
+
+div.projectLabel {
+  width: 15px;
+  margin: 0 20px 0 25px;
+  height: 35px;
+}
+
+input.newName, input.editName, input.editTaskName {
+  width: 240px;
+  height: 22px; 
+  border: none;
+  padding: 0;
+  font: 16px Verdana;
+  color: #5E5E61;
+  display: flex;
+  align-self: center;
+}
+
+div.addNewOpt {
+  margin-left: 25px;
+  display: flex;
+}
+
+div.labelForm, div.editLabelForm {
+  display: flex;
+  width: 190px;
+  height: 26px;
+  align-items: center;
+  font: 18px Verdana;
+  align-self: center;
+}
+
+div.chosen, div.editChosen {
+  margin-left: 10px;
+  padding: 3px;
+  width: 18px;
+  height: 18px;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+div.options, div.editOptions {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  width: 0;
+  height: 24px;
+  cursor: pointer;
+  transition: all 0.2s linear;
+}
+
+div.options div, div.editOptions div {
+  width: 10px;
+  height: 20px; 
+  margin-right: 3px;
+}
+
+/*ProjectsItem-----------------------------------*/
+
+div.projectsItem, div.projectsItem div, 
+div.tasksItem, div.tasksItem div {
+  display: flex;
+}
+
+div.projectsItem, div.tasksItem {  
+  background-color: white;
+  color: #5e5e61;
+  font: 16px Verdana;
+  width: 650px;
+  height: 35px;
+  margin-top: 20px;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
+}
+
+div.itemNormal {
+  width: 650px;
+}
+
+div.projectLine {
+  width: 520px;
+  margin-right: 30px;
+  cursor: pointer;
+}
+
+div.projName {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  width: 240px;
+  overflow: hidden;
+}
+
+/*check and rewrite*/
+div#editItem {
+  padding: 0 4px;
+  background-color: inherit;
+  align-items: center;
+  display: none;
+  font-size: 20px;
+}
+
+/*Project(page)---------------------------*/
+
+div.projectName {
+  width: 100%;
+  height: 40px;
+  background-color: white;
+  display: flex;
+  border-top-right-radius: 20px;
+  border-bottom-right-radius: 20px;
+  margin-bottom: 20px;
+}
+
+div.projectName div.projectLabel {
+  height: 40px;
+}
+
+div.projectName h1 {
+  margin: 0 10px;
+}
+
+/*ProjectEditing----------------------------*/
+
+div.editForm {
+  height: 35px;
+  width: 648px; 
+  background-color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+div.editForm div.projectLabel {
+  margin-right: 8px;
+}
+
+div.editOpt {
+  margin-left: 5px;
+}
+
+div.editButtons {
+  display: flex;
+  height: 38px;
+  position: relative;
+  width: 141px;
+}
+
+div.editButtons button {
+  position: absolute;
+  top: -2px;
+}
+
+button.editSave {
+  background-color: #49C15D;
+  color: white;
+  box-shadow: inset 0px -2px 0px 0px #1C1C1C;
+}
+
+div.editOpt button.editFinish {
+  left: 53px;
+  height: 34px;
+  top: 1px;
+  color: #5B5B5B;
+  background-color: white;
+}
+
+div.editOpt button.editDelete {
+  left: 110px;
+  height: 34px;
+  top: 1px;
+  color: #5B5B5B;
+  background-color: white;
+}
+
+.fa.fa-tags {
+  color: #878787;
+  margin-right: 16px;
+  font-size: 16px;
+}
+
+/*Tasks Add New---------------------------------*/
+
+div.taskAddNew div.addNewForm div.buttons {
+  margin-left: 100px;
+}
+
+div.taskAddNew input.newName {
+  margin-left: 35px;
+}
+
+input.newPoints {
+  width: 70px;
+  height: 16px;
+  margin-right: 40px;
+  margin-left: 5px;
+  border: none;
+  padding: 0;
+  font: 16px Verdana;
+  color: #5E5E61;
+  align-self: center;
+}
+
+/*TODO: class*/
 div#checkBoxRepeated, 
-div#repeatMark,
+div.repeatMark,
 div#editCheckBoxRepeated{
   display: flex;
   align-self: center;
   width: 14px;
 }
 
-div#repeatMark {
-  color: rgba(241, 33, 33, 0.5);
+/*Tasks Item-------------------------------*/
+
+div.tasksItem div.editForm {
+  justify-content: flex-start;
 }
 
-div#promotionItem div#repeatMark {
+div.checkBoxField {
+  width: 35px;
+}
+
+div.tasksItem div.editButtons {
+  margin-left: 70px;
+}
+
+div.taskCheckbox {
+  width: 13px;
+  height: 13px;
+  border: 1px solid #767676;
+  display: flex;
+  margin-left: 10px;
+  align-self: center;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+  border-radius: 7px;
+}
+
+div.taskCheckbox div {
   position: absolute;
-  left: 9px;
-  top: 9px;
+  font-size: 25px;
+  left: -2px;
+  bottom: -6px;
+  color: #50bb50;
+  display: none;
 }
 
-div#promotionItem div#repeatMark.checked {
+div.taskCheckbox div:hover {
+  visibility: visible;
+}
+
+div.taskLine {
+  width: 515px;
+  display: flex;
+}
+
+/*TODO: crooked due to different price values*/
+
+div.tasksItem div.points {
+  width: 70px;
+  justify-content: center;
+  margin-right: 70px;
+  display: flex;
+  align-self: center;
+}
+
+div.taskName {
+  display: flex;
+  align-self: center;
+  width: 240px;
+}
+
+div.repeatMark {
   color: rgba(241, 33, 33, 0.5);
 }
 
-div#promotionItem div#repeatMark.unchecked {
-  color: #DADADA;
+.fa.fa-pencil-square-o {
+  color: #878787;
+  font-size: 16px;
+}
+
+/*Task Editing-------------------------------------------*/
+
+input.editTaskName {
+  margin-left: 35px;
+}
+
+input.editPoints {
+  border: none;
+  font: 16px Verdana;
+  color: #5E5E61;
+  margin-left: 25px;
+  margin-right: 50px;
+  padding: 0;
+  width: 60px;
+}
+
+.fa.fa-trash {
+  color: #878787;
+  font-size: inherit;
+}
+
+/*PROMOTIONS------------------------------------------------*/
+
+div.promoList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  width: 1000px;
+}
+
+div.promoList div.promotionItem {
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
+  background-color: white;
+  margin-right: 30px;
+  margin-bottom: 30px;  
+}
+
+/*PROMOTIONS ADD NEW--------------------------------------------------*/
+
+div.promotionsAddNew {
+  display: flex;
+  width: 650px;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
+  margin-bottom: 10px;
+  height: 35px;
+  background-color: white;
+  position: relative;
+}
+
+/*TODO: class*/
+div.promotionsAddNew div#checkBoxRepeated {
+  margin-left: 100px;
 }
 
 div#checkBoxRepeated.unchecked,
 div#editCheckBoxRepeated.unchecked {
-  /*background-color: transparent;*/
   color: #DADADA;
 }
 
 div#checkBoxRepeated.checked,
 div#editCheckBoxRepeated.checked {
-  /*background-color: #7CC59A;*/
   color: #F12121;
 }
 
-div#promotionItem input, 
-div#promotionsAddNew input {
-  border: none;
-  color: #535356;
-  font-size: 16px;
-  height: 22px;
-  align-self: center;
+/*----------*/
+
+input.newPromoName {
+  width: 240px;
 }
 
-div#promotionItem input {
-  text-transform: uppercase;
-  font-weight: bold;
-  padding: 0;
-}
-
-div#promotionItem input#promoPriceEdit {
-  width: 70px;
-  margin-left: 50px;
-  margin-bottom: 2px;
-}
-
-div#promotionItem input#promoNameEdit {
-  width: 120px;
-  margin-left: 10px;
-  margin-bottom: 2px;
-  display: flex;
-  align-self: center;
-}
-
-div#promotionsAddNew div#checkBoxRepeated {
-  margin-left: 100px;
-}
-
-div#promotionsAddNew button {
+div.promotionsAddNew button {
   margin-left: 150px;
   background-color: #49C15D;
   color: white;
@@ -115,24 +703,11 @@ div#promotionsAddNew button {
   right: 40px;
 }
 
-div#promotionsAddNew {
-  display: flex;
-  width: 650px;
-  box-shadow: 0 1px 4px rgba(128,128,128,.4);
-  margin-bottom: 10px;
-  height: 35px;
-  background-color: white;
-  position: relative;
-}
+/*PROMO SHORT LIST------------------------------------------*/
 
-input#newPromoName {
-  width: 240px;
-}
-
-#promoShort {
+div.promoShort {
   background-color: white;
   color: #6A6A6D;
-  /*margin-right: 10px;*/
   margin-top: 0px; 
   width: 170px;
   height: 100%;
@@ -148,12 +723,12 @@ input#newPromoName {
   cursor: default;
 }
 
-#promoShort #promotionItem {
+div.promoShort div.promotionItem {
   font: 14px Verdana;
   font-weight: bold;
 }
 
-#pshortTitle {
+div.pshortTitle {
   height: 45px;
   display: flex;
   justify-content: center;
@@ -162,623 +737,22 @@ input#newPromoName {
   color: white;
   font: 18px Verdana;
   box-shadow: inset 1px 1px 0px #505050,
-    inset -1px -2px 0px #505050;
+  inset -1px -2px 0px #505050;
 }
 
-a {
-  text-decoration: none;   
+div.promoShort div.promoPrice, 
+div.promoShort div.promoName{
+  cursor: default;
 }
 
-input {
-  outline: none; 
+div.promoShort div.promoPrice:hover,
+div.promoShort div.promoName:hover {
+  opacity: 1;
 }
 
-textarea {
-  resize: none;
-  outline: none; 
-}
-:focus::-webkit-input-placeholder {color: transparent}
-:focus::-moz-placeholder          {color: transparent}
-:focus:-moz-placeholder           {color: transparent}
-:focus:-ms-input-placeholder      {color: transparent}
-
-li, button {
-  cursor: pointer;
-  list-style-type: none;     
-  outline: none; 
-  border: none;
-  font-family: Verdana;
-}
-
-button {
-  /*user-select: none*/
-}
-
-li {
-  padding: 0;
-}
-
-.warn {
-  color: #E33B35;
-  font-size: 15px;
-  font-weight: bold;
-  height: 30px;
-}
-
-#sOk {
-  white-space: pre-line;
-  word-break: break-all;
-}
-
-#sOk #toLogin {
-  color: #249f2f;
-}
-
-li.chosen {
-  color: red;
-}
-
-#projectsMenu, #projectsListMenu {
-  display: flex;
-}
-
-#projectsMenu ul, #projectsListMenu ul {
-  display: flex;
-}
-
-#projectsList {
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-#projectsAddNew, #taskAddNew {
-  margin-top: 20px;
-  width: 650px;
-  /*box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;*/
-  box-shadow: 0 1px 4px rgba(128,128,128,.4);
-}
-
-#taskAddNew input#newName {
-  margin-left: 35px;
-}
-
-
-.topmenu {
-  display: flex;
-  justify-content: space-between;
-  padding: 0;
-  /*border: 2px solid #2D9B51;*/
-  /*background-color: #27B43E;*/
-  background-color: #333333;
-  margin-bottom: 20px;
-  position: fixed;
-  right: 0;
-  top: 0;
-  width: 100%;
-  height: 46px;
-  z-index: 3;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  box-shadow: 0 0 0px 1px #e2e2e2, 0 0 0px 2px #e8e8e8;
-  overflow: visible;
-}
-
-
-.links {
-  background-color: #27B43E;
-  display: flex;
-  margin: 0; 
-  padding: 0;
-  color: white;
-}
-
-div#logo {
-  display: flex;
-  align-self: center;
-  font: 38px Verdana;
-  padding: 0;
-}
-
-div#logo img {
-  width: 118px;
-  margin-top: 5px;
-}
-
-/*#logo a:visited {
-  color: black;
-}*/
-
-.links li {
-  /*background-color: #49c15d;*/
-  /*border: 4px outset #7CC59A;*/
-  /*color: #19570F;*/
-  height: 46px;
-
-}
-
-/*.links li:hover {
-  background-color: #49C56C;
-  border: 4px inset #7CC59A;
-}*/
-
-.links li a {
-  /*color: #19570F;*/
-  color: white;
-  padding: 8px 30px 12px 30px;
-  font-size: 24px;
-  display: flex;
-}
-
-div.userPoints {
-  background-color: #333333;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-}
-
-.links li button {
-  /*background-color: #519A59; */
-  background-color: #27B43E;
-  font: 32px Verdana;
-  /*color: #19570F;*/
-  color: white;
-  border: none;
-  padding: 0 30px;
-}
-
-.links li:first-child {
-  border: none;
-}
-
-/*.links li:first-child:hover {
-  background-color: #519A59;
-}*/
-
-.links li a.active {
-  background-color: white;
-  color: #5E5E5E;
-  border-bottom: 3px solid #333333;
-}
-
-/*TODO: crooked due to different price values*/
-
-#projectsItem, #projectsItem div, 
-#tasksItem, #tasksItem div {
-  display: flex;
-}
-
-#tasksItem #points {
-  width: 70px;
-  justify-content: center;
-  margin-right: 70px;
-  display: flex;
-  align-self: center;
-}
-
-div#taskName {
-  display: flex;
-  align-self: center;
-  width: 240px;
-}
-
-/*#editingProject img {
-  width: 20px;
-  height: 20px;
-}*/
-
-#projectsItem, #tasksItem {  
-  /*background-color: #4FC4B4;*/
-  background-color: white;
-  /*color: #186755; */
-  color: #5e5e61;
-  /*#186755*/
-  font: 16px Verdana;
-  width: 650px;
-  height: 35px;
-  margin-top: 20px;
-  box-shadow: 0 1px 4px rgba(128,128,128,.4);
-}
-
-div#checkBoxField {
-  width: 35px;
-}
-
-div#taskCheckbox {
-  width: 13px;
-  height: 13px;
-  border: 1px solid #767676;
-  display: flex;
-  margin-left: 10px;
-  align-self: center;
-  align-items: center;
-  position: relative;
-  cursor: pointer;
-  border-radius: 7px;
-}
-
-div#taskCheckbox div {
-  position: absolute;
-  font-size: 25px;
-  left: -2px;
-  bottom: -6px;
-  color: #50bb50;
-  display: none;
-}
-
-div#taskCheckbox div:hover {
-  visibility: visible;
-}
-
-#pBtn {
-  margin-bottom: 0;
-  display: flex;
-  justify-content: flex-end;
-}
-
-#loginBtn, #signupBtn {
-  font-size: 20px;
-  width: 100px;
-  /*padding: 2px 12px;*/
-  color: white;
-  background-color: #249f2f;  
-  border-radius: 5px;
-  margin-bottom: 7px;
-}
-
-#signupBtn {
-  background-color: #f48213;
-}
-
-#signupBtn:hover {
-  background-color: #ff9024;
-}
-
-#loginBtn:hover {
-  color: white;
-  background-color: #17c126; 
-}
-
-#about {
-  font: 24px Verdana;
-}
-
-input {
-  border: 1px ridge #cdcfd2;
-  border-radius: 5px;
-  font: 18px Verdana;  
-  background-color: white;
-  padding-left: 10px;
-}
-
-div .authForms {
-  display: flex;
-  justify-content: center;
-}
-
-.lpForm {
-  width: 240px;
-  max-width: 240px;
-  display: flex;
-  flex-direction: column;
-  font: 24px Verdana;
-  /*font-weight: bold;*/
-  margin-top: 160px;
-  padding: 15px 20px;
-  border: 2px outset #A8ADB3;
-  border-radius: 6px;
-  /*background-color: #97defe;*/
-  background-color: white;
-  box-shadow: 0 4px 10px black;
-}
-
-#password, #login, #spassword, #slogin {
-  margin-top: 5px;
-  margin-bottom: 20px;
-}
-
-.lpForm p {
-  margin-top: 0;
-}
-
-#projectLabel {
-  width: 15px;
-  margin: 0 20px 0 25px;
-  height: 35px;
-}
-
-#editForm #projectLabel {
-  margin-right: 8px;
-}
-
-#projectName {
-  width: 100%;
-  height: 40px;
-  background-color: white;
-  display: flex;
-  border-top-right-radius: 20px;
-  border-bottom-right-radius: 20px;
-  /*border-radius: 20px;*/
-  margin-bottom: 20px;
-}
-
-#pListTitle {
-  color: #333333;
-  font-size: 24px;
-  width: 700px;
-  height: 30px;
-  display: flex;
-  border-bottom-right-radius: 20px;
-  border-top-right-radius: 20px;
-}
-
-#projectName #projectLabel {
-  height: 40px;
-}
-
-#projectName h1 {
-  margin: 0 10px;
-}
-
-#projectLine {
-  width: 520px;
-  margin-right: 30px;
-}
-
-#taskLine {
-  width: 515px;
-  display: flex;
-}
-
-#projectLine {
-  cursor: pointer;
-}
-
-#projName {
-  display: flex;
-  align-items: center;
-  font-size: 16px;
-  width: 240px;
-  overflow: hidden;
-}
-/*#selectedLabel {
-  border: 2px solid black;
-}*/
-
-/*-----ADD NEW PROJECT EXPAND---------*/
-
-#addNewForm {
-  height: 35px;
-  width: 650px; 
-  /*border: 1px solid #424242;
-  border-top: none;
-  border-bottom: none;*/
-  background-color: white;
-  display: none;
-  /*transition: height 0.2s linear;*/
-  /*overflow: hidden;*/
-  font: 16px Verdana;
-  color: #5E5E61;
-  position: relative;
-}
-
-#addNewForm div#buttons {
-  position: relative;
-  height: 38px;
-  width: 120px;  
-}
-
-#taskAddNew #addNewForm div#buttons {
-  margin-left: 100px;
-}
-
-#addNewForm button {
-  position: absolute;
-  height: 39px;
-}
-
-#addNewForm button#add {
-  background-color: #49C15D;
-  color: white;
-  box-shadow: inset 0px -2px 0px 0px #1C1C1C;
-  top: -2px;
-}
-
-#addNewForm button#cancel {
-  right: 12px;
-  height: 32px;
-  top: 2px;
-  color: #5B5B5B;
-}
-
-
-/*#addNewForm input {
-  font: 16px Verdana;
-  color: #5E5E61;
-}*/
-
-
-#editForm {
-  height: 35px;
-  width: 648px; 
-  background-color: white;
-  display: flex;
-  justify-content: space-between;
-}
-
-div#tasksItem #editForm {
-  justify-content: flex-start;
-}
-
-#itemNormal {
-  width: 650px;
-}
-
-#lineExpand {  
-  background-color: white;
-  color: #424242;
-  /*border: 2px groove gray;*/
-  /*border-radius: 6px;*/
-  font: 24px Verdana;
-  width: 650px;  
-  height: 35px;
-  display: flex;
-  justify-content: center;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-
-#expand {
-  height: 35px;
-  width: 65px;
-  background-color: #27B43E;
-  color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  align-self: center;
-  cursor: pointer;
-}
-/*-----ADD NEW PROJECT AND TASK---------*/
-
-#labelForm, #editLabelForm {
-  display: flex;
-  width: 190px;
-  height: 26px;
-  align-items: center;
-  font: 18px Verdana;
-  align-self: center;
-}
-
-#newName, #editName, #editTaskName {
- /* margin: 5px 0 5px 0px;*/
-  width: 240px;
-  height: 22px; 
-  border: none;
-  padding: 0;
-  font: 16px Verdana;
-  color: #5E5E61;
-  display: flex;
-  align-self: center;
-}
-
-#editTaskName {
-  margin-left: 35px;
-}
-
-#newPoints {
-  width: 70px;
-  height: 16px;
-  margin-right: 40px;
-  margin-left: 5px;
-  border: none;
-  padding: 0;
-  font: 16px Verdana;
-  color: #5E5E61;
-  align-self: center;
-}
-
-#addNewOpt, #editOpt {
-  display: flex;
-  /*height: 38px;*/
-  margin-left: 5px;
-}
-
-#addNewOpt {
-  margin-left: 25px;
-}
-
-
-#addNewOpt button, #editOpt button {
-  height: 39px;
-  background-color: white;
-  margin-right: 6px;
-  display: flex;
-}
-
-div#editButtons {
-  display: flex;
-  height: 38px;
-  position: relative;
-  width: 141px;
-}
-
-div#tasksItem div#editButtons {
-  margin-left: 70px;
-}
-
-
-#editButtons button {
-  position: absolute;
-  top: -2px;
-}
-
-button#editSave {
-  background-color: #49C15D;
-  color: white;
-  box-shadow: inset 0px -2px 0px 0px #1C1C1C;
-}
-
-button#editFinish {
-  left: 53px;
-  height: 34px;
-  top: 1px;
-  color: #5B5B5B;
-}
-
-button#editDelete {
-  left: 110px;
-  height: 34px;
-  top: 1px;
-  color: #5B5B5B;
-}
-
-#options div, #editOptions div {
-  width: 10px;
-  height: 20px; 
-  margin-right: 3px;
-}
-
-#chosen, #editChosen {
-  margin-left: 10px;
-  padding: 3px;
-  width: 18px;
-  height: 18px;
-  background-color: white;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
-}
-
-#chosenColor, #editChosenColor {
-  width: 16px;
-  height: 16px;
-  border-radius: 12px;
-}
-
-#options, #editOptions {
-  display: flex;
-  align-items: center;
-  background-color: white;
-  width: 0;
-  height: 24px;
- /* border: 1px solid black;
-  border-left: none;
-  border-right: none;*/
-  cursor: pointer;
-  transition: all 0.2s linear;
-}
-/*-----PROMOTION ITEM---------*/
+/*Promotion Item------------------------------------------*/
 
-div#promotionItem {
-  /*border: 1px solid black;
-  border-radius: 3px;*/
+div.promotionItem {
   width: 150px;
   height: 170px;
   display: flex;
@@ -794,14 +768,51 @@ div#promotionItem {
   font-weight: bold;
 }
 
-#promoList div#promotionItem {
-  box-shadow: 0 1px 4px rgba(128,128,128,.4);
-  background-color: white;
-  margin-right: 30px;
-  margin-bottom: 30px;  
+/*TODO: rewrite to class*/
+
+div.promotionItem div#repeatMark {
+  position: absolute;
+  left: 9px;
+  top: 9px;
 }
 
-button#promoDelete {
+div.promotionItem div#repeatMark.checked {
+  color: rgba(241, 33, 33, 0.5);
+}
+
+div.promotionItem div#repeatMark.unchecked {
+  color: #DADADA;
+}
+
+/*-------------*/
+
+div.promoPrice {
+  display: flex;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+div.promoName {
+  text-transform: uppercase;
+}
+
+div.promoName:hover, 
+div.promoPrice:hover {
+  opacity: 0.4;
+}
+
+form.editPromoName, 
+form.editPromoPrice {
+  display: none;
+  width: 140px;
+}
+
+form.editPromoName input, 
+form.editPromoPrice input {
+  width: inherit;
+}
+
+button.promoDelete {
   height: 26px;
   width: 26px;
   background-color: white;
@@ -815,11 +826,41 @@ button#promoDelete {
   right: 2px;
   font-size: 13px;
 }
-button#promoDelete:hover {
+
+button.promoDelete:hover {
   font-size: 16px;
 }
 
-#getPromoWindow {
+div.promotionItem input, 
+div.promotionsAddNew input {
+  border: none;
+  color: #535356;
+  font-size: 16px;
+  height: 22px;
+  align-self: center;
+}
+
+div.promotionItem input {
+  text-transform: uppercase;
+  font-weight: bold;
+  padding: 0;
+}
+
+div.promotionItem input.promoPriceEdit {
+  width: 70px;
+  margin-left: 50px;
+  margin-bottom: 2px;
+}
+
+div.promotionItem input.promoNameEdit {
+  width: 120px;
+  margin-left: 10px;
+  margin-bottom: 2px;
+  display: flex;
+  align-self: center;
+}
+
+div.getPromoWindow {
   position: absolute;
   z-index: 2;
   font-size: 38px;
@@ -827,82 +868,28 @@ button#promoDelete:hover {
   display: none;
 }
 
-#getPromoWindow:hover {
+div.getPromoWindow:hover {
   font-size: 50px;
 }
-/*#promoModal button {
-  margin-top: 10px;
-}*/
 
-/*.fa.fa-circle {
-  color: #8AC176;
-  font-size: 9px;
-  display: flex;
-  align-self: center;
-  margin-left: 3px;
-}*/
-
-.fa.fa-tags {
-  color: #878787;
-  margin-right: 16px;
-  font-size: 16px;
-}
-
-.fa.fa-pencil-square-o {
-  color: #878787;
-  font-size: 16px;
-}
-
-.fa.fa-trash {
-  color: #878787;
-  font-size: inherit;
-}
-
-/*.fa.fa-check-circle-o {
-  display: none;
-}*/
-
-#exCircle {
-/* width: 90px;
-  height: 90px;
-  border-radius: 60px;
-  border: 6px solid #ef84da;
-  border-left-color: transparent;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  animation: spin 1s linear 0s infinite normal;*/
+div.exCircle {
   width: 100px;
   height: 100px;
   border-radius: 60px;
- /* border: 2px solid #EDEEF0*/;
-  /*box-shadow: 0 0 0px 1px #dadada,  
-   0 0 0px 2px #e7e7e7;*/
   box-shadow: 0 0px 7px rgba(128,128,128,.4);
   background-color: #EF84DA;
- /* border-left-color: transparent;*/
   display: flex;
   justify-content: center;
   align-items: center;
-  /*animation: spin 1s linear 0s infinite normal;*/
   position: relative;
 }
-#exCircle:hover {
+
+div.exCircle:hover {
   border-color: red;
   transition: all 0.3s linear;
 }
 
-#inCircle {
-  /* width: 74px;
-  height: 74px;
-  border-radius: 50px;*/
-  /*border: 3px solid #ef84da;*/
-  /*  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  overflow: hidden;
-  position: relative;*/
-  /*animation: notspin 1s linear 0s infinite normal;*/
+div.inCircle {
   width: 74px;
   height: 74px;
   border: 3px solid white;
@@ -915,173 +902,24 @@ button#promoDelete:hover {
   background-color: white;
 }
 
-#square {
+div.square {
   background-color: #ef84da;
   width: 80px;
-  /*min-height: 0;*/
   z-index: 1;
   display: flex;
   justify-content: center;
   align-items: center;  
 }
 
-#percents {
-  /*position: absolute;*/
+div.percents {
   display: flex;
   justify-content: center;
   width: 50px;
   height: 17px;
   left: 12px;
   top: 27px;
-  /*z-index: 2;*/
-  /*color: #6A6A6D;*/
   color: #828285;
   font: 10px Verdana;
   font-weight: bold;
   visibility: hidden;
-}
-
-#promoPrice {
-  display: flex;
-  font-size: 16px;
-  margin-bottom: 5px;
-}
-
-#promoName {
-  text-transform: uppercase;
-}
-
-#promoName:hover, #promoPrice:hover {
-  opacity: 0.4;
-}
-
-#promoShort #promoPrice, #promoShort #promoName{
-  cursor: default;
-}
-
-#promoShort #promoPrice:hover,
-#promoShort #promoName:hover {
-  opacity: 1;
-}
-
-#editPromoName, #editPromoPrice {
-  display: none;
-  width: 140px;
-}
-
-#editPromoName input, #editPromoPrice input {
-  width: inherit;
-}
-
-div#editItem {
-  padding: 0 4px;
-  background-color: inherit;
-  align-items: center;
-  display: none;
-  font-size: 20px;
-}
-
-input#editPoints {
-  border: none;
-  font: 16px Verdana;
-  color: #5E5E61;
-  margin-left: 25px;
-  margin-right: 50px;
-  padding: 0;
-  width: 60px;
-}
-
-/*#editItem:hover{
-  background-color: #decfcf;
-}
-
-#editItem.editing{
-  background-color: #decfcf;
-}*/
-
-.fa {
-  cursor: pointer;
-}
-
-#promoList {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  width: 1000px;
-}
-
-/*RULE ITEM--------------------------------------------------------*/
-#back {
-  position: absolute;
-  font-size: 200px;  
-  color: #9C0014;
-  opacity: 0.2;
-  top: -15px;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  pointer-events: none;
-}
-
-#ruleItem {
-  overflow: hidden;
-  background-color: #C11B32;
-  width: 170px;
-  height: 200px;
-  border-radius: 5px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-  box-shadow: 3px 3px 10px #E32636;
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-}
-#itemText {
-  border-radius: 5px;
-  margin-top: 10px;
-  background-color: #FEF49A;
-  width: 136px;
-  padding: 7px;
-  font: 18px Verdana;
-  color: #E32636;
-}
-#fine {
-  margin-bottom: 7px;
-  font: 22px Verdana;
-  color: #F53B56;
-}
-#break {
-  border-radius: 10px;
-  background-color: #F53B56;
-  font: 18px Verdana;
-  color: white;
-  padding: 2px 9px;
-  border: none;
-  margin-bottom: 3px;
-}
-
-@-moz-document url-prefix() {
-    .links li a {
-      padding: 8px 30px 10px 30px;
-    }
-    div#getPromoWindow {
-      top: 32px;
-      right: 32px;
-    }
-    div#getPromoWindow:hover {
-      top: 25px;
-      right: 25px;
-    }
-    #addNewForm button#cancel {
-      right: 6px;
-    }
 }

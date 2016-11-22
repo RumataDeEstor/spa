@@ -67,8 +67,8 @@ export default class TaskEditing extends React.Component {
     let repeated = this.refs.cRep.className == "checked";
     console.log(repeated);
     let bodyJSON = JSON.stringify({
-      name: editTaskName.value,
-      points: editPoints.value,
+      name: this.refs.editTaskName.value,
+      points: this.refs.editPoints.value,
       repeated: repeated
     });
       
@@ -93,11 +93,10 @@ export default class TaskEditing extends React.Component {
           return;
         }
         let newData = {
-          name: editTaskName.value, 
-          points: +editPoints.value,
+          name: this.refs.editTaskName.value, 
+          points: +this.refs.editPoints.value,
           repeated: repeated
         }; // rewrite
-        console.log(typeof editPoints.value);
         ee.emitEvent('taskSaveEdit', [taskID, newData]);
         this.onFinishEdit();
       })
@@ -107,10 +106,14 @@ export default class TaskEditing extends React.Component {
   }
   render () {
       let isRepeated = this.props.target.props.repeated ? "checked" : "unchecked";
-      return<div id = "editForm">
-              <input type = "text" defaultValue = {this.props.target.props.name} id = "editTaskName"/>
-              <div id = "editOpt">
-                <input type = "number" id = "editPoints" 
+      return<div className = "editForm">
+              <input type = "text" defaultValue = {this.props.target.props.name} 
+                className = "editTaskName"
+                ref = "editTaskName"
+              />
+              <div className = "editOpt">
+                <input type = "number" className = "editPoints" 
+                  ref = "editPoints"
                   defaultValue = {this.props.target.props.points} 
                   min = "0" max = "500"
                 />
@@ -120,10 +123,10 @@ export default class TaskEditing extends React.Component {
                   onClick = {this.checkRepeated}>
                   <i className="fa fa-repeat" aria-hidden="true"></i>
                 </div>
-                <div id = "editButtons">           
-                  <button id = "editSave" onClick = {this.saveChanges}>Save</button>
-                  <button id = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
-                  <button id = "editDelete" onClick = {this.onDelete}>
+                <div className = "editButtons">           
+                  <button className = "editSave" onClick = {this.saveChanges}>Save</button>
+                  <button className = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
+                  <button className = "editDelete" onClick = {this.onDelete}>
                     <i className="fa fa-trash"></i>
                   </button>                  
                 </div>  

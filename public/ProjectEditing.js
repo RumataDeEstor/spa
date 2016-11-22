@@ -13,6 +13,7 @@ export default class ProjectEditing extends React.Component {
     this.onFinishEdit = this.onFinishEdit.bind(this);
     this.onDelete = this.onDelete.bind(this);
     this.hideColors = this.hideColors.bind(this);
+    this.showColors = this.showColors.bind(this);
   }
 
   componentDidMount() {
@@ -54,7 +55,7 @@ export default class ProjectEditing extends React.Component {
   }
 
   showColors () {
-    editOptions.style.width = "150px";    
+    this.refs.editOptions.style.width = "150px";    
   }
 
   hideColors (e) {
@@ -62,12 +63,12 @@ export default class ProjectEditing extends React.Component {
       this.refs.plabel.style.backgroundColor = 
         e.target.style.backgroundColor;
     } 
-    editOptions.style.width = "0"; 
+    this.refs.editOptions.style.width = "0"; 
   }
 
   saveChanges () {
     let bodyJSON = JSON.stringify({
-      name: editName.value,
+      name: this.refs.editName.value,
       label: this.refs.plabel.style.backgroundColor
     });
       
@@ -90,7 +91,7 @@ export default class ProjectEditing extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        let newData = {name: editName.value, label: this.refs.plabel.style.backgroundColor};
+        let newData = {name: this.refs.editName.value, label: this.refs.plabel.style.backgroundColor};
         //take from server?
         ee.emitEvent('projectSaveEdit', [projID, newData]);
         this.onFinishEdit();
@@ -101,15 +102,21 @@ export default class ProjectEditing extends React.Component {
       // <div className = {this.props.target.props.label}
   }
   render () {
-      return<div id = "editForm">
-              <div style = {{backgroundColor: this.props.target.props.label}} id = "projectLabel" ref = "plabel"></div>
-              <input type = "text" defaultValue = {this.props.target.props.name} id = "editName"/>
-              <div id = "editOpt">
-                <div id = "editLabelForm">
-                  <div id = "editChosen" onClick = {this.showColors}>
+      return<div className = "editForm">
+              <div style = {{backgroundColor: this.props.target.props.label}} 
+                className = "projectLabel" 
+                ref = "plabel">
+              </div>
+              <input type = "text" defaultValue = {this.props.target.props.name} 
+                className = "editName" 
+                ref = "editName"
+              />
+              <div className = "editOpt">
+                <div className = "editLabelForm">
+                  <div className = "editChosen" onClick = {this.showColors}>
                     <i className="fa fa-tags" aria-hidden="true"></i>
                   </div>  
-                  <div id = "editOptions" onClick = {this.hideColors}>
+                  <div className = "editOptions" onClick = {this.hideColors} ref = "editOptions">
                     <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
                     <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
                     <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
@@ -121,10 +128,10 @@ export default class ProjectEditing extends React.Component {
                     <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
                   </div>
                 </div> 
-                <div id = "editButtons">           
-                  <button id = "editSave" onClick = {this.saveChanges}>Save</button>
-                  <button id = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
-                  <button id = "editDelete" onClick = {this.onDelete}>
+                <div className = "editButtons">           
+                  <button className = "editSave" onClick = {this.saveChanges}>Save</button>
+                  <button className = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
+                  <button className = "editDelete" onClick = {this.onDelete}>
                     <i className="fa fa-trash"></i>
                   </button>                  
                 </div>  

@@ -41,14 +41,15 @@ export default class ProjectsItem extends React.Component {
   
   render () {
     let component = this.props.editing ? <ProjectEditing target = {this} login = {this.props.login}/> : null;
-    return <div id = "projectsItem" 
+    return <div className = "projectsItem" 
       onMouseOver = {this.showEditBtn}
       onMouseOut = {this.hideEditBtn}>
-              <div id = "itemNormal" ref = "itemNorm">
-                <div id = "projectLine" onClick = {this.open}> 
-                  <div style = {{backgroundColor: this.props.label}} id = "projectLabel"> 
+              <div className = "itemNormal" ref = "itemNorm">
+                <div className = "projectLine" onClick = {this.open}> 
+                  <div style = {{backgroundColor: this.props.label}} 
+                    className = "projectLabel"> 
                   </div>
-                  <div id = "projName">{this.props.name}</div>                
+                  <div className = "projName">{this.props.name}</div>                
                 </div>
                 <div id = "editItem" ref = "eBtn" className = {this.props.cNameEdit} 
                   onClick = {this.edit}>

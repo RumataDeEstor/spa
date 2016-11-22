@@ -11,15 +11,18 @@ class ProjectsAddNew extends React.Component {
     this.addNew = this.addNew.bind(this);
     this.clearFields = this.clearFields.bind(this);
     this.hideColors = this.hideColors.bind(this);
+    this.showColors = this.showColors.bind(this);
+    this.onExpand = this.onExpand.bind(this);
+    this.onCancel = this.onCancel.bind(this);
   }
 
   clearFields() {
-    newName.value = "";
+    this.refs.newName.value = "";
     this.refs.plabel.style.backgroundColor = "#FFFFFF";
   }
 
   showColors () {
-    options.style.width = "150px"; 
+    this.refs.options.style.width = "150px"; 
   }
 
   hideColors (e) {
@@ -27,21 +30,21 @@ class ProjectsAddNew extends React.Component {
       this.refs.plabel.style.backgroundColor = 
         e.target.style.backgroundColor;
     } 
-    options.style.width = "0";
+    this.refs.options.style.width = "0";
   }
 
   onCancel () {
-    addNewForm.style.display = "none";  
-    lineExpand.style.display = "flex"; 
+    this.refs.addNewForm.style.display = "none";  
+    this.refs.lineExpand.style.display = "flex"; 
   }
 
   onExpand () {
-    addNewForm.style.display  = "flex";
-    lineExpand.style.display = "none"; 
+    this.refs.addNewForm.style.display  = "flex";
+    this.refs.lineExpand.style.display = "none"; 
   }
 
   addNew (){
-    let validName = (newName.value.length > 100) ? newName.value.slice(0, 100) : newName.value;
+    let validName = (this.refs.newName.value.length > 100) ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
     let bodyJSON = JSON.stringify({
       name: validName,
       label: this.refs.plabel.style.backgroundColor
@@ -73,19 +76,19 @@ class ProjectsAddNew extends React.Component {
       })
   }
   render () {
-    return<div id = "projectsAddNew">
-            <div id = "lineExpand">
-              <div id = "expand" onClick = {this.onExpand}>+</div>
+    return<div className = "projectsAddNew">
+            <div className = "lineExpand" ref = "lineExpand">
+              <div className = "expand" onClick = {this.onExpand}>+</div>
             </div>
-            <div id = "addNewForm">
-              <div style = {{backgroundColor: "#FFFFFF"}} id = "projectLabel" ref = "plabel"></div>
-              <input type = "text" placeholder = "Name" id = "newName" maxLength = "17"/>
-              <div id = "addNewOpt">
-                <div id = "labelForm">
-                  <div id = "chosen" onClick = {this.showColors}>
+            <div className = "addNewForm" ref = "addNewForm">
+              <div style = {{backgroundColor: "#FFFFFF"}} className = "projectLabel" ref = "plabel"></div>
+              <input type = "text" placeholder = "Name" className = "newName" ref = "newName" maxLength = "17"/>
+              <div className = "addNewOpt">
+                <div className = "labelForm">
+                  <div className = "chosen" onClick = {this.showColors}>
                     <i className="fa fa-tags" aria-hidden="true"></i>
                   </div>  
-                  <div id = "options" onClick = {this.hideColors}>
+                  <div className = "options" ref = "options" onClick = {this.hideColors}>
                     <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
                     <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
                     <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
@@ -97,9 +100,9 @@ class ProjectsAddNew extends React.Component {
                     <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
                   </div>
                 </div> 
-                <div id = "buttons">           
-                  <button id = "add" onClick = {this.addNew}>Add</button>
-                  <button id = "cancel" onClick = {this.onCancel}>Cancel</button>
+                <div className = "buttons">           
+                  <button className = "add" onClick = {this.addNew}>Add</button>
+                  <button className = "cancel" onClick = {this.onCancel}>Cancel</button>
                 </div>  
               </div>
             </div>

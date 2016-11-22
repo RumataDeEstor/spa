@@ -39,9 +39,9 @@ export default class TasksItem extends React.Component {
 
   showEditBtn(e){
     // console.dir(e.target);
-    if (e.target.id == "checkBoxField"||
-        e.target.id == "taskCheckbox" ||
-        e.target.id == "check") {
+    if (e.target.className == "checkBoxField"||
+        e.target.classclassName == "taskCheckbox" ||
+        e.target.className == "check") {
       return;
     }
     this.refs.eBtn.style.display = "flex";
@@ -123,22 +123,22 @@ export default class TasksItem extends React.Component {
     let rep = this.props.repeated ? <i className="fa fa-repeat" aria-hidden="true"></i>
       : null;
       
-    return <div id = "tasksItem"
+    return <div className = "tasksItem"
             onMouseOver = {this.showEditBtn}
             onMouseOut = {this.hideEditBtn}>
-              <div id = "itemNormal" ref = "itemNorm">
-                <div id = "checkBoxField"
+              <div className = "itemNormal" ref = "itemNorm">
+                <div className = "checkBoxField"
                   onMouseOver = {this.showMark}
                   onMouseOut = {this.hideMark}
                   onClick = {this.complete}>
-                  <div id = "taskCheckbox">                     
-                    <div id = "check"ref = "check"> ✓ </div>
+                  <div className = "taskCheckbox">                     
+                    <div className = "check" ref = "check"> ✓ </div>
                   </div>
                 </div>
-                <div id = "taskLine">                   
-                  <div id = "taskName">{this.props.name}</div>
-                  <div id = "points"> {this.props.points} </div>
-                  <div id = "repeatMark">
+                <div className = "taskLine">                   
+                  <div className = "taskName">{this.props.name}</div>
+                  <div className = "points"> {this.props.points} </div>
+                  <div className = "repeatMark">
                     {rep}
                   </div>
                 </div>

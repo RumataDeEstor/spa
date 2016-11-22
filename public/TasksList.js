@@ -90,20 +90,20 @@ export default class TasksList extends React.Component {
     this.setState({isEditing: id});
   }
 
+  // is it it's necessary
   handleChildComplete(points) {
     console.log('taskList');
     console.log(points);
   }
 
   render () {
-    return <div>
-            List Page
+    return <div className = "tasksListPage">
             <TasksAddNew 
               login = {this.props.login}
               projectID = {this.props.projectID}
               onAddingNew = {this.handleAddingNew.bind(this)}
             />
-            <div id = "tasksList">
+            <div className = "tasksList">
               {this.state.tasks.map((el,i,arr) => {
                 let editing = this.state.isEditing == el._id;
                 let cNameEdit = (editing) ? "editing" : "";

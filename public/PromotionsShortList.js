@@ -60,8 +60,8 @@ export default class PromotionsShortList extends React.Component {
 
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   render () {
-    return <div id = "promoShort">
-            <div id = "pshortTitle"> Top Promotions </div>
+    return <div className = "promoShort">
+            <div className = "pshortTitle"> Top Promotions </div>
               {this.state.topPromos.map((el, i) => {
                 return <PromotionItem
                   key = {i} 

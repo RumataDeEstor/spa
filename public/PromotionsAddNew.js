@@ -20,8 +20,8 @@ export default class PromotionsAddNew extends React.Component {
   addNew(){
     let repeated = this.refs.cRep.className == "checked";
     let bodyJSON = JSON.stringify({
-      name: newPromoName.value,
-      price: newPromoPrice.value,
+      name: this.refs.newPromoName.value,
+      price: this.refs.newPromoPrice.value,
       repeated: repeated
     });
 
@@ -49,11 +49,16 @@ export default class PromotionsAddNew extends React.Component {
   }
 
   render () {
-    return<div id = "promotionsAddNew">
-            <input type = "text" placeholder = "Name" id = "newPromoName"/>
+    return<div className = "promotionsAddNew">
+            <input type = "text" placeholder = "Name" 
+              className = "newPromoName"
+              ref = "newPromoName"
+            />
             <input type = "number" defaultValue = "10" min = "5" 
               max = "500" 
-              id = "newPromoPrice"/>
+              ref = "newPromoPrice"
+              className = "newPromoPrice"
+            />
             <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
               onClick = {this.checkRepeated}>
               <i className="fa fa-repeat" aria-hidden="true"></i>
