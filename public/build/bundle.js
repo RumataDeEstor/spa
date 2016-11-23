@@ -30731,25 +30731,34 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'rulesListPage' },
+	        null,
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'rListTitle' },
-	          'Rules'
+	          'h1',
+	          null,
+	          ' under development '
 	        ),
-	        _react2.default.createElement(_RuleAddNew2.default, null),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'rulesList' },
-	          this.state.rules.map(function (el, i, arr) {
-	            return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
-	              id: el._id,
-	              name: el.name,
-	              label: el.label,
-	              login: _this2.props.params.login,
-	              fine: el.fine
-	            });
-	          })
+	          { className: 'rulesListPage', style: { opacity: "0.3" } },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'rListTitle' },
+	            'Rules'
+	          ),
+	          _react2.default.createElement(_RuleAddNew2.default, null),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'rulesList' },
+	            this.state.rules.map(function (el, i, arr) {
+	              return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
+	                id: el._id,
+	                name: el.name,
+	                label: el.label,
+	                login: _this2.props.params.login,
+	                fine: el.fine
+	              });
+	            })
+	          )
 	        )
 	      );
 	    }
@@ -31105,7 +31114,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'promotions' },
-	        _react2.default.createElement(_Points2.default, { login: this.props.params.login, ref: 'foo' }),
 	        _react2.default.createElement(_PromotionsAddNew2.default, { login: this.props.params.login,
 	          onNewPromoAdded: this.handleNewPromoAdding.bind(this)
 	        }),

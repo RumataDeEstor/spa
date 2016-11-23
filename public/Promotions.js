@@ -81,7 +81,6 @@ export default class Promotions extends React.Component {
 
   render () {
     return <div className = "promotions">
-            <Points login = {this.props.params.login} ref = "foo"/>
             <PromotionsAddNew login = {this.props.params.login}
               onNewPromoAdded = {this.handleNewPromoAdding.bind(this)}
             />

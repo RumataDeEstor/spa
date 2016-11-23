@@ -39,22 +39,25 @@ export default class RuleList extends React.Component {
   }
 
   render () {    
-    return<div className = "rulesListPage">
-            <div className = "rListTitle">Rules</div>
-            <RuleAddNew/>
-            <div className = "rulesList">
-              {
-                this.state.rules.map((el,i,arr) => {
-                  return <RuleItem key = {arr.length - i - 1} 
-                    id ={el._id} 
-                    name = {el.name} 
-                    label = {el.label}
-                    login = {this.props.params.login}
-                    fine = {el.fine}
-                  />
-                })
-              }        
+    return <div> 
+            <h1> under development </h1>
+            <div className = "rulesListPage" style = {{opacity: "0.3"}}>                
+                <div className = "rListTitle">Rules</div>
+                <RuleAddNew/>
+                <div className = "rulesList">
+                  {
+                    this.state.rules.map((el,i,arr) => {
+                      return <RuleItem key = {arr.length - i - 1} 
+                        id ={el._id} 
+                        name = {el.name} 
+                        label = {el.label}
+                        login = {this.props.params.login}
+                        fine = {el.fine}
+                      />
+                    })
+                  }        
+                </div>
+              </div>
             </div>
-          </div>
   }
 }
