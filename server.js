@@ -7,12 +7,13 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const flash = require('express-flash');
 const path = require('path'); 
+const favicon = require('serve-favicon');
 const User = require('./models/user');
-// var rewrite = require('express-urlrewrite');
 
 const app = express();
 const port = process.env.PORT || 8080;
 
+app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
