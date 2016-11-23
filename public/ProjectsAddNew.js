@@ -18,7 +18,7 @@ class ProjectsAddNew extends React.Component {
 
   clearFields() {
     this.refs.newName.value = "";
-    this.refs.plabel.style.backgroundColor = "#FFFFFF";
+    this.refs.plabel.style.backgroundColor = "transparent";
   }
 
   showColors () {
@@ -81,7 +81,7 @@ class ProjectsAddNew extends React.Component {
               <div className = "expand" onClick = {this.onExpand}>+</div>
             </div>
             <div className = "addNewForm" ref = "addNewForm">
-              <div style = {{backgroundColor: "#FFFFFF"}} className = "projectLabel" ref = "plabel"></div>
+              <div style = {{backgroundColor: "transparent"}} className = "projectLabel" ref = "plabel"></div>
               <input type = "text" placeholder = "Name" className = "newName" ref = "newName" maxLength = "17"/>
               <div className = "addNewOpt">
                 <div className = "labelForm">
