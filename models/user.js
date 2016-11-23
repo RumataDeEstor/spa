@@ -6,9 +6,12 @@ const ruleSchema = new Schema({
     type: String,
     required: true
   },
+  description: {
+    type: String
+  },
   label: {
     type: String,
-    default: 'white',
+    default: 'transparent',
   },
   fine: { 
     type: Number,
@@ -40,10 +43,6 @@ const taskSchema = new Schema({
     type: String,
     default: 'Unnamed',
     required: true
-  },
-  label: {
-    type: String,
-    default: 'white',
   },
   points: {
     type: Number,

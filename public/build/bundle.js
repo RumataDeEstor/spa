@@ -102,7 +102,7 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _Promotions = __webpack_require__(260);
+	var _Promotions = __webpack_require__(261);
 
 	var _Promotions2 = _interopRequireDefault(_Promotions);
 
@@ -27291,7 +27291,8 @@
 	              _reactRouter.Link,
 	              { to: path },
 	              _react2.default.createElement('img', { src: '/logo/Logo.png' })
-	            )
+	            ),
+	            'Goalpi'
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -29781,7 +29782,7 @@
 	    key: 'clearFields',
 	    value: function clearFields() {
 	      this.refs.newName.value = "";
-	      this.refs.plabel.style.backgroundColor = "#FFFFFF";
+	      this.refs.plabel.style.backgroundColor = "transparent";
 	    }
 	  }, {
 	    key: 'showColors',
@@ -29861,7 +29862,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'addNewForm', ref: 'addNewForm' },
-	          _react2.default.createElement('div', { style: { backgroundColor: "#FFFFFF" }, className: 'projectLabel', ref: 'plabel' }),
+	          _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
 	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
 	          _react2.default.createElement(
 	            'div',
@@ -30061,6 +30062,7 @@
 	          { className: 'pListTitle' },
 	          'Projects'
 	        ),
+	        'Click on any project to see its tasks.',
 	        _react2.default.createElement(_ProjectsAddNew2.default, {
 	          login: this.props.params.login,
 	          onAddingNew: this.handleAddingNew.bind(this)
@@ -30610,7 +30612,8 @@
 	              _reactRouter.Link,
 	              { to: '/' },
 	              _react2.default.createElement('img', { src: '/logo/Logo.png' })
-	            )
+	            ),
+	            'Goalpi'
 	          ),
 	          _react2.default.createElement(
 	            'ul',
@@ -30669,6 +30672,10 @@
 
 	var _RuleItem2 = _interopRequireDefault(_RuleItem);
 
+	var _RuleAddNew = __webpack_require__(260);
+
+	var _RuleAddNew2 = _interopRequireDefault(_RuleAddNew);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30724,16 +30731,26 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'rulesList' },
-	        this.state.rules.map(function (el, i, arr) {
-	          return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
-	            id: el._id,
-	            name: el.name,
-	            label: el.label,
-	            login: _this2.props.params.login,
-	            fine: el.fine
-	          });
-	        })
+	        { className: 'rulesListPage' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'rListTitle' },
+	          'Rules'
+	        ),
+	        _react2.default.createElement(_RuleAddNew2.default, null),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'rulesList' },
+	          this.state.rules.map(function (el, i, arr) {
+	            return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
+	              id: el._id,
+	              name: el.name,
+	              label: el.label,
+	              login: _this2.props.params.login,
+	              fine: el.fine
+	            });
+	          })
+	        )
 	      );
 	    }
 	  }]);
@@ -30837,11 +30854,142 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Pish = function (_React$Component) {
+	  _inherits(Pish, _React$Component);
+
+	  function Pish(props) {
+	    _classCallCheck(this, Pish);
+
+	    var _this = _possibleConstructorReturn(this, (Pish.__proto__ || Object.getPrototypeOf(Pish)).call(this, props));
+
+	    _this.onExpand = _this.onExpand.bind(_this);
+	    _this.onCancel = _this.onCancel.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(Pish, [{
+	    key: 'onCancel',
+	    value: function onCancel() {
+	      this.refs.addNewForm.style.display = "none";
+	      this.refs.lineExpand.style.display = "flex";
+	    }
+	  }, {
+	    key: 'onExpand',
+	    value: function onExpand() {
+	      this.refs.addNewForm.style.display = "flex";
+	      this.refs.lineExpand.style.display = "none";
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'ruleAddNew' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'lineExpand', ref: 'lineExpand' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'expand', onClick: this.onExpand },
+	            '+'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'addNewForm', ref: 'addNewForm' },
+	          _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'addNewOpt' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'labelForm' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'chosen', onClick: this.showColors },
+	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'options', ref: 'options', onClick: this.hideColors },
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	              )
+	            ),
+	            _react2.default.createElement('input', { type: 'number', className: 'newPoints',
+	              defaultValue: '5', min: '0', max: '500',
+	              ref: 'newPoints'
+	            }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'buttons' },
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'add', onClick: this.addNew },
+	                'Add'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'cancel', onClick: this.onCancel },
+	                'Cancel'
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Pish;
+	}(_react2.default.Component);
+
+	exports.default = Pish;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
 	var _PromotionItem = __webpack_require__(241);
 
 	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
 
-	var _PromotionsAddNew = __webpack_require__(261);
+	var _PromotionsAddNew = __webpack_require__(262);
 
 	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
 
@@ -30987,7 +31135,7 @@
 	exports.default = Promotions;
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

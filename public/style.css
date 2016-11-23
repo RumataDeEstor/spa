@@ -85,15 +85,15 @@ div.logo {
   font: 30px Verdana;
   height: 40px;
   width: 450px;
-  background-color: #565050;
   border-radius: 7px;
   padding-left: 5px;
-  color: #89b7a0;
-  margin-left: 20px;
+  color: white;
+  margin-left: 130px;
 }
 
 div.logo img {
   width: 50px;
+  margin-right: 10px;
 }
 
 ul.links {
@@ -148,10 +148,9 @@ div.lpForm {
   font: 24px Verdana;
   margin-top: 160px;
   padding: 15px 20px;
-  border: 2px outset #A8ADB3;
   border-radius: 6px;
   background-color: white;
-  box-shadow: 0 4px 10px black;
+  box-shadow: 0 1px 4px rgba(128,128,128,.4);
 }
 
 div.lpForm p {
@@ -260,7 +259,7 @@ div.pListTitle {
 
 /*PROJECTSADDNEW--------------------------------*/
 
-div.projectsAddNew, div.taskAddNew {
+div.projectsAddNew, div.taskAddNew, div.ruleAddNew {
   margin-top: 20px;
   width: 650px;
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
@@ -402,7 +401,7 @@ div.tasksItem, div.tasksItem div {
   display: flex;
 }
 
-div.projectsItem, div.tasksItem {  
+div.projectsItem, div.tasksItem, div.ruleItem {  
   background-color: white;
   color: #5e5e61;
   font: 16px Verdana;
@@ -410,6 +409,10 @@ div.projectsItem, div.tasksItem {
   height: 35px;
   margin-top: 20px;
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
+}
+
+div.itemNormal:hover{
+  background-color: #f0f8ff;
 }
 
 div.itemNormal {
@@ -595,11 +598,14 @@ div.taskLine {
 
 /*TODO: crooked due to different price values*/
 
-div.tasksItem div.points {
+div.tasksItem div.points, 
+div.ruleItem div.fine {
   width: 70px;
-  justify-content: center;
+  height: 35px;
   margin-right: 70px;
   display: flex;
+  justify-content: center;
+  align-items: center;
   align-self: center;
 }
 
@@ -922,4 +928,43 @@ div.percents {
   font: 10px Verdana;
   font-weight: bold;
   visibility: hidden;
+}
+
+/*RULE ITEM------------------------------------------*/
+
+div.ruleItem {
+  background-color: #ffefef;
+}
+
+div.ruleItem div.itemNormal:hover {
+  background-color: rgba(255, 120, 120, 0.09);
+}
+
+div.ruleItem div.ruleLine {
+  display: flex;
+  align-items: center;
+}
+
+div.ruleItem div.ruleName {
+  overflow: hidden;
+  width: 410px;
+  margin-right: 40px;
+}
+
+div.ruleItem div.fine {
+  background-color: rgba(239, 21, 21, 0.42);
+}
+
+/*RuleAddNew---------------------------------------------------------------------------*/
+
+div.ruleAddNew {
+  width: 750px;
+}
+
+div.ruleAddNew div.lineExpand {
+  width: 750px;
+}
+
+div.ruleAddNew div.addNewForm {
+  width: 750px; 
 }
