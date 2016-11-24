@@ -6,11 +6,33 @@ import {
 } from 'react-router';
 import ee from './EventEmitter';
 
-export default class Pish extends React.Component {
+export default class RuleAddNew extends React.Component {
   constructor(props) {
     super(props);
+    this.addNew = this.addNew.bind(this);
+    this.clearFields = this.clearFields.bind(this);
+    this.hideColors = this.hideColors.bind(this);
+    this.showColors = this.showColors.bind(this);
     this.onExpand = this.onExpand.bind(this);
     this.onCancel = this.onCancel.bind(this);
+  }
+
+  clearFields() {
+    this.refs.newName.value = "";
+    this.refs.plabel.style.backgroundColor = "transparent";
+    this.refs.newFine.value = this.refs.newFine.defaultValue;
+  }
+
+  showColors () {
+    this.refs.options.style.width = "150px"; 
+  }
+
+  hideColors (e) {
+    if (e.target.className == "colorsList") {
+      this.refs.plabel.style.backgroundColor = 
+        e.target.style.backgroundColor;
+    } 
+    this.refs.options.style.width = "0";
   }
 
   onCancel () {
@@ -21,6 +43,44 @@ export default class Pish extends React.Component {
   onExpand () {
     this.refs.addNewForm.style.display  = "flex";
     this.refs.lineExpand.style.display = "none"; 
+  }
+
+  addNew (){
+    let validName = (this.refs.newName.value.length > 100) ? 
+      this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
+    let validPoints = (this.refs.newFine.value > 500) ? 
+      500 : this.refs.newFine.value;
+
+    let bodyJSON = JSON.stringify({
+      name: validName,
+      label: this.refs.plabel.style.backgroundColor,
+      fine: validPoints
+    });
+      
+    let reqParams = {
+      method: 'POST',
+      headers: {  
+        "Content-type": "application/json; charset=UTF-8"  
+      },
+      credentials: 'include',
+      body: bodyJSON
+    }
+
+    let login = this.props.login;
+    
+    fetch(`/api/userdata/${login}/rules/`, reqParams)
+      .then(res => res.json())
+      .then(res => {
+        if (res.error) {
+          console.log(res.error); // handle;
+          return;
+        }
+        this.clearFields();
+        this.props.onAddingNew(res.rule);
+      })
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   render () {
@@ -50,7 +110,7 @@ export default class Pish extends React.Component {
                 </div> 
                 <input type = "number" className = "newPoints" 
                   defaultValue = "5" min = "0" max = "500"
-                  ref = "newPoints"
+                  ref = "newFine"
                 />
                 <div className = "buttons">           
                   <button className = "add" onClick = {this.addNew}>Add</button>
@@ -61,3 +121,7 @@ export default class Pish extends React.Component {
           </div>
   }
 }
+
+RuleAddNew.propTypes = {
+  onAddingNew: React.PropTypes.func
+};
