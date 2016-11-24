@@ -102,7 +102,7 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _Promotions = __webpack_require__(261);
+	var _Promotions = __webpack_require__(262);
 
 	var _Promotions2 = _interopRequireDefault(_Promotions);
 
@@ -29912,11 +29912,12 @@
 	  return ProjectsAddNew;
 	}(_react2.default.Component);
 
+	exports.default = ProjectsAddNew;
+
+
 	ProjectsAddNew.propTypes = {
 	  onAddingNew: _react2.default.PropTypes.func
 	};
-
-	exports.default = ProjectsAddNew;
 
 /***/ },
 /* 253 */
@@ -30071,7 +30072,7 @@
 	          'div',
 	          { className: 'projectsList' },
 	          this.state.projects.map(function (el, i, arr) {
-	            var editing = _this3.state.isEditing == el._id ? true : false;
+	            var editing = _this3.state.isEditing == el._id;
 	            var cNameEdit = editing ? "editing" : "";
 	            return _react2.default.createElement(_ProjectsItem2.default, { key: arr.length - i - 1,
 	              id: el._id,
@@ -30672,11 +30673,17 @@
 
 	var _RuleItem2 = _interopRequireDefault(_RuleItem);
 
-	var _RuleAddNew = __webpack_require__(260);
+	var _RuleAddNew = __webpack_require__(261);
 
 	var _RuleAddNew2 = _interopRequireDefault(_RuleAddNew);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -30692,42 +30699,94 @@
 
 	    var _this = _possibleConstructorReturn(this, (RuleList.__proto__ || Object.getPrototypeOf(RuleList)).call(this, props));
 
-	    _this.state = { rules: [] };
+	    _this.state = { rules: [], isEditing: null };
 	    _this.loadRules = _this.loadRules.bind(_this);
+	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
+	    _this.updateChild = _this.updateChild.bind(_this);
+	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RuleList, [{
 	    key: 'loadRules',
 	    value: function loadRules() {
+	      var _this2 = this;
+
 	      // temp
-	      var rule1 = {
-	        _id: "001",
-	        name: 'No rat',
-	        label: "red",
-	        fine: 2
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
 	      };
 
-	      var rule2 = {
-	        _id: "002",
-	        name: 'Let it be!',
-	        label: "green",
-	        fine: 5
-	      };
-
-	      var arr = [rule1, rule2];
-
-	      this.setState({ rules: arr });
+	      fetch('/api/userdata/' + this.props.params.login, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        var newRules = res.user.rules.reverse();
+	        _this2.setState({ rules: newRules });
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('ruleFinishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.addListener('ruleSaveEdit', this.updateChild);
+	      _EventEmitter2.default.addListener('ruleDeleted', this.handleChildDelete);
 	      this.loadRules();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('ruleFinishEdit', this.finishChildEditing);
+	      _EventEmitter2.default.removeListener('ruleSaveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('ruleDeleted', this.handleChildDelete);
+	    }
+	  }, {
+	    key: 'handleAddingNew',
+	    value: function handleAddingNew(rule) {
+	      this.setState({ rules: [rule].concat(_toConsumableArray(this.state.rules)) });
+	    }
+	  }, {
+	    key: 'handleChildDelete',
+	    value: function handleChildDelete(id) {
+	      console.log('handle del rule');
+	      var newRules = this.state.rules.slice();
+	      newRules = newRules.filter(function (el) {
+	        return el._id !== id;
+	      });
+	      this.setState({ rules: newRules });
+	    }
+	  }, {
+	    key: 'handleChildEdit',
+	    value: function handleChildEdit(id) {
+	      this.setState({ isEditing: id });
+	    }
+	  }, {
+	    key: 'updateChild',
+	    value: function updateChild(itemID, newData) {
+	      this.state.rules.map(function (el) {
+	        if (el._id == itemID) {
+	          el.name = newData.name;
+	          el.label = newData.label;
+	          el.fine = newData.fine;
+	        }
+	        return el;
+	      });
+	    }
+	  }, {
+	    key: 'finishChildEditing',
+	    value: function finishChildEditing() {
+	      this.setState({ isEditing: null });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this3 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -30739,23 +30798,31 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'rulesListPage', style: { opacity: "0.3" } },
+	          { className: 'rulesListPage', style: { opacity: "1" } },
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'rListTitle' },
 	            'Rules'
 	          ),
-	          _react2.default.createElement(_RuleAddNew2.default, null),
+	          _react2.default.createElement(_RuleAddNew2.default, {
+	            login: this.props.params.login,
+	            onAddingNew: this.handleAddingNew.bind(this)
+	          }),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'rulesList' },
 	            this.state.rules.map(function (el, i, arr) {
+	              var editing = _this3.state.isEditing == el._id;
+	              var cNameEdit = editing ? "editing" : "";
 	              return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
 	                id: el._id,
 	                name: el.name,
 	                label: el.label,
-	                login: _this2.props.params.login,
-	                fine: el.fine
+	                login: _this3.props.params.login,
+	                fine: el.fine,
+	                editing: editing,
+	                cNameEdit: cNameEdit,
+	                onEdit: _this3.handleChildEdit.bind(_this3)
 	              });
 	            })
 	          )
@@ -30789,6 +30856,10 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _RuleEditing = __webpack_require__(260);
+
+	var _RuleEditing2 = _interopRequireDefault(_RuleEditing);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30803,22 +30874,61 @@
 	  function ProjectsItem(props) {
 	    _classCallCheck(this, ProjectsItem);
 
-	    return _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
+
+	    _this.edit = _this.edit.bind(_this);
+	    _this.open = _this.open.bind(_this);
+	    _this.showEditBtn = _this.showEditBtn.bind(_this);
+	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
+	    return _this;
 	  }
 
 	  _createClass(ProjectsItem, [{
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(newProps) {
+	      if (newProps.editing) {
+	        this.refs.itemNorm.style.display = "none";
+	        return;
+	      }
+	      this.refs.itemNorm.style.display = "flex";
+	    }
+	  }, {
+	    key: 'edit',
+	    value: function edit() {
+	      this.props.onEdit(this.props.id);
+	    }
+	  }, {
+	    key: 'showEditBtn',
+	    value: function showEditBtn() {
+	      this.refs.eBtn.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideEditBtn',
+	    value: function hideEditBtn() {
+	      this.refs.eBtn.style.display = "none";
+	    }
+	  }, {
+	    key: 'open',
+	    value: function open() {
+	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/rules/r/' + this.props.id);
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var component = this.props.editing ? _react2.default.createElement(_RuleEditing2.default, { target: this, login: this.props.login }) : null;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'ruleItem' },
+	        { className: 'ruleItem',
+	          onMouseOver: this.showEditBtn,
+	          onMouseOut: this.hideEditBtn
+	        },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement('div', { className: 'checkBoxField' }),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'ruleLine' },
+	            { className: 'ruleLine', onClick: this.open },
 	            _react2.default.createElement('div', { style: { backgroundColor: this.props.label },
 	              className: 'projectLabel' }),
 	            _react2.default.createElement(
@@ -30832,8 +30942,15 @@
 	              ' ',
 	              this.props.fine
 	            )
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'editItem', ref: 'eBtn', className: this.props.cNameEdit,
+	              onClick: this.edit },
+	            _react2.default.createElement('i', { className: 'fa fa-pencil-square-o' })
 	          )
-	        )
+	        ),
+	        component
 	      );
 	    }
 	  }]);
@@ -30875,20 +30992,246 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Pish = function (_React$Component) {
-	  _inherits(Pish, _React$Component);
+	var RuleEditing = function (_React$Component) {
+	  _inherits(RuleEditing, _React$Component);
 
-	  function Pish(props) {
-	    _classCallCheck(this, Pish);
+	  function RuleEditing(props) {
+	    _classCallCheck(this, RuleEditing);
 
-	    var _this = _possibleConstructorReturn(this, (Pish.__proto__ || Object.getPrototypeOf(Pish)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RuleEditing.__proto__ || Object.getPrototypeOf(RuleEditing)).call(this, props));
 
+	    _this.saveChanges = _this.saveChanges.bind(_this);
+	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
+	    _this.onDelete = _this.onDelete.bind(_this);
+	    _this.hideColors = _this.hideColors.bind(_this);
+	    _this.showColors = _this.showColors.bind(_this);
+	    return _this;
+	  }
+
+	  _createClass(RuleEditing, [{
+	    key: 'onFinishEdit',
+	    value: function onFinishEdit() {
+	      _EventEmitter2.default.emitEvent('ruleFinishEdit');
+	    }
+	  }, {
+	    key: 'onDelete',
+	    value: function onDelete() {
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var ruleID = this.props.target.props.id;
+	      fetch('/api/userdata/' + login + '/rules/' + ruleID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
+	        _EventEmitter2.default.emitEvent('ruleDeleted', [ruleID]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'showColors',
+	    value: function showColors() {
+	      this.refs.editOptions.style.width = "150px";
+	    }
+	  }, {
+	    key: 'hideColors',
+	    value: function hideColors(e) {
+	      if (e.target.className == "colorsList") {
+	        this.refs.plabel.style.backgroundColor = e.target.style.backgroundColor;
+	      }
+	      this.refs.editOptions.style.width = "0";
+	    }
+	  }, {
+	    key: 'saveChanges',
+	    value: function saveChanges() {
+	      var _this2 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        name: this.refs.editName.value,
+	        label: this.refs.plabel.style.backgroundColor,
+	        fine: this.refs.editFine.value
+	      });
+
+	      var reqParams = {
+	        method: 'PUT',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+	      var ruleID = this.props.target.props.id;
+	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+	      fetch('/api/userdata/' + login + '/rules/' + ruleID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        var newData = {
+	          name: _this2.refs.editName.value,
+	          label: _this2.refs.plabel.style.backgroundColor,
+	          fine: _this2.refs.editFine.value // duplicate
+	        };
+
+	        _EventEmitter2.default.emitEvent('ruleSaveEdit', [ruleID, newData]);
+	        _this2.onFinishEdit();
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'editForm' },
+	        _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label },
+	          className: 'projectLabel',
+	          ref: 'plabel' }),
+	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
+	          className: 'editName',
+	          ref: 'editName'
+	        }),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'editOpt' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'editLabelForm' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'editChosen', onClick: this.showColors },
+	              _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'editOptions', onClick: this.hideColors, ref: 'editOptions' },
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	            )
+	          ),
+	          _react2.default.createElement('input', { type: 'number', className: 'editPoints',
+	            ref: 'editFine',
+	            defaultValue: this.props.target.props.fine,
+	            min: '1', max: '500'
+	          }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'editButtons' },
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'editSave', onClick: this.saveChanges },
+	              'Save'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'editFinish', onClick: this.onFinishEdit },
+	              'Cancel'
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { className: 'editDelete', onClick: this.onDelete },
+	              _react2.default.createElement('i', { className: 'fa fa-trash' })
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return RuleEditing;
+	}(_react2.default.Component);
+
+	exports.default = RuleEditing;
+
+/***/ },
+/* 261 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var RuleAddNew = function (_React$Component) {
+	  _inherits(RuleAddNew, _React$Component);
+
+	  function RuleAddNew(props) {
+	    _classCallCheck(this, RuleAddNew);
+
+	    var _this = _possibleConstructorReturn(this, (RuleAddNew.__proto__ || Object.getPrototypeOf(RuleAddNew)).call(this, props));
+
+	    _this.addNew = _this.addNew.bind(_this);
+	    _this.clearFields = _this.clearFields.bind(_this);
+	    _this.hideColors = _this.hideColors.bind(_this);
+	    _this.showColors = _this.showColors.bind(_this);
 	    _this.onExpand = _this.onExpand.bind(_this);
 	    _this.onCancel = _this.onCancel.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(Pish, [{
+	  _createClass(RuleAddNew, [{
+	    key: 'clearFields',
+	    value: function clearFields() {
+	      this.refs.newName.value = "";
+	      this.refs.plabel.style.backgroundColor = "transparent";
+	      this.refs.newFine.value = this.refs.newFine.defaultValue;
+	    }
+	  }, {
+	    key: 'showColors',
+	    value: function showColors() {
+	      this.refs.options.style.width = "150px";
+	    }
+	  }, {
+	    key: 'hideColors',
+	    value: function hideColors(e) {
+	      if (e.target.className == "colorsList") {
+	        this.refs.plabel.style.backgroundColor = e.target.style.backgroundColor;
+	      }
+	      this.refs.options.style.width = "0";
+	    }
+	  }, {
 	    key: 'onCancel',
 	    value: function onCancel() {
 	      this.refs.addNewForm.style.display = "none";
@@ -30899,6 +31242,44 @@
 	    value: function onExpand() {
 	      this.refs.addNewForm.style.display = "flex";
 	      this.refs.lineExpand.style.display = "none";
+	    }
+	  }, {
+	    key: 'addNew',
+	    value: function addNew() {
+	      var _this2 = this;
+
+	      var validName = this.refs.newName.value.length > 100 ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
+	      var validPoints = this.refs.newFine.value > 500 ? 500 : this.refs.newFine.value;
+
+	      var bodyJSON = JSON.stringify({
+	        name: validName,
+	        label: this.refs.plabel.style.backgroundColor,
+	        fine: validPoints
+	      });
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+
+	      fetch('/api/userdata/' + login + '/rules/', reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error); // handle;
+	          return;
+	        }
+	        _this2.clearFields();
+	        _this2.props.onAddingNew(res.rule);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'render',
@@ -30947,7 +31328,7 @@
 	            ),
 	            _react2.default.createElement('input', { type: 'number', className: 'newPoints',
 	              defaultValue: '5', min: '0', max: '500',
-	              ref: 'newPoints'
+	              ref: 'newFine'
 	            }),
 	            _react2.default.createElement(
 	              'div',
@@ -30969,13 +31350,18 @@
 	    }
 	  }]);
 
-	  return Pish;
+	  return RuleAddNew;
 	}(_react2.default.Component);
 
-	exports.default = Pish;
+	exports.default = RuleAddNew;
+
+
+	RuleAddNew.propTypes = {
+	  onAddingNew: _react2.default.PropTypes.func
+	};
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30998,7 +31384,7 @@
 
 	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
 
-	var _PromotionsAddNew = __webpack_require__(262);
+	var _PromotionsAddNew = __webpack_require__(263);
 
 	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
 
@@ -31143,7 +31529,7 @@
 	exports.default = Promotions;
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

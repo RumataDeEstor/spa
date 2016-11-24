@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router'
 
-class ProjectsAddNew extends React.Component {
+export default class ProjectsAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
@@ -113,5 +113,3 @@ class ProjectsAddNew extends React.Component {
 ProjectsAddNew.propTypes = {
   onAddingNew: React.PropTypes.func
 };
-
-export default ProjectsAddNew;

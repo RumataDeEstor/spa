@@ -88,7 +88,7 @@ div.logo {
   border-radius: 7px;
   padding-left: 5px;
   color: white;
-  margin-left: 130px;
+  margin-left: 40px;
 }
 
 div.logo img {
@@ -128,8 +128,8 @@ ul.links li a {
 }
 
 .links li a.active {
-  background-color: white;
-  color: #5E5E5E;
+  background-color: #27b43e;
+  color: #ffffff;
   border-bottom: 3px solid #333333;
 }
 
@@ -238,6 +238,7 @@ div.userPoints {
   align-items: center;
   justify-content: center;
   width: 70px;
+  border: 2px solid #e2e2e2;
 }
 
 /*PROJECTSLIST--------------------------*/
@@ -371,7 +372,7 @@ div.chosen, div.editChosen {
   padding: 3px;
   width: 18px;
   height: 18px;
-  background-color: white;
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -381,7 +382,7 @@ div.chosen, div.editChosen {
 div.options, div.editOptions {
   display: flex;
   align-items: center;
-  background-color: white;
+  background-color: transparent;
   width: 0;
   height: 24px;
   cursor: pointer;
@@ -397,6 +398,7 @@ div.options div, div.editOptions div {
 /*ProjectsItem-----------------------------------*/
 
 div.projectsItem, div.projectsItem div, 
+div.ruleItem, div.ruleItem div,
 div.tasksItem, div.tasksItem div {
   display: flex;
 }
@@ -426,7 +428,6 @@ div.projectLine {
 }
 
 div.projName {
-  display: flex;
   align-items: center;
   font-size: 16px;
   width: 240px;
@@ -436,7 +437,7 @@ div.projName {
 /*check and rewrite*/
 div#editItem {
   padding: 0 4px;
-  background-color: inherit;
+  background-color: transparent;
   align-items: center;
   display: none;
   font-size: 20px;
@@ -933,7 +934,12 @@ div.percents {
 /*RULE ITEM------------------------------------------*/
 
 div.ruleItem {
+  width: 750px;
   background-color: #ffefef;
+}
+
+div.ruleItem div.itemNormal {
+  width: 750px;
 }
 
 div.ruleItem div.itemNormal:hover {
@@ -941,7 +947,6 @@ div.ruleItem div.itemNormal:hover {
 }
 
 div.ruleItem div.ruleLine {
-  display: flex;
   align-items: center;
 }
 
@@ -957,7 +962,10 @@ div.ruleItem div.fine {
 
 /*RuleAddNew---------------------------------------------------------------------------*/
 
-div.ruleAddNew {
+div.ruleAddNew,
+div.ruleAddNew div.lineExpand,
+div.ruleAddNew div.addNewForm 
+ {
   width: 750px;
 }
 
@@ -968,3 +976,23 @@ div.ruleAddNew div.lineExpand {
 div.ruleAddNew div.addNewForm {
   width: 750px; 
 }
+
+/*RuleEditing--------------------------------------------------------*/
+
+div.ruleItem div.editForm,
+div.ruleItem div.editForm input,
+div.ruleItem button.editFinish,
+div.ruleItem button.editDelete {
+  background-color: rgb(255, 239, 239);
+}
+
+div.ruleItem div.editForm {
+  width: 750px;
+}
+
+div.ruleItem button.editSave,
+div.ruleAddNew div.expand,
+div.addNewForm button.add {
+  background-color: #c13d3d;
+}
+

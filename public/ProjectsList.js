@@ -91,7 +91,7 @@ export default class ProjectsList extends React.Component {
             <div className = "projectsList">
               {
                 this.state.projects.map((el,i,arr) => {
-                  let editing = (this.state.isEditing == el._id) ? true : false;
+                  let editing = (this.state.isEditing == el._id);
                   let cNameEdit = (editing) ? "editing" : "";
                   return <ProjectsItem key = {arr.length - i - 1} 
                     id ={el._id} 
