@@ -97,7 +97,7 @@ div.logo img {
 }
 
 ul.links {
-  background-color: #27B43E;
+  background-color: #333333;
   display: flex;
   margin: 0; 
   padding: 0;
@@ -116,7 +116,7 @@ ul.links li a {
 }
 
 .links li button {
-  background-color: #27B43E;
+  background-color: #333333;
   font: 32px Verdana;
   color: white;
   border: none;
