@@ -173,6 +173,39 @@ app.post('/api/userdata/:login/projects', isAuthenticated, (req,res,next) => {
   })  
 });
 
+// add new rule
+app.post('/api/userdata/:login/rules', isAuthenticated, (req,res,next) => {
+  if (req.params.login !== req.user.login) {  
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) { 
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {  
+      let newRule = req.body;
+      newRule.name = newRule.name || "Unnamed";
+      let len = user.rules.push(newRule);
+      user.save((err) =>{
+        if (!err) {
+          debug('updated.');
+          // res.status(200).send({'_id': user.projects[len-1]._id});
+          res.status(200).send({message: 'OK', rule: user.rules[len-1]});
+        } else {
+          debug(err);
+          if(err.name == 'ValidationError') {
+            res.statusCode = 400;
+            res.send({ error: 'Validation error' });
+          } else {
+            res.statusCode = 500;
+            res.send({error: 'Internal Server Error'});
+          }
+        }
+      });
+    }
+  })  
+});
+
 app.post('/api/userdata/:login/points', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
@@ -359,6 +392,49 @@ app.put('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, 
   });
 });
 
+// update single rule
+app.put('/api/userdata/:login/rules/:ruleID', isAuthenticated, (req, res, next) => {
+  debug(req.params);
+  debug(req.body);
+  if (req.params.login !== req.user.login) {  // can't get other people's page
+    debug('forb');
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) { 
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {
+      debug('success get user');
+      user.rules.map(rule => {
+        if (rule._id == req.params.ruleID) {
+          rule.name = req.body.name;
+          rule.label = req.body.label;
+          rule.fine = req.body.fine;
+        }
+      });     
+
+      user.save((err) => {
+        if (!err) {
+          debug('updated.');
+          res.status(200).send({message: 'updated'});
+          return;
+        }
+          debug(err);
+          if(err.name == 'ValidationError') {
+            res.statusCode = 400;
+            res.send({ error: 'Validation error' });
+          } else {
+            res.statusCode = 500;
+            res.send({error: 'Internal Server Error'});
+            return;
+          }        
+      });          
+    }
+  });
+});
+
+
 // delete single project
 app.delete('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
@@ -375,6 +451,30 @@ app.delete('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, re
       if (!err) {
         debug('removed.');
         res.status(200).send({message: 'project removed'});
+      } else {
+        debug(err);
+        res.status(500).send({error: 'Internal Server Error'});
+      }
+    })
+  })
+})
+
+// delete single rule
+app.delete('/api/userdata/:login/rules/:ruleID', isAuthenticated, (req, res, next) => {
+  if (req.params.login !== req.user.login) {  
+    return res.status(403).send({error: 'Forbidden'});
+  }
+  User.findOne({login: req.params.login}, (err, user) => {
+    if (err) {
+      debug(err);
+      res.status(500).send({error: 'Internal Server Error'});
+    } else {
+      user.rules.id(req.params.ruleID).remove();
+    }
+    user.save((err) => {
+      if (!err) {
+        debug('removed.');
+        res.status(200).send({message: 'rule removed'});
       } else {
         debug(err);
         res.status(500).send({error: 'Internal Server Error'});
