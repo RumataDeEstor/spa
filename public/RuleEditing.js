@@ -83,7 +83,7 @@ export default class RuleEditing extends React.Component {
         let newData = {
           name: this.refs.editName.value, 
           label: this.refs.plabel.style.backgroundColor,
-          fine: this.refs.editFine.value // duplicate
+          fine: +this.refs.editFine.value // duplicate
         };
         
         ee.emitEvent('ruleSaveEdit', [ruleID, newData]);

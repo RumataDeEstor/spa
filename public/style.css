@@ -567,8 +567,8 @@ div.tasksItem div.editButtons {
 }
 
 div.taskCheckbox {
-  width: 13px;
-  height: 13px;
+  width: 12px;
+  height: 12px;
   border: 1px solid #767676;
   display: flex;
   margin-left: 10px;
@@ -960,6 +960,14 @@ div.ruleItem div.fine {
   background-color: rgba(239, 21, 21, 0.42);
 }
 
+div.ruleItem div.taskCheckbox div {
+  position: absolute;
+  font-size: 18px;
+  bottom: -3px;
+  color: #c13d3d;
+  display: none; 
+}
+
 /*RuleAddNew---------------------------------------------------------------------------*/
 
 div.ruleAddNew,
@@ -992,7 +1000,7 @@ div.ruleItem div.editForm {
 
 div.ruleItem button.editSave,
 div.ruleAddNew div.expand,
-div.addNewForm button.add {
+div.ruleAddNew button.add {
   background-color: #c13d3d;
 }
 

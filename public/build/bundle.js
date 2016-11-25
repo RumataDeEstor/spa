@@ -30860,6 +30860,10 @@
 
 	var _RuleEditing2 = _interopRequireDefault(_RuleEditing);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30868,22 +30872,26 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ProjectsItem = function (_React$Component) {
-	  _inherits(ProjectsItem, _React$Component);
+	var RuleItem = function (_React$Component) {
+	  _inherits(RuleItem, _React$Component);
 
-	  function ProjectsItem(props) {
-	    _classCallCheck(this, ProjectsItem);
+	  function RuleItem(props) {
+	    _classCallCheck(this, RuleItem);
 
-	    var _this = _possibleConstructorReturn(this, (ProjectsItem.__proto__ || Object.getPrototypeOf(ProjectsItem)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RuleItem.__proto__ || Object.getPrototypeOf(RuleItem)).call(this, props));
 
 	    _this.edit = _this.edit.bind(_this);
 	    _this.open = _this.open.bind(_this);
 	    _this.showEditBtn = _this.showEditBtn.bind(_this);
 	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
+	    _this.showMark = _this.showMark.bind(_this);
+	    _this.hideMark = _this.hideMark.bind(_this);
+	    _this.delete = _this.delete.bind(_this);
+	    _this.breakRule = _this.breakRule.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(ProjectsItem, [{
+	  _createClass(RuleItem, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      if (newProps.editing) {
@@ -30893,9 +30901,74 @@
 	      this.refs.itemNorm.style.display = "flex";
 	    }
 	  }, {
+	    key: 'showMark',
+	    value: function showMark() {
+	      this.refs.check.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideMark',
+	    value: function hideMark() {
+	      this.refs.check.style.display = "none";
+	    }
+	  }, {
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
+	    }
+	  }, {
+	    key: 'delete',
+	    value: function _delete() {
+	      // may be reduntant;
+	      var reqParams = {
+	        method: 'DELETE',
+	        credentials: 'include'
+	      };
+
+	      var login = this.props.login;
+	      var ruleID = this.props.id;
+
+	      fetch('/api/userdata/' + login + '/rules/' + ruleID, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
+	        _EventEmitter2.default.emitEvent('ruleDeleted', [ruleID]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'breakRule',
+	    value: function breakRule() {
+	      var _this2 = this;
+
+	      var bodyJSON = JSON.stringify({
+	        points: -this.props.fine
+	      });
+
+	      var reqParams = {
+	        method: 'POST',
+	        headers: {
+	          "Content-type": "application/json; charset=UTF-8"
+	        },
+	        credentials: 'include',
+	        body: bodyJSON
+	      };
+
+	      var login = this.props.login;
+
+	      fetch('/api/userdata/' + login + '/points', reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _EventEmitter2.default.emitEvent('pointsUpdated', [-_this2.props.fine]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'showEditBtn',
@@ -30925,7 +30998,22 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'itemNormal', ref: 'itemNorm' },
-	          _react2.default.createElement('div', { className: 'checkBoxField' }),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'checkBoxField',
+	              onMouseOver: this.showMark,
+	              onMouseOut: this.hideMark,
+	              onClick: this.breakRule },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'taskCheckbox' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'check', ref: 'check' },
+	                _react2.default.createElement('i', { className: 'fa fa-times-circle', 'aria-hidden': 'true' })
+	              )
+	            )
+	          ),
 	          _react2.default.createElement(
 	            'div',
 	            { className: 'ruleLine', onClick: this.open },
@@ -30955,10 +31043,10 @@
 	    }
 	  }]);
 
-	  return ProjectsItem;
+	  return RuleItem;
 	}(_react2.default.Component);
 
-	exports.default = ProjectsItem;
+	exports.default = RuleItem;
 
 /***/ },
 /* 260 */
@@ -31081,7 +31169,7 @@
 	        var newData = {
 	          name: _this2.refs.editName.value,
 	          label: _this2.refs.plabel.style.backgroundColor,
-	          fine: _this2.refs.editFine.value // duplicate
+	          fine: +_this2.refs.editFine.value // duplicate
 	        };
 
 	        _EventEmitter2.default.emitEvent('ruleSaveEdit', [ruleID, newData]);
