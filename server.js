@@ -13,7 +13,7 @@ const User = require('./models/user');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(favicon(__dirname + '/public/favicon.ico'));
+app.use(favicon(__dirname + '/public/faviconNew.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());

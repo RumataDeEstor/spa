@@ -27401,6 +27401,8 @@
 	    value: function updatePoints(points) {
 	      var newPoints = +points;
 	      this.setState({ points: this.state.points + newPoints });
+	      this.refs.points.style.color = "#27b43e";
+	      this.refs.points.style.fontSize = "20px";
 	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
 	    }
 	  }, {
@@ -27449,7 +27451,7 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'userPoints' },
+	        { className: 'userPoints', ref: 'points' },
 	        this.state.points
 	      );
 	    }
@@ -30886,7 +30888,6 @@
 	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
 	    _this.showMark = _this.showMark.bind(_this);
 	    _this.hideMark = _this.hideMark.bind(_this);
-	    _this.delete = _this.delete.bind(_this);
 	    _this.breakRule = _this.breakRule.bind(_this);
 	    return _this;
 	  }
@@ -30914,30 +30915,6 @@
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
-	    }
-	  }, {
-	    key: 'delete',
-	    value: function _delete() {
-	      // may be reduntant;
-	      var reqParams = {
-	        method: 'DELETE',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      var ruleID = this.props.id;
-
-	      fetch('/api/userdata/' + login + '/rules/' + ruleID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	        }
-	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
-	        _EventEmitter2.default.emitEvent('ruleDeleted', [ruleID]);
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
 	    }
 	  }, {
 	    key: 'breakRule',
