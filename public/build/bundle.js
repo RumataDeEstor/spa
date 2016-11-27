@@ -27401,8 +27401,6 @@
 	    value: function updatePoints(points) {
 	      var newPoints = +points;
 	      this.setState({ points: this.state.points + newPoints });
-	      this.refs.points.style.color = "#27b43e";
-	      this.refs.points.style.fontSize = "20px";
 	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
 	    }
 	  }, {
@@ -27452,7 +27450,20 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'userPoints', ref: 'points' },
-	        this.state.points
+	        _react2.default.createElement(
+	          'div',
+	          { id: 'octagon', className: 'oct' },
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'octagonSmall', className: 'oct' },
+	            this.state.points,
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'changePointsSmall' },
+	              '+100'
+	            )
+	          )
+	        )
 	      );
 	    }
 	  }]);
