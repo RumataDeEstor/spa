@@ -27393,14 +27393,55 @@
 	    _this.getPoints = _this.getPoints.bind(_this);
 	    _this.updatePoints = _this.updatePoints.bind(_this);
 	    _this.giveCurPoints = _this.giveCurPoints.bind(_this);
+	    _this.listener = _this.listener.bind(_this);
+	    _this.stylizePointsWindow = _this.stylizePointsWindow.bind(_this);
+	    _this.changeColorOnPointsWindow = _this.changeColorOnPointsWindow.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Points, [{
+	    key: 'changeColorOnPointsWindow',
+	    value: function changeColorOnPointsWindow(color) {
+	      this.refs.small.style.color = color;
+	      this.refs.oct.style.backgroundColor = color;
+	      this.refs.afterSmall.style.borderLeftColor = color;
+	      this.refs.afterSmall.style.borderRightColor = color;
+	      this.refs.beforeBig.style.borderBottomColor = color;
+	      this.refs.afterBig.style.borderTopColor = color;
+	      this.refs.beforeSmall.style.borderLeftColor = color;
+	      this.refs.beforeSmall.style.borderRightColor = color;
+	    }
+	  }, {
+	    key: 'stylizePointsWindow',
+	    value: function stylizePointsWindow(points) {
+	      var color = "black";
+	      if (points > 0) {
+	        this.refs.small.innerHTML = '+' + points;
+	        color = '#27b43e';
+	      } else {
+	        this.refs.small.innerHTML = points;
+	        color = '#c13d3d';
+	      }
+	      this.changeColorOnPointsWindow(color);
+	    }
+	  }, {
+	    key: 'listener',
+	    value: function listener() {
+	      // console.log('circle');
+	      // this.refs.small.style.animationPlayState = "paused";
+	      this.refs.small.className = "changePointsSmall";
+	      this.refs.small.innerHTML = "";
+	      var color = "#e3e3e3";
+	      this.changeColorOnPointsWindow(color);
+	    }
+	  }, {
 	    key: 'updatePoints',
 	    value: function updatePoints(points) {
 	      var newPoints = +points;
 	      this.setState({ points: this.state.points + newPoints });
+	      // this.refs.small.style.animationPlayState = "running";
+	      this.stylizePointsWindow(points);
+	      this.refs.small.className = "changePointsSmallenabled";
 	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
 	    }
 	  }, {
@@ -27434,6 +27475,7 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      this.refs.small.addEventListener("animationend", this.listener, false);
 	      _EventEmitter2.default.addListener('reqForPoints', this.giveCurPoints);
 	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
 	      this.getPoints();
@@ -27450,20 +27492,24 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'userPoints', ref: 'points' },
+	        _react2.default.createElement('span', { className: 'beforeOct', ref: 'beforeBig' }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'octagon', className: 'oct' },
+	          { id: 'octagon', className: 'oct', ref: 'oct' },
+	          _react2.default.createElement(
+	            'span',
+	            { className: 'beforeOct', ref: 'beforeSmall' },
+	            ' '
+	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'octagonSmall', className: 'oct' },
+	            { id: 'octagonSmall', className: 'oct', ref: 'octSmall' },
 	            this.state.points,
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'changePointsSmall' },
-	              '+100'
-	            )
-	          )
-	        )
+	            _react2.default.createElement('div', { className: 'changePointsSmall', ref: 'small' })
+	          ),
+	          _react2.default.createElement('span', { className: 'afterOct', ref: 'afterSmall' })
+	        ),
+	        _react2.default.createElement('span', { className: 'afterOct', ref: 'afterBig' })
 	      );
 	    }
 	  }]);
