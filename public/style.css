@@ -368,13 +368,23 @@ div.pointsContainer {
   width: 130px;
   height: 35px;
   border-radius: 10px;
-  border: 3px solid #e3e3e3;
+  /*border: 3px solid #e3e3e3;*/
+ /* box-shadow: 
+    inset 0px -1px 0px 0px #3baf43,
+    inset 0px -2px 0px 0px #66d16e,
+    inset 0px -3px 0px 0px #9ef9a5,
+
+    inset 0px 1px 0px 0px #3baf43,    
+    inset 0px 2px 0px 0px #66d16e,
+    inset 0px 3px 0px 0px #9ef9a5;*/
+  box-shadow: inset 2px 2px 4px 0px rgba(128,128,128,0.6),
+    inset -2px -2px 4px 0px rgba(128,128,128,0.6);
   position: relative;
   background-color: white;
   color: #333333;
   display: flex;
   align-items: center;
-  padding-left: 6px;
+  padding-left: 8px;
 }
 
 div.changePointsSmallenabled {

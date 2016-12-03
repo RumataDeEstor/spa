@@ -12,7 +12,7 @@ export default class Project extends React.Component {
     super(props);
     this.loadPage = this.loadPage.bind(this);
     this.state = {};
-  }
+  } 
 
   loadPage(){
     let reqParams = {

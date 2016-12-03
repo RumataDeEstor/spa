@@ -1,3 +1,4 @@
+ // debug=server:* port=8080 mongo_uri=mongodb://127.0.0.1/app node server.js
 const express = require('express');
 const debug = require('debug')('server:');
 const bodyParser = require('body-parser');
