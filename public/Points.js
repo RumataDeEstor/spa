@@ -19,14 +19,8 @@ export default class Points extends React.Component {
   }
 
   changeColorOnPointsWindow (color) {
+    this.refs.pContainer.style.borderColor = color;
     this.refs.small.style.color = color;
-    this.refs.oct.style.backgroundColor = color;    
-    this.refs.afterSmall.style.borderLeftColor = color;
-    this.refs.afterSmall.style.borderRightColor = color;  
-    this.refs.beforeBig.style.borderBottomColor = color;
-    this.refs.afterBig.style.borderTopColor = color;
-    this.refs.beforeSmall.style.borderLeftColor = color;
-    this.refs.beforeSmall.style.borderRightColor = color;
   }
 
   stylizePointsWindow (points) {
@@ -98,16 +92,10 @@ export default class Points extends React.Component {
 
   render () {
     return<div className = "userPoints" ref = "points">
-            <span className = "beforeOct" ref = "beforeBig"></span>
-            <div id="octagon" className = "oct" ref = "oct">
-              <span className = "beforeOct" ref = "beforeSmall"> </span>
-              <div id="octagonSmall" className = "oct" ref = "octSmall">
-                {this.state.points}
+            <div className = "pointsContainer" ref = "pContainer">
+              {this.state.points}
               <div className = "changePointsSmall" ref = "small"></div>
-              </div>
-              <span className = "afterOct" ref = "afterSmall"></span>
-            </div>   
-            <span className = "afterOct" ref = "afterBig"></span>   
+            </div>
           </div>
   }
 }

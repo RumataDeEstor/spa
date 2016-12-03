@@ -288,7 +288,7 @@ div.userPoints {
   position: relative;
 }
 
-div.oct {
+/*div.oct {
   width: 150px;
   height: 35px;
   background-color: #e3e3e3;
@@ -352,7 +352,7 @@ div#octagon span.afterOct {
   bottom: 3px;
   left: 4px;
   z-index: 2;
-}
+}*/
 
 div.changePointsSmall {
   top: 15px;
@@ -362,6 +362,19 @@ div.changePointsSmall {
   right: 2px;
   font-size: 11px;
   color: #27b43e;
+}
+
+div.pointsContainer {
+  width: 130px;
+  height: 35px;
+  border-radius: 10px;
+  border: 3px solid #e3e3e3;
+  position: relative;
+  background-color: white;
+  color: #333333;
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
 }
 
 div.changePointsSmallenabled {
@@ -375,8 +388,7 @@ div.changePointsSmallenabled {
   animation-name: numbersRunning;
   animation-duration: 0.5s;
   animation-timing-function: ease-in;
-  /*animation-fill-mode: forwards;*/
-  /*animation-play-state: paused;*/
+  animation-fill-mode: forwards;
   animation-delay: 0.1ms;
 }
 
@@ -391,7 +403,7 @@ div.changePointsSmallenabled {
   }
 }
 
-/*PROJECTSLIST--------------------------*/
+/*PROJECTSLIST--------------------------
 /*or projListPage*/
 div.projectsList {
   margin-top: 20px;

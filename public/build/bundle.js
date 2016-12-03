@@ -27402,14 +27402,8 @@
 	  _createClass(Points, [{
 	    key: 'changeColorOnPointsWindow',
 	    value: function changeColorOnPointsWindow(color) {
+	      this.refs.pContainer.style.borderColor = color;
 	      this.refs.small.style.color = color;
-	      this.refs.oct.style.backgroundColor = color;
-	      this.refs.afterSmall.style.borderLeftColor = color;
-	      this.refs.afterSmall.style.borderRightColor = color;
-	      this.refs.beforeBig.style.borderBottomColor = color;
-	      this.refs.afterBig.style.borderTopColor = color;
-	      this.refs.beforeSmall.style.borderLeftColor = color;
-	      this.refs.beforeSmall.style.borderRightColor = color;
 	    }
 	  }, {
 	    key: 'stylizePointsWindow',
@@ -27492,24 +27486,12 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'userPoints', ref: 'points' },
-	        _react2.default.createElement('span', { className: 'beforeOct', ref: 'beforeBig' }),
 	        _react2.default.createElement(
 	          'div',
-	          { id: 'octagon', className: 'oct', ref: 'oct' },
-	          _react2.default.createElement(
-	            'span',
-	            { className: 'beforeOct', ref: 'beforeSmall' },
-	            ' '
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { id: 'octagonSmall', className: 'oct', ref: 'octSmall' },
-	            this.state.points,
-	            _react2.default.createElement('div', { className: 'changePointsSmall', ref: 'small' })
-	          ),
-	          _react2.default.createElement('span', { className: 'afterOct', ref: 'afterSmall' })
-	        ),
-	        _react2.default.createElement('span', { className: 'afterOct', ref: 'afterBig' })
+	          { className: 'pointsContainer', ref: 'pContainer' },
+	          this.state.points,
+	          _react2.default.createElement('div', { className: 'changePointsSmall', ref: 'small' })
+	        )
 	      );
 	    }
 	  }]);
