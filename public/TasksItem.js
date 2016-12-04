@@ -14,9 +14,13 @@ export default class TasksItem extends React.Component {
     this.complete = this.complete.bind(this);
     this.hideEditBtn = this.hideEditBtn.bind(this);
     this.showEditBtn = this.showEditBtn.bind(this);
-    this.showMark = this.showMark.bind(this);
-    this.hideMark = this.hideMark.bind(this);
+    // this.showMark = this.showMark.bind(this);
+    // this.hideMark = this.hideMark.bind(this);
     this.delete = this.delete.bind(this);
+    this.tick = this.tick.bind(this);
+    this.untick = this.untick.bind(this);
+    this.checkMouseOn = this.checkMouseOn.bind(this);
+    this.checkMouseOut = this.checkMouseOut.bind(this);
   }
 
   componentDidMount(){
@@ -32,6 +36,18 @@ export default class TasksItem extends React.Component {
     }
     this.refs.itemNorm.style.display = "flex";
   }
+
+  checkMouseOn(){
+    if (this.refs.checkContainer.className == "checkBoxField") {
+      this.refs.checkContainer.className = "checkBoxField-hover";
+    }
+  }
+
+  checkMouseOut(){
+    if (this.refs.checkContainer.className == "checkBoxField-hover") {
+      this.refs.checkContainer.className = "checkBoxField";
+    }
+  }
  
   edit() {
     this.props.onEdit(this.props.id); 
@@ -39,9 +55,9 @@ export default class TasksItem extends React.Component {
 
   showEditBtn(e){
     // console.dir(e.target);
-    if (e.target.className == "checkBoxField"||
-        e.target.classclassName == "taskCheckbox" ||
-        e.target.className == "check") {
+    if (e.target.className == "fa fa-check"||
+        e.target.classclassName == "checkBoxField-active" ||
+        e.target.className == "checkBoxField") {
       return;
     }
     this.refs.eBtn.style.display = "flex";
@@ -51,13 +67,29 @@ export default class TasksItem extends React.Component {
     this.refs.eBtn.style.display = "none";
   }
 
-  showMark () {
-    this.refs.check.style.display = "flex";
+  tick(){
+    let promise = new Promise ((resolve, reject) => {
+      this.refs.checkContainer.className = "checkBoxField-active";
+      setTimeout(()=> resolve(), 500);
+    })
+    return promise;
   }
 
-  hideMark () {
-    this.refs.check.style.display = "none";
+  untick(){
+    let promise = new Promise ((resolve, reject) => {
+      this.refs.checkContainer.className = "checkBoxField";
+      resolve();
+    })
+    return promise;
   }
+
+  // showMark () {
+  //   this.refs.check.style.display = "flex";
+  // }
+
+  // hideMark () {
+  //   this.refs.check.style.display = "none";
+  // }
 
   delete(){ // mustn't be repeated with TaskEditing!
     let reqParams = {
@@ -74,9 +106,9 @@ export default class TasksItem extends React.Component {
       .then(res => {
         if (res.error) {
           console.log(res.error);
-        }
-        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
-        ee.emitEvent('taskDeleted', [taskID]);        
+        } 
+        // ee.emitEvent('taskDeleted', [taskID]);    // ???
+        this.refs.item.style.display = "none";    
       })
       .catch(err => {
         console.log(err);
@@ -84,6 +116,12 @@ export default class TasksItem extends React.Component {
   }  
 
   complete() {
+    if (!this.props.repeated) {
+      this.tick().then(result => this.delete());
+    } else {
+      this.tick().then(result => this.untick());
+    }
+
     let bodyJSON = JSON.stringify({
       points: this.props.points
     });
@@ -106,9 +144,6 @@ export default class TasksItem extends React.Component {
           console.log(res.error);
         }
         ee.emitEvent('pointsUpdated', [this.props.points]);
-        if (!this.props.repeated) {
-          this.delete();
-        }
       })
       .catch(err => {
         console.log(err);
@@ -123,17 +158,20 @@ export default class TasksItem extends React.Component {
     let rep = this.props.repeated ? <i className="fa fa-repeat" aria-hidden="true"></i>
       : null;
       
-    return <div className = "tasksItem"
+    return <div className = "tasksItem" ref = "item"
             onMouseOver = {this.showEditBtn}
             onMouseOut = {this.hideEditBtn}>
               <div className = "itemNormal" ref = "itemNorm">
-                <div className = "checkBoxField"
-                  onMouseOver = {this.showMark}
-                  onMouseOut = {this.hideMark}
-                  onClick = {this.complete}>
-                  <div className = "taskCheckbox">                     
-                    <div className = "check" ref = "check"> ✓ </div>
-                  </div>
+                <div className = "checkBoxField" ref = "checkContainer"
+                  // onMouseOver = {this.showMark}
+                  // onMouseOut = {this.hideMark}
+                  // onClick = {this.complete}
+                >                                 
+                  <i className="fa fa-check" aria-hidden="true" 
+                    onClick = {this.complete}
+                    onMouseOver = {this.checkMouseOn}
+                    onMouseOut = {this.checkMouseOut}>
+                  </i> 
                 </div>
                 <div className = "taskLine">                   
                   <div className = "taskName">{this.props.name}</div>

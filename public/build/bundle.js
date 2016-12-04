@@ -29044,9 +29044,13 @@
 	    _this.complete = _this.complete.bind(_this);
 	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
 	    _this.showEditBtn = _this.showEditBtn.bind(_this);
-	    _this.showMark = _this.showMark.bind(_this);
-	    _this.hideMark = _this.hideMark.bind(_this);
+	    // this.showMark = this.showMark.bind(this);
+	    // this.hideMark = this.hideMark.bind(this);
 	    _this.delete = _this.delete.bind(_this);
+	    _this.tick = _this.tick.bind(_this);
+	    _this.untick = _this.untick.bind(_this);
+	    _this.checkMouseOn = _this.checkMouseOn.bind(_this);
+	    _this.checkMouseOut = _this.checkMouseOut.bind(_this);
 	    return _this;
 	  }
 
@@ -29067,6 +29071,20 @@
 	      this.refs.itemNorm.style.display = "flex";
 	    }
 	  }, {
+	    key: 'checkMouseOn',
+	    value: function checkMouseOn() {
+	      if (this.refs.checkContainer.className == "checkBoxField") {
+	        this.refs.checkContainer.className = "checkBoxField-hover";
+	      }
+	    }
+	  }, {
+	    key: 'checkMouseOut',
+	    value: function checkMouseOut() {
+	      if (this.refs.checkContainer.className == "checkBoxField-hover") {
+	        this.refs.checkContainer.className = "checkBoxField";
+	      }
+	    }
+	  }, {
 	    key: 'edit',
 	    value: function edit() {
 	      this.props.onEdit(this.props.id);
@@ -29075,7 +29093,7 @@
 	    key: 'showEditBtn',
 	    value: function showEditBtn(e) {
 	      // console.dir(e.target);
-	      if (e.target.className == "checkBoxField" || e.target.classclassName == "taskCheckbox" || e.target.className == "check") {
+	      if (e.target.className == "fa fa-check" || e.target.classclassName == "checkBoxField-active" || e.target.className == "checkBoxField") {
 	        return;
 	      }
 	      this.refs.eBtn.style.display = "flex";
@@ -29086,18 +29104,43 @@
 	      this.refs.eBtn.style.display = "none";
 	    }
 	  }, {
-	    key: 'showMark',
-	    value: function showMark() {
-	      this.refs.check.style.display = "flex";
+	    key: 'tick',
+	    value: function tick() {
+	      var _this2 = this;
+
+	      var promise = new Promise(function (resolve, reject) {
+	        _this2.refs.checkContainer.className = "checkBoxField-active";
+	        setTimeout(function () {
+	          return resolve();
+	        }, 500);
+	      });
+	      return promise;
 	    }
 	  }, {
-	    key: 'hideMark',
-	    value: function hideMark() {
-	      this.refs.check.style.display = "none";
+	    key: 'untick',
+	    value: function untick() {
+	      var _this3 = this;
+
+	      var promise = new Promise(function (resolve, reject) {
+	        _this3.refs.checkContainer.className = "checkBoxField";
+	        resolve();
+	      });
+	      return promise;
 	    }
+
+	    // showMark () {
+	    //   this.refs.check.style.display = "flex";
+	    // }
+
+	    // hideMark () {
+	    //   this.refs.check.style.display = "none";
+	    // }
+
 	  }, {
 	    key: 'delete',
 	    value: function _delete() {
+	      var _this4 = this;
+
 	      // mustn't be repeated with TaskEditing!
 	      var reqParams = {
 	        method: 'DELETE',
@@ -29114,8 +29157,8 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
-	        _EventEmitter2.default.emitEvent('taskDeleted', [taskID]);
+	        // ee.emitEvent('taskDeleted', [taskID]);    // ???
+	        _this4.refs.item.style.display = "none";
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29123,7 +29166,17 @@
 	  }, {
 	    key: 'complete',
 	    value: function complete() {
-	      var _this2 = this;
+	      var _this5 = this;
+
+	      if (!this.props.repeated) {
+	        this.tick().then(function (result) {
+	          return _this5.delete();
+	        });
+	      } else {
+	        this.tick().then(function (result) {
+	          return _this5.untick();
+	        });
+	      }
 
 	      var bodyJSON = JSON.stringify({
 	        points: this.props.points
@@ -29146,10 +29199,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this2.props.points]);
-	        if (!_this2.props.repeated) {
-	          _this2.delete();
-	        }
+	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this5.props.points]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29165,7 +29215,7 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'tasksItem',
+	        { className: 'tasksItem', ref: 'item',
 	          onMouseOver: this.showEditBtn,
 	          onMouseOut: this.hideEditBtn },
 	        _react2.default.createElement(
@@ -29173,19 +29223,15 @@
 	          { className: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'checkBoxField',
-	              onMouseOver: this.showMark,
-	              onMouseOut: this.hideMark,
-	              onClick: this.complete },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'taskCheckbox' },
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'check', ref: 'check' },
-	                _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
-	              )
-	            )
+	            { className: 'checkBoxField', ref: 'checkContainer'
+	              // onMouseOver = {this.showMark}
+	              // onMouseOut = {this.hideMark}
+	              // onClick = {this.complete}
+	            },
+	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true',
+	              onClick: this.complete,
+	              onMouseOver: this.checkMouseOn,
+	              onMouseOut: this.checkMouseOut })
 	          ),
 	          _react2.default.createElement(
 	            'div',

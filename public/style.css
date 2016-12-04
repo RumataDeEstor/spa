@@ -722,38 +722,56 @@ div.tasksItem div.editForm {
   justify-content: flex-start;
 }
 
-div.checkBoxField {
-  width: 40px;
-}
-
 div.tasksItem div.editButtons {
   margin-left: 70px;
 }
 
-div.taskCheckbox {
-  width: 35px;
+div.checkBoxField {
+  width: 40px;
   height: 35px;
-  border: 1px solid #767676;
   display: flex;
-  /*margin-left: 10px;*/
+  margin-right: 10px;
   align-self: center;
   align-items: center;
+  justify-content: center;
   position: relative;
   cursor: pointer;
-  /*border-radius: 7px;*/
+  box-shadow: 1px 0px 0px 0px #f2f2f2,
+  2px 0px 0px 0px #d9d9d9;
+  font-size: 20px;
+  color: #d8d8d8;
 }
 
-div.taskCheckbox div {
-  position: absolute;
-  font-size: 25px;
-  left: -2px;
-  bottom: -6px;
-  color: #50bb50;
-  display: none;
+div.checkBoxField-hover {
+  width: 40px;
+  height: 35px;
+  display: flex;
+  margin-right: 10px;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 1px 0px 0px 0px #f2f2f2,
+  2px 0px 0px 0px #d9d9d9;
+  font-size: 20px;
+  color: #8fce99;
 }
 
-div.taskCheckbox div:hover {
-  visibility: visible;
+div.checkBoxField-active {
+  width: 40px;
+  height: 35px;
+  display: flex;
+  margin-right: 10px;
+  align-self: center;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: pointer;
+  box-shadow: 1px 0px 0px 0px #f2f2f2,
+  2px 0px 0px 0px #d9d9d9;
+  font-size: 20px;
+  color: #49c15d;
 }
 
 div.taskLine {
