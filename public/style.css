@@ -359,7 +359,7 @@ div.changePointsSmall {
   height: 27px;
   width: 30px;
   position: absolute;
-  right: 2px;
+  left: 5px;
   font-size: 11px;
   color: #27b43e;
 }
@@ -368,23 +368,15 @@ div.pointsContainer {
   width: 130px;
   height: 35px;
   border-radius: 10px;
-  /*border: 3px solid #e3e3e3;*/
- /* box-shadow: 
-    inset 0px -1px 0px 0px #3baf43,
-    inset 0px -2px 0px 0px #66d16e,
-    inset 0px -3px 0px 0px #9ef9a5,
-
-    inset 0px 1px 0px 0px #3baf43,    
-    inset 0px 2px 0px 0px #66d16e,
-    inset 0px 3px 0px 0px #9ef9a5;*/
-  box-shadow: inset 2px 2px 4px 0px rgba(128,128,128,0.6),
-    inset -2px -2px 4px 0px rgba(128,128,128,0.6);
+  box-shadow: inset 1px 1px 3px 1px rgba(128,128,128,0.4), inset -1px -1px 3px 1px rgba(128,128,128,0.4);
   position: relative;
   background-color: white;
   color: #333333;
   display: flex;
+  justify-content: flex-end;
   align-items: center;
-  padding-left: 8px;
+  padding-right: 8px;
+  font: bold 15px Verdana;
 }
 
 div.changePointsSmallenabled {
@@ -392,7 +384,7 @@ div.changePointsSmallenabled {
   height: 27px;
   width: 30px;
   position: absolute;
-  right: 2px;
+  left: 5px;
   font-size: 11px;
   color: #27b43e;
   animation-name: numbersRunning;
@@ -731,7 +723,7 @@ div.tasksItem div.editForm {
 }
 
 div.checkBoxField {
-  width: 35px;
+  width: 40px;
 }
 
 div.tasksItem div.editButtons {
@@ -739,16 +731,16 @@ div.tasksItem div.editButtons {
 }
 
 div.taskCheckbox {
-  width: 12px;
-  height: 12px;
+  width: 35px;
+  height: 35px;
   border: 1px solid #767676;
   display: flex;
-  margin-left: 10px;
+  /*margin-left: 10px;*/
   align-self: center;
   align-items: center;
   position: relative;
   cursor: pointer;
-  border-radius: 7px;
+  /*border-radius: 7px;*/
 }
 
 div.taskCheckbox div {

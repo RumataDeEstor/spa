@@ -27396,37 +27396,45 @@
 	    _this.listener = _this.listener.bind(_this);
 	    _this.stylizePointsWindow = _this.stylizePointsWindow.bind(_this);
 	    _this.changeColorOnPointsWindow = _this.changeColorOnPointsWindow.bind(_this);
+	    _this.changeBoxShadowColor = _this.changeBoxShadowColor.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Points, [{
 	    key: 'changeColorOnPointsWindow',
-	    value: function changeColorOnPointsWindow(color) {
-	      this.refs.pContainer.style.borderColor = color;
+	    value: function changeColorOnPointsWindow(color, shadowColor) {
 	      this.refs.small.style.color = color;
+	      this.changeBoxShadowColor(shadowColor);
+	    }
+	  }, {
+	    key: 'changeBoxShadowColor',
+	    value: function changeBoxShadowColor(color) {
+	      this.refs.pContainer.style.boxShadow = 'inset 1px 1px 3px 1px ' + color + ', inset -1px -1px 3px 1px ' + color;
 	    }
 	  }, {
 	    key: 'stylizePointsWindow',
 	    value: function stylizePointsWindow(points) {
 	      var color = "black";
+	      var shadowColor = "rgba(128,128,128,0.4)";
 	      if (points > 0) {
 	        this.refs.small.innerHTML = '+' + points;
 	        color = '#27b43e';
+	        shadowColor = "rgba(9, 148, 20, 0.76)";
 	      } else {
 	        this.refs.small.innerHTML = points;
 	        color = '#c13d3d';
+	        shadowColor = "rgba(210, 37, 37, 0.69)";
 	      }
-	      this.changeColorOnPointsWindow(color);
+	      this.changeColorOnPointsWindow(color, shadowColor);
 	    }
 	  }, {
 	    key: 'listener',
 	    value: function listener() {
-	      // console.log('circle');
-	      // this.refs.small.style.animationPlayState = "paused";
 	      this.refs.small.className = "changePointsSmall";
 	      this.refs.small.innerHTML = "";
 	      var color = "#e3e3e3";
-	      this.changeColorOnPointsWindow(color);
+	      var shadowColor = "rgba(128,128,128,0.4)";
+	      this.changeColorOnPointsWindow(color, shadowColor);
 	    }
 	  }, {
 	    key: 'updatePoints',
@@ -27489,8 +27497,8 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'pointsContainer', ref: 'pContainer' },
-	          this.state.points,
-	          _react2.default.createElement('div', { className: 'changePointsSmall', ref: 'small' })
+	          _react2.default.createElement('div', { className: 'changePointsSmall', ref: 'small' }),
+	          this.state.points
 	        )
 	      );
 	    }
@@ -29175,7 +29183,7 @@
 	              _react2.default.createElement(
 	                'div',
 	                { className: 'check', ref: 'check' },
-	                ' ✓ '
+	                _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 	              )
 	            )
 	          ),

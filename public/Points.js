@@ -16,32 +16,39 @@ export default class Points extends React.Component {
     this.listener = this.listener.bind(this);
     this.stylizePointsWindow = this.stylizePointsWindow.bind(this);
     this.changeColorOnPointsWindow = this.changeColorOnPointsWindow.bind(this);
+    this.changeBoxShadowColor = this.changeBoxShadowColor.bind(this);
   }
 
-  changeColorOnPointsWindow (color) {
-    this.refs.pContainer.style.borderColor = color;
+  changeColorOnPointsWindow (color, shadowColor) {
     this.refs.small.style.color = color;
+    this.changeBoxShadowColor(shadowColor);
+  }
+
+  changeBoxShadowColor (color) {
+    this.refs.pContainer.style.boxShadow = `inset 1px 1px 3px 1px ${color}, inset -1px -1px 3px 1px ${color}`;
   }
 
   stylizePointsWindow (points) {
     let color = "black";
+    let shadowColor = "rgba(128,128,128,0.4)";
     if (points > 0) {
       this.refs.small.innerHTML = `+${points}`;
-      color = '#27b43e';      
+      color = '#27b43e';  
+      shadowColor = "rgba(9, 148, 20, 0.76)"; 
     } else {
       this.refs.small.innerHTML = points;
       color = '#c13d3d';  
+      shadowColor = "rgba(210, 37, 37, 0.69)";
     }
-    this.changeColorOnPointsWindow(color);    
+    this.changeColorOnPointsWindow(color, shadowColor);    
   }
 
   listener () {
-    // console.log('circle');
-    // this.refs.small.style.animationPlayState = "paused";
     this.refs.small.className = "changePointsSmall";
     this.refs.small.innerHTML = "";
     let color = "#e3e3e3";
-    this.changeColorOnPointsWindow(color);
+    let shadowColor = "rgba(128,128,128,0.4)";
+    this.changeColorOnPointsWindow(color, shadowColor);
   }
 
   updatePoints(points) {
@@ -93,8 +100,8 @@ export default class Points extends React.Component {
   render () {
     return<div className = "userPoints" ref = "points">
             <div className = "pointsContainer" ref = "pContainer">
-              {this.state.points}
               <div className = "changePointsSmall" ref = "small"></div>
+              {this.state.points}              
             </div>
           </div>
   }
