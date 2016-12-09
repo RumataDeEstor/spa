@@ -62,39 +62,39 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Login = __webpack_require__(242);
+	var _Login = __webpack_require__(243);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _NotFound = __webpack_require__(243);
+	var _NotFound = __webpack_require__(244);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Project = __webpack_require__(244);
+	var _Project = __webpack_require__(245);
 
 	var _Project2 = _interopRequireDefault(_Project);
 
-	var _Projects = __webpack_require__(251);
+	var _Projects = __webpack_require__(252);
 
 	var _Projects2 = _interopRequireDefault(_Projects);
 
-	var _ProjectsAddNew = __webpack_require__(252);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsList = __webpack_require__(253);
+	var _ProjectsList = __webpack_require__(254);
 
 	var _ProjectsList2 = _interopRequireDefault(_ProjectsList);
 
-	var _Signup = __webpack_require__(256);
+	var _Signup = __webpack_require__(257);
 
 	var _Signup2 = _interopRequireDefault(_Signup);
 
-	var _StartPage = __webpack_require__(257);
+	var _StartPage = __webpack_require__(258);
 
 	var _StartPage2 = _interopRequireDefault(_StartPage);
 
-	var _RuleList = __webpack_require__(258);
+	var _RuleList = __webpack_require__(259);
 
 	var _RuleList2 = _interopRequireDefault(_RuleList);
 
@@ -102,7 +102,7 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _Promotions = __webpack_require__(262);
+	var _Promotions = __webpack_require__(263);
 
 	var _Promotions2 = _interopRequireDefault(_Promotions);
 
@@ -27165,6 +27165,10 @@
 
 	var _PromotionsShortList2 = _interopRequireDefault(_PromotionsShortList);
 
+	var _Failure = __webpack_require__(242);
+
+	var _Failure2 = _interopRequireDefault(_Failure);
+
 	var _EventEmitter = __webpack_require__(238);
 
 	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
@@ -27177,33 +27181,85 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var AppTotalContent = function AppTotalContent(props) {
+	  var shouldShowShortList = props.children.type.name !== "Promotions";
+	  var component = shouldShowShortList ? _react2.default.createElement(_PromotionsShortList2.default, { login: props.login }) : null;
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'appTotalContent' },
+	    _react2.default.createElement(_InternalTopmenu2.default, { login: props.login }),
+	    _react2.default.createElement(
+	      'div',
+	      { id: 'appContent' },
+	      props.children,
+	      props.component
+	    )
+	  );
+	};
+
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
 
 	  function App(props) {
 	    _classCallCheck(this, App);
 
-	    return _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+
+	    _this.checkAccess = _this.checkAccess.bind(_this);
+	    _this.state = { access: false };
+	    return _this;
 	  }
 
-	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-
-
 	  _createClass(App, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+
+	      this.checkAccess().then(function (result) {
+	        console.log();
+	        _this2.setState({ access: result });
+	      });
+	    }
+	  }, {
+	    key: 'checkAccess',
+	    value: function checkAccess() {
+	      var _this3 = this;
+
+	      var promise = new Promise(function (resolve, reject) {
+	        var reqParams = {
+	          method: 'GET',
+	          credentials: 'include'
+	        };
+	        fetch('/api/checkAccess/' + _this3.props.params.login, reqParams).then(function (res) {
+	          return res.json();
+	        }).then(function (res) {
+	          if (res.error) {
+	            console.log(res.error);
+	            resolve(false);
+	          }
+	          resolve(true);
+	        }).catch(function (err) {
+	          reject(err);
+	        });
+	      });
+	      return promise;
+	    }
+
+	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
+
+	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var shouldShowShortList = this.props.children.type.name !== "Promotions";
-	      var component = shouldShowShortList ? _react2.default.createElement(_PromotionsShortList2.default, { login: this.props.params.login }) : null;
+	      var access = this.state.access;
+	      var content = access ? _react2.default.createElement(AppTotalContent, { children: this.props.children,
+	        login: this.props.params.login
+	      }) : _react2.default.createElement(_Failure2.default, null);
+
 	      return _react2.default.createElement(
 	        'div',
 	        { id: 'app' },
-	        _react2.default.createElement(_InternalTopmenu2.default, { login: this.props.params.login }),
-	        _react2.default.createElement(
-	          'div',
-	          { id: 'appContent' },
-	          this.props.children,
-	          component
-	        )
+	        content
 	      );
 	    }
 	  }]);
@@ -28560,6 +28616,64 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+	var Failure = function (_React$Component) {
+	  _inherits(Failure, _React$Component);
+
+	  function Failure(props) {
+	    _classCallCheck(this, Failure);
+
+	    return _possibleConstructorReturn(this, (Failure.__proto__ || Object.getPrototypeOf(Failure)).call(this, props));
+	  }
+
+	  _createClass(Failure, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'failure' },
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          ' Sorry! :( '
+	        ),
+	        "You can not view this page.\n" + "Perhaps this is a private page of another user or you are not logged in.\n" + "Try to log in."
+	      );
+	    }
+	  }]);
+
+	  return Failure;
+	}(_react2.default.Component);
+
+	exports.default = Failure;
+
+/***/ },
+/* 243 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 	var Login = function (_React$Component) {
 	  _inherits(Login, _React$Component);
 
@@ -28643,7 +28757,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28696,7 +28810,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28715,11 +28829,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksList = __webpack_require__(245);
+	var _TasksList = __webpack_require__(246);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(249);
+	var _reactAddonsUpdate = __webpack_require__(250);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
@@ -28806,7 +28920,7 @@
 	exports.default = Project;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28825,11 +28939,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksItem = __webpack_require__(246);
+	var _TasksItem = __webpack_require__(247);
 
 	var _TasksItem2 = _interopRequireDefault(_TasksItem);
 
-	var _TasksAddNew = __webpack_require__(248);
+	var _TasksAddNew = __webpack_require__(249);
 
 	var _TasksAddNew2 = _interopRequireDefault(_TasksAddNew);
 
@@ -28997,7 +29111,7 @@
 	exports.default = TasksList;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29016,7 +29130,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskEditing = __webpack_require__(247);
+	var _TaskEditing = __webpack_require__(248);
 
 	var _TaskEditing2 = _interopRequireDefault(_TaskEditing);
 
@@ -29278,7 +29392,7 @@
 	};
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29477,7 +29591,7 @@
 	exports.default = TaskEditing;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29651,13 +29765,13 @@
 	};
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(250);
+	module.exports = __webpack_require__(251);
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -29776,7 +29890,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29829,7 +29943,7 @@
 	exports.default = Projects;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30015,7 +30129,7 @@
 	};
 
 /***/ },
-/* 253 */
+/* 254 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30034,11 +30148,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectsAddNew = __webpack_require__(252);
+	var _ProjectsAddNew = __webpack_require__(253);
 
 	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
 
-	var _ProjectsItem = __webpack_require__(254);
+	var _ProjectsItem = __webpack_require__(255);
 
 	var _ProjectsItem2 = _interopRequireDefault(_ProjectsItem);
 
@@ -30190,7 +30304,7 @@
 	exports.default = ProjectsList;
 
 /***/ },
-/* 254 */
+/* 255 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30209,7 +30323,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _ProjectEditing = __webpack_require__(255);
+	var _ProjectEditing = __webpack_require__(256);
 
 	var _ProjectEditing2 = _interopRequireDefault(_ProjectEditing);
 
@@ -30311,7 +30425,7 @@
 	};
 
 /***/ },
-/* 255 */
+/* 256 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30517,7 +30631,7 @@
 	exports.default = ProjectEditing;
 
 /***/ },
-/* 256 */
+/* 257 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30656,7 +30770,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 257 */
+/* 258 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30745,7 +30859,7 @@
 	exports.default = StartPage;
 
 /***/ },
-/* 258 */
+/* 259 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30764,11 +30878,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _RuleItem = __webpack_require__(259);
+	var _RuleItem = __webpack_require__(260);
 
 	var _RuleItem2 = _interopRequireDefault(_RuleItem);
 
-	var _RuleAddNew = __webpack_require__(261);
+	var _RuleAddNew = __webpack_require__(262);
 
 	var _RuleAddNew2 = _interopRequireDefault(_RuleAddNew);
 
@@ -30932,7 +31046,7 @@
 	exports.default = RuleList;
 
 /***/ },
-/* 259 */
+/* 260 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30951,7 +31065,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _RuleEditing = __webpack_require__(260);
+	var _RuleEditing = __webpack_require__(261);
 
 	var _RuleEditing2 = _interopRequireDefault(_RuleEditing);
 
@@ -31119,7 +31233,7 @@
 	exports.default = RuleItem;
 
 /***/ },
-/* 260 */
+/* 261 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31321,7 +31435,7 @@
 	exports.default = RuleEditing;
 
 /***/ },
-/* 261 */
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31519,7 +31633,7 @@
 	};
 
 /***/ },
-/* 262 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -31542,7 +31656,7 @@
 
 	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
 
-	var _PromotionsAddNew = __webpack_require__(263);
+	var _PromotionsAddNew = __webpack_require__(264);
 
 	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
 
@@ -31687,7 +31801,7 @@
 	exports.default = Promotions;
 
 /***/ },
-/* 263 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';

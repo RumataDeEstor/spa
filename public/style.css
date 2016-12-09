@@ -1186,5 +1186,9 @@ div.ruleAddNew button.add {
   background-color: #c13d3d;
 }
 
+/*Failure--------------------------------------------------------*/
 
+div.failure {
+  white-space: pre-wrap;
+}
 

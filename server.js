@@ -61,9 +61,30 @@ passport.deserializeUser(function(id, done) {
   });
 });
 
+let isAuthenticated = function (req, res, next) {
+  const loginsMatch = () => {
+    if (req.params.login) {
+      return req.params.login === req.user.login;
+    }
+    return true;
+  }
+
+  if (req.isAuthenticated() && loginsMatch()) 
+    return next(); 
+  res.status(403).send({error: 'Forbidden'});
+}
+
 app.use((req,res,next) => {
   debug(`req to ${req.url}. AJAX: ${req.xhr}`);
   next();
+});
+
+// app.get('/failure', (req, res, next) => {
+//   res.send('Forbidden');
+// })
+
+app.get('/api/checkAccess/:login', isAuthenticated, (req, res, next) => {
+  res.status(200).send({message: 'OK'});
 });
 
 app.get('/api/allusers', (req,res,next) => {  // only for debugging!
@@ -71,8 +92,7 @@ app.get('/api/allusers', (req,res,next) => {  // only for debugging!
   User.find({}, (err, users) => {
     if (err) debug(err);
     res.send(users);
-  });
-  
+  }); 
 });
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -105,7 +125,10 @@ app.post('/api/signup', (req,res,next) => {
    
 app.post('/api/login', function(req, res, next) {
   passport.authenticate('local', function(err, user, info) {
-    if (err) { return res.status(err.statusCode).send({error: err.message}); };
+    if (err) { 
+      console.log('auth error');
+      return res.status(err.statusCode).send({error: err.message}); 
+    };
     if (!user) { return res.status(401).send({error: info.message}); }
     req.logIn(user, function(err) {
       if (err) { return res.status(err.statusCode).send({error: err.message}); }
@@ -115,12 +138,9 @@ app.post('/api/login', function(req, res, next) {
   })(req, res, next);
 });
 
-let isAuthenticated = function (req, res, next) {
-  if (req.isAuthenticated())
-    return next();
-  // debug(req.user);
-  res.status(403).send({error: 'Forbidden'});
-}
+
+
+
 
 // TODO: user shouldn't see Login page if Ath-d.
 
@@ -607,6 +627,7 @@ app.post('/api/logout', isAuthenticated, (req,res,next) => {
   } //....
 });
 
+
 app.get('*', (req, res,next) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
@@ -629,3 +650,5 @@ app.use((err, req, res, next) => {
 app.listen(port, ()=>{
 	debug(`Listening on port ${port}`);
 });
+
+
