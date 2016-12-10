@@ -27193,7 +27193,7 @@
 	      'div',
 	      { id: 'appContent' },
 	      props.children,
-	      props.component
+	      component
 	    )
 	  );
 	};

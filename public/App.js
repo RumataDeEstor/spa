@@ -18,7 +18,7 @@ const AppTotalContent = (props) => {
           <InternalTopmenu login = {props.login}/>
           <div id = "appContent">
             {props.children}
-            {props.component}
+            {component}
           </div>
         </div>
 }
