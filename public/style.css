@@ -215,17 +215,27 @@ body {
   font-family: Verdana;
 }
 
-#root {
+div#root {
   position: absolute;  
   color: #767676;
   top: 0;
   left: 0;
   width: 100%;
   background: inherit;
-  min-height: 100%;
+  height: 100%;
 }
 
-#appContent {
+div#app {
+  width: 100%;
+  height: 100%;
+}
+
+div.appPending div {
+  height: 60px;
+  align-self: center;
+}
+
+div#appContent {
   margin-left: 10px;
   margin-top: 65px;
   display: flex;
@@ -1186,9 +1196,20 @@ div.ruleAddNew button.add {
   background-color: #c13d3d;
 }
 
+/*AppPending-----------------------------------------------------------*/
+
+div.appPending {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
 /*Failure--------------------------------------------------------*/
 
 div.failure {
   white-space: pre-wrap;
 }
+
 

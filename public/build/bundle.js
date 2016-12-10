@@ -27198,6 +27198,19 @@
 	  );
 	};
 
+	var AppContentPending = function AppContentPending(props) {
+
+	  return _react2.default.createElement(
+	    'div',
+	    { className: 'appPending' },
+	    _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement('i', { className: 'fa fa-refresh fa-spin fa-3x fa-fw' })
+	    )
+	  );
+	};
+
 	var App = function (_React$Component) {
 	  _inherits(App, _React$Component);
 
@@ -27207,7 +27220,7 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	    _this.checkAccess = _this.checkAccess.bind(_this);
-	    _this.state = { access: false };
+	    _this.state = { access: false, pending: true };
 	    return _this;
 	  }
 
@@ -27217,8 +27230,7 @@
 	      var _this2 = this;
 
 	      this.checkAccess().then(function (result) {
-	        console.log();
-	        _this2.setState({ access: result });
+	        _this2.setState({ access: result, pending: false });
 	      });
 	    }
 	  }, {
@@ -27252,9 +27264,15 @@
 	    key: 'render',
 	    value: function render() {
 	      var access = this.state.access;
-	      var content = access ? _react2.default.createElement(AppTotalContent, { children: this.props.children,
-	        login: this.props.params.login
-	      }) : _react2.default.createElement(_Failure2.default, null);
+	      var pending = this.state.pending;
+	      var content = null;
+	      if (pending) {
+	        content = _react2.default.createElement(AppContentPending, null);
+	      } else {
+	        content = access ? _react2.default.createElement(AppTotalContent, { children: this.props.children,
+	          login: this.props.params.login
+	        }) : _react2.default.createElement(_Failure2.default, null);
+	      }
 
 	      return _react2.default.createElement(
 	        'div',
