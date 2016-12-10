@@ -79,8 +79,9 @@ app.use((req,res,next) => {
   next();
 });
 
+
 app.get('/api/checkAccess/:login', isAuthenticated, (req, res, next) => {
-  res.status(200).send({message: 'OK'});  
+  res.status(200).send({message: 'OK'});
 });
 
 app.get('/api/allusers', (req,res,next) => {  // only for debugging!
