@@ -91,11 +91,13 @@ userSchema.methods.validPassword = function(pass){
 }
 
 userSchema.path('login').validate(function (v) {
-  return v.length > 2 && v.length < 20;
+  return ( (v.length > 3 && v.length < 21) 
+          && (/^[a-zA-Z]\w+$/.test(v)) );
 });
 
 userSchema.path('password').validate(function (v) {
-  return v.length > 5 && v.length < 30;
+  return ( (v.length > 5 && v.length < 21)
+          && (/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(v)) );
 });
 
 module.exports = mongoose.model('User', userSchema);

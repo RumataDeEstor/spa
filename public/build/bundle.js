@@ -28701,39 +28701,127 @@
 	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
 	    _this.logIn = _this.logIn.bind(_this);
-	    _this.fieldOnFocus = _this.fieldOnFocus.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this); // frontend validation
+	    _this.checkLogin = _this.checkLogin.bind(_this);
+	    _this.checkPassword = _this.checkPassword.bind(_this);
+	    _this.printWarning = _this.printWarning.bind(_this);
+	    _this.decorateFieldsOnWarnings = _this.decorateFieldsOnWarnings.bind(_this);
+	    _this.parseServerErrors = _this.parseServerErrors.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(Login, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.loginForm.addEventListener('submit', this.checkForm, false);
+	      this.refs.login.addEventListener('input', this.checkLogin, false);
+	      this.refs.password.addEventListener('input', this.checkPassword, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      if (this.checkLogin() && this.checkPassword()) this.logIn();
+	    }
+	  }, {
+	    key: 'parseServerErrors',
+	    value: function parseServerErrors(msg) {
+	      var warning = "";
+	      if (msg == 'Incorrect username.' || 'Incorrect password.') {
+	        warning = "Wrong login or password.";
+	      } else {
+	        console.log(msg);
+	        return;
+	      }
+	      this.printWarning(warning, this.refs.passWarn, this.refs.password);
+	      this.printWarning(warning, this.refs.loginWarn, this.refs.login);
+	    }
+	  }, {
+	    key: 'checkLogin',
+	    value: function checkLogin(e) {
+	      var login = e ? e.target.value : this.refs.login.value;
+	      var warning = "";
+	      var isAccepted = false;
+	      if (login.length < 4) {
+	        warning = 'Login is too short. You need more than 3 characters.';
+	      } else if (login.length > 20) {
+	        warning = 'Login is too long. You need less than 21 characters.';
+	      } else if (!/^\w+$/.test(login)) {
+	        warning = 'Only Latin letters, digits and "_", please.';
+	      } else if (!/^[a-zA-Z]\w+$/.test(login)) {
+	        warning = 'The 1st character must be a letter.';
+	      } else {
+	        warning = "";
+	        isAccepted = true;
+	      }
+	      this.printWarning(warning, this.refs.loginWarn, this.refs.login);
+	      return isAccepted;
+	    }
+	  }, {
+	    key: 'checkPassword',
+	    value: function checkPassword(e) {
+	      var password = e ? e.target.value : this.refs.password.value;
+	      var warning = "";
+	      var isAccepted = false;
+	      if (password.length < 6) {
+	        warning = 'Password is too short. You need more than 5 characters.';
+	      } else if (password.length > 20) {
+	        warning = 'Password is too long. You need less than 21 characters.';
+	      } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(password)) {
+	        warning = 'Upper and lowercase Latin letters and numbers required\n        (at least 1 character of each type).';
+	      } else {
+	        warning = "";
+	        isAccepted = true;
+	      }
+	      this.printWarning(warning, this.refs.passWarn, this.refs.password);
+	      return isAccepted;
+	    }
+	  }, {
+	    key: 'decorateFieldsOnWarnings',
+	    value: function decorateFieldsOnWarnings(isToDecorate, field) {
+	      var borderStyle = isToDecorate ? "2px ridge #E33B35" : "1px ridge #cdcfd2";
+	      field.style.border = borderStyle;
+	      field.style.marginBottom = isToDecorate ? "0" : "2px";
+	    }
+	  }, {
+	    key: 'printWarning',
+	    value: function printWarning(warning, warnField, decorateField) {
+	      if (!warning) {
+	        warnField.innerHTML = "";
+	        this.decorateFieldsOnWarnings(false, decorateField);
+	        return;
+	      }
+	      warnField.innerHTML = '<i class="fa fa-exclamation-triangle" \n      aria-hidden="true"></i>' + warning;
+	      this.decorateFieldsOnWarnings(true, decorateField);
+	    }
+	  }, {
 	    key: 'logIn',
 	    value: function logIn() {
 	      var _this2 = this;
 
-	      // JSON
+	      var bodyJSON = JSON.stringify({
+	        login: this.refs.login.value,
+	        password: this.refs.password.value
+	      });
+
 	      var reqParams = {
 	        method: 'POST',
 	        headers: {
-	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+	          "Content-type": "application/json; charset=UTF-8"
 	        },
-	        body: 'login=' + encodeURIComponent(this.refs.login.value) + '&password=' + encodeURIComponent(this.refs.password.value),
-	        credentials: 'include'
+	        credentials: 'include',
+	        body: bodyJSON
 	      };
 
 	      fetch('/api/login', reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          _this2.refs.warn.innerHTML = res.error;
+	          _this2.parseServerErrors(res.error);
 	          return;
 	        }
 	        _reactRouter.browserHistory.push('app/' + res.login);
 	      }).catch(console.log);
-	    }
-	  }, {
-	    key: 'fieldOnFocus',
-	    value: function fieldOnFocus() {
-	      this.refs.warn.innerHTML = '';
 	    }
 	  }, {
 	    key: 'render',
@@ -28742,27 +28830,25 @@
 	        'div',
 	        { className: 'authForms' },
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'lpForm' },
+	          'form',
+	          { className: 'lpForm', ref: 'loginForm' },
 	          'Login:',
 	          _react2.default.createElement('input', { className: 'login',
-	            onFocus: this.fieldOnFocus,
-	            ref: 'login'
+	            ref: 'login',
+	            name: 'login'
 	          }),
+	          _react2.default.createElement('div', { ref: 'loginWarn', className: 'warn' }),
 	          'Password:',
-	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus,
+	          _react2.default.createElement('input', { type: 'password',
 	            className: 'password',
-	            ref: 'password'
+	            ref: 'password',
+	            name: 'password'
 	          }),
-	          _react2.default.createElement('div', { ref: 'warn', className: 'warn' }),
+	          _react2.default.createElement('div', { ref: 'passWarn', className: 'warn' }),
 	          _react2.default.createElement(
 	            'p',
 	            { className: 'pBtn' },
-	            _react2.default.createElement(
-	              'button',
-	              { id: 'loginBtn', onClick: this.logIn },
-	              'Log in'
-	            )
+	            _react2.default.createElement('input', { type: 'submit', id: 'loginBtn', value: 'Log in' })
 	          )
 	        )
 	      );
@@ -30714,39 +30800,127 @@
 	    var _this2 = _possibleConstructorReturn(this, (Signup.__proto__ || Object.getPrototypeOf(Signup)).call(this, props));
 
 	    _this2.signUp = _this2.signUp.bind(_this2);
-	    _this2.fieldOnFocus = _this2.fieldOnFocus.bind(_this2);
 	    _this2.state = { registered: false, login: null };
 	    // WTF
+
+	    _this2.checkForm = _this2.checkForm.bind(_this2); // frontend validation
+	    _this2.checkLogin = _this2.checkLogin.bind(_this2);
+	    _this2.checkPassword = _this2.checkPassword.bind(_this2);
+	    _this2.printWarning = _this2.printWarning.bind(_this2);
+	    _this2.decorateFieldsOnWarnings = _this2.decorateFieldsOnWarnings.bind(_this2);
+	    _this2.parseServerErrors = _this2.parseServerErrors.bind(_this2);
 	    return _this2;
 	  }
 
 	  _createClass(Signup, [{
-	    key: 'fieldOnFocus',
-	    value: function fieldOnFocus() {
-	      this.refs.warn.innerHTML = '';
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.signupForm.addEventListener('submit', this.checkForm, false);
+	      this.refs.login.addEventListener('input', this.checkLogin, false);
+	      this.refs.password.addEventListener('input', this.checkPassword, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      if (this.checkLogin() && this.checkPassword()) this.signUp();
+	    }
+	  }, {
+	    key: 'parseServerErrors',
+	    value: function parseServerErrors(msg) {
+	      var warning = "";
+	      if (msg == 'duplicate') {
+	        warning = "Login already in use. Get creative. :)";
+	      } else {
+	        console.log(msg);
+	        return;
+	      }
+	      this.printWarning(warning, this.refs.loginWarn, this.refs.login);
+	    }
+	  }, {
+	    key: 'checkLogin',
+	    value: function checkLogin(e) {
+	      var login = e ? e.target.value : this.refs.login.value;
+	      var warning = "";
+	      var isAccepted = false;
+	      if (login.length < 4) {
+	        warning = 'Login is too short. You need more than 3 characters.';
+	      } else if (login.length > 20) {
+	        warning = 'Login is too long. You need less than 21 characters.';
+	      } else if (!/^\w+$/.test(login)) {
+	        warning = 'Only Latin letters, digits and "_", please.';
+	      } else if (!/^[a-zA-Z]\w+$/.test(login)) {
+	        warning = 'The 1st character must be a letter.';
+	      } else {
+	        warning = "";
+	        isAccepted = true;
+	      }
+	      this.printWarning(warning, this.refs.loginWarn, this.refs.login);
+	      return isAccepted;
+	    }
+	  }, {
+	    key: 'checkPassword',
+	    value: function checkPassword(e) {
+	      var password = e ? e.target.value : this.refs.password.value;
+	      var warning = "";
+	      var isAccepted = false;
+	      if (password.length < 6) {
+	        warning = 'Password is too short. You need more than 5 characters.';
+	      } else if (password.length > 20) {
+	        warning = 'Password is too long. You need less than 21 characters.';
+	      } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(password)) {
+	        warning = 'Upper and lowercase Latin letters and numbers required\n        (at least 1 character of each type).';
+	      } else {
+	        warning = "";
+	        isAccepted = true;
+	      }
+	      this.printWarning(warning, this.refs.passWarn, this.refs.password);
+	      return isAccepted;
+	    }
+	  }, {
+	    key: 'decorateFieldsOnWarnings',
+	    value: function decorateFieldsOnWarnings(isToDecorate, field) {
+	      var borderStyle = isToDecorate ? "2px ridge #E33B35" : "1px ridge #cdcfd2";
+	      field.style.border = borderStyle;
+	      field.style.marginBottom = isToDecorate ? "0" : "2px";
+	    }
+	  }, {
+	    key: 'printWarning',
+	    value: function printWarning(warning, warnField, decorateField) {
+	      if (!warning) {
+	        warnField.innerHTML = "";
+	        this.decorateFieldsOnWarnings(false, decorateField);
+	        return;
+	      }
+	      warnField.innerHTML = '<i class="fa fa-exclamation-triangle" \n      aria-hidden="true"></i>' + warning;
+	      this.decorateFieldsOnWarnings(true, decorateField);
 	    }
 	  }, {
 	    key: 'signUp',
 	    value: function signUp() {
 	      var _this3 = this;
 
-	      // JSON
+	      var bodyJSON = JSON.stringify({
+	        login: this.refs.login.value,
+	        password: this.refs.password.value
+	      });
+
 	      var reqParams = {
 	        method: 'POST',
 	        headers: {
-	          "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"
+	          "Content-type": "application/json; charset=UTF-8"
 	        },
-	        body: 'login=' + encodeURIComponent(this.refs.login.value) + '&password=' + encodeURIComponent(this.refs.password.value)
+	        credentials: 'include',
+	        body: bodyJSON
 	      };
 
 	      fetch('/api/signup', reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          _this3.refs.warn.innerHTML = res.error;
+	          _this3.parseServerErrors(res.error);
 	          return;
 	        }
-	        _this3.fieldOnFocus();
 	        _this3.setState({ registered: true, login: res.login }); // ?                            
 	      }).catch(console.log);
 	    }
@@ -30758,23 +30932,20 @@
 	        'div',
 	        { className: 'authForms' },
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'lpForm' },
+	          'form',
+	          { className: 'lpForm', ref: 'signupForm' },
 	          'Login:',
-	          _react2.default.createElement('input', { className: 'login', ref: 'login', onFocus: this.fieldOnFocus }),
+	          _react2.default.createElement('input', { className: 'login', ref: 'login' }),
+	          _react2.default.createElement('div', { ref: 'loginWarn', className: 'warn' }),
 	          'Password:',
-	          _react2.default.createElement('input', { type: 'password', onFocus: this.fieldOnFocus, ref: 'password',
+	          _react2.default.createElement('input', { type: 'password', ref: 'password',
 	            className: 'password'
 	          }),
-	          _react2.default.createElement('div', { ref: 'warn', className: 'warn' }),
+	          _react2.default.createElement('div', { ref: 'passWarn', className: 'warn' }),
 	          _react2.default.createElement(
 	            'p',
 	            { className: 'pBtn' },
-	            _react2.default.createElement(
-	              'button',
-	              { id: 'signupBtn', onClick: this.signUp },
-	              'Sign up'
-	            )
+	            _react2.default.createElement('input', { type: 'submit', id: 'signupBtn', value: 'Sign up' })
 	          ),
 	          readyMessage
 	        )

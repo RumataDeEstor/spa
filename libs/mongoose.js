@@ -11,7 +11,7 @@ db.on('error', (err) => {
 });
 
 db.once('open', () => {
-  mongoose.connection.db.dropDatabase();
+  debug("Connected to DB!");
 });
 
 module.exports = mongoose;

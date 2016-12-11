@@ -123,8 +123,8 @@ ul.links li a {
   padding: 0 30px;
 }
 
-.links li:first-child {
-  border: none;
+div.appTotalContent .links li:first-child {
+  /*border: none;*/
   display: flex;
   align-items: center;
 }
@@ -142,7 +142,7 @@ div .authForms { /*?? auth or div*/
   justify-content: center;
 }
 
-div.lpForm {
+form.lpForm {
   width: 240px;
   max-width: 240px;
   display: flex;
@@ -155,20 +155,25 @@ div.lpForm {
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
 }
 
-div.lpForm p {
+form.lpForm p {
   margin-top: 0;
 }
 
 input.password, input.login {
   margin-top: 5px;
-  margin-bottom: 20px;
+  margin-bottom: 2px;
 }
 
-.warn {
+div.warn {
   color: #E33B35;
-  font-size: 15px;
+  font-size: 10px;
   font-weight: bold;
-  height: 30px;
+  height: 50px;
+  padding-top: 10px;
+}
+
+i.fa.fa-exclamation-triangle {
+  margin-right: 5px;
 }
 
 p.pBtn {
@@ -177,24 +182,27 @@ p.pBtn {
   justify-content: flex-end;
 }
 
-button#loginBtn, button#signupBtn {
+input#loginBtn, input#signupBtn {
   font-size: 20px;
   width: 100px;
   color: white;
   background-color: #249f2f;  
+  border: none;
   border-radius: 5px;
   margin-bottom: 7px;
+  cursor: pointer;
+  padding: 1px 4px 2px 4px;
 }
 
-button#signupBtn {
+input#signupBtn {
   background-color: #f48213;
 }
 
-button#signupBtn:hover {
+input#signupBtn:hover {
   background-color: #ff9024;
 }
 
-button#loginBtn:hover {
+input#loginBtn:hover {
   color: white;
   background-color: #17c126; 
 }
@@ -824,7 +832,7 @@ input.editPoints {
 }
 
 .fa.fa-trash {
-  color: #878787;
+  color: #dadada;
   font-size: inherit;
 }
 
@@ -942,7 +950,7 @@ div.promoShort div.promoName:hover {
 /*Promotion Item------------------------------------------*/
 
 div.promotionItem {
-  width: 150px;
+  width: 135px;
   height: 170px;
   display: flex;
   flex-direction: column;
@@ -961,8 +969,9 @@ div.promotionItem {
 
 div.promotionItem div#repeatMark {
   position: absolute;
-  right: 11px;
+  right: 8px;
   top: 37px;
+  font-size: 14px;
 }
 
 div.promotionItem div#repeatMark.checked {
@@ -1012,12 +1021,12 @@ button.promoDelete {
   justify-content: center;
   position: absolute;
   top: 57px;
-  right: 0px;
+  right: -5px;
   font-size: 13px;
 }
 
 button.promoDelete:hover {
-  font-size: 16px;
+  font-size: 15px;
 }
 
 div.promotionItem input, 
