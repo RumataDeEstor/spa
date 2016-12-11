@@ -24,8 +24,7 @@ const promotionSchema = new Schema({
   name: {
     type: String,
     default: 'Unnamed',
-    required: true,
-    unique: false 
+    required: true
   },
   price: {
     type: Number,
@@ -46,7 +45,8 @@ const taskSchema = new Schema({
   },
   points: {
     type: Number,
-    default: 5
+    default: 5,
+    required: true
   },
   repeated: {
     type: Boolean,
@@ -62,7 +62,7 @@ const projectSchema = new Schema({
   },
   label: {
     type: String,
-    default: 'white',
+    default: 'transparent'
   },
   tasks: [taskSchema]
 });
