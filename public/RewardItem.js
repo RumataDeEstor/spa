@@ -6,7 +6,7 @@ import {
 } from 'react-router';
 import ee from './EventEmitter'
 
-export default class PromotionItem extends React.Component {
+export default class RewardItem extends React.Component {
   // !!! TODO: hot deleting; 
   // mb changing Reuse
   // !!! hot level changing after editing Points
@@ -33,8 +33,8 @@ export default class PromotionItem extends React.Component {
     this.submitData = this.submitData.bind(this);
     this.showMore = this.showMore.bind(this);
     this.hideMore = this.hideMore.bind(this);
-    this.deletePromo = this.deletePromo.bind(this);
-    this.getPromo = this.getPromo.bind(this);
+    this.deleteReward = this.deleteReward.bind(this);
+    this.getReward = this.getReward.bind(this);
     this.tempUpdPoints = this.tempUpdPoints.bind(this);
     this.submitIsRepeated = this.submitIsRepeated.bind(this);
   }
@@ -69,21 +69,21 @@ export default class PromotionItem extends React.Component {
 
   componentDidMount() {
     if (this.props.loc == "full") {
-      this.refs.promoPrice.addEventListener('click', this.showEditPrice);
-      this.refs.promoName.addEventListener('click', this.showEditName)
+      this.refs.rewardPrice.addEventListener('click', this.showEditPrice);
+      this.refs.rewardName.addEventListener('click', this.showEditName)
       this.refs.del.style.display = "flex";
     } 
-    this.refs.editPromoName.addEventListener('submit',this.submitName, false);
-    this.refs.editPromoPrice.addEventListener('submit',this.submitPrice, false);
+    this.refs.editRewardName.addEventListener('submit',this.submitName, false);
+    this.refs.editRewardPrice.addEventListener('submit',this.submitPrice, false);
     const fullHeight = 74;
     let newHeight = fullHeight * this.state.percentsValue / 100;    
     this.refs.lvl.style.height = `${newHeight}px`;
   } 
 
-  getPromo () {   
+  getReward () {   
     this.tempUpdPoints();
     if (!this.state.repeated) {
-      this.deletePromo();
+      this.deleteReward();
     }
   }
 
@@ -129,7 +129,7 @@ export default class PromotionItem extends React.Component {
     this.refs.getPWindow.style.display = "none";
   }
 
-  deletePromo(){
+  deleteReward(){
     // this.refs.msg.innerText = "*deleted*";
     let reqParams = {
       method: 'DELETE',
@@ -139,7 +139,7 @@ export default class PromotionItem extends React.Component {
     let login = this.props.login;
     let id = this.props.id;
 
-    fetch(`/api/userdata/${login}/promotions/${id}`, reqParams)
+    fetch(`/api/userdata/${login}/rewards/${id}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
@@ -147,7 +147,7 @@ export default class PromotionItem extends React.Component {
         }
         this.refs.item.style.display = "none";
         // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-        // ee.emitEvent('promoDeleted', [id]);  
+        // ee.emitEvent('rewardDeleted', [id]);  
       })
       .catch(err => {
         console.log(err);
@@ -173,9 +173,9 @@ export default class PromotionItem extends React.Component {
     }
 
     let login = this.props.login;
-    let promoID = this.props.id;
+    let rewardID = this.props.id;
 
-    fetch(`/api/userdata/${login}/promotions/${promoID}`, reqParams)
+    fetch(`/api/userdata/${login}/rewards/${rewardID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
@@ -224,31 +224,31 @@ export default class PromotionItem extends React.Component {
   }
 
   hideEditName(){
-    this.refs.editPromoName.style.display = "none";
-    this.refs.promoName.style.display = "flex";
+    this.refs.editRewardName.style.display = "none";
+    this.refs.rewardName.style.display = "initial";
   }
 
   showEditName(e) {
     this.hideEditPrice();
-    this.refs.editPromoName.style.display = "flex";
+    this.refs.editRewardName.style.display = "flex";
     e.target.style.display = "none";
   }
 
   hideEditPrice () {
-    this.refs.editPromoPrice.style.display = "none";
-    this.refs.promoPrice.style.display = "flex";
+    this.refs.editRewardPrice.style.display = "none";
+    this.refs.rewardPrice.style.display = "flex";
   }
 
   showEditPrice(e) {
     this.hideEditName();
-    this.refs.editPromoPrice.style.display = "flex";
-    this.refs.promoPrice.style.display = "none";
+    this.refs.editRewardPrice.style.display = "flex";
+    this.refs.rewardPrice.style.display = "none";
   }
 
   render () {
     let isRepeated = (this.state.repeated) ? 
       "checked" : "unchecked";
-    return<div ref = "item" className = "promotionItem"> 
+    return<div ref = "item" className = "rewardItem"> 
             <div id = "repeatMark"
               ref = "rep" 
               className = {isRepeated}
@@ -256,17 +256,17 @@ export default class PromotionItem extends React.Component {
             >
               <i className="fa fa-repeat" aria-hidden="true"></i>
             </div>        
-            <div className = "promoPrice" ref = "promoPrice">
+            <div className = "rewardPrice" ref = "rewardPrice">
               {this.state.price}
             </div>
-            <button className = "promoDelete" ref = "del" 
-              onClick = {this.deletePromo}
+            <button className = "rewardDelete" ref = "del" 
+              onClick = {this.deleteReward}
             >
               <i className="fa fa-trash"></i>
             </button>     
-            <form ref = "editPromoPrice" className = "editPromoPrice">
+            <form ref = "editRewardPrice" className = "editRewardPrice">
               <input type = "number" 
-                className = "promoPriceEdit"
+                className = "rewardPriceEdit"
                 min = "5" max = "500" 
                 name = "fieldPrice"
                 defaultValue = {this.state.price}/>
@@ -276,8 +276,8 @@ export default class PromotionItem extends React.Component {
               onMouseOver = {this.showMore}
               onMouseOut = {this.hideMore}
             >
-              <div className = "getPromoWindow" ref = "getPWindow" 
-                onClick = {this.getPromo}>
+              <div className = "getRewardWindow" ref = "getPWindow" 
+                onClick = {this.getReward}>
                 <i className ="fa fa-check" aria-hidden="true"></i>
               </div>
               <div className = "inCircle">
@@ -288,11 +288,11 @@ export default class PromotionItem extends React.Component {
             <div className = "percents" ref = "pers"> 
               {`${this.state.percentsValue}%`}
             </div>
-            <div className = "promoName" ref = "promoName">
+            <div className = "rewardName" ref = "rewardName">
               {this.state.name}
             </div>
-            <form ref = "editPromoName" className = "editPromoName">
-              <input type = "text" className = "promoNameEdit" 
+            <form ref = "editRewardName" className = "editRewardName">
+              <input type = "text" className = "rewardNameEdit" 
                 name = "fieldName" 
                 defaultValue = {this.state.name}
               />

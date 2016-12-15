@@ -254,8 +254,8 @@ app.post('/api/userdata/:login/points', isAuthenticated, (req,res,next) => {
   })  
 });
 
-//add new promo
-app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
+//add new Reward
+app.post('/api/userdata/:login/rewards', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -265,13 +265,13 @@ app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
       res.status(500).send({error: 'Internal Server Error'});
     } else { 
       //checkdata? 
-      let newPromo = req.body;
-      newPromo.name = newPromo.name || "Unnamed";
-      let len = user.promotions.push(newPromo);
+      let newReward = req.body;
+      newReward.name = newReward.name || "Unnamed";
+      let len = user.rewards.push(newReward);
       user.save((err) =>{
         if (!err) {
           debug('updated.');
-          res.status(200).send({message: 'OK', promotion: user.promotions[len-1]});
+          res.status(200).send({message: 'OK', reward: user.rewards[len-1]});
         } else {
           debug(err);
           if(err.name == 'ValidationError') {
@@ -287,7 +287,7 @@ app.post('/api/userdata/:login/promotions', isAuthenticated, (req,res,next) => {
   })  
 });
 
-app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,next) => {
+app.put('/api/userdata/:login/rewards/:rewardID', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -296,14 +296,14 @@ app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,ne
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {  
-      let updatedPromo = null;
-      user.promotions.map(promo => {
-        if (promo._id == req.params.promoID) {
-          promo.name = req.body.name || promo.name;
-          promo.price = req.body.price || promo.price;
-          promo.repeated = (req.body.repeated !== undefined) ?
-            req.body.repeated : promo.repeated;
-          updatedPromo = promo;
+      let updatedReward = null;
+      user.rewards.map(reward => {
+        if (reward._id == req.params.rewardID) {
+          reward.name = req.body.name || reward.name;
+          reward.price = req.body.price || reward.price;
+          reward.repeated = (req.body.repeated !== undefined) ?
+            req.body.repeated : reward.repeated;
+          updatedReward = reward;
         } 
       }); 
       // or byID?
@@ -311,7 +311,7 @@ app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,ne
       user.save((err) =>{
         if (!err) {
           debug('updated.');
-          res.status(200).send({message: 'updated', promotion: updatedPromo});
+          res.status(200).send({message: 'updated', reward: updatedReward});
         } else {
           debug(err);
           if(err.name == 'ValidationError') {
@@ -327,7 +327,7 @@ app.put('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req,res,ne
   })  
 });
 
-app.delete('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req, res, next) => {
+app.delete('/api/userdata/:login/rewards/:rewardID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -336,12 +336,12 @@ app.delete('/api/userdata/:login/promotions/:promoID', isAuthenticated, (req, re
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      user.promotions.id(req.params.promoID).remove();
+      user.rewards.id(req.params.rewardID).remove();
     }
     user.save((err) => {
       if (!err) {
         debug('removed.');
-        res.status(200).send({message: 'promo removed'});
+        res.status(200).send({message: 'reward removed'});
       } else {
         debug(err);
         res.status(500).send({error: 'Internal Server Error'});

@@ -5,7 +5,7 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 
-export default class PromotionsAddNew extends React.Component {
+export default class RewardsAddNew extends React.Component {
   constructor(props) {
     super(props);
     this.addNew = this.addNew.bind(this);
@@ -20,8 +20,8 @@ export default class PromotionsAddNew extends React.Component {
   addNew(){
     let repeated = this.refs.cRep.className == "checked";
     let bodyJSON = JSON.stringify({
-      name: this.refs.newPromoName.value,
-      price: this.refs.newPromoPrice.value,
+      name: this.refs.newRewardName.value,
+      price: this.refs.newRewardPrice.value,
       repeated: repeated
     });
 
@@ -34,14 +34,14 @@ export default class PromotionsAddNew extends React.Component {
       body: bodyJSON
     }
     let login = this.props.login;
-    fetch(`/api/userdata/${login}/promotions`, reqParams)
+    fetch(`/api/userdata/${login}/rewards`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
           console.log(res.error); // handle;
           return;
         }
-        this.props.onNewPromoAdded(res.promotion);
+        this.props.onNewRewardAdded(res.reward);
       })
       .catch(err => {
         console.log(err);
@@ -49,15 +49,15 @@ export default class PromotionsAddNew extends React.Component {
   }
 
   render () {
-    return<div className = "promotionsAddNew">
+    return<div className = "rewardsAddNew">
             <input type = "text" placeholder = "Name" 
-              className = "newPromoName"
-              ref = "newPromoName"
+              className = "newRewardName"
+              ref = "newRewardName"
             />
             <input type = "number" defaultValue = "10" min = "5" 
               max = "500" 
-              ref = "newPromoPrice"
-              className = "newPromoPrice"
+              ref = "newRewardPrice"
+              className = "newRewardPrice"
             />
             <div id = "checkBoxRepeated" className = "unchecked" ref = "cRep"
               onClick = {this.checkRepeated}>
@@ -68,6 +68,6 @@ export default class PromotionsAddNew extends React.Component {
   }
 }
 
-PromotionsAddNew.propTypes = {
-  onNewPromoAdded: React.PropTypes.func
+RewardsAddNew.propTypes = {
+  onNewRewardAdded: React.PropTypes.func
 }

@@ -102,9 +102,9 @@
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _Promotions = __webpack_require__(263);
+	var _Rewards = __webpack_require__(263);
 
-	var _Promotions2 = _interopRequireDefault(_Promotions);
+	var _Rewards2 = _interopRequireDefault(_Rewards);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -123,7 +123,7 @@
 	    { path: 'app/:login', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'projects' }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _RuleList2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'promotions', component: _Promotions2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'rewards', component: _Rewards2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: 'projects', component: _Projects2.default },
@@ -27161,9 +27161,9 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _PromotionsShortList = __webpack_require__(240);
+	var _RewardsShortList = __webpack_require__(240);
 
-	var _PromotionsShortList2 = _interopRequireDefault(_PromotionsShortList);
+	var _RewardsShortList2 = _interopRequireDefault(_RewardsShortList);
 
 	var _Failure = __webpack_require__(242);
 
@@ -27182,8 +27182,8 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var AppTotalContent = function AppTotalContent(props) {
-	  var shouldShowShortList = props.children.type.name !== "Promotions";
-	  var component = shouldShowShortList ? _react2.default.createElement(_PromotionsShortList2.default, { login: props.login }) : null;
+	  var shouldShowShortList = props.children.type.name !== "Rewards";
+	  var component = shouldShowShortList ? _react2.default.createElement(_RewardsShortList2.default, { login: props.login }) : null;
 
 	  return _react2.default.createElement(
 	    'div',
@@ -27399,8 +27399,8 @@
 	              null,
 	              _react2.default.createElement(
 	                _reactRouter.IndexLink,
-	                { to: path + '/promotions', activeClassName: 'active' },
-	                'Promotions'
+	                { to: path + '/rewards', activeClassName: 'active' },
+	                'Rewards'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -28113,9 +28113,9 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _PromotionItem = __webpack_require__(241);
+	var _RewardItem = __webpack_require__(241);
 
-	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
+	var _RewardItem2 = _interopRequireDefault(_RewardItem);
 
 	var _EventEmitter = __webpack_require__(238);
 
@@ -28132,21 +28132,21 @@
 	// forms everywhere;
 	// true Points here
 	// can I edit through Short List?
-	var PromotionsShortList = function (_React$Component) {
-	  _inherits(PromotionsShortList, _React$Component);
+	var RewardsShortList = function (_React$Component) {
+	  _inherits(RewardsShortList, _React$Component);
 
-	  function PromotionsShortList(props) {
-	    _classCallCheck(this, PromotionsShortList);
+	  function RewardsShortList(props) {
+	    _classCallCheck(this, RewardsShortList);
 
-	    var _this = _possibleConstructorReturn(this, (PromotionsShortList.__proto__ || Object.getPrototypeOf(PromotionsShortList)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RewardsShortList.__proto__ || Object.getPrototypeOf(RewardsShortList)).call(this, props));
 
-	    _this.state = { topPromos: [], points: null };
+	    _this.state = { topRewards: [], points: null };
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.getPoints = _this.getPoints.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(PromotionsShortList, [{
+	  _createClass(RewardsShortList, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
@@ -28181,11 +28181,11 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newTopPromos = res.user.promotions.sort(function (first, second) {
+	        var newTopRewards = res.user.rewards.sort(function (first, second) {
 	          if (first.price > second.price) return -1;
 	          return 1;
 	        }).slice(0, 3);
-	        _this2.setState({ topPromos: newTopPromos });
+	        _this2.setState({ topRewards: newTopRewards });
 	        return;
 	      }).catch(function (err) {
 	        console.log(err);
@@ -28201,14 +28201,14 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'promoShort' },
+	        { className: 'rewardsShort' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'pshortTitle' },
-	          ' Top Promotions '
+	          { className: 'rewardsShortTitle' },
+	          ' Top Rewards '
 	        ),
-	        this.state.topPromos.map(function (el, i) {
-	          return _react2.default.createElement(_PromotionItem2.default, {
+	        this.state.topRewards.map(function (el, i) {
+	          return _react2.default.createElement(_RewardItem2.default, {
 	            key: i,
 	            id: el._id,
 	            name: el.name,
@@ -28222,10 +28222,10 @@
 	    }
 	  }]);
 
-	  return PromotionsShortList;
+	  return RewardsShortList;
 	}(_react2.default.Component);
 
-	exports.default = PromotionsShortList;
+	exports.default = RewardsShortList;
 
 /***/ },
 /* 241 */
@@ -28259,18 +28259,18 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var PromotionItem = function (_React$Component) {
-	  _inherits(PromotionItem, _React$Component);
+	var RewardItem = function (_React$Component) {
+	  _inherits(RewardItem, _React$Component);
 
 	  // !!! TODO: hot deleting; 
 	  // mb changing Reuse
 	  // !!! hot level changing after editing Points
 	  // common method for points updating - here and in Tasks
 	  // in top - user choice
-	  function PromotionItem(props) {
-	    _classCallCheck(this, PromotionItem);
+	  function RewardItem(props) {
+	    _classCallCheck(this, RewardItem);
 
-	    var _this = _possibleConstructorReturn(this, (PromotionItem.__proto__ || Object.getPrototypeOf(PromotionItem)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RewardItem.__proto__ || Object.getPrototypeOf(RewardItem)).call(this, props));
 
 	    _this.state = {
 	      name: _this.props.name,
@@ -28291,8 +28291,8 @@
 	    _this.submitData = _this.submitData.bind(_this);
 	    _this.showMore = _this.showMore.bind(_this);
 	    _this.hideMore = _this.hideMore.bind(_this);
-	    _this.deletePromo = _this.deletePromo.bind(_this);
-	    _this.getPromo = _this.getPromo.bind(_this);
+	    _this.deleteReward = _this.deleteReward.bind(_this);
+	    _this.getReward = _this.getReward.bind(_this);
 	    _this.tempUpdPoints = _this.tempUpdPoints.bind(_this);
 	    _this.submitIsRepeated = _this.submitIsRepeated.bind(_this);
 	    return _this;
@@ -28300,7 +28300,7 @@
 	  // almost the same as while mounting; may be separated;
 
 
-	  _createClass(PromotionItem, [{
+	  _createClass(RewardItem, [{
 	    key: 'componentWillReceiveProps',
 	    value: function componentWillReceiveProps(newProps) {
 	      this.setState({ points: newProps.points });
@@ -28334,22 +28334,22 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      if (this.props.loc == "full") {
-	        this.refs.promoPrice.addEventListener('click', this.showEditPrice);
-	        this.refs.promoName.addEventListener('click', this.showEditName);
+	        this.refs.rewardPrice.addEventListener('click', this.showEditPrice);
+	        this.refs.rewardName.addEventListener('click', this.showEditName);
 	        this.refs.del.style.display = "flex";
 	      }
-	      this.refs.editPromoName.addEventListener('submit', this.submitName, false);
-	      this.refs.editPromoPrice.addEventListener('submit', this.submitPrice, false);
+	      this.refs.editRewardName.addEventListener('submit', this.submitName, false);
+	      this.refs.editRewardPrice.addEventListener('submit', this.submitPrice, false);
 	      var fullHeight = 74;
 	      var newHeight = fullHeight * this.state.percentsValue / 100;
 	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
-	    key: 'getPromo',
-	    value: function getPromo() {
+	    key: 'getReward',
+	    value: function getReward() {
 	      this.tempUpdPoints();
 	      if (!this.state.repeated) {
-	        this.deletePromo();
+	        this.deleteReward();
 	      }
 	    }
 
@@ -28401,8 +28401,8 @@
 	      this.refs.getPWindow.style.display = "none";
 	    }
 	  }, {
-	    key: 'deletePromo',
-	    value: function deletePromo() {
+	    key: 'deleteReward',
+	    value: function deleteReward() {
 	      var _this3 = this;
 
 	      // this.refs.msg.innerText = "*deleted*";
@@ -28414,7 +28414,7 @@
 	      var login = this.props.login;
 	      var id = this.props.id;
 
-	      fetch('/api/userdata/' + login + '/promotions/' + id, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/rewards/' + id, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -28422,7 +28422,7 @@
 	        }
 	        _this3.refs.item.style.display = "none";
 	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-	        // ee.emitEvent('promoDeleted', [id]);  
+	        // ee.emitEvent('rewardDeleted', [id]);  
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28448,9 +28448,9 @@
 	      };
 
 	      var login = this.props.login;
-	      var promoID = this.props.id;
+	      var rewardID = this.props.id;
 
-	      fetch('/api/userdata/' + login + '/promotions/' + promoID, reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/rewards/' + rewardID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
@@ -28501,28 +28501,28 @@
 	  }, {
 	    key: 'hideEditName',
 	    value: function hideEditName() {
-	      this.refs.editPromoName.style.display = "none";
-	      this.refs.promoName.style.display = "flex";
+	      this.refs.editRewardName.style.display = "none";
+	      this.refs.rewardName.style.display = "initial";
 	    }
 	  }, {
 	    key: 'showEditName',
 	    value: function showEditName(e) {
 	      this.hideEditPrice();
-	      this.refs.editPromoName.style.display = "flex";
+	      this.refs.editRewardName.style.display = "flex";
 	      e.target.style.display = "none";
 	    }
 	  }, {
 	    key: 'hideEditPrice',
 	    value: function hideEditPrice() {
-	      this.refs.editPromoPrice.style.display = "none";
-	      this.refs.promoPrice.style.display = "flex";
+	      this.refs.editRewardPrice.style.display = "none";
+	      this.refs.rewardPrice.style.display = "flex";
 	    }
 	  }, {
 	    key: 'showEditPrice',
 	    value: function showEditPrice(e) {
 	      this.hideEditName();
-	      this.refs.editPromoPrice.style.display = "flex";
-	      this.refs.promoPrice.style.display = "none";
+	      this.refs.editRewardPrice.style.display = "flex";
+	      this.refs.rewardPrice.style.display = "none";
 	    }
 	  }, {
 	    key: 'render',
@@ -28530,7 +28530,7 @@
 	      var isRepeated = this.state.repeated ? "checked" : "unchecked";
 	      return _react2.default.createElement(
 	        'div',
-	        { ref: 'item', className: 'promotionItem' },
+	        { ref: 'item', className: 'rewardItem' },
 	        _react2.default.createElement(
 	          'div',
 	          { id: 'repeatMark',
@@ -28542,21 +28542,21 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'promoPrice', ref: 'promoPrice' },
+	          { className: 'rewardPrice', ref: 'rewardPrice' },
 	          this.state.price
 	        ),
 	        _react2.default.createElement(
 	          'button',
-	          { className: 'promoDelete', ref: 'del',
-	            onClick: this.deletePromo
+	          { className: 'rewardDelete', ref: 'del',
+	            onClick: this.deleteReward
 	          },
 	          _react2.default.createElement('i', { className: 'fa fa-trash' })
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { ref: 'editPromoPrice', className: 'editPromoPrice' },
+	          { ref: 'editRewardPrice', className: 'editRewardPrice' },
 	          _react2.default.createElement('input', { type: 'number',
-	            className: 'promoPriceEdit',
+	            className: 'rewardPriceEdit',
 	            min: '5', max: '500',
 	            name: 'fieldPrice',
 	            defaultValue: this.state.price })
@@ -28569,8 +28569,8 @@
 	          },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'getPromoWindow', ref: 'getPWindow',
-	              onClick: this.getPromo },
+	            { className: 'getRewardWindow', ref: 'getPWindow',
+	              onClick: this.getReward },
 	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 	          ),
 	          _react2.default.createElement(
@@ -28586,13 +28586,13 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'promoName', ref: 'promoName' },
+	          { className: 'rewardName', ref: 'rewardName' },
 	          this.state.name
 	        ),
 	        _react2.default.createElement(
 	          'form',
-	          { ref: 'editPromoName', className: 'editPromoName' },
-	          _react2.default.createElement('input', { type: 'text', className: 'promoNameEdit',
+	          { ref: 'editRewardName', className: 'editRewardName' },
+	          _react2.default.createElement('input', { type: 'text', className: 'rewardNameEdit',
 	            name: 'fieldName',
 	            defaultValue: this.state.name
 	          })
@@ -28601,10 +28601,10 @@
 	    }
 	  }]);
 
-	  return PromotionItem;
+	  return RewardItem;
 	}(_react2.default.Component);
 
-	exports.default = PromotionItem;
+	exports.default = RewardItem;
 
 /***/ },
 /* 242 */
@@ -31841,13 +31841,13 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _PromotionItem = __webpack_require__(241);
+	var _RewardItem = __webpack_require__(241);
 
-	var _PromotionItem2 = _interopRequireDefault(_PromotionItem);
+	var _RewardItem2 = _interopRequireDefault(_RewardItem);
 
-	var _PromotionsAddNew = __webpack_require__(264);
+	var _RewardsAddNew = __webpack_require__(264);
 
-	var _PromotionsAddNew2 = _interopRequireDefault(_PromotionsAddNew);
+	var _RewardsAddNew2 = _interopRequireDefault(_RewardsAddNew);
 
 	var _Points = __webpack_require__(237);
 
@@ -31867,16 +31867,16 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var Promotions = function (_React$Component) {
-	  _inherits(Promotions, _React$Component);
+	var Rewards = function (_React$Component) {
+	  _inherits(Rewards, _React$Component);
 
-	  function Promotions(props) {
-	    _classCallCheck(this, Promotions);
+	  function Rewards(props) {
+	    _classCallCheck(this, Rewards);
 
-	    var _this = _possibleConstructorReturn(this, (Promotions.__proto__ || Object.getPrototypeOf(Promotions)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Rewards.__proto__ || Object.getPrototypeOf(Rewards)).call(this, props));
 
 	    _this.loadItems = _this.loadItems.bind(_this);
-	    _this.state = { promotions: [], points: null };
+	    _this.state = { rewards: [], points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
 	    // this.updateChild = this.updateChild.bind(this);
 	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
@@ -31884,24 +31884,24 @@
 	  }
 	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
-	  _createClass(Promotions, [{
+	  _createClass(Rewards, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.addListener('promoDeleted', this.handleChildDelete);
-	      // ee.addListener('promoEdited', this.updateChild);
+	      _EventEmitter2.default.addListener('rewardDeleted', this.handleChildDelete);
+	      // ee.addListener('rewardEdited', this.updateChild);
 	      this.loadItems();
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.removeListener('promoDeleted', this.handleChildDelete);
-	      // ee.removeListener('promoEdited', this.updateChild);
+	      _EventEmitter2.default.removeListener('rewardDeleted', this.handleChildDelete);
+	      // ee.removeListener('rewardEdited', this.updateChild);
 	    }
 
 	    // updateChild(itemID, newData) {
-	    //   this.state.promotions.map(el => {
+	    //   this.state.rewards.map(el => {
 	    //     if (el._id == itemID) {
 	    //       el.name = newData.name;
 	    //       el.price = newData.price;
@@ -31919,16 +31919,16 @@
 	  }, {
 	    key: 'handleChildDelete',
 	    value: function handleChildDelete(id) {
-	      var newPromos = this.state.promotions.slice();
-	      newPromos = newPromos.filter(function (el) {
+	      var newRewards = this.state.rewards.slice();
+	      newRewards = newRewards.filter(function (el) {
 	        return el._id !== id;
 	      });
-	      this.setState({ promotions: newPromos });
+	      this.setState({ rewards: newRewards });
 	    }
 	  }, {
-	    key: 'handleNewPromoAdding',
-	    value: function handleNewPromoAdding(promo) {
-	      this.setState({ promotions: [promo].concat(_toConsumableArray(this.state.promotions)) });
+	    key: 'handleNewRewardAdding',
+	    value: function handleNewRewardAdding(reward) {
+	      this.setState({ rewards: [reward].concat(_toConsumableArray(this.state.rewards)) });
 	    }
 	  }, {
 	    key: 'loadItems',
@@ -31947,8 +31947,8 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        var newPromos = res.user.promotions.reverse();
-	        _this2.setState({ promotions: newPromos });
+	        var newRewards = res.user.rewards.reverse();
+	        _this2.setState({ rewards: newRewards });
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31960,15 +31960,15 @@
 
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'promotions' },
-	        _react2.default.createElement(_PromotionsAddNew2.default, { login: this.props.params.login,
-	          onNewPromoAdded: this.handleNewPromoAdding.bind(this)
+	        { className: 'rewards' },
+	        _react2.default.createElement(_RewardsAddNew2.default, { login: this.props.params.login,
+	          onNewRewardAdded: this.handleNewRewardAdding.bind(this)
 	        }),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'promoList' },
-	          this.state.promotions.map(function (el, i, arr) {
-	            return _react2.default.createElement(_PromotionItem2.default, {
+	          { className: 'rewardList' },
+	          this.state.rewards.map(function (el, i, arr) {
+	            return _react2.default.createElement(_RewardItem2.default, {
 	              key: arr.length - i - 1,
 	              id: el._id,
 	              name: el.name,
@@ -31984,10 +31984,10 @@
 	    }
 	  }]);
 
-	  return Promotions;
+	  return Rewards;
 	}(_react2.default.Component);
 
-	exports.default = Promotions;
+	exports.default = Rewards;
 
 /***/ },
 /* 264 */
@@ -32017,20 +32017,20 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var PromotionsAddNew = function (_React$Component) {
-	  _inherits(PromotionsAddNew, _React$Component);
+	var RewardsAddNew = function (_React$Component) {
+	  _inherits(RewardsAddNew, _React$Component);
 
-	  function PromotionsAddNew(props) {
-	    _classCallCheck(this, PromotionsAddNew);
+	  function RewardsAddNew(props) {
+	    _classCallCheck(this, RewardsAddNew);
 
-	    var _this = _possibleConstructorReturn(this, (PromotionsAddNew.__proto__ || Object.getPrototypeOf(PromotionsAddNew)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RewardsAddNew.__proto__ || Object.getPrototypeOf(RewardsAddNew)).call(this, props));
 
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.checkRepeated = _this.checkRepeated.bind(_this);
 	    return _this;
 	  }
 
-	  _createClass(PromotionsAddNew, [{
+	  _createClass(RewardsAddNew, [{
 	    key: 'checkRepeated',
 	    value: function checkRepeated(e) {
 	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
@@ -32042,8 +32042,8 @@
 
 	      var repeated = this.refs.cRep.className == "checked";
 	      var bodyJSON = JSON.stringify({
-	        name: this.refs.newPromoName.value,
-	        price: this.refs.newPromoPrice.value,
+	        name: this.refs.newRewardName.value,
+	        price: this.refs.newRewardPrice.value,
 	        repeated: repeated
 	      });
 
@@ -32056,14 +32056,14 @@
 	        body: bodyJSON
 	      };
 	      var login = this.props.login;
-	      fetch('/api/userdata/' + login + '/promotions', reqParams).then(function (res) {
+	      fetch('/api/userdata/' + login + '/rewards', reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        _this2.props.onNewPromoAdded(res.promotion);
+	        _this2.props.onNewRewardAdded(res.reward);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -32073,15 +32073,15 @@
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'promotionsAddNew' },
+	        { className: 'rewardsAddNew' },
 	        _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
-	          className: 'newPromoName',
-	          ref: 'newPromoName'
+	          className: 'newRewardName',
+	          ref: 'newRewardName'
 	        }),
 	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5',
 	          max: '500',
-	          ref: 'newPromoPrice',
-	          className: 'newPromoPrice'
+	          ref: 'newRewardPrice',
+	          className: 'newRewardPrice'
 	        }),
 	        _react2.default.createElement(
 	          'div',
@@ -32098,14 +32098,14 @@
 	    }
 	  }]);
 
-	  return PromotionsAddNew;
+	  return RewardsAddNew;
 	}(_react2.default.Component);
 
-	exports.default = PromotionsAddNew;
+	exports.default = RewardsAddNew;
 
 
-	PromotionsAddNew.propTypes = {
-	  onNewPromoAdded: _react2.default.PropTypes.func
+	RewardsAddNew.propTypes = {
+	  onNewRewardAdded: _react2.default.PropTypes.func
 	};
 
 /***/ }

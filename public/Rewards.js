@@ -4,16 +4,16 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
-import PromotionItem from './PromotionItem';
-import PromotionsAddNew from './PromotionsAddNew';
+import RewardItem from './RewardItem';
+import RewardsAddNew from './RewardsAddNew';
 import Points from './Points';
 import ee from './EventEmitter';
 
-export default class Promotions extends React.Component {
+export default class Rewards extends React.Component {
   constructor(props) {
     super(props);
     this.loadItems = this.loadItems.bind(this);
-    this.state = {promotions: [], points: null};
+    this.state = {rewards: [], points: null};
     this.getPoints = this.getPoints.bind(this);
     // this.updateChild = this.updateChild.bind(this);
     this.handleChildDelete = this.handleChildDelete.bind(this);
@@ -22,19 +22,19 @@ export default class Promotions extends React.Component {
   
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
-    ee.addListener('promoDeleted', this.handleChildDelete);
-    // ee.addListener('promoEdited', this.updateChild);
+    ee.addListener('rewardDeleted', this.handleChildDelete);
+    // ee.addListener('rewardEdited', this.updateChild);
     this.loadItems();
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
-    ee.removeListener('promoDeleted', this.handleChildDelete);
-    // ee.removeListener('promoEdited', this.updateChild);
+    ee.removeListener('rewardDeleted', this.handleChildDelete);
+    // ee.removeListener('rewardEdited', this.updateChild);
   }
 
   // updateChild(itemID, newData) {
-  //   this.state.promotions.map(el => {
+  //   this.state.rewards.map(el => {
   //     if (el._id == itemID) {
   //       el.name = newData.name;
   //       el.price = newData.price;
@@ -49,13 +49,13 @@ export default class Promotions extends React.Component {
   }
 
   handleChildDelete(id) {
-    let newPromos = this.state.promotions.slice();
-    newPromos = newPromos.filter(el => el._id !== id);
-    this.setState({promotions: newPromos});
+    let newRewards = this.state.rewards.slice();
+    newRewards = newRewards.filter(el => el._id !== id);
+    this.setState({rewards: newRewards});
   }
 
-  handleNewPromoAdding(promo) {
-    this.setState({promotions: [promo, ...this.state.promotions] });
+  handleNewRewardAdding(reward) {
+    this.setState({rewards: [reward, ...this.state.rewards] });
   }
 
   loadItems(){
@@ -71,8 +71,8 @@ export default class Promotions extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        let newPromos = res.user.promotions.reverse();
-        this.setState({promotions: newPromos});
+        let newRewards = res.user.rewards.reverse();
+        this.setState({rewards: newRewards});
       })
       .catch(err => {
         console.log(err);
@@ -80,14 +80,14 @@ export default class Promotions extends React.Component {
   }
 
   render () {
-    return <div className = "promotions">
-            <PromotionsAddNew login = {this.props.params.login}
-              onNewPromoAdded = {this.handleNewPromoAdding.bind(this)}
+    return <div className = "rewards">
+            <RewardsAddNew login = {this.props.params.login}
+              onNewRewardAdded = {this.handleNewRewardAdding.bind(this)}
             />
-            <div className = "promoList">
+            <div className = "rewardList">
               {
-                this.state.promotions.map((el,i,arr) => {
-                  return <PromotionItem
+                this.state.rewards.map((el,i,arr) => {
+                  return <RewardItem
                     key = {arr.length - i - 1} 
                     id ={el._id} 
                     name = {el.name} 

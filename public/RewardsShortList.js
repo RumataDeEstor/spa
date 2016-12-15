@@ -4,15 +4,15 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
-import PromotionItem from './PromotionItem';
+import RewardItem from './RewardItem';
 import ee from './EventEmitter';
 // forms everywhere;
 // true Points here
 // can I edit through Short List?
-export default class PromotionsShortList extends React.Component {
+export default class RewardsShortList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {topPromos: [], points: null};
+    this.state = {topRewards: [], points: null};
     this.loadItems = this.loadItems.bind(this);
     this.getPoints = this.getPoints.bind(this);
   }
@@ -45,12 +45,12 @@ export default class PromotionsShortList extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        let newTopPromos = res.user.promotions
+        let newTopRewards = res.user.rewards
           .sort((first, second) => {
             if (first.price > second.price) return -1;
             return 1;
           }).slice(0, 3);
-        this.setState({topPromos: newTopPromos});
+        this.setState({topRewards: newTopRewards});
         return;
       })
       .catch(err => {
@@ -60,10 +60,10 @@ export default class PromotionsShortList extends React.Component {
 
   // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   render () {
-    return <div className = "promoShort">
-            <div className = "pshortTitle"> Top Promotions </div>
-              {this.state.topPromos.map((el, i) => {
-                return <PromotionItem
+    return <div className = "rewardsShort">
+            <div className = "rewardsShortTitle"> Top Rewards </div>
+              {this.state.topRewards.map((el, i) => {
+                return <RewardItem
                   key = {i} 
                   id ={el._id} 
                   name = {el.name} 

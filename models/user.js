@@ -20,7 +20,7 @@ const ruleSchema = new Schema({
   }
 });
 
-const promotionSchema = new Schema({
+const rewardSchema = new Schema({
   name: {
     type: String,
     default: 'Unnamed',
@@ -79,7 +79,7 @@ const userSchema = new Schema({
   },
   projects: [projectSchema],
   rules: [ruleSchema],
-  promotions: [promotionSchema],
+  rewards: [rewardSchema],
   points: {
     type: Number,
     default: 0

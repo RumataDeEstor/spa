@@ -43,11 +43,11 @@ li {
     ul.links li a {
       padding: 8px 30px 10px 30px;
     }
-    div.getPromoWindow {
+    div.getRewardWindow {
       top: 32px;
       right: 32px;
     }
-    div.getPromoWindow:hover {
+    div.getRewardWindow:hover {
       top: 25px;
       right: 25px;
     }
@@ -836,9 +836,9 @@ input.editPoints {
   font-size: inherit;
 }
 
-/*PROMOTIONS------------------------------------------------*/
+/*REWARDS------------------------------------------------*/
 
-div.promoList {
+div.rewardList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -849,16 +849,16 @@ div.promoList {
   width: 1000px;
 }
 
-div.promoList div.promotionItem {
+div.rewardList div.rewardItem {
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
   background-color: white;
   margin-right: 30px;
   margin-bottom: 30px;  
 }
 
-/*PROMOTIONS ADD NEW--------------------------------------------------*/
+/*REWARDS ADD NEW--------------------------------------------------*/
 
-div.promotionsAddNew {
+div.rewardsAddNew {
   display: flex;
   width: 650px;
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
@@ -869,7 +869,7 @@ div.promotionsAddNew {
 }
 
 /*TODO: class*/
-div.promotionsAddNew div#checkBoxRepeated {
+div.rewardsAddNew div#checkBoxRepeated {
   margin-left: 100px;
 }
 
@@ -885,11 +885,11 @@ div#editCheckBoxRepeated.checked {
 
 /*----------*/
 
-input.newPromoName {
+input.newRewardName {
   width: 240px;
 }
 
-div.promotionsAddNew button {
+div.rewardsAddNew button {
   margin-left: 150px;
   background-color: #49C15D;
   color: white;
@@ -900,9 +900,9 @@ div.promotionsAddNew button {
   right: 40px;
 }
 
-/*PROMO SHORT LIST------------------------------------------*/
+/*REWARD SHORT LIST------------------------------------------*/
 
-div.promoShort {
+div.rewardsShort {
   background-color: white;
   color: #6A6A6D;
   margin-top: 0px; 
@@ -920,12 +920,12 @@ div.promoShort {
   cursor: default;
 }
 
-div.promoShort div.promotionItem {
+div.rewardsShort div.rewardItem {
   font: 14px Verdana;
   font-weight: bold;
 }
 
-div.pshortTitle {
+div.rewardsShortTitle {
   height: 45px;
   display: flex;
   justify-content: center;
@@ -937,19 +937,19 @@ div.pshortTitle {
   inset -1px -2px 0px #505050;
 }
 
-div.promoShort div.promoPrice, 
-div.promoShort div.promoName{
+div.rewardsShort div.rewardPrice, 
+div.rewardsShort div.rewardName{
   cursor: default;
 }
 
-div.promoShort div.promoPrice:hover,
-div.promoShort div.promoName:hover {
+div.rewardsShort div.rewardPrice:hover,
+div.rewardsShort div.rewardName:hover {
   opacity: 1;
 }
 
-/*Promotion Item------------------------------------------*/
+/*Reward Item------------------------------------------*/
 
-div.promotionItem {
+div.rewardItem {
   width: 135px;
   height: 170px;
   display: flex;
@@ -967,50 +967,55 @@ div.promotionItem {
 
 /*TODO: rewrite to class*/
 
-div.promotionItem div#repeatMark {
+div.rewardItem div#repeatMark {
   position: absolute;
   right: 8px;
   top: 37px;
   font-size: 14px;
 }
 
-div.promotionItem div#repeatMark.checked {
+div.rewardItem div#repeatMark.checked {
   color: rgba(241, 33, 33, 0.5);
 }
 
-div.promotionItem div#repeatMark.unchecked {
+div.rewardItem div#repeatMark.unchecked {
   color: #DADADA;
 }
 
 /*-------------*/
 
-div.promoPrice {
+div.rewardPrice {
   display: flex;
   font-size: 16px;
   margin-bottom: 5px;
 }
 
-div.promoName {
+div.rewardName {
+  display: initial;
+  width: 140px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
   text-transform: uppercase;
 }
 
-div.promoName:hover, 
-div.promoPrice:hover {
+div.rewardName:hover, 
+div.rewardPrice:hover {
   opacity: 0.4;
 }
 
-form.editPromoName, 
-form.editPromoPrice {
+form.editRewardName, 
+form.editRewardPrice {
   display: none;
   width: 140px;
 }
 
-form.editPromoName input, 
-form.editPromoPrice input {
+form.editRewardName input, 
+form.editRewardPrice input {
   width: inherit;
 }
 
-button.promoDelete {
+button.rewardDelete {
   height: 26px;
   width: 26px;
   background-color: white;
@@ -1025,12 +1030,12 @@ button.promoDelete {
   font-size: 13px;
 }
 
-button.promoDelete:hover {
+button.rewardDelete:hover {
   font-size: 15px;
 }
 
-div.promotionItem input, 
-div.promotionsAddNew input {
+div.rewardItem input, 
+div.rewardsAddNew input {
   border: none;
   color: #535356;
   font-size: 16px;
@@ -1038,19 +1043,19 @@ div.promotionsAddNew input {
   align-self: center;
 }
 
-div.promotionItem input {
+div.rewardItem input {
   text-transform: uppercase;
   font-weight: bold;
   padding: 0;
 }
 
-div.promotionItem input.promoPriceEdit {
+div.rewardItem input.rewardPriceEdit {
   width: 70px;
   margin-left: 50px;
   margin-bottom: 2px;
 }
 
-div.promotionItem input.promoNameEdit {
+div.rewardItem input.rewardNameEdit {
   width: 120px;
   margin-left: 10px;
   margin-bottom: 2px;
@@ -1058,7 +1063,7 @@ div.promotionItem input.promoNameEdit {
   align-self: center;
 }
 
-div.getPromoWindow {
+div.getRewardWindow {
   position: absolute;
   z-index: 2;
   font-size: 38px;
@@ -1066,7 +1071,7 @@ div.getPromoWindow {
   display: none;
 }
 
-div.getPromoWindow:hover {
+div.getRewardWindow:hover {
   font-size: 50px;
 }
 

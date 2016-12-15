@@ -5,14 +5,14 @@ import {
   IndexRedirect, browserHistory 
 } from 'react-router';
 import InternalTopmenu from './InternalTopmenu';
-import PromotionsShortList from './PromotionsShortList';
+import RewardsShortList from './RewardsShortList';
 import Failure from './Failure';
 import ee from './EventEmitter';
 
 const AppTotalContent = (props) => {
-  let shouldShowShortList = (props.children.type.name !== "Promotions");
+  let shouldShowShortList = (props.children.type.name !== "Rewards");
   let component = shouldShowShortList ? 
-    <PromotionsShortList login = {props.login}/> : null;
+    <RewardsShortList login = {props.login}/> : null;
 
   return<div className = "appTotalContent">
           <InternalTopmenu login = {props.login}/>
