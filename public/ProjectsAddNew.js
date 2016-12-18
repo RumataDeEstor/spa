@@ -30,7 +30,7 @@ export default class ProjectsAddNew extends React.Component {
   }
 
   checkName(){
-    name = this.refs.newName.value;
+    let name = this.refs.newName.value;
     return (/^(\w|\s)*$/.test(name));    
   }
 

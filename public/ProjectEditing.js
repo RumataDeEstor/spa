@@ -14,13 +14,36 @@ export default class ProjectEditing extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.hideColors = this.hideColors.bind(this);
     this.showColors = this.showColors.bind(this);
+    this.checkForm = this.checkForm.bind(this);
+    this.checkName = this.checkName.bind(this);
+    this.trimName = this.trimName.bind(this);
   }
 
   componentDidMount() {
     // editForm.style.height = "35px";   
+    this.refs.editProjectForm.addEventListener('submit', this.checkForm, false);
   }
 
-  onFinishEdit() {
+  checkForm (e) {
+    e.preventDefault();
+    this.trimName();
+    if ( this.checkName() ) this.saveChanges();
+  }
+
+  checkName(){
+    let name = this.refs.editName.value;
+    return (/^(\w|\s)*$/.test(name));    
+  }
+
+  trimName(){
+    this.refs.editName.value = this.refs.editName.value.trim();
+    let validName = (this.refs.editName.value.length > 17) ? 
+      this.refs.editName.value.slice(0, 17) : this.refs.editName.value;
+    this.refs.editName.value = validName;
+  }
+
+  onFinishEdit(e) {
+    if (e) e.preventDefault();
     // let promise = new Promise (resolve => {
     //   editForm.style.height = "0";
     //   setTimeout( () =>{
@@ -32,7 +55,8 @@ export default class ProjectEditing extends React.Component {
     ee.emitEvent('projectFinishEdit');  
   }
 
-  onDelete(){
+  onDelete(e){
+    e.preventDefault();
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -103,39 +127,42 @@ export default class ProjectEditing extends React.Component {
   }
   render () {
       return<div className = "editForm">
-              <div style = {{backgroundColor: this.props.target.props.label}} 
-                className = "projectLabel" 
-                ref = "plabel">
-              </div>
-              <input type = "text" defaultValue = {this.props.target.props.name} 
-                className = "editName" 
-                ref = "editName"
-              />
-              <div className = "editOpt">
-                <div className = "editLabelForm">
-                  <div className = "editChosen" onClick = {this.showColors}>
-                    <i className="fa fa-tags" aria-hidden="true"></i>
+              <form className = "editProject" ref = "editProjectForm">
+                <div style = {{backgroundColor: this.props.target.props.label}} 
+                  className = "projectLabel" 
+                  ref = "plabel">
+                </div>
+                <input type = "text" defaultValue = {this.props.target.props.name} 
+                  className = "editName" 
+                  ref = "editName"
+                  maxLength = "17"
+                />
+                <div className = "editOpt">
+                  <div className = "editLabelForm">
+                    <div className = "editChosen" onClick = {this.showColors}>
+                      <i className="fa fa-tags" aria-hidden="true"></i>
+                    </div>  
+                    <div className = "editOptions" onClick = {this.hideColors} ref = "editOptions">
+                      <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#ECEA48"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#BB5FF6"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#FFBE58"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#FF5BCE"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#58C6A0"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
+                    </div>
+                  </div> 
+                  <div className = "editButtons">           
+                    <input type = "submit" className = "editSave" value = "Save"/>
+                    <button className = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
+                    <button className = "editDelete" onClick = {this.onDelete}>
+                      <i className="fa fa-trash"></i>
+                    </button>                  
                   </div>  
-                  <div className = "editOptions" onClick = {this.hideColors} ref = "editOptions">
-                    <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#ECEA48"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#BB5FF6"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#FFBE58"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#FF5BCE"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#58C6A0"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
-                  </div>
-                </div> 
-                <div className = "editButtons">           
-                  <button className = "editSave" onClick = {this.saveChanges}>Save</button>
-                  <button className = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
-                  <button className = "editDelete" onClick = {this.onDelete}>
-                    <i className="fa fa-trash"></i>
-                  </button>                  
-                </div>  
-              </div>
+                </div>
+              </form>
             </div>
   }
 }

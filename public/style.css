@@ -10,6 +10,7 @@ input {
   font: 18px Verdana;  
   background-color: white;
   padding-left: 10px;*/
+  border: none;
   outline: none; 
   font-family: Verdana;
 }
@@ -505,6 +506,7 @@ div.addNewForm input.add {
   color: white;
   box-shadow: inset 0px -2px 0px 0px #1C1C1C;
   top: -1px;
+  cursor: pointer;
 }
 
 div.addNewForm button.cancel {
@@ -534,7 +536,7 @@ input.newName, input.editName, input.editTaskName {
 }
 
 div.addNewOpt {
-  margin-left: 25px;
+  margin-left: 4px;
   display: flex;
 }
 
@@ -653,8 +655,12 @@ div.editForm {
   justify-content: space-between;
 }
 
+form.editProject {
+  display: flex;
+}
+
 div.editForm div.projectLabel {
-  margin-right: 8px;
+  margin-right: 20px;
 }
 
 div.editOpt {
@@ -668,20 +674,23 @@ div.editButtons {
   width: 141px;
 }
 
-div.editButtons button {
+div.editButtons button, div.editButtons input {
   position: absolute;
-  top: -2px;
+  top: -1px;
 }
 
-button.editSave {
+input.editSave {
   background-color: #49C15D;
   color: white;
   box-shadow: inset 0px -2px 0px 0px #1C1C1C;
+  height: 38px;
+  cursor: pointer;
 }
 
 div.editOpt button.editFinish {
   left: 53px;
   height: 34px;
+  width: 56px;
   top: 1px;
   color: #5B5B5B;
   background-color: white;
