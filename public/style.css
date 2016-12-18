@@ -5,12 +5,13 @@ a {
 }
 
 input {
-  border: 1px ridge #cdcfd2;
+ /* border: 1px ridge #cdcfd2;
   border-radius: 5px;
   font: 18px Verdana;  
   background-color: white;
-  padding-left: 10px;
+  padding-left: 10px;*/
   outline: none; 
+  font-family: Verdana;
 }
 
 :focus::-webkit-input-placeholder {color: transparent}
@@ -474,6 +475,10 @@ div.addNewForm {
   position: relative;
 }
 
+form.addProject {
+  display: flex;
+}
+
 /*check repeated styles for these buttons*/
 
 div.addNewForm div.buttons {
@@ -482,25 +487,28 @@ div.addNewForm div.buttons {
   width: 120px;  
 }
 
-div.addNewOpt button, div.editOpt button {
+div.addNewOpt button, div.editOpt button, input.add {
   height: 39px;
+  width: 37px;
   margin-right: 6px;
   display: flex;
 }
 
-div.addNewForm button {
+div.addNewForm button, input.add {
   position: absolute;
-  height: 39px;
+  height: 38px;
 }
 
-div.addNewForm button.add {
+div.addNewForm input.add {
+  border: none;
   background-color: #49C15D;
   color: white;
   box-shadow: inset 0px -2px 0px 0px #1C1C1C;
-  top: -2px;
+  top: -1px;
 }
 
 div.addNewForm button.cancel {
+  width: 56px;
   right: 12px;
   height: 32px;
   top: 2px;
@@ -991,7 +999,7 @@ div.rewardPrice {
 }
 
 div.rewardName {
-  display: initial;
+  display: flex;
   width: 140px;
   overflow: hidden;
   white-space: nowrap;
