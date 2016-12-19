@@ -68,6 +68,7 @@ export default class RewardsShortList extends React.Component {
                   id ={el._id} 
                   name = {el.name} 
                   price = {el.price} 
+                  repeated = {el.repeated}
                   points = {this.state.points}
                   login = {this.props.login}
                   loc = "short"

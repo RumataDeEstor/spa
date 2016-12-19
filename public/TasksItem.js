@@ -27,6 +27,11 @@ export default class TasksItem extends React.Component {
     // if (!this.props.repeated) {
     //   this.refs.rep.style.display = "none";
     // }
+    this.refs.completeBtn.addEventListener("click", this.complete, false);
+  }
+
+  componentWillUnmount(){
+    this.refs.completeBtn.removeEventListener("click", this.complete, false);
   }
 
   componentWillReceiveProps(newProps){
@@ -117,6 +122,7 @@ export default class TasksItem extends React.Component {
 
   complete() {
     if (!this.props.repeated) {
+      this.refs.completeBtn.removeEventListener("click", this.complete, false);
       this.tick().then(result => this.delete());
     } else {
       this.tick().then(result => this.untick());
@@ -168,7 +174,7 @@ export default class TasksItem extends React.Component {
                   // onClick = {this.complete}
                 >                                 
                   <i className="fa fa-check" aria-hidden="true" 
-                    onClick = {this.complete}
+                    ref = "completeBtn"
                     onMouseOver = {this.checkMouseOn}
                     onMouseOut = {this.checkMouseOut}>
                   </i> 

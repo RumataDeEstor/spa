@@ -28222,6 +28222,7 @@
 	            id: el._id,
 	            name: el.name,
 	            price: el.price,
+	            repeated: el.repeated,
 	            points: _this3.state.points,
 	            login: _this3.props.login,
 	            loc: 'short'
@@ -28403,21 +28404,20 @@
 	    value: function showMore() {
 	      this.refs.pers.style.visibility = "visible";
 	      if (this.state.unlocked) {
-	        this.refs.getPWindow.style.display = "flex";
+	        this.refs.getRWindow.style.display = "flex";
 	      }
 	    }
 	  }, {
 	    key: 'hideMore',
 	    value: function hideMore() {
 	      this.refs.pers.style.visibility = "hidden";
-	      this.refs.getPWindow.style.display = "none";
+	      this.refs.getRWindow.style.display = "none";
 	    }
 	  }, {
 	    key: 'deleteReward',
 	    value: function deleteReward() {
-	      var _this3 = this;
-
 	      // this.refs.msg.innerText = "*deleted*";
+	      this.refs.item.style.display = "none";
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -28432,7 +28432,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _this3.refs.item.style.display = "none";
+
 	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
 	        // ee.emitEvent('rewardDeleted', [id]);  
 	      }).catch(function (err) {
@@ -28601,7 +28601,7 @@
 	          },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'getRewardWindow', ref: 'getPWindow',
+	            { className: 'getRewardWindow', ref: 'getRWindow',
 	              onClick: this.getReward },
 	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true' })
 	          ),
@@ -29316,6 +29316,12 @@
 	      // if (!this.props.repeated) {
 	      //   this.refs.rep.style.display = "none";
 	      // }
+	      this.refs.completeBtn.addEventListener("click", this.complete, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.completeBtn.removeEventListener("click", this.complete, false);
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -29425,6 +29431,7 @@
 	      var _this5 = this;
 
 	      if (!this.props.repeated) {
+	        this.refs.completeBtn.removeEventListener("click", this.complete, false);
 	        this.tick().then(function (result) {
 	          return _this5.delete();
 	        });
@@ -29485,7 +29492,7 @@
 	              // onClick = {this.complete}
 	            },
 	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true',
-	              onClick: this.complete,
+	              ref: 'completeBtn',
 	              onMouseOver: this.checkMouseOn,
 	              onMouseOut: this.checkMouseOut })
 	          ),
@@ -32191,6 +32198,7 @@
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.addListener('rewardDeleted', this.handleChildDelete);
 	      // ee.addListener('rewardEdited', this.updateChild);
+	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
 	    }
 	  }, {

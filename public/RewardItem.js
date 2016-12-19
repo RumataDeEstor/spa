@@ -123,17 +123,18 @@ export default class RewardItem extends React.Component {
   showMore() {
     this.refs.pers.style.visibility = "visible";
     if (this.state.unlocked) {
-      this.refs.getPWindow.style.display = "flex";
+      this.refs.getRWindow.style.display = "flex";
     }    
   }
 
   hideMore() {
     this.refs.pers.style.visibility = "hidden";
-    this.refs.getPWindow.style.display = "none";
+    this.refs.getRWindow.style.display = "none";
   }
 
   deleteReward(){
     // this.refs.msg.innerText = "*deleted*";
+    this.refs.item.style.display = "none";
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -148,7 +149,7 @@ export default class RewardItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        this.refs.item.style.display = "none";
+        
         // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
         // ee.emitEvent('rewardDeleted', [id]);  
       })
@@ -296,7 +297,7 @@ export default class RewardItem extends React.Component {
               onMouseOver = {this.showMore}
               onMouseOut = {this.hideMore}
             >
-              <div className = "getRewardWindow" ref = "getPWindow" 
+              <div className = "getRewardWindow" ref = "getRWindow" 
                 onClick = {this.getReward}>
                 <i className ="fa fa-check" aria-hidden="true"></i>
               </div>

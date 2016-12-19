@@ -24,6 +24,7 @@ export default class Rewards extends React.Component {
     ee.addListener('getPoints', this.getPoints);
     ee.addListener('rewardDeleted', this.handleChildDelete);
     // ee.addListener('rewardEdited', this.updateChild);
+    ee.emitEvent('reqForPoints');
     this.loadItems();
   }
 
