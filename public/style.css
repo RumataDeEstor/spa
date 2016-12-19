@@ -385,8 +385,9 @@ div.pointsContainer {
   display: flex;
   justify-content: flex-end;
   align-items: center;
-  padding-right: 8px;
+  padding: 0 8px;
   font: bold 15px Verdana;
+  overflow: hidden;
 }
 
 div.changePointsSmallenabled {
@@ -434,7 +435,8 @@ div.pListTitle {
 
 /*PROJECTSADDNEW--------------------------------*/
 
-div.projectsAddNew, div.taskAddNew, div.ruleAddNew {
+div.projectsAddNew, div.taskAddNew, 
+div.ruleAddNew {
   margin-top: 20px;
   width: 650px;
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
@@ -488,7 +490,8 @@ div.addNewForm div.buttons {
   width: 120px;  
 }
 
-div.addNewOpt button, div.editOpt button, input.add {
+div.addNewOpt button, div.editOpt button, 
+input.add {
   height: 39px;
   width: 37px;
   margin-right: 6px;
@@ -920,8 +923,8 @@ div.rewardsAddNew button {
   color: white;
   box-shadow: inset 0px -2px 0px 0px #1C1C1C;
   position: absolute;
-  height: 39px;
-  top: -2px;
+  height: 38px;
+  top: -1px;
   right: 40px;
 }
 
@@ -1106,6 +1109,7 @@ div.exCircle {
   border-radius: 60px;
   box-shadow: 0 0px 7px rgba(128,128,128,.4);
   background-color: #EF84DA;
+  /*rgba(19, 169, 25, 0.6)*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1132,6 +1136,7 @@ div.inCircle {
 
 div.square {
   background-color: #ef84da;
+ /* rgba(19, 169, 25, 0.6)*/
   width: 80px;
   z-index: 1;
   display: flex;
@@ -1178,14 +1183,14 @@ div.ruleItem div.ruleName {
 }
 
 div.ruleItem div.fine {
-  background-color: rgba(239, 21, 21, 0.42);
+  background-color: rgba(239, 128, 128, 0.26);
 }
 
 div.ruleItem div.taskCheckbox div {
   position: absolute;
   font-size: 18px;
   bottom: -3px;
-  color: #c13d3d;
+  color: #d45f5f;
   display: none; 
 }
 
@@ -1193,9 +1198,16 @@ div.ruleItem div.taskCheckbox div {
 
 div.ruleAddNew,
 div.ruleAddNew div.lineExpand,
-div.ruleAddNew div.addNewForm 
- {
+div.ruleAddNew div.addNewForm {
   width: 750px;
+}
+
+form.addRule {
+  display: flex;
+}
+
+form.addRule div.editLabelForm {
+  width: 150px;
 }
 
 div.ruleAddNew div.lineExpand {
@@ -1204,6 +1216,10 @@ div.ruleAddNew div.lineExpand {
 
 div.ruleAddNew div.addNewForm {
   width: 750px; 
+}
+
+div.ruleAddNew input.newPoints {
+  margin-right: 19px;
 }
 
 /*RuleEditing--------------------------------------------------------*/
@@ -1219,10 +1235,19 @@ div.ruleItem div.editForm {
   width: 750px;
 }
 
-div.ruleItem button.editSave,
+form.editRule {
+  display: flex;
+}
+
+form.editRule input.editPoints {
+  margin-right: 29px;
+  margin-left: 14px;
+}
+
+div.ruleItem div.editForm input.editSave,
 div.ruleAddNew div.expand,
-div.ruleAddNew button.add {
-  background-color: #c13d3d;
+div.ruleAddNew input.add {
+  background-color: #d45f5f;
 }
 
 /*AppPending-----------------------------------------------------------*/

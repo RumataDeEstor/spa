@@ -14,13 +14,49 @@ export default class RuleEditing extends React.Component {
     this.onDelete = this.onDelete.bind(this);
     this.hideColors = this.hideColors.bind(this);
     this.showColors = this.showColors.bind(this);
+    this.checkForm = this.checkForm.bind(this);
+    this.checkName = this.checkName.bind(this);
+    this.trimName = this.trimName.bind(this);
   }
 
-  onFinishEdit() {
+  componentDidMount () {
+    this.refs.editRuleForm.addEventListener('submit', this.checkForm, false);
+  }
+
+  checkForm (e) {
+    e.preventDefault();
+    this.trimName();
+    this.normalizePoints();
+    if ( this.checkName() ) this.saveChanges();
+  }
+
+  trimName () {
+    this.refs.editName.value = this.refs.editName.value.trim();
+    let validName = (this.refs.editName.value.length > 30) ? 
+      this.refs.editName.value.slice(0, 30) : this.refs.editName.value;
+    this.refs.editName.value = validName;
+  }
+
+  normalizePoints () {
+    let points = this.refs.editFine.value;
+    let fineMax = this.refs.editFine.max; 
+    this.refs.editFine.value = ( (points > 0) && 
+      (points < 501) ) ? points : fineMax;  
+  }
+
+  checkName () {
+    let name = this.refs.editName.value;
+    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+  }
+
+  onFinishEdit(e) {
+    if (e) e.preventDefault();
     ee.emitEvent('ruleFinishEdit');  
   }
 
-  onDelete(){
+  onDelete(e){
+    if (e) e.preventDefault();
+
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -96,6 +132,7 @@ export default class RuleEditing extends React.Component {
 
   render () {
     return<div className = "editForm">
+            <form ref = "editRuleForm" className = "editRule">
               <div style = {{backgroundColor: this.props.target.props.label}} 
                 className = "projectLabel" 
                 ref = "plabel">
@@ -103,6 +140,7 @@ export default class RuleEditing extends React.Component {
               <input type = "text" defaultValue = {this.props.target.props.name} 
                 className = "editName" 
                 ref = "editName"
+                maxLength = "30"
               />
               <div className = "editOpt">
                 <div className = "editLabelForm">
@@ -126,14 +164,15 @@ export default class RuleEditing extends React.Component {
                   defaultValue = {this.props.target.props.fine} 
                   min = "1" max = "500"
                 />
-                <div className = "editButtons">           
-                  <button className = "editSave" onClick = {this.saveChanges}>Save</button>
+                <div className = "editButtons">    
+                  <input type = "submit" className = "editSave" value = "Save"/>       
                   <button className = "editFinish" onClick = {this.onFinishEdit}>Cancel</button>
                   <button className = "editDelete" onClick = {this.onDelete}>
                     <i className="fa fa-trash"></i>
                   </button>                  
                 </div>  
               </div>
-            </div>
+            </form>
+          </div>
   }
 }

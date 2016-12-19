@@ -40,7 +40,7 @@ export default class RuleAddNew extends React.Component {
 
   normalizePoints () {
     let points = this.refs.newFine.value;
-    let fineMax = this.refs.newFine.max; // ! default
+    let fineMax = this.refs.newFine.max;
     this.refs.newFine.value = ( (points > 0) && 
       (points < 501) ) ? points : fineMax;  
   }
