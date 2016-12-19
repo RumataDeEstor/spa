@@ -11,7 +11,6 @@ export default class RuleItem extends React.Component {
   constructor(props) {
     super(props);
     this.edit = this.edit.bind(this);
-    this.open = this.open.bind(this);
     this.showEditBtn = this.showEditBtn.bind(this);
     this.hideEditBtn = this.hideEditBtn.bind(this);
     this.showMark = this.showMark.bind(this);
@@ -76,10 +75,6 @@ export default class RuleItem extends React.Component {
     this.refs.eBtn.style.display = "none";
   }
 
-  open() {
-    browserHistory.push(`/app/${this.props.login}/rules/r/${this.props.id}`); 
-  }
-
   render() {
     let component = this.props.editing ? 
       <RuleEditing target = {this} login = {this.props.login}/> : null;
@@ -98,7 +93,7 @@ export default class RuleItem extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className = "ruleLine" onClick = {this.open}>
+              <div className = "ruleLine">
                 <div style = {{backgroundColor: this.props.label}} 
                   className = "projectLabel"> 
                 </div>

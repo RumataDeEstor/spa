@@ -15,6 +15,39 @@ export default class RuleAddNew extends React.Component {
     this.showColors = this.showColors.bind(this);
     this.onExpand = this.onExpand.bind(this);
     this.onCancel = this.onCancel.bind(this);
+    this.checkForm = this.checkForm.bind(this);
+    this.checkName = this.checkName.bind(this);
+    this.trimName = this.trimName.bind(this);
+  }
+
+  componentDidMount () {
+    this.refs.addRuleForm.addEventListener('submit', this.checkForm, false);
+  }
+
+  checkForm (e) {
+    e.preventDefault();
+    this.trimName();
+    this.normalizePoints();
+    if ( this.checkName() ) this.addNew();
+  }
+
+  trimName () {
+    this.refs.newName.value = this.refs.newName.value.trim();
+    let validName = (this.refs.newName.value.length > 30) ? 
+      this.refs.newName.value.slice(0, 30) : this.refs.newName.value;
+    this.refs.newName.value = validName;
+  }
+
+  normalizePoints () {
+    let points = this.refs.newFine.value;
+    let fineMax = this.refs.newFine.max; // ! default
+    this.refs.newFine.value = ( (points > 0) && 
+      (points < 501) ) ? points : fineMax;  
+  }
+
+  checkName () {
+    let name = this.refs.newName.value;
+    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
   }
 
   clearFields() {
@@ -35,7 +68,8 @@ export default class RuleAddNew extends React.Component {
     this.refs.options.style.width = "0";
   }
 
-  onCancel () {
+  onCancel (e) {
+    if (e) e.preventDefault();
     this.refs.addNewForm.style.display = "none";  
     this.refs.lineExpand.style.display = "flex"; 
   }
@@ -46,10 +80,8 @@ export default class RuleAddNew extends React.Component {
   }
 
   addNew (){
-    let validName = (this.refs.newName.value.length > 100) ? 
-      this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
-    let validPoints = (this.refs.newFine.value > 500) ? 
-      500 : this.refs.newFine.value;
+    let validName = this.refs.newName.value;
+    let validPoints = this.refs.newFine.value;
 
     let bodyJSON = JSON.stringify({
       name: validName,
@@ -89,34 +121,37 @@ export default class RuleAddNew extends React.Component {
               <div className = "expand" onClick = {this.onExpand}>+</div>
             </div>
             <div className = "addNewForm" ref = "addNewForm">
-              <div style = {{backgroundColor: "transparent"}} className = "projectLabel" ref = "plabel"></div>
-              <input type = "text" placeholder = "Name" className = "newName" ref = "newName" maxLength = "17"/>
-              <div className = "addNewOpt">
-                <div className = "labelForm">
-                  <div className = "chosen" onClick = {this.showColors}>
-                    <i className="fa fa-tags" aria-hidden="true"></i>
+              <form ref = "addRuleForm" className = "addRule">
+                <div style = {{backgroundColor: "transparent"}} className = "projectLabel" ref = "plabel"></div>
+                <input type = "text" placeholder = "Name" className = "newName" 
+                  ref = "newName" maxLength = "30"/>
+                <div className = "addNewOpt">
+                  <div className = "labelForm">
+                    <div className = "chosen" onClick = {this.showColors}>
+                      <i className="fa fa-tags" aria-hidden="true"></i>
+                    </div>  
+                    <div className = "options" ref = "options" onClick = {this.hideColors}>
+                      <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#ECEA48"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#BB5FF6"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#FFBE58"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#FF5BCE"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#58C6A0"}}></div>
+                      <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
+                    </div>
+                  </div> 
+                  <input type = "number" className = "newPoints" 
+                    defaultValue = "5" min = "1" max = "500"
+                    ref = "newFine"
+                  />
+                  <div className = "buttons">       
+                    <input type = "submit" className = "add" value = "Add"/>    
+                    <button className = "cancel" onClick = {this.onCancel}>Cancel</button>
                   </div>  
-                  <div className = "options" ref = "options" onClick = {this.hideColors}>
-                    <div className = "colorsList" style = {{backgroundColor: "#FF3C3D"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#6DC04C"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#4591CB"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#ECEA48"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#BB5FF6"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#FFBE58"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#FF5BCE"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#58C6A0"}}></div>
-                    <div className = "colorsList" style = {{backgroundColor: "#676C9A"}}></div>
-                  </div>
-                </div> 
-                <input type = "number" className = "newPoints" 
-                  defaultValue = "5" min = "0" max = "500"
-                  ref = "newFine"
-                />
-                <div className = "buttons">           
-                  <button className = "add" onClick = {this.addNew}>Add</button>
-                  <button className = "cancel" onClick = {this.onCancel}>Cancel</button>
-                </div>  
-              </div>
+                </div>
+              </form>
             </div>
           </div>
   }

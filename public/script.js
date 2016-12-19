@@ -15,6 +15,7 @@ import ProjectsList from './ProjectsList';
 import Signup from './Signup';
 import StartPage from './StartPage';
 import RuleList from './RuleList';
+import Rules from './Rules';
 import Points from './Points';
 import Rewards from './Rewards';
 
@@ -27,7 +28,10 @@ render((
     </Route>
     <Route path="app/:login" component={App}>
       <IndexRedirect to="projects"/> 
-      <Route path="rules" component={RuleList}/>
+      <Route path="rules" component={Rules}>
+        <IndexRedirect to="list"/> 
+        <Route path="list" component={RuleList}/> 
+      </Route>
       <Route path="rewards" component={Rewards}/>
       <Route path="projects" component={Projects}>
         <IndexRedirect to="list"/> 
