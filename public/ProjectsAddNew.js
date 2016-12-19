@@ -31,7 +31,7 @@ export default class ProjectsAddNew extends React.Component {
 
   checkName(){
     let name = this.refs.newName.value;
-    return (/^(\w|\s)*$/.test(name));    
+    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));    
   }
 
   trimName(){
@@ -59,7 +59,7 @@ export default class ProjectsAddNew extends React.Component {
   }
 
   onCancel (e) {
-    e.preventDefault();
+    if (e) e.preventDefault();
     this.clearFields();
     this.refs.addNewForm.style.display = "none";  
     this.refs.lineExpand.style.display = "flex"; 

@@ -32,7 +32,7 @@ export default class ProjectEditing extends React.Component {
 
   checkName(){
     let name = this.refs.editName.value;
-    return (/^(\w|\s)*$/.test(name));    
+    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));    
   }
 
   trimName(){
