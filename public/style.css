@@ -712,19 +712,23 @@ div.editOpt button.editDelete {
 
 /*Tasks Add New---------------------------------*/
 
+form.addTask {
+  display: flex;
+}
+
 div.taskAddNew div.addNewForm div.buttons {
-  margin-left: 100px;
+  margin-left: 55px;
 }
 
 div.taskAddNew input.newName {
-  margin-left: 35px;
+  margin-left: 50px;
 }
 
 input.newPoints {
   width: 70px;
   height: 16px;
-  margin-right: 40px;
-  margin-left: 5px;
+  margin-right: 51px;
+  margin-left: 15px;
   border: none;
   padding: 0;
   font: 16px Verdana;
@@ -748,7 +752,7 @@ div.tasksItem div.editForm {
 }
 
 div.tasksItem div.editButtons {
-  margin-left: 70px;
+  margin-left: 55px;
 }
 
 div.checkBoxField {
@@ -834,8 +838,12 @@ div.repeatMark {
 
 /*Task Editing-------------------------------------------*/
 
+form.editTask {
+  display: flex;
+}
+
 input.editTaskName {
-  margin-left: 35px;
+  margin-left: 50px;
 }
 
 input.editPoints {
