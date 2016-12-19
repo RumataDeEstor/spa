@@ -37,6 +37,9 @@ export default class RewardItem extends React.Component {
     this.getReward = this.getReward.bind(this);
     this.tempUpdPoints = this.tempUpdPoints.bind(this);
     this.submitIsRepeated = this.submitIsRepeated.bind(this);
+    this.checkName = this.checkName.bind(this);
+    this.trimName = this.trimName.bind(this);
+    this.normalizePoints = this.normalizePoints.bind(this);
   }
   // almost the same as while mounting; may be separated;
   componentWillReceiveProps(newProps){
@@ -70,7 +73,7 @@ export default class RewardItem extends React.Component {
   componentDidMount() {
     if (this.props.loc == "full") {
       this.refs.rewardPrice.addEventListener('click', this.showEditPrice);
-      this.refs.rewardName.addEventListener('click', this.showEditName)
+      this.refs.rewardNameContainer.addEventListener('click', this.showEditName)
       this.refs.del.style.display = "flex";
     } 
     this.refs.editRewardName.addEventListener('submit',this.submitName, false);
@@ -195,18 +198,37 @@ export default class RewardItem extends React.Component {
 
   submitName (e){
     e.preventDefault();
-    console.log('submit Name')
-    //AJAX
+    this.trimName();
     let newName = e.target.fieldName.value;
+    if ( !this.checkName() ) return;
     this.setState({name: newName});
     this.submitData({name: newName});
     this.hideEditName();
   }
 
+  checkName () {
+    let name = this.refs.editName.value;
+    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+  }
+
+  trimName () {
+    this.refs.editName.value = this.refs.editName.value.trim();
+    let validName = (this.refs.editName.value.length > 30) ? 
+      this.refs.editName.value.slice(0, 30) : this.refs.editName.value;
+    this.refs.editName.value = validName;
+  }
+
+  normalizePoints () {
+    let points = this.refs.editPrice.value;
+    let newPoints = this.refs.editPrice.defaultValue;
+    this.refs.editPrice.value = ( (points > 4) && 
+      (points < 5001) ) ? points : newPoints;  
+  }
+
   submitPrice (e) {
     e.preventDefault();
-    //AJAX
-    let newPrice = e.target.fieldPrice.value; // e?
+    this.normalizePoints();
+    let newPrice = e.target.fieldPrice.value; 
     this.setState({price: newPrice}); 
     this.submitData({price: newPrice});
     this.hideEditPrice();
@@ -216,22 +238,20 @@ export default class RewardItem extends React.Component {
     if (this.props.loc == "short") return; // remove handler at all?
     this.refs.rep.className = (this.refs.rep.className == "checked") ? 
       "unchecked" : "checked";
-    console.log(this.refs.rep.className);
     let repeated = (this.refs.rep.className == "checked");
-    console.log(repeated);
     this.setState({repeated: repeated});
     this.submitData({repeated: repeated});
   }
 
   hideEditName(){
     this.refs.editRewardName.style.display = "none";
-    this.refs.rewardName.style.display = "initial";
+    this.refs.rewardNameContainer.style.display = "flex";
   }
 
-  showEditName(e) {
+  showEditName() {
     this.hideEditPrice();
     this.refs.editRewardName.style.display = "flex";
-    e.target.style.display = "none";
+    this.refs.rewardNameContainer.style.display = "none";
   }
 
   hideEditPrice () {
@@ -266,12 +286,12 @@ export default class RewardItem extends React.Component {
             </button>     
             <form ref = "editRewardPrice" className = "editRewardPrice">
               <input type = "number" 
+                ref = "editPrice"
                 className = "rewardPriceEdit"
-                min = "5" max = "500" 
+                min = "5" max = "5000" 
                 name = "fieldPrice"
                 defaultValue = {this.state.price}/>
-            </form>      
-            
+            </form>  
             <div className = "exCircle" 
               onMouseOver = {this.showMore}
               onMouseOut = {this.hideMore}
@@ -288,14 +308,18 @@ export default class RewardItem extends React.Component {
             <div className = "percents" ref = "pers"> 
               {`${this.state.percentsValue}%`}
             </div>
-            <div className = "rewardName" ref = "rewardName">
-              {this.state.name}
+            <div ref = "rewardNameContainer" className = "rewardNameContainer">
+              <div className = "rewardName">
+                {this.state.name}
+              </div>
             </div>
             <form ref = "editRewardName" className = "editRewardName">
               <input type = "text" className = "rewardNameEdit" 
+                ref = "editName"
                 name = "fieldName" 
                 defaultValue = {this.state.name}
-              />
+                maxLength = "30"
+              /> 
             </form>
           </div>
   }

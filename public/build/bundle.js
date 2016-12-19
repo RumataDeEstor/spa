@@ -98,11 +98,15 @@
 
 	var _RuleList2 = _interopRequireDefault(_RuleList);
 
+	var _Rules = __webpack_require__(263);
+
+	var _Rules2 = _interopRequireDefault(_Rules);
+
 	var _Points = __webpack_require__(237);
 
 	var _Points2 = _interopRequireDefault(_Points);
 
-	var _Rewards = __webpack_require__(263);
+	var _Rewards = __webpack_require__(264);
 
 	var _Rewards2 = _interopRequireDefault(_Rewards);
 
@@ -122,7 +126,12 @@
 	    _reactRouter.Route,
 	    { path: 'app/:login', component: _App2.default },
 	    _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'projects' }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'rules', component: _RuleList2.default }),
+	    _react2.default.createElement(
+	      _reactRouter.Route,
+	      { path: 'rules', component: _Rules2.default },
+	      _react2.default.createElement(_reactRouter.IndexRedirect, { to: 'list' }),
+	      _react2.default.createElement(_reactRouter.Route, { path: 'list', component: _RuleList2.default })
+	    ),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'rewards', component: _Rewards2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
@@ -27389,7 +27398,7 @@
 	              'li',
 	              null,
 	              _react2.default.createElement(
-	                _reactRouter.IndexLink,
+	                _reactRouter.Link,
 	                { to: path + '/rules', activeClassName: 'active' },
 	                'Rules'
 	              )
@@ -27398,7 +27407,7 @@
 	              'li',
 	              null,
 	              _react2.default.createElement(
-	                _reactRouter.IndexLink,
+	                _reactRouter.Link,
 	                { to: path + '/rewards', activeClassName: 'active' },
 	                'Rewards'
 	              )
@@ -28295,6 +28304,9 @@
 	    _this.getReward = _this.getReward.bind(_this);
 	    _this.tempUpdPoints = _this.tempUpdPoints.bind(_this);
 	    _this.submitIsRepeated = _this.submitIsRepeated.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
+	    _this.normalizePoints = _this.normalizePoints.bind(_this);
 	    return _this;
 	  }
 	  // almost the same as while mounting; may be separated;
@@ -28335,7 +28347,7 @@
 	    value: function componentDidMount() {
 	      if (this.props.loc == "full") {
 	        this.refs.rewardPrice.addEventListener('click', this.showEditPrice);
-	        this.refs.rewardName.addEventListener('click', this.showEditName);
+	        this.refs.rewardNameContainer.addEventListener('click', this.showEditName);
 	        this.refs.del.style.display = "flex";
 	      }
 	      this.refs.editRewardName.addEventListener('submit', this.submitName, false);
@@ -28470,19 +28482,40 @@
 	    key: 'submitName',
 	    value: function submitName(e) {
 	      e.preventDefault();
-	      console.log('submit Name');
-	      //AJAX
+	      this.trimName();
 	      var newName = e.target.fieldName.value;
+	      if (!this.checkName()) return;
 	      this.setState({ name: newName });
 	      this.submitData({ name: newName });
 	      this.hideEditName();
 	    }
 	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.editName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.editName.value = this.refs.editName.value.trim();
+	      var validName = this.refs.editName.value.length > 30 ? this.refs.editName.value.slice(0, 30) : this.refs.editName.value;
+	      this.refs.editName.value = validName;
+	    }
+	  }, {
+	    key: 'normalizePoints',
+	    value: function normalizePoints() {
+	      var points = this.refs.editPrice.value;
+	      var newPoints = this.refs.editPrice.defaultValue;
+	      this.refs.editPrice.value = points > 4 && points < 5001 ? points : newPoints;
+	    }
+	  }, {
 	    key: 'submitPrice',
 	    value: function submitPrice(e) {
 	      e.preventDefault();
-	      //AJAX
-	      var newPrice = e.target.fieldPrice.value; // e?
+	      this.normalizePoints();
+	      var newPrice = e.target.fieldPrice.value;
 	      this.setState({ price: newPrice });
 	      this.submitData({ price: newPrice });
 	      this.hideEditPrice();
@@ -28492,9 +28525,7 @@
 	    value: function submitIsRepeated() {
 	      if (this.props.loc == "short") return; // remove handler at all?
 	      this.refs.rep.className = this.refs.rep.className == "checked" ? "unchecked" : "checked";
-	      console.log(this.refs.rep.className);
 	      var repeated = this.refs.rep.className == "checked";
-	      console.log(repeated);
 	      this.setState({ repeated: repeated });
 	      this.submitData({ repeated: repeated });
 	    }
@@ -28502,14 +28533,14 @@
 	    key: 'hideEditName',
 	    value: function hideEditName() {
 	      this.refs.editRewardName.style.display = "none";
-	      this.refs.rewardName.style.display = "initial";
+	      this.refs.rewardNameContainer.style.display = "flex";
 	    }
 	  }, {
 	    key: 'showEditName',
-	    value: function showEditName(e) {
+	    value: function showEditName() {
 	      this.hideEditPrice();
 	      this.refs.editRewardName.style.display = "flex";
-	      e.target.style.display = "none";
+	      this.refs.rewardNameContainer.style.display = "none";
 	    }
 	  }, {
 	    key: 'hideEditPrice',
@@ -28556,8 +28587,9 @@
 	          'form',
 	          { ref: 'editRewardPrice', className: 'editRewardPrice' },
 	          _react2.default.createElement('input', { type: 'number',
+	            ref: 'editPrice',
 	            className: 'rewardPriceEdit',
-	            min: '5', max: '500',
+	            min: '5', max: '5000',
 	            name: 'fieldPrice',
 	            defaultValue: this.state.price })
 	        ),
@@ -28586,15 +28618,21 @@
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'rewardName', ref: 'rewardName' },
-	          this.state.name
+	          { ref: 'rewardNameContainer', className: 'rewardNameContainer' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'rewardName' },
+	            this.state.name
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'form',
 	          { ref: 'editRewardName', className: 'editRewardName' },
 	          _react2.default.createElement('input', { type: 'text', className: 'rewardNameEdit',
+	            ref: 'editName',
 	            name: 'fieldName',
-	            defaultValue: this.state.name
+	            defaultValue: this.state.name,
+	            maxLength: '30'
 	          })
 	        )
 	      );
@@ -29541,6 +29579,9 @@
 	    _this.onFinishEdit = _this.onFinishEdit.bind(_this);
 	    _this.onDelete = _this.onDelete.bind(_this);
 	    _this.checkRepeated = _this.checkRepeated.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
 	    return _this;
 	  }
 
@@ -29550,10 +29591,41 @@
 	      // setTimeout( () =>{
 	      //   editForm.style.height = "76px";
 	      // }, 1);    
+	      this.refs.editTaskForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      this.normalizePoints();
+	      if (this.checkName()) this.saveChanges();
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.editTaskName.value = this.refs.editTaskName.value.trim();
+	      var validName = this.refs.editTaskName.value.length > 17 ? this.refs.editTaskName.value.slice(0, 17) : this.refs.editTaskName.value;
+	      this.refs.editTaskName.value = validName;
+	    }
+	  }, {
+	    key: 'normalizePoints',
+	    value: function normalizePoints() {
+	      var points = this.refs.editPoints.value;
+	      var newPoints = this.refs.editPoints.max;
+	      this.refs.editPoints.value = points > 0 && points < 501 ? points : newPoints;
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.editTaskName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
 	    }
 	  }, {
 	    key: 'onFinishEdit',
-	    value: function onFinishEdit() {
+	    value: function onFinishEdit(e) {
+	      if (e) e.preventDefault();
 	      // let promise = new Promise (resolve => {
 	      //   editForm.style.height = "0";
 	      //   setTimeout( () =>{
@@ -29571,8 +29643,11 @@
 	    }
 	  }, {
 	    key: 'onDelete',
-	    value: function onDelete() {
+	    value: function onDelete(e) {
 	      // mustn't be repeated with TasksItem
+
+	      if (e) preventDefault();
+
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -29600,7 +29675,7 @@
 	      var _this2 = this;
 
 	      var repeated = this.refs.cRep.className == "checked";
-	      console.log(repeated);
+
 	      var bodyJSON = JSON.stringify({
 	        name: this.refs.editTaskName.value,
 	        points: this.refs.editPoints.value,
@@ -29645,43 +29720,44 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'editForm' },
-	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
-	          className: 'editTaskName',
-	          ref: 'editTaskName'
-	        }),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'editOpt' },
-	          _react2.default.createElement('input', { type: 'number', className: 'editPoints',
-	            ref: 'editPoints',
-	            defaultValue: this.props.target.props.points,
-	            min: '0', max: '500'
+	          'form',
+	          { ref: 'editTaskForm', className: 'editTask' },
+	          _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
+	            className: 'editTaskName',
+	            ref: 'editTaskName',
+	            maxLength: '17'
 	          }),
 	          _react2.default.createElement(
 	            'div',
-	            { id: 'editCheckBoxRepeated',
-	              className: isRepeated,
-	              ref: 'cRep',
-	              onClick: this.checkRepeated },
-	            _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'editButtons' },
+	            { className: 'editOpt' },
+	            _react2.default.createElement('input', { type: 'number', className: 'editPoints',
+	              ref: 'editPoints',
+	              defaultValue: this.props.target.props.points,
+	              min: '1', max: '500'
+	            }),
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'editSave', onClick: this.saveChanges },
-	              'Save'
+	              'div',
+	              { id: 'editCheckBoxRepeated',
+	                className: isRepeated,
+	                ref: 'cRep',
+	                onClick: this.checkRepeated },
+	              _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
 	            ),
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'editFinish', onClick: this.onFinishEdit },
-	              'Cancel'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'editDelete', onClick: this.onDelete },
-	              _react2.default.createElement('i', { className: 'fa fa-trash' })
+	              'div',
+	              { className: 'editButtons' },
+	              _react2.default.createElement('input', { type: 'submit', className: 'editSave', value: 'Save' }),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'editFinish', onClick: this.onFinishEdit },
+	                'Cancel'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'editDelete', onClick: this.onDelete },
+	                _react2.default.createElement('i', { className: 'fa fa-trash' })
+	              )
 	            )
 	          )
 	        )
@@ -29736,17 +29812,55 @@
 	    _this.checkRepeated = _this.checkRepeated.bind(_this);
 	    _this.onCancel = _this.onCancel.bind(_this);
 	    _this.onExpand = _this.onExpand.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(TasksAddNew, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.addTaskForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      this.normalizePoints();
+	      if (this.checkName()) this.addNew();
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.newName.value = this.refs.newName.value.trim();
+	      var validName = this.refs.newName.value.length > 17 ? this.refs.newName.value.slice(0, 17) : this.refs.newName.value;
+	      this.refs.newName.value = validName;
+	    }
+	  }, {
+	    key: 'normalizePoints',
+	    value: function normalizePoints() {
+	      var points = this.refs.newPoints.value;
+	      var newPoints = this.refs.newPoints.max;
+	      this.refs.newPoints.value = points > 0 && points < 501 ? points : newPoints;
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.newName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
 	    key: 'checkRepeated',
 	    value: function checkRepeated() {
 	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
 	    }
 	  }, {
 	    key: 'onCancel',
-	    value: function onCancel() {
+	    value: function onCancel(e) {
+	      if (e) e.preventDefault();
 	      this.refs.addNewForm.style.display = "none";
 	      this.refs.lineExpand.style.display = "flex";
 	    }
@@ -29768,8 +29882,8 @@
 	      var _this2 = this;
 
 	      var repeated = this.refs.cRep.className == "checked";
-	      var validPoints = this.refs.newPoints.value > 500 ? 500 : this.refs.newPoints.value;
-	      var validName = this.refs.newName.value.length > 100 ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
+	      var validPoints = this.refs.newPoints.value;
+	      var validName = this.refs.newName.value;
 	      // rewrite validation
 
 	      var bodyJSON = JSON.stringify({
@@ -29821,35 +29935,35 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'addNewForm', ref: 'addNewForm' },
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
-	            className: 'newName', maxLength: '17',
-	            ref: 'newName'
-	          }),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'addNewOpt' },
-	            _react2.default.createElement('input', { type: 'number', className: 'newPoints',
-	              defaultValue: '5', min: '0', max: '500',
-	              ref: 'newPoints'
+	            'form',
+	            { ref: 'addTaskForm', className: 'addTask' },
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
+	              className: 'newName', maxLength: '17',
+	              ref: 'newName'
 	            }),
 	            _react2.default.createElement(
 	              'div',
-	              { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
-	                onClick: this.checkRepeated },
-	              _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'buttons' },
+	              { className: 'addNewOpt' },
+	              _react2.default.createElement('input', { type: 'number', className: 'newPoints',
+	                defaultValue: '5', min: '1', max: '500',
+	                ref: 'newPoints'
+	              }),
 	              _react2.default.createElement(
-	                'button',
-	                { className: 'add', onClick: this.addNew },
-	                'Add'
+	                'div',
+	                { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
+	                  onClick: this.checkRepeated },
+	                _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
 	              ),
 	              _react2.default.createElement(
-	                'button',
-	                { className: 'cancel', onClick: this.onCancel },
-	                'Cancel'
+	                'div',
+	                { className: 'buttons' },
+	                _react2.default.createElement('input', { type: 'submit', className: 'add', value: 'Add' }),
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'cancel', onClick: this.onCancel },
+	                  'Cancel'
+	                )
 	              )
 	            )
 	          )
@@ -30088,10 +30202,39 @@
 	    _this.showColors = _this.showColors.bind(_this);
 	    _this.onExpand = _this.onExpand.bind(_this);
 	    _this.onCancel = _this.onCancel.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ProjectsAddNew, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.addProjectForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      if (this.checkName()) this.addNew();
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.newName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.newName.value = this.refs.newName.value.trim();
+	      var validName = this.refs.newName.value.length > 17 ? this.refs.newName.value.slice(0, 17) : this.refs.newName.value;
+	      this.refs.newName.value = validName;
+	    }
+	  }, {
 	    key: 'clearFields',
 	    value: function clearFields() {
 	      this.refs.newName.value = "";
@@ -30112,7 +30255,9 @@
 	    }
 	  }, {
 	    key: 'onCancel',
-	    value: function onCancel() {
+	    value: function onCancel(e) {
+	      if (e) e.preventDefault();
+	      this.clearFields();
 	      this.refs.addNewForm.style.display = "none";
 	      this.refs.lineExpand.style.display = "flex";
 	    }
@@ -30127,7 +30272,7 @@
 	    value: function addNew() {
 	      var _this2 = this;
 
-	      var validName = this.refs.newName.value.length > 100 ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
+	      var validName = this.refs.newName.value;
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
 	        label: this.refs.plabel.style.backgroundColor
@@ -30175,45 +30320,45 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'addNewForm', ref: 'addNewForm' },
-	          _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'addNewOpt' },
+	            'form',
+	            { ref: 'addProjectForm', className: 'addProject' },
+	            _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'labelForm' },
+	              { className: 'addNewOpt' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'chosen', onClick: this.showColors },
-	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	                { className: 'labelForm' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'chosen', onClick: this.showColors },
+	                  _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'options', ref: 'options', onClick: this.hideColors },
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	                )
 	              ),
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'options', ref: 'options', onClick: this.hideColors },
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'buttons' },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'add', onClick: this.addNew },
-	                'Add'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'cancel', onClick: this.onCancel },
-	                'Cancel'
+	                { className: 'buttons' },
+	                _react2.default.createElement('input', { type: 'submit', className: 'add', value: 'Add' }),
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'cancel', onClick: this.onCancel },
+	                  'Cancel'
+	                )
 	              )
 	            )
 	          )
@@ -30573,6 +30718,9 @@
 	    _this.onDelete = _this.onDelete.bind(_this);
 	    _this.hideColors = _this.hideColors.bind(_this);
 	    _this.showColors = _this.showColors.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
 	    return _this;
 	  }
 
@@ -30580,10 +30728,33 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      // editForm.style.height = "35px";   
+	      this.refs.editProjectForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      if (this.checkName()) this.saveChanges();
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.editName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.editName.value = this.refs.editName.value.trim();
+	      var validName = this.refs.editName.value.length > 17 ? this.refs.editName.value.slice(0, 17) : this.refs.editName.value;
+	      this.refs.editName.value = validName;
 	    }
 	  }, {
 	    key: 'onFinishEdit',
-	    value: function onFinishEdit() {
+	    value: function onFinishEdit(e) {
+	      if (e) e.preventDefault();
 	      // let promise = new Promise (resolve => {
 	      //   editForm.style.height = "0";
 	      //   setTimeout( () =>{
@@ -30596,7 +30767,8 @@
 	    }
 	  }, {
 	    key: 'onDelete',
-	    value: function onDelete() {
+	    value: function onDelete(e) {
+	      e.preventDefault();
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -30673,55 +30845,56 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'editForm' },
-	        _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label },
-	          className: 'projectLabel',
-	          ref: 'plabel' }),
-	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
-	          className: 'editName',
-	          ref: 'editName'
-	        }),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'editOpt' },
+	          'form',
+	          { className: 'editProject', ref: 'editProjectForm' },
+	          _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label },
+	            className: 'projectLabel',
+	            ref: 'plabel' }),
+	          _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
+	            className: 'editName',
+	            ref: 'editName',
+	            maxLength: '17'
+	          }),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'editLabelForm' },
+	            { className: 'editOpt' },
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'editChosen', onClick: this.showColors },
-	              _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	              { className: 'editLabelForm' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'editChosen', onClick: this.showColors },
+	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'editOptions', onClick: this.hideColors, ref: 'editOptions' },
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	              )
 	            ),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'editOptions', onClick: this.hideColors, ref: 'editOptions' },
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
-	            )
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'editButtons' },
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'editSave', onClick: this.saveChanges },
-	              'Save'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'editFinish', onClick: this.onFinishEdit },
-	              'Cancel'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'editDelete', onClick: this.onDelete },
-	              _react2.default.createElement('i', { className: 'fa fa-trash' })
+	              { className: 'editButtons' },
+	              _react2.default.createElement('input', { type: 'submit', className: 'editSave', value: 'Save' }),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'editFinish', onClick: this.onFinishEdit },
+	                'Cancel'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'editDelete', onClick: this.onDelete },
+	                _react2.default.createElement('i', { className: 'fa fa-trash' })
+	              )
 	            )
 	          )
 	        )
@@ -31279,7 +31452,6 @@
 	    var _this = _possibleConstructorReturn(this, (RuleItem.__proto__ || Object.getPrototypeOf(RuleItem)).call(this, props));
 
 	    _this.edit = _this.edit.bind(_this);
-	    _this.open = _this.open.bind(_this);
 	    _this.showEditBtn = _this.showEditBtn.bind(_this);
 	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
 	    _this.showMark = _this.showMark.bind(_this);
@@ -31354,11 +31526,6 @@
 	      this.refs.eBtn.style.display = "none";
 	    }
 	  }, {
-	    key: 'open',
-	    value: function open() {
-	      _reactRouter.browserHistory.push('/app/' + this.props.login + '/rules/r/' + this.props.id);
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      var component = this.props.editing ? _react2.default.createElement(_RuleEditing2.default, { target: this, login: this.props.login }) : null;
@@ -31389,7 +31556,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'ruleLine', onClick: this.open },
+	            { className: 'ruleLine' },
 	            _react2.default.createElement('div', { style: { backgroundColor: this.props.label },
 	              className: 'projectLabel' }),
 	            _react2.default.createElement(
@@ -31466,17 +31633,57 @@
 	    _this.onDelete = _this.onDelete.bind(_this);
 	    _this.hideColors = _this.hideColors.bind(_this);
 	    _this.showColors = _this.showColors.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RuleEditing, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.editRuleForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      this.normalizePoints();
+	      if (this.checkName()) this.saveChanges();
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.editName.value = this.refs.editName.value.trim();
+	      var validName = this.refs.editName.value.length > 30 ? this.refs.editName.value.slice(0, 30) : this.refs.editName.value;
+	      this.refs.editName.value = validName;
+	    }
+	  }, {
+	    key: 'normalizePoints',
+	    value: function normalizePoints() {
+	      var points = this.refs.editFine.value;
+	      var fineMax = this.refs.editFine.max;
+	      this.refs.editFine.value = points > 0 && points < 501 ? points : fineMax;
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.editName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
 	    key: 'onFinishEdit',
-	    value: function onFinishEdit() {
+	    value: function onFinishEdit(e) {
+	      if (e) e.preventDefault();
 	      _EventEmitter2.default.emitEvent('ruleFinishEdit');
 	    }
 	  }, {
 	    key: 'onDelete',
-	    value: function onDelete() {
+	    value: function onDelete(e) {
+	      if (e) e.preventDefault();
+
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -31557,60 +31764,61 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'editForm' },
-	        _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label },
-	          className: 'projectLabel',
-	          ref: 'plabel' }),
-	        _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
-	          className: 'editName',
-	          ref: 'editName'
-	        }),
 	        _react2.default.createElement(
-	          'div',
-	          { className: 'editOpt' },
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'editLabelForm' },
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'editChosen', onClick: this.showColors },
-	              _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'editOptions', onClick: this.hideColors, ref: 'editOptions' },
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
-	              _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
-	            )
-	          ),
-	          _react2.default.createElement('input', { type: 'number', className: 'editPoints',
-	            ref: 'editFine',
-	            defaultValue: this.props.target.props.fine,
-	            min: '1', max: '500'
+	          'form',
+	          { ref: 'editRuleForm', className: 'editRule' },
+	          _react2.default.createElement('div', { style: { backgroundColor: this.props.target.props.label },
+	            className: 'projectLabel',
+	            ref: 'plabel' }),
+	          _react2.default.createElement('input', { type: 'text', defaultValue: this.props.target.props.name,
+	            className: 'editName',
+	            ref: 'editName',
+	            maxLength: '30'
 	          }),
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'editButtons' },
+	            { className: 'editOpt' },
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'editSave', onClick: this.saveChanges },
-	              'Save'
+	              'div',
+	              { className: 'editLabelForm' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'editChosen', onClick: this.showColors },
+	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'editOptions', onClick: this.hideColors, ref: 'editOptions' },
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	              )
 	            ),
+	            _react2.default.createElement('input', { type: 'number', className: 'editPoints',
+	              ref: 'editFine',
+	              defaultValue: this.props.target.props.fine,
+	              min: '1', max: '500'
+	            }),
 	            _react2.default.createElement(
-	              'button',
-	              { className: 'editFinish', onClick: this.onFinishEdit },
-	              'Cancel'
-	            ),
-	            _react2.default.createElement(
-	              'button',
-	              { className: 'editDelete', onClick: this.onDelete },
-	              _react2.default.createElement('i', { className: 'fa fa-trash' })
+	              'div',
+	              { className: 'editButtons' },
+	              _react2.default.createElement('input', { type: 'submit', className: 'editSave', value: 'Save' }),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'editFinish', onClick: this.onFinishEdit },
+	                'Cancel'
+	              ),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'editDelete', onClick: this.onDelete },
+	                _react2.default.createElement('i', { className: 'fa fa-trash' })
+	              )
 	            )
 	          )
 	        )
@@ -31669,10 +31877,47 @@
 	    _this.showColors = _this.showColors.bind(_this);
 	    _this.onExpand = _this.onExpand.bind(_this);
 	    _this.onCancel = _this.onCancel.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RuleAddNew, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.addRuleForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      this.normalizePoints();
+	      if (this.checkName()) this.addNew();
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.newName.value = this.refs.newName.value.trim();
+	      var validName = this.refs.newName.value.length > 30 ? this.refs.newName.value.slice(0, 30) : this.refs.newName.value;
+	      this.refs.newName.value = validName;
+	    }
+	  }, {
+	    key: 'normalizePoints',
+	    value: function normalizePoints() {
+	      var points = this.refs.newFine.value;
+	      var fineMax = this.refs.newFine.max;
+	      this.refs.newFine.value = points > 0 && points < 501 ? points : fineMax;
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.newName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
 	    key: 'clearFields',
 	    value: function clearFields() {
 	      this.refs.newName.value = "";
@@ -31694,7 +31939,8 @@
 	    }
 	  }, {
 	    key: 'onCancel',
-	    value: function onCancel() {
+	    value: function onCancel(e) {
+	      if (e) e.preventDefault();
 	      this.refs.addNewForm.style.display = "none";
 	      this.refs.lineExpand.style.display = "flex";
 	    }
@@ -31709,8 +31955,8 @@
 	    value: function addNew() {
 	      var _this2 = this;
 
-	      var validName = this.refs.newName.value.length > 100 ? this.refs.newName.value.slice(0, 100) : this.refs.newName.value;
-	      var validPoints = this.refs.newFine.value > 500 ? 500 : this.refs.newFine.value;
+	      var validName = this.refs.newName.value;
+	      var validPoints = this.refs.newFine.value;
 
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
@@ -31760,49 +32006,50 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'addNewForm', ref: 'addNewForm' },
-	          _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
-	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'addNewOpt' },
+	            'form',
+	            { ref: 'addRuleForm', className: 'addRule' },
+	            _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName',
+	              ref: 'newName', maxLength: '30' }),
 	            _react2.default.createElement(
 	              'div',
-	              { className: 'labelForm' },
+	              { className: 'addNewOpt' },
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'chosen', onClick: this.showColors },
-	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	                { className: 'labelForm' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'chosen', onClick: this.showColors },
+	                  _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'options', ref: 'options', onClick: this.hideColors },
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	                )
 	              ),
+	              _react2.default.createElement('input', { type: 'number', className: 'newPoints',
+	                defaultValue: '5', min: '1', max: '500',
+	                ref: 'newFine'
+	              }),
 	              _react2.default.createElement(
 	                'div',
-	                { className: 'options', ref: 'options', onClick: this.hideColors },
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
-	              )
-	            ),
-	            _react2.default.createElement('input', { type: 'number', className: 'newPoints',
-	              defaultValue: '5', min: '0', max: '500',
-	              ref: 'newFine'
-	            }),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'buttons' },
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'add', onClick: this.addNew },
-	                'Add'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'cancel', onClick: this.onCancel },
-	                'Cancel'
+	                { className: 'buttons' },
+	                _react2.default.createElement('input', { type: 'submit', className: 'add', value: 'Add' }),
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'cancel', onClick: this.onCancel },
+	                  'Cancel'
+	                )
 	              )
 	            )
 	          )
@@ -31841,11 +32088,65 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Rules = function (_React$Component) {
+	  _inherits(Rules, _React$Component);
+
+	  function Rules(props) {
+	    _classCallCheck(this, Rules);
+
+	    return _possibleConstructorReturn(this, (Rules.__proto__ || Object.getPrototypeOf(Rules)).call(this, props));
+	  }
+
+	  _createClass(Rules, [{
+	    key: 'render',
+	    value: function render() {
+
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'rules' },
+	        this.props.children
+	      );
+	    }
+	  }]);
+
+	  return Rules;
+	}(_react2.default.Component);
+
+	exports.default = Rules;
+
+/***/ },
+/* 264 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
 	var _RewardItem = __webpack_require__(241);
 
 	var _RewardItem2 = _interopRequireDefault(_RewardItem);
 
-	var _RewardsAddNew = __webpack_require__(264);
+	var _RewardsAddNew = __webpack_require__(265);
 
 	var _RewardsAddNew2 = _interopRequireDefault(_RewardsAddNew);
 
@@ -31990,7 +32291,7 @@
 	exports.default = Rewards;
 
 /***/ },
-/* 264 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -32027,13 +32328,58 @@
 
 	    _this.addNew = _this.addNew.bind(_this);
 	    _this.checkRepeated = _this.checkRepeated.bind(_this);
+	    _this.checkForm = _this.checkForm.bind(_this);
+	    _this.checkName = _this.checkName.bind(_this);
+	    _this.trimName = _this.trimName.bind(_this);
+	    _this.clearFields = _this.clearFields.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RewardsAddNew, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.refs.rewardsAddNewForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'checkForm',
+	    value: function checkForm(e) {
+	      e.preventDefault();
+	      this.trimName();
+	      this.normalizePoints();
+	      if (this.checkName()) this.addNew();
+	    }
+	  }, {
+	    key: 'trimName',
+	    value: function trimName() {
+	      this.refs.newRewardName.value = this.refs.newRewardName.value.trim();
+	      var validName = this.refs.newRewardName.value.length > 30 ? this.refs.newRewardName.value.slice(0, 30) : this.refs.newRewardName.value;
+	      this.refs.newRewardName.value = validName;
+	    }
+	  }, {
+	    key: 'normalizePoints',
+	    value: function normalizePoints() {
+	      var points = this.refs.newRewardPrice.value;
+	      var newPoints = this.refs.newRewardPrice.defaultValue;
+	      this.refs.newRewardPrice.value = points > 4 && points < 5001 ? points : newPoints;
+	    }
+	  }, {
+	    key: 'checkName',
+	    value: function checkName() {
+	      var name = this.refs.newRewardName.value;
+	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      );
+	    }
+	  }, {
 	    key: 'checkRepeated',
 	    value: function checkRepeated(e) {
 	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
+	    }
+	  }, {
+	    key: 'clearFields',
+	    value: function clearFields() {
+	      this.refs.newRewardName.value = "";
+	      this.refs.newRewardPrice.value = this.refs.newRewardPrice.defaultValue;
+	      this.refs.cRep.className = "unchecked";
 	    }
 	  }, {
 	    key: 'addNew',
@@ -32063,6 +32409,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
+	        _this2.clearFields();
 	        _this2.props.onNewRewardAdded(res.reward);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -32074,25 +32421,27 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'rewardsAddNew' },
-	        _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
-	          className: 'newRewardName',
-	          ref: 'newRewardName'
-	        }),
-	        _react2.default.createElement('input', { type: 'number', defaultValue: '10', min: '5',
-	          max: '500',
-	          ref: 'newRewardPrice',
-	          className: 'newRewardPrice'
-	        }),
 	        _react2.default.createElement(
-	          'div',
-	          { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
-	            onClick: this.checkRepeated },
-	          _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
-	        ),
-	        _react2.default.createElement(
-	          'button',
-	          { onClick: this.addNew },
-	          ' Add '
+	          'form',
+	          { ref: 'rewardsAddNewForm', className: 'rewardsAdd' },
+	          _react2.default.createElement('input', { type: 'text', placeholder: 'Name',
+	            className: 'newRewardName',
+	            ref: 'newRewardName',
+	            maxLength: '30'
+	          }),
+	          _react2.default.createElement('input', { type: 'number', defaultValue: '10',
+	            min: '5',
+	            max: '5000',
+	            ref: 'newRewardPrice',
+	            className: 'newRewardPrice'
+	          }),
+	          _react2.default.createElement(
+	            'div',
+	            { id: 'checkBoxRepeated', className: 'unchecked', ref: 'cRep',
+	              onClick: this.checkRepeated },
+	            _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' })
+	          ),
+	          _react2.default.createElement('input', { type: 'submit', className: 'add', value: 'Add' })
 	        )
 	      );
 	    }

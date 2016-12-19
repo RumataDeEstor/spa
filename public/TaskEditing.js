@@ -43,7 +43,7 @@ export default class TaskEditing extends React.Component {
 
   normalizePoints () {
     let points = this.refs.editPoints.value;
-    let newPoints = this.refs.editPoints.defaultValue;
+    let newPoints = this.refs.editPoints.max;
     this.refs.editPoints.value = ( (points > 0) && 
       (points < 501) ) ? points : newPoints;  
   }

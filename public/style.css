@@ -896,9 +896,13 @@ div.rewardsAddNew {
   position: relative;
 }
 
+form.rewardsAdd {
+  display: flex;
+}
+
 /*TODO: class*/
 div.rewardsAddNew div#checkBoxRepeated {
-  margin-left: 100px;
+  margin-left: 30px;
 }
 
 div#checkBoxRepeated.unchecked,
@@ -914,18 +918,20 @@ div#editCheckBoxRepeated.checked {
 /*----------*/
 
 input.newRewardName {
-  width: 240px;
+  width: 375px;
+  margin-left: 15px;
+  margin-right: 32px;
 }
 
-div.rewardsAddNew button {
-  margin-left: 150px;
+div.rewardsAddNew input.add {
   background-color: #49C15D;
   color: white;
   box-shadow: inset 0px -2px 0px 0px #1C1C1C;
   position: absolute;
   height: 38px;
   top: -1px;
-  right: 40px;
+  right: 25px;
+  cursor: pointer;
 }
 
 /*REWARD SHORT LIST------------------------------------------*/
@@ -984,7 +990,7 @@ div.rewardItem {
   flex-direction: column;
   justify-content: center; 
   align-items: center;
-  padding: 10px;
+  padding: 5px 10px;
   /*box-shadow: 0 0 10px black;*/
   cursor: pointer;
   position: relative;
@@ -1014,17 +1020,24 @@ div.rewardItem div#repeatMark.unchecked {
 
 div.rewardPrice {
   display: flex;
-  font-size: 16px;
+  font-size: 13px;
   margin-bottom: 5px;
 }
 
-div.rewardName {
+div.rewardNameContainer {
   display: flex;
-  width: 140px;
+}
+
+div.rewardName {
+  display: block;
+  min-width: 0;
+  max-width: 140px;
+  height: 16px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-transform: uppercase;
+  font-size: 13px;
 }
 
 div.rewardName:hover, 
@@ -1066,27 +1079,32 @@ div.rewardItem input,
 div.rewardsAddNew input {
   border: none;
   color: #535356;
-  font-size: 16px;
   height: 22px;
   align-self: center;
+}
+
+div.rewardsAddNew input.newRewardPrice,
+input.newRewardName {
+  font-size: 16px;
 }
 
 div.rewardItem input {
   text-transform: uppercase;
   font-weight: bold;
   padding: 0;
+  font-size: 13px;
+  height: 16px;
 }
 
 div.rewardItem input.rewardPriceEdit {
   width: 70px;
   margin-left: 50px;
-  margin-bottom: 2px;
+  margin-bottom: 5px;
 }
 
 div.rewardItem input.rewardNameEdit {
   width: 120px;
   margin-left: 10px;
-  margin-bottom: 2px;
   display: flex;
   align-self: center;
 }
@@ -1189,7 +1207,8 @@ div.ruleItem div.fine {
 div.ruleItem div.taskCheckbox div {
   position: absolute;
   font-size: 18px;
-  bottom: -3px;
+  bottom: 7px;
+  left: 12px;
   color: #d45f5f;
   display: none; 
 }

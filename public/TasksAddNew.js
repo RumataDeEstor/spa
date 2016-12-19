@@ -38,7 +38,7 @@ export default class TasksAddNew extends React.Component {
 
   normalizePoints () {
     let points = this.refs.newPoints.value;
-    let newPoints = this.refs.newPoints.defaultValue;
+    let newPoints = this.refs.newPoints.max;
     this.refs.newPoints.value = ( (points > 0) && 
       (points < 501) ) ? points : newPoints;  
   }
