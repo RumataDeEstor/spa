@@ -67,6 +67,12 @@ export default class Rewards extends React.Component {
 
   render () {
     return <div className = "rewards">
+            <div className = "listTitle">Rewards</div>
+            <div className = "annotation"> 
+              {`Each reward has a name, "price" of getting it and repeat-mark. This button is responsible 
+                for whether your reward will be deleted right after getting it or not. To "win" rewards, 
+                you should complete your tasks and not to break rules. Good luck!`}
+            </div>
             <RewardsAddNew login = {this.props.params.login}
               onNewRewardAdded = {this.handleNewRewardAdding.bind(this)}
             />

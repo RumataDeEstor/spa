@@ -77,6 +77,14 @@ export default class TasksList extends React.Component {
 
   render () {
     return <div className = "tasksListPage">
+            <div className = "listTitle">Tasks</div>
+            <div className = "annotation"> 
+              {`This is a list of the tasks relating to this project.
+                Each task has a name, "price" in points and repeat-mark. 
+                This button is responsible for whether your task will be deleted 
+                right after completing or not.
+                Earn points to "win" rewards.`}
+            </div>
             <TasksAddNew 
               login = {this.props.login}
               projectID = {this.props.projectID}

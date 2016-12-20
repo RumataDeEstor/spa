@@ -303,12 +303,20 @@ div.changePointsSmallenabled {
 
 /*PROJECTSLIST--------------------------
 /*or projListPage*/
+
+div.annotation {
+  white-space: pre-line;
+  margin-top: 5px;
+  font: 14px Verdana;
+  color: #767676;
+}
+
 div.projectsList {
   margin-top: 20px;
   margin-bottom: 20px;
 }
 
-div.pListTitle {
+div.listTitle {
   color: #333333;
   font-size: 24px;
   width: 700px;
@@ -755,6 +763,7 @@ div.rewardList {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  margin-top: 20px;
   user-select: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -779,6 +788,7 @@ div.rewardsAddNew {
   height: 35px;
   background-color: white;
   position: relative;
+  margin-top: 20px;
 }
 
 form.rewardsAdd {

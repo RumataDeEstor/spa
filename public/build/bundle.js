@@ -29191,6 +29191,16 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'tasksListPage' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'listTitle' },
+	          'Tasks'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'annotation' },
+	          'This is a list of the tasks relating to this project.\n                Each task has a name, "price" in points and repeat-mark. \n                This button is responsible for whether your task will be deleted \n                right after completing or not.\n                Earn points to "win" rewards.'
+	        ),
 	        _react2.default.createElement(_TasksAddNew2.default, {
 	          login: this.props.login,
 	          projectID: this.props.projectID,
@@ -30481,10 +30491,14 @@
 	        { className: 'projListPage' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'pListTitle' },
+	          { className: 'listTitle' },
 	          'Projects'
 	        ),
-	        'Click on any project to see its tasks.',
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'annotation' },
+	          'Click on any project to see its tasks. \n                You can choose name and label (color) for your project.'
+	        ),
 	        _react2.default.createElement(_ProjectsAddNew2.default, {
 	          login: this.props.params.login,
 	          onAddingNew: this.handleAddingNew.bind(this)
@@ -31332,8 +31346,13 @@
 	          { className: 'rulesListPage', style: { opacity: "1" } },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'rListTitle' },
+	            { className: 'listTitle' },
 	            'Rules'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'annotation' },
+	            'Rules that you don\'t want to break. \n                    You can choose name, label for it and fine for breaking the rule.\n                    If you break one, you will lose your points.'
 	          ),
 	          _react2.default.createElement(_RuleAddNew2.default, {
 	            login: this.props.params.login,
@@ -32233,6 +32252,16 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'rewards' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'listTitle' },
+	          'Rewards'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'annotation' },
+	          'Each reward has a name, "price" of getting it and repeat-mark. This button is responsible \n                for whether your reward will be deleted right after getting it or not. To "win" rewards, \n                you should complete your tasks and not to break rules. Good luck!'
+	        ),
 	        _react2.default.createElement(_RewardsAddNew2.default, { login: this.props.params.login,
 	          onNewRewardAdded: this.handleNewRewardAdding.bind(this)
 	        }),

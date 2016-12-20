@@ -75,7 +75,12 @@ export default class RuleList extends React.Component {
   render () {    
     return <div> 
             <div className = "rulesListPage" style = {{opacity: "1"}}>                
-                <div className = "rListTitle">Rules</div>
+                <div className = "listTitle">Rules</div>
+                <div className = "annotation">
+                  {`Rules that you don't want to break. 
+                    You can choose name, label for it and fine for breaking the rule.
+                    If you break one, you will lose your points.`}
+                </div>
                 <RuleAddNew
                   login = {this.props.params.login}
                   onAddingNew = {this.handleAddingNew.bind(this)}

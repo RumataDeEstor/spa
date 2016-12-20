@@ -73,8 +73,11 @@ export default class ProjectsList extends React.Component {
   
   render () {
     return <div className = "projListPage"> 
-            <div className = "pListTitle">Projects</div>
-            Click on any project to see its tasks.
+            <div className = "listTitle">Projects</div>
+            <div className = "annotation"> 
+              {`Click on any project to see its tasks. 
+                You can choose name and label (color) for your project.`}
+            </div>
             <ProjectsAddNew 
               login = {this.props.params.login}
               onAddingNew = {this.handleAddingNew.bind(this)}
