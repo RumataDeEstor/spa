@@ -39,6 +39,7 @@ export default class RuleList extends React.Component {
     ee.removeListener('ruleFinishEdit', this.finishChildEditing);
     ee.removeListener('ruleSaveEdit', this.updateChild);
     ee.removeListener('giveData', this.getData);
+    ee.emitEvent("update");
   }
 
   handleAddingNew(rule){

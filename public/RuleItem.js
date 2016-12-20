@@ -66,7 +66,6 @@ export default class RuleItem extends React.Component {
           console.log(res.error);
         }
         ee.emitEvent('pointsUpdated', [-this.props.fine]);
-        ee.emitEvent("update");
       })
       .catch(err => {
         console.log(err);

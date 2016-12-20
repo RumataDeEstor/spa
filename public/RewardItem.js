@@ -84,6 +84,7 @@ export default class RewardItem extends React.Component {
     }
     this.refs.editRewardName.removeEventListener('submit',this.submitName, false);
     this.refs.editRewardPrice.removeEventListener('submit',this.submitPrice, false);
+    ee.emitEvent("update");
   }
 
   getReward () {   
@@ -117,7 +118,6 @@ export default class RewardItem extends React.Component {
           console.log(res.error);
         }
         ee.emitEvent('pointsUpdated', [-this.state.price]);
-        ee.emitEvent("update");
       })
       .catch(err => {
         console.log(err);
@@ -154,7 +154,7 @@ export default class RewardItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        ee.emitEvent("update");
+        
       })
       .catch(err => {
         console.log(err);

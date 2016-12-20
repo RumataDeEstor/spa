@@ -76,7 +76,7 @@ export default class RuleEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        ee.emitEvent("update");
+        
       })
       .catch(err => {
         console.log(err);

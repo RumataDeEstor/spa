@@ -40,6 +40,7 @@ export default class Project extends React.Component {
 
   componentWillUnmount() { 
     ee.removeListener('giveData', this.getData);
+    ee.emitEvent("update");
   }
 
   render(){

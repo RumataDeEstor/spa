@@ -39,6 +39,7 @@ export default class ProjectsList extends React.Component {
     ee.removeListener('projectFinishEdit', this.finishChildEditing);
     ee.removeListener('projectSaveEdit', this.updateChild);
     ee.removeListener('giveData', this.getData);
+    ee.emitEvent("update");
   }
 
   handleAddingNew(proj){

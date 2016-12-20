@@ -15,13 +15,11 @@ export default class Rewards extends React.Component {
     this.loadItems = this.loadItems.bind(this);
     this.state = {rewards: [], points: null};
     this.getPoints = this.getPoints.bind(this);
-    this.handleChildDelete = this.handleChildDelete.bind(this);
     this.getData = this.getData.bind(this);
   }
 
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
-    ee.addListener('rewardDeleted', this.handleChildDelete);
     ee.addListener('giveData', this.getData);
     ee.emitEvent('reqForPoints');
     this.loadItems();
@@ -29,7 +27,6 @@ export default class Rewards extends React.Component {
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
-    ee.removeListener('rewardDeleted', this.handleChildDelete);
     ee.removeListener('giveData', this.getData);
   }
 
@@ -40,12 +37,6 @@ export default class Rewards extends React.Component {
   getData (data) {
     let newRewards = data.rewards.slice();
     newRewards = newRewards.reverse();
-    this.setState({rewards: newRewards});
-  }
-
-  handleChildDelete(id) {
-    let newRewards = this.state.rewards.slice();
-    newRewards = newRewards.filter(el => el._id !== id);
     this.setState({rewards: newRewards});
   }
 

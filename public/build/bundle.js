@@ -27267,7 +27267,6 @@
 	    value: function getData() {
 	      var _this3 = this;
 
-	      console.log("getData");
 	      var reqParams = {
 	        method: 'GET',
 	        credentials: 'include'
@@ -27304,7 +27303,6 @@
 	    value: function checkAccess() {
 	      var _this4 = this;
 
-	      console.log("checkAccess");
 	      var promise = new Promise(function (resolve, reject) {
 	        var reqParams = {
 	          method: 'GET',
@@ -28389,6 +28387,7 @@
 	      }
 	      this.refs.editRewardName.removeEventListener('submit', this.submitName, false);
 	      this.refs.editRewardPrice.removeEventListener('submit', this.submitPrice, false);
+	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'getReward',
@@ -28428,7 +28427,6 @@
 	          console.log(res.error);
 	        }
 	        _EventEmitter2.default.emitEvent('pointsUpdated', [-_this2.state.price]);
-	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28467,7 +28465,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29199,6 +29196,7 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('giveData', this.getData);
+	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'render',
@@ -29528,9 +29526,7 @@
 	  }, {
 	    key: 'delete',
 	    value: function _delete() {
-	      var _this4 = this;
-
-	      // TODO: mustn't be repeated with TaskEditing!
+	      this.refs.item.style.display = "none";
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -29546,7 +29542,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _this4.refs.item.style.display = "none";
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29554,16 +29549,16 @@
 	  }, {
 	    key: 'complete',
 	    value: function complete() {
-	      var _this5 = this;
+	      var _this4 = this;
 
 	      if (!this.props.repeated) {
 	        this.refs.completeBtn.removeEventListener("click", this.complete, false);
 	        this.tick().then(function (result) {
-	          return _this5.delete();
+	          return _this4.delete();
 	        });
 	      } else {
 	        this.tick().then(function (result) {
-	          return _this5.untick();
+	          return _this4.untick();
 	        });
 	      }
 
@@ -29588,7 +29583,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this5.props.points]);
+	        _EventEmitter2.default.emitEvent('pointsUpdated', [_this4.props.points]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29918,6 +29913,10 @@
 	var _reactDom = __webpack_require__(34);
 
 	var _reactRouter = __webpack_require__(172);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30315,7 +30314,6 @@
 	          return;
 	        }
 	        _this2.onCancel();
-	        _EventEmitter2.default.emitEvent("update");
 	        _this2.props.onAddingNew(res.project);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -30480,6 +30478,7 @@
 	      _EventEmitter2.default.removeListener('projectFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('projectSaveEdit', this.updateChild);
 	      _EventEmitter2.default.removeListener('giveData', this.getData);
+	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'handleAddingNew',
@@ -30795,7 +30794,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31324,6 +31322,7 @@
 	      _EventEmitter2.default.removeListener('ruleFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('ruleSaveEdit', this.updateChild);
 	      _EventEmitter2.default.removeListener('giveData', this.getData);
+	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'handleAddingNew',
@@ -31515,7 +31514,6 @@
 	          console.log(res.error);
 	        }
 	        _EventEmitter2.default.emitEvent('pointsUpdated', [-_this2.props.fine]);
-	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31714,7 +31712,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -32010,7 +32007,6 @@
 	          return;
 	        }
 	        _this2.onCancel();
-	        _EventEmitter2.default.emitEvent("update");
 	        _this2.props.onAddingNew(res.rule);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -32206,7 +32202,6 @@
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.state = { rewards: [], points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
-	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
@@ -32215,7 +32210,6 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.addListener('rewardDeleted', this.handleChildDelete);
 	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
@@ -32224,7 +32218,6 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
-	      _EventEmitter2.default.removeListener('rewardDeleted', this.handleChildDelete);
 	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
@@ -32237,15 +32230,6 @@
 	    value: function getData(data) {
 	      var newRewards = data.rewards.slice();
 	      newRewards = newRewards.reverse();
-	      this.setState({ rewards: newRewards });
-	    }
-	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      var newRewards = this.state.rewards.slice();
-	      newRewards = newRewards.filter(function (el) {
-	        return el._id !== id;
-	      });
 	      this.setState({ rewards: newRewards });
 	    }
 	  }, {
@@ -32362,6 +32346,7 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      this.refs.rewardsAddNewForm.removeEventListener('submit', this.checkForm, false);
+	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -32433,7 +32418,6 @@
 	          return;
 	        }
 	        _this2.clearFields();
-	        _EventEmitter2.default.emitEvent("update");
 	        _this2.props.onNewRewardAdded(res.reward);
 	      }).catch(function (err) {
 	        console.log(err);

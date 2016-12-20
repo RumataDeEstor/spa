@@ -101,7 +101,6 @@ export default class ProjectsAddNew extends React.Component {
           return;
         }
         this.onCancel();
-        ee.emitEvent("update");
         this.props.onAddingNew(res.project);
       })
       .catch(err => {

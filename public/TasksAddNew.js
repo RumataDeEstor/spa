@@ -4,6 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
+import ee from './EventEmitter';
 
 export default class TasksAddNew extends React.Component {
   constructor(props) {

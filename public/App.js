@@ -62,7 +62,6 @@ export default class App extends React.Component {
   }
 
   getData () {
-    console.log("getData");
     let reqParams = {
       method: 'GET',
       credentials: 'include'
@@ -95,7 +94,6 @@ export default class App extends React.Component {
   }
 
   checkAccess(){
-    console.log("checkAccess");
     let promise = new Promise((resolve, reject) => {
       let reqParams = {
       method: 'GET',

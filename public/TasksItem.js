@@ -87,7 +87,8 @@ export default class TasksItem extends React.Component {
     return promise;
   }
 
-  delete(){ // TODO: mustn't be repeated with TaskEditing!
+  delete() { 
+    this.refs.item.style.display = "none";  
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -103,7 +104,6 @@ export default class TasksItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         } 
-        this.refs.item.style.display = "none";    
       })
       .catch(err => {
         console.log(err);

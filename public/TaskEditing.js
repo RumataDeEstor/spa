@@ -23,7 +23,7 @@ export default class TaskEditing extends React.Component {
   }
 
   componentWillUnmount () {
-    this.refs.editTaskForm.removeEventListener('submit', this.checkForm, false);
+    this.refs.editTaskForm.removeEventListener('submit', this.checkForm, false); 
   }
 
   checkForm (e) {
@@ -83,7 +83,7 @@ export default class TaskEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-              
+          
       })
       .catch(err => {
         console.log(err);
