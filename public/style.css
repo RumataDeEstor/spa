@@ -36,23 +36,6 @@ li {
   cursor: pointer;
 }
 
-@-moz-document url-prefix() {
-    ul.links li a {
-      padding: 8px 30px 10px 30px;
-    }
-    div.getRewardWindow {
-      top: 32px;
-      right: 32px;
-    }
-    div.getRewardWindow:hover {
-      top: 25px;
-      right: 25px;
-    }
-    .addNewForm button#cancel {
-      right: 6px;
-    }
-}
-
 /*STARTPAGE----------------------------*/
 
 .topmenu {
@@ -305,7 +288,8 @@ div.changePointsSmallenabled {
 /*or projListPage*/
 
 div.annotation {
-  white-space: pre-line;
+  width: 650px;
+ /* white-space: pre-line;*/
   margin-top: 5px;
   font: 14px Verdana;
   color: #767676;
@@ -983,6 +967,10 @@ input.newRewardName {
   font-size: 16px;
 }
 
+div.rewardsAddNew input.newRewardPrice {
+  width: 75px;
+}
+
 div.rewardItem input {
   text-transform: uppercase;
   font-weight: bold;
@@ -1066,6 +1054,12 @@ div.percents {
   font: 10px Verdana;
   font-weight: bold;
   visibility: hidden;
+}
+
+/*RulesList------------------------------------------*/
+
+div.rulesListPage div.annotation {
+  width: 750px;
 }
 
 /*RULE ITEM------------------------------------------*/
@@ -1182,6 +1176,25 @@ div.appPending i.fa-spin {
 
 div.failure {
   white-space: pre-wrap;
+}
+
+/*------------*/
+
+@-moz-document url-prefix() {
+    ul.links li a {
+      padding: 8px 30px 10px 30px;
+    }
+    div.getRewardWindow {
+      top: 32px;
+      right: 32px;
+    }
+    div.getRewardWindow:hover {
+      top: 25px;
+      right: 25px;
+    }
+    .addNewForm button#cancel {
+      right: 6px;
+    }
 }
 
 

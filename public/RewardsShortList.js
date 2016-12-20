@@ -13,47 +13,37 @@ export default class RewardsShortList extends React.Component {
     this.state = {topRewards: [], points: null};
     this.loadItems = this.loadItems.bind(this);
     this.getPoints = this.getPoints.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
+    ee.addListener('giveData', this.getData);
     ee.emitEvent('reqForPoints');
     this.loadItems();
   }
 
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
+    ee.removeListener('giveData', this.getData);
   }
 
   getPoints(points){
     this.setState({points: points});
   }
 
-  loadItems(){
-    let reqParams = {
-      method: 'GET',
-      credentials: 'include'
-    }
-    
-    let login = this.props.login;
-    fetch(`/api/userdata/${login}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error); 
-          return;
-        }
-        let newTopRewards = res.user.rewards
-          .sort((first, second) => {
-            if (first.price > second.price) return -1;
-            return 1;
-          }).slice(0, 3);
-        this.setState({topRewards: newTopRewards});
-        return;
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  getData (data) {
+    let newRewards = data.rewards.slice();
+    newRewards = newRewards
+      .sort((first, second) => {
+        if (first.price > second.price) return -1;
+        return 1;
+      }).slice(0, 3);
+    this.setState({topRewards: newRewards});
+  }
+
+  loadItems() {
+    ee.emitEvent("reqForUserdata");
   }
 
   render () {

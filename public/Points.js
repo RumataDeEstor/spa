@@ -11,6 +11,7 @@ export default class Points extends React.Component {
     super(props);
     this.state = {points: null};
     this.getPoints = this.getPoints.bind(this);
+    this.getData = this.getData.bind(this);
     this.updatePoints = this.updatePoints.bind(this);
     this.giveCurPoints = this.giveCurPoints.bind(this);
     this.listener = this.listener.bind(this);
@@ -53,10 +54,11 @@ export default class Points extends React.Component {
 
   updatePoints(points) {
     let newPoints = +points;
-    this.setState({points: this.state.points+newPoints});
+    newPoints = this.state.points+newPoints;
+    this.setState({points: newPoints});
     this.stylizePointsWindow(points);
     this.refs.small.className = "changePointsSmallenabled";
-    ee.emitEvent('getPoints', [this.state.points]);
+    ee.emitEvent('getPoints', [newPoints]);
   }
 
   giveCurPoints(){
@@ -64,29 +66,19 @@ export default class Points extends React.Component {
   }
 
   getPoints() {
-    let reqParams = {
-      method: 'GET',
-      credentials: 'include'
-    }
-    fetch(`/api/userdata/${this.props.login}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error); 
-          return;
-        }
-        this.setState({points: res.user.points});
-        ee.emitEvent('getPoints', [res.user.points]);
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    ee.emitEvent('reqForUserdata');
+  }
+
+  getData(data) {
+    this.setState({points: data.points});
+    ee.emitEvent('getPoints', [data.points]);
   }
   
   componentDidMount () {
     this.refs.small.addEventListener("animationend", this.listener, false);
     ee.addListener('reqForPoints', this.giveCurPoints);
     ee.addListener('pointsUpdated', this.updatePoints);
+    ee.addListener('giveData', this.getData);
     this.getPoints();
   }
 
@@ -94,6 +86,7 @@ export default class Points extends React.Component {
     this.refs.small.removeEventListener("animationend", this.listener, false);
     ee.removeListener('pointsUpdated', this.updatePoints);
     ee.removeListener('reqForPoints', this.giveCurPoints);
+    ee.removeListener('giveData', this.getData);
   }
 
   render () {

@@ -16,11 +16,13 @@ export default class Rewards extends React.Component {
     this.state = {rewards: [], points: null};
     this.getPoints = this.getPoints.bind(this);
     this.handleChildDelete = this.handleChildDelete.bind(this);
+    this.getData = this.getData.bind(this);
   }
 
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
     ee.addListener('rewardDeleted', this.handleChildDelete);
+    ee.addListener('giveData', this.getData);
     ee.emitEvent('reqForPoints');
     this.loadItems();
   }
@@ -28,10 +30,17 @@ export default class Rewards extends React.Component {
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
     ee.removeListener('rewardDeleted', this.handleChildDelete);
+    ee.removeListener('giveData', this.getData);
   }
 
   getPoints(points){
     this.setState({points: points});
+  }
+
+  getData (data) {
+    let newRewards = data.rewards.slice();
+    newRewards = newRewards.reverse();
+    this.setState({rewards: newRewards});
   }
 
   handleChildDelete(id) {
@@ -45,24 +54,7 @@ export default class Rewards extends React.Component {
   }
 
   loadItems(){
-    let reqParams = {
-      method: 'GET',
-      credentials: 'include'
-    }
-    let login = this.props.params.login;
-    fetch(`/api/userdata/${login}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error); 
-          return;
-        }
-        let newRewards = res.user.rewards.reverse();
-        this.setState({rewards: newRewards});
-      })
-      .catch(err => {
-        console.log(err);
-      })
+    ee.emitEvent("reqForUserdata");
   }
 
   render () {

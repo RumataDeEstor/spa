@@ -62,15 +62,15 @@
 
 	var _InternalTopmenu2 = _interopRequireDefault(_InternalTopmenu);
 
-	var _Login = __webpack_require__(243);
+	var _Login = __webpack_require__(245);
 
 	var _Login2 = _interopRequireDefault(_Login);
 
-	var _NotFound = __webpack_require__(244);
+	var _NotFound = __webpack_require__(246);
 
 	var _NotFound2 = _interopRequireDefault(_NotFound);
 
-	var _Project = __webpack_require__(245);
+	var _Project = __webpack_require__(247);
 
 	var _Project2 = _interopRequireDefault(_Project);
 
@@ -27182,6 +27182,10 @@
 
 	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
 
+	var _reactAddonsUpdate = __webpack_require__(243);
+
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -27208,7 +27212,6 @@
 	};
 
 	var AppContentPending = function AppContentPending(props) {
-
 	  return _react2.default.createElement(
 	    'div',
 	    { className: 'appPending' },
@@ -27229,7 +27232,9 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
 	    _this.checkAccess = _this.checkAccess.bind(_this);
-	    _this.state = { access: false, pending: true };
+	    _this.giveData = _this.giveData.bind(_this);
+	    _this.state = { access: false, pending: true, userdata: null };
+	    _this.updatePoints = _this.updatePoints.bind(_this);
 	    return _this;
 	  }
 
@@ -27239,8 +27244,35 @@
 	      var _this2 = this;
 
 	      this.checkAccess().then(function (result) {
-	        _this2.setState({ access: result, pending: false });
+	        _this2.setState({ access: result.access,
+	          pending: false,
+	          userdata: result.data
+	        });
 	      });
+
+	      _EventEmitter2.default.addListener('reqForUserdata', this.giveData);
+	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('reqForUserdata', this.giveData);
+	      _EventEmitter2.default.removeListener('pointsUpdated', this.updatePoints);
+	    }
+	  }, {
+	    key: 'giveData',
+	    value: function giveData() {
+	      _EventEmitter2.default.emitEvent('giveData', [this.state.userdata]);
+	    }
+	  }, {
+	    key: 'updatePoints',
+	    value: function updatePoints(points) {
+	      var newPoints = +points;
+	      newPoints = this.state.userdata.points + newPoints;
+	      var newData = (0, _reactAddonsUpdate2.default)(this.state, {
+	        userdata: { points: { $set: newPoints } }
+	      });
+	      this.setState(newData);
 	    }
 	  }, {
 	    key: 'checkAccess',
@@ -27257,9 +27289,9 @@
 	        }).then(function (res) {
 	          if (res.error) {
 	            console.log(res.error);
-	            resolve(false);
+	            resolve({ access: false, data: null });
 	          }
-	          resolve(true);
+	          resolve({ access: true, data: res.user });
 	        }).catch(function (err) {
 	          reject(err);
 	        });
@@ -27469,6 +27501,7 @@
 
 	    _this.state = { points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    _this.updatePoints = _this.updatePoints.bind(_this);
 	    _this.giveCurPoints = _this.giveCurPoints.bind(_this);
 	    _this.listener = _this.listener.bind(_this);
@@ -27518,10 +27551,11 @@
 	    key: 'updatePoints',
 	    value: function updatePoints(points) {
 	      var newPoints = +points;
-	      this.setState({ points: this.state.points + newPoints });
+	      newPoints = this.state.points + newPoints;
+	      this.setState({ points: newPoints });
 	      this.stylizePointsWindow(points);
 	      this.refs.small.className = "changePointsSmallenabled";
-	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
+	      _EventEmitter2.default.emitEvent('getPoints', [newPoints]);
 	    }
 	  }, {
 	    key: 'giveCurPoints',
@@ -27531,24 +27565,13 @@
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-	      fetch('/api/userdata/' + this.props.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	          return;
-	        }
-	        _this2.setState({ points: res.user.points });
-	        _EventEmitter2.default.emitEvent('getPoints', [res.user.points]);
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
+	      _EventEmitter2.default.emitEvent('reqForUserdata');
+	    }
+	  }, {
+	    key: 'getData',
+	    value: function getData(data) {
+	      this.setState({ points: data.points });
+	      _EventEmitter2.default.emitEvent('getPoints', [data.points]);
 	    }
 	  }, {
 	    key: 'componentDidMount',
@@ -27556,6 +27579,7 @@
 	      this.refs.small.addEventListener("animationend", this.listener, false);
 	      _EventEmitter2.default.addListener('reqForPoints', this.giveCurPoints);
 	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
+	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      this.getPoints();
 	    }
 	  }, {
@@ -27564,6 +27588,7 @@
 	      this.refs.small.removeEventListener("animationend", this.listener, false);
 	      _EventEmitter2.default.removeListener('pointsUpdated', this.updatePoints);
 	      _EventEmitter2.default.removeListener('reqForPoints', this.giveCurPoints);
+	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
 	    key: 'render',
@@ -28143,6 +28168,7 @@
 	    _this.state = { topRewards: [], points: null };
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.getPoints = _this.getPoints.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
 
@@ -28150,6 +28176,7 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
 	    }
@@ -28157,6 +28184,7 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
+	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
 	    key: 'getPoints',
@@ -28164,37 +28192,24 @@
 	      this.setState({ points: points });
 	    }
 	  }, {
+	    key: 'getData',
+	    value: function getData(data) {
+	      var newRewards = data.rewards.slice();
+	      newRewards = newRewards.sort(function (first, second) {
+	        if (first.price > second.price) return -1;
+	        return 1;
+	      }).slice(0, 3);
+	      this.setState({ topRewards: newRewards });
+	    }
+	  }, {
 	    key: 'loadItems',
 	    value: function loadItems() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	          return;
-	        }
-	        var newTopRewards = res.user.rewards.sort(function (first, second) {
-	          if (first.price > second.price) return -1;
-	          return 1;
-	        }).slice(0, 3);
-	        _this2.setState({ topRewards: newTopRewards });
-	        return;
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
+	      _EventEmitter2.default.emitEvent("reqForUserdata");
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -28211,8 +28226,8 @@
 	            name: el.name,
 	            price: el.price,
 	            repeated: el.repeated,
-	            points: _this3.state.points,
-	            login: _this3.props.login,
+	            points: _this2.state.points,
+	            login: _this2.props.login,
 	            loc: 'short'
 	          });
 	        })
@@ -28690,6 +28705,131 @@
 /* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
+	module.exports = __webpack_require__(244);
+
+/***/ },
+/* 244 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule update
+	 */
+
+	/* global hasOwnProperty:true */
+
+	'use strict';
+
+	var _prodInvariant = __webpack_require__(7),
+	    _assign = __webpack_require__(4);
+
+	var keyOf = __webpack_require__(25);
+	var invariant = __webpack_require__(8);
+	var hasOwnProperty = {}.hasOwnProperty;
+
+	function shallowCopy(x) {
+	  if (Array.isArray(x)) {
+	    return x.concat();
+	  } else if (x && typeof x === 'object') {
+	    return _assign(new x.constructor(), x);
+	  } else {
+	    return x;
+	  }
+	}
+
+	var COMMAND_PUSH = keyOf({ $push: null });
+	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
+	var COMMAND_SPLICE = keyOf({ $splice: null });
+	var COMMAND_SET = keyOf({ $set: null });
+	var COMMAND_MERGE = keyOf({ $merge: null });
+	var COMMAND_APPLY = keyOf({ $apply: null });
+
+	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
+
+	var ALL_COMMANDS_SET = {};
+
+	ALL_COMMANDS_LIST.forEach(function (command) {
+	  ALL_COMMANDS_SET[command] = true;
+	});
+
+	function invariantArrayCase(value, spec, command) {
+	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
+	  var specValue = spec[command];
+	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
+	}
+
+	/**
+	 * Returns a updated shallow copy of an object without mutating the original.
+	 * See https://facebook.github.io/react/docs/update.html for details.
+	 */
+	function update(value, spec) {
+	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
+
+	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
+	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
+
+	    return spec[COMMAND_SET];
+	  }
+
+	  var nextValue = shallowCopy(value);
+
+	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
+	    var mergeObj = spec[COMMAND_MERGE];
+	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
+	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
+	    _assign(nextValue, spec[COMMAND_MERGE]);
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
+	    invariantArrayCase(value, spec, COMMAND_PUSH);
+	    spec[COMMAND_PUSH].forEach(function (item) {
+	      nextValue.push(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
+	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
+	    spec[COMMAND_UNSHIFT].forEach(function (item) {
+	      nextValue.unshift(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
+	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
+	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	    spec[COMMAND_SPLICE].forEach(function (args) {
+	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
+	      nextValue.splice.apply(nextValue, args);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
+	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
+	    nextValue = spec[COMMAND_APPLY](nextValue);
+	  }
+
+	  for (var k in spec) {
+	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
+	      nextValue[k] = update(value[k], spec[k]);
+	    }
+	  }
+
+	  return nextValue;
+	}
+
+	module.exports = update;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ },
+/* 245 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -28898,7 +29038,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 244 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28951,7 +29091,7 @@
 	exports.default = NotFound;
 
 /***/ },
-/* 245 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28970,13 +29110,17 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksList = __webpack_require__(246);
+	var _TasksList = __webpack_require__(248);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
 
-	var _reactAddonsUpdate = __webpack_require__(250);
+	var _reactAddonsUpdate = __webpack_require__(243);
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -28995,6 +29139,7 @@
 	    var _this = _possibleConstructorReturn(this, (Project.__proto__ || Object.getPrototypeOf(Project)).call(this, props));
 
 	    _this.loadPage = _this.loadPage.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    _this.state = {};
 	    return _this;
 	  }
@@ -29002,33 +29147,33 @@
 	  _createClass(Project, [{
 	    key: 'loadPage',
 	    value: function loadPage() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-	      var login = this.props.params.login;
-	      var projectID = this.props.params.projectID;
-
-	      fetch('/api/userdata/' + login + '/projects/' + projectID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
+	      _EventEmitter2.default.emitEvent("reqForUserdata");
+	    }
+	  }, {
+	    key: 'getData',
+	    value: function getData(data) {
+	      var id = this.props.params.projectID;
+	      var projects = data.projects;
+	      var newData = {};
+	      projects.map(function (el) {
+	        if (el._id == id) {
+	          newData = Object.assign({}, el);
 	          return;
 	        }
-	        var proj = res.project;
-	        var newState = { _id: proj._id, label: proj.label, name: proj.name };
-	        _this2.setState(newState);
-	      }).catch(function (err) {
-	        console.log(err);
 	      });
+	      this.setState(newData);
+	      _EventEmitter2.default.emitEvent("giveTasks", [newData.tasks]);
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      this.loadPage();
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
 	    key: 'render',
@@ -29039,7 +29184,8 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'projectName' },
-	          _react2.default.createElement('div', { className: 'projectLabel', style: { backgroundColor: this.state.label } }),
+	          _react2.default.createElement('div', { className: 'projectLabel',
+	            style: { backgroundColor: this.state.label } }),
 	          _react2.default.createElement(
 	            'h1',
 	            null,
@@ -29061,7 +29207,7 @@
 	exports.default = Project;
 
 /***/ },
-/* 246 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29080,11 +29226,11 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TasksItem = __webpack_require__(247);
+	var _TasksItem = __webpack_require__(249);
 
 	var _TasksItem2 = _interopRequireDefault(_TasksItem);
 
-	var _TasksAddNew = __webpack_require__(249);
+	var _TasksAddNew = __webpack_require__(251);
 
 	var _TasksAddNew2 = _interopRequireDefault(_TasksAddNew);
 
@@ -29111,50 +29257,33 @@
 	    var _this = _possibleConstructorReturn(this, (TasksList.__proto__ || Object.getPrototypeOf(TasksList)).call(this, props));
 
 	    _this.state = { tasks: [], isEditing: null };
-	    _this.loadTasks = _this.loadTasks.bind(_this);
 	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(TasksList, [{
-	    key: 'loadTasks',
-	    value: function loadTasks() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-
-	      var login = this.props.login;
-	      var projectID = this.props.projectID;
-
-	      fetch('/api/userdata/' + login + '/projects/' + projectID, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	          return;
-	        }
-	        var newTasks = res.project.tasks.reverse();
-	        _this2.setState({ tasks: newTasks });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
+	    key: 'getData',
+	    value: function getData(data) {
+	      if (!data) return;
+	      var newTasks = data.slice();
+	      newTasks = newTasks.reverse();
+	      this.setState({ tasks: newTasks });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('taskFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.addListener('taskSaveEdit', this.updateChild);
-	      this.loadTasks();
+	      _EventEmitter2.default.addListener('giveTasks', this.getData);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('taskFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('taskSaveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('giveTasks', this.getData);
 	    }
 	  }, {
 	    key: 'finishChildEditing',
@@ -29186,7 +29315,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -29199,7 +29328,7 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'annotation' },
-	          'This is a list of the tasks relating to this project.\n                Each task has a name, "price" in points and repeat-mark. \n                This button is responsible for whether your task will be deleted \n                right after completing or not.\n                Earn points to "win" rewards.'
+	          'This is a list of the tasks relating to this project. Each task has a name, \n                "price" in points and repeat-mark. This button is responsible for whether \n                your task will be deleted right after completing or not.\n                Earn points to "win" rewards.'
 	        ),
 	        _react2.default.createElement(_TasksAddNew2.default, {
 	          login: this.props.login,
@@ -29210,18 +29339,18 @@
 	          'div',
 	          { className: 'tasksList' },
 	          this.state.tasks.map(function (el, i, arr) {
-	            var editing = _this3.state.isEditing == el._id;
+	            var editing = _this2.state.isEditing == el._id;
 	            var cNameEdit = editing ? "editing" : "";
 	            return _react2.default.createElement(_TasksItem2.default, { key: arr.length - i - 1,
 	              id: el._id,
-	              onEdit: _this3.handleChildEdit.bind(_this3),
+	              onEdit: _this2.handleChildEdit.bind(_this2),
 	              points: el.points,
 	              name: el.name,
 	              repeated: el.repeated,
-	              login: _this3.props.login,
+	              login: _this2.props.login,
 	              cNameEdit: cNameEdit,
 	              editing: editing,
-	              projectID: _this3.props.projectID
+	              projectID: _this2.props.projectID
 	            });
 	          })
 	        )
@@ -29235,7 +29364,7 @@
 	exports.default = TasksList;
 
 /***/ },
-/* 247 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29254,7 +29383,7 @@
 
 	var _reactRouter = __webpack_require__(172);
 
-	var _TaskEditing = __webpack_require__(248);
+	var _TaskEditing = __webpack_require__(250);
 
 	var _TaskEditing2 = _interopRequireDefault(_TaskEditing);
 
@@ -29510,7 +29639,7 @@
 	};
 
 /***/ },
-/* 248 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29746,7 +29875,7 @@
 	};
 
 /***/ },
-/* 249 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29963,131 +30092,6 @@
 	};
 
 /***/ },
-/* 250 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__(251);
-
-/***/ },
-/* 251 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-present, Facebook, Inc.
-	 * All rights reserved.
-	 *
-	 * This source code is licensed under the BSD-style license found in the
-	 * LICENSE file in the root directory of this source tree. An additional grant
-	 * of patent rights can be found in the PATENTS file in the same directory.
-	 *
-	 * @providesModule update
-	 */
-
-	/* global hasOwnProperty:true */
-
-	'use strict';
-
-	var _prodInvariant = __webpack_require__(7),
-	    _assign = __webpack_require__(4);
-
-	var keyOf = __webpack_require__(25);
-	var invariant = __webpack_require__(8);
-	var hasOwnProperty = {}.hasOwnProperty;
-
-	function shallowCopy(x) {
-	  if (Array.isArray(x)) {
-	    return x.concat();
-	  } else if (x && typeof x === 'object') {
-	    return _assign(new x.constructor(), x);
-	  } else {
-	    return x;
-	  }
-	}
-
-	var COMMAND_PUSH = keyOf({ $push: null });
-	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
-	var COMMAND_SPLICE = keyOf({ $splice: null });
-	var COMMAND_SET = keyOf({ $set: null });
-	var COMMAND_MERGE = keyOf({ $merge: null });
-	var COMMAND_APPLY = keyOf({ $apply: null });
-
-	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
-
-	var ALL_COMMANDS_SET = {};
-
-	ALL_COMMANDS_LIST.forEach(function (command) {
-	  ALL_COMMANDS_SET[command] = true;
-	});
-
-	function invariantArrayCase(value, spec, command) {
-	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
-	  var specValue = spec[command];
-	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
-	}
-
-	/**
-	 * Returns a updated shallow copy of an object without mutating the original.
-	 * See https://facebook.github.io/react/docs/update.html for details.
-	 */
-	function update(value, spec) {
-	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
-
-	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
-	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
-
-	    return spec[COMMAND_SET];
-	  }
-
-	  var nextValue = shallowCopy(value);
-
-	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
-	    var mergeObj = spec[COMMAND_MERGE];
-	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
-	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
-	    _assign(nextValue, spec[COMMAND_MERGE]);
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
-	    invariantArrayCase(value, spec, COMMAND_PUSH);
-	    spec[COMMAND_PUSH].forEach(function (item) {
-	      nextValue.push(item);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
-	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
-	    spec[COMMAND_UNSHIFT].forEach(function (item) {
-	      nextValue.unshift(item);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
-	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
-	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
-	    spec[COMMAND_SPLICE].forEach(function (args) {
-	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
-	      nextValue.splice.apply(nextValue, args);
-	    });
-	  }
-
-	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
-	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
-	    nextValue = spec[COMMAND_APPLY](nextValue);
-	  }
-
-	  for (var k in spec) {
-	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
-	      nextValue[k] = update(value[k], spec[k]);
-	    }
-	  }
-
-	  return nextValue;
-	}
-
-	module.exports = update;
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
-
-/***/ },
 /* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30278,7 +30282,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        _this2.onCancel();
@@ -30416,37 +30420,28 @@
 	    _this.loadProjects = _this.loadProjects.bind(_this);
 	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(ProjectsList, [{
 	    key: 'loadProjects',
 	    value: function loadProjects() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-
-	      fetch('/api/userdata/' + this.props.params.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	          return;
-	        }
-	        var newProjects = res.user.projects.reverse();
-	        _this2.setState({ projects: newProjects });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
+	      _EventEmitter2.default.emitEvent("reqForUserdata");
+	    }
+	  }, {
+	    key: 'getData',
+	    value: function getData(data) {
+	      var newProjects = data.projects.slice();
+	      newProjects = newProjects.reverse();
+	      this.setState({ projects: newProjects });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('projectFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.addListener('projectSaveEdit', this.updateChild);
+	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      this.loadProjects();
 	    }
 	  }, {
@@ -30454,6 +30449,7 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('projectFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('projectSaveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
 	    key: 'handleAddingNew',
@@ -30484,7 +30480,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -30507,16 +30503,16 @@
 	          'div',
 	          { className: 'projectsList' },
 	          this.state.projects.map(function (el, i, arr) {
-	            var editing = _this3.state.isEditing == el._id;
+	            var editing = _this2.state.isEditing == el._id;
 	            var cNameEdit = editing ? "editing" : "";
 	            return _react2.default.createElement(_ProjectsItem2.default, { key: arr.length - i - 1,
 	              id: el._id,
 	              name: el.name,
 	              label: el.label,
-	              login: _this3.props.params.login,
+	              login: _this2.props.params.login,
 	              editing: editing,
 	              cNameEdit: cNameEdit,
-	              onEdit: _this3.handleChildEdit.bind(_this3)
+	              onEdit: _this2.handleChildEdit.bind(_this2)
 	            });
 	          })
 	        )
@@ -31267,37 +31263,28 @@
 	    _this.loadRules = _this.loadRules.bind(_this);
 	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(RuleList, [{
 	    key: 'loadRules',
 	    value: function loadRules() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-
-	      fetch('/api/userdata/' + this.props.params.login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	          return;
-	        }
-	        var newRules = res.user.rules.reverse();
-	        _this2.setState({ rules: newRules });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
+	      _EventEmitter2.default.emitEvent("reqForUserdata");
+	    }
+	  }, {
+	    key: 'getData',
+	    value: function getData(data) {
+	      var newRules = data.rules.slice();
+	      newRules = newRules.reverse();
+	      this.setState({ rules: newRules });
 	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('ruleFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.addListener('ruleSaveEdit', this.updateChild);
+	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      this.loadRules();
 	    }
 	  }, {
@@ -31305,6 +31292,7 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('ruleFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('ruleSaveEdit', this.updateChild);
+	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
 	    key: 'handleAddingNew',
@@ -31336,7 +31324,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -31362,17 +31350,17 @@
 	            'div',
 	            { className: 'rulesList' },
 	            this.state.rules.map(function (el, i, arr) {
-	              var editing = _this3.state.isEditing == el._id;
+	              var editing = _this2.state.isEditing == el._id;
 	              var cNameEdit = editing ? "editing" : "";
 	              return _react2.default.createElement(_RuleItem2.default, { key: arr.length - i - 1,
 	                id: el._id,
 	                name: el.name,
 	                label: el.label,
-	                login: _this3.props.params.login,
+	                login: _this2.props.params.login,
 	                fine: el.fine,
 	                editing: editing,
 	                cNameEdit: cNameEdit,
-	                onEdit: _this3.handleChildEdit.bind(_this3)
+	                onEdit: _this2.handleChildEdit.bind(_this2)
 	              });
 	            })
 	          )
@@ -32185,6 +32173,7 @@
 	    _this.state = { rewards: [], points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
 	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
 
@@ -32193,6 +32182,7 @@
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.addListener('rewardDeleted', this.handleChildDelete);
+	      _EventEmitter2.default.addListener('giveData', this.getData);
 	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
 	    }
@@ -32201,11 +32191,19 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.removeListener('rewardDeleted', this.handleChildDelete);
+	      _EventEmitter2.default.removeListener('giveData', this.getData);
 	    }
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints(points) {
 	      this.setState({ points: points });
+	    }
+	  }, {
+	    key: 'getData',
+	    value: function getData(data) {
+	      var newRewards = data.rewards.slice();
+	      newRewards = newRewards.reverse();
+	      this.setState({ rewards: newRewards });
 	    }
 	  }, {
 	    key: 'handleChildDelete',
@@ -32224,30 +32222,12 @@
 	  }, {
 	    key: 'loadItems',
 	    value: function loadItems() {
-	      var _this2 = this;
-
-	      var reqParams = {
-	        method: 'GET',
-	        credentials: 'include'
-	      };
-	      var login = this.props.params.login;
-	      fetch('/api/userdata/' + login, reqParams).then(function (res) {
-	        return res.json();
-	      }).then(function (res) {
-	        if (res.error) {
-	          console.log(res.error);
-	          return;
-	        }
-	        var newRewards = res.user.rewards.reverse();
-	        _this2.setState({ rewards: newRewards });
-	      }).catch(function (err) {
-	        console.log(err);
-	      });
+	      _EventEmitter2.default.emitEvent("reqForUserdata");
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this2 = this;
 
 	      return _react2.default.createElement(
 	        'div',
@@ -32275,8 +32255,8 @@
 	              name: el.name,
 	              price: el.price,
 	              repeated: el.repeated,
-	              points: _this3.state.points,
-	              login: _this3.props.params.login,
+	              points: _this2.state.points,
+	              login: _this2.props.params.login,
 	              loc: 'full'
 	            });
 	          })

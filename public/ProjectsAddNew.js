@@ -96,7 +96,7 @@ export default class ProjectsAddNew extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error);
           return;
         }
         this.onCancel();

@@ -8,6 +8,7 @@ import InternalTopmenu from './InternalTopmenu';
 import RewardsShortList from './RewardsShortList';
 import Failure from './Failure';
 import ee from './EventEmitter';
+import update from 'react-addons-update';
 
 const AppTotalContent = (props) => {
   let shouldShowShortList = (props.children.type.name !== "Rewards");
@@ -23,8 +24,7 @@ const AppTotalContent = (props) => {
         </div>
 }
 
-const AppContentPending = (props) => {
-  
+const AppContentPending = (props) => {  
   return<div className = "appPending">
           <div>
             <i className="fa fa-refresh fa-spin fa-3x fa-fw"></i>
@@ -36,13 +36,39 @@ export default class App extends React.Component {
   constructor(props) {
     super(props);
     this.checkAccess = this.checkAccess.bind(this);
-    this.state = {access: false, pending: true};
+    this.giveData = this.giveData.bind(this);
+    this.state = {access: false, pending: true, userdata: null};
+    this.updatePoints = this.updatePoints.bind(this);
   } 
 
-  componentDidMount(){
+  componentDidMount () {
     this.checkAccess().then((result) => {
-      this.setState({access: result, pending: false});
+      this.setState({ access: result.access, 
+                      pending: false,
+                      userdata: result.data
+                    });
     });    
+
+    ee.addListener('reqForUserdata', this.giveData);
+    ee.addListener('pointsUpdated', this.updatePoints);
+  }
+
+  componentWillUnmount () {
+    ee.removeListener('reqForUserdata', this.giveData);
+    ee.removeListener('pointsUpdated', this.updatePoints);
+  }
+
+  giveData () {
+    ee.emitEvent('giveData', [this.state.userdata]);
+  }
+
+  updatePoints(points) {
+    let newPoints = +points;
+    newPoints = this.state.userdata.points+newPoints;
+    const newData = update(this.state, {
+      userdata: {points: {$set: newPoints}}
+    });
+    this.setState(newData);
   }
 
   checkAccess(){
@@ -56,9 +82,9 @@ export default class App extends React.Component {
       .then(res => {
         if (res.error) {
           console.log(res.error); 
-          resolve(false);
+          resolve({access: false, data: null});
         }
-        resolve(true);
+        resolve({access: true, data: res.user});
       })
       .catch(err => {
         reject(err);

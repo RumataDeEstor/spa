@@ -12,44 +12,28 @@ export default class TasksList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { tasks: [], isEditing: null };
-    this.loadTasks = this.loadTasks.bind(this);
     this.finishChildEditing = this.finishChildEditing.bind(this);
     this.updateChild = this.updateChild.bind(this);
+    this.getData = this.getData.bind(this);
   }
-
-  loadTasks() {
-    let reqParams = {
-      method: 'GET',
-      credentials: 'include'
-    }
-
-    let login = this.props.login;
-    let projectID = this.props.projectID;
-
-    fetch(`/api/userdata/${login}/projects/${projectID}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error); 
-          return;
-        }
-        let newTasks = res.project.tasks.reverse();
-        this.setState( {tasks: newTasks} );
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  
+  getData (data) {
+    if (!data) return;
+    let newTasks = data.slice();
+    newTasks = newTasks.reverse();
+    this.setState({tasks: newTasks});
   }
 
   componentDidMount() {
     ee.addListener('taskFinishEdit', this.finishChildEditing);
     ee.addListener('taskSaveEdit', this.updateChild);
-    this.loadTasks();
+    ee.addListener('giveTasks', this.getData);
   }  
 
   componentWillUnmount() { 
     ee.removeListener('taskFinishEdit', this.finishChildEditing);
     ee.removeListener('taskSaveEdit', this.updateChild);
+    ee.removeListener('giveTasks', this.getData);
   }
 
   finishChildEditing() {
@@ -79,10 +63,9 @@ export default class TasksList extends React.Component {
     return <div className = "tasksListPage">
             <div className = "listTitle">Tasks</div>
             <div className = "annotation"> 
-              {`This is a list of the tasks relating to this project.
-                Each task has a name, "price" in points and repeat-mark. 
-                This button is responsible for whether your task will be deleted 
-                right after completing or not.
+              {`This is a list of the tasks relating to this project. Each task has a name, 
+                "price" in points and repeat-mark. This button is responsible for whether 
+                your task will be deleted right after completing or not.
                 Earn points to "win" rewards.`}
             </div>
             <TasksAddNew 

@@ -72,7 +72,7 @@ let isAuthenticated = function (req, res, next) {
 }
 
 app.get('/api/checkAccess/:login', isAuthenticated, (req, res, next) => {
-  res.status(200).send({message: 'OK'});
+  res.status(200).redirect(`/api/userdata/${req.params.login}`);
 });
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -127,7 +127,9 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      res.status(200).send({user: user});
+      let {login, points, projects, rewards, rules, _id} = user;
+      let userdata = {login, points, projects, rewards, rules, _id};
+      res.status(200).send({user: userdata});
     }
   });
 });
@@ -320,22 +322,6 @@ app.delete('/api/userdata/:login/rewards/:rewardID', isAuthenticated, (req, res,
     })
   })
 })
-
-// open single project
-app.get('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
-  if (req.params.login !== req.user.login) {  
-    return res.status(403).send({error: 'Forbidden'});
-  }
-  User.findOne({login: req.params.login}, (err, user) => {
-    if (err) { 
-      debug(err);
-      res.status(500).send({error: 'Internal Server Error'});
-    } else {
-      let project = user.projects.id(req.params.projectID);
-      res.status(200).send({project: project}); 
-    }
-  });
-});
 
 // update single project
 app.put('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {

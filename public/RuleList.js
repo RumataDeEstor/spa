@@ -15,38 +15,30 @@ export default class RuleList extends React.Component {
     this.loadRules = this.loadRules.bind(this);
     this.finishChildEditing = this.finishChildEditing.bind(this);
     this.updateChild = this.updateChild.bind(this); 
+    this.getData = this.getData.bind(this);
   }
 
   loadRules() { 
-    let reqParams = {
-      method: 'GET',
-      credentials: 'include'
-    }
+    ee.emitEvent("reqForUserdata");
+  }
 
-    fetch(`/api/userdata/${this.props.params.login}`, reqParams)
-      .then(res => res.json())
-      .then(res => {
-        if (res.error) {
-          console.log(res.error); 
-          return;
-        }
-        let newRules = res.user.rules.reverse();
-        this.setState({rules: newRules});
-      })
-      .catch(err => {
-        console.log(err);
-      })
+  getData (data) {
+    let newRules = data.rules.slice();
+    newRules = newRules.reverse();
+    this.setState({rules: newRules});
   }
 
   componentDidMount() {
     ee.addListener('ruleFinishEdit', this.finishChildEditing);
     ee.addListener('ruleSaveEdit', this.updateChild);
+    ee.addListener('giveData', this.getData);
     this.loadRules();
   } 
 
   componentWillUnmount() { 
     ee.removeListener('ruleFinishEdit', this.finishChildEditing);
     ee.removeListener('ruleSaveEdit', this.updateChild);
+    ee.removeListener('giveData', this.getData);
   }
 
   handleAddingNew(rule){
