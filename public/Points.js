@@ -54,7 +54,6 @@ export default class Points extends React.Component {
   updatePoints(points) {
     let newPoints = +points;
     this.setState({points: this.state.points+newPoints});
-    // this.refs.small.style.animationPlayState = "running";
     this.stylizePointsWindow(points);
     this.refs.small.className = "changePointsSmallenabled";
     ee.emitEvent('getPoints', [this.state.points]);
@@ -65,7 +64,6 @@ export default class Points extends React.Component {
   }
 
   getPoints() {
-    console.log('get scores');
     let reqParams = {
       method: 'GET',
       credentials: 'include'
@@ -74,7 +72,7 @@ export default class Points extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         this.setState({points: res.user.points});
@@ -93,6 +91,7 @@ export default class Points extends React.Component {
   }
 
   componentWillUnmount() {
+    this.refs.small.removeEventListener("animationend", this.listener, false);
     ee.removeListener('pointsUpdated', this.updatePoints);
     ee.removeListener('reqForPoints', this.giveCurPoints);
   }

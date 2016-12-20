@@ -23,11 +23,9 @@ export default class InternalTopmenu extends React.Component {
 
     fetch('/api/logout', reqParams)
       .then(res => {
-        // redirect fetch parameter!
         if(res.ok) {
           browserHistory.push('/'); 
         }
-        // ...TODO: error handling (also on server)
       })
       .catch(console.log);
   }

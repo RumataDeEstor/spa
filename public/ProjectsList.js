@@ -14,8 +14,7 @@ export default class ProjectsList extends React.Component {
     this.state = { projects: [], isEditing: null };
     this.loadProjects = this.loadProjects.bind(this);
     this.finishChildEditing = this.finishChildEditing.bind(this);
-    this.updateChild = this.updateChild.bind(this);
-    this.handleChildDelete = this.handleChildDelete.bind(this);    
+    this.updateChild = this.updateChild.bind(this);   
   }
 
   loadProjects() {
@@ -28,7 +27,7 @@ export default class ProjectsList extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let newProjects = res.user.projects.reverse();
@@ -42,24 +41,16 @@ export default class ProjectsList extends React.Component {
   componentDidMount() {
     ee.addListener('projectFinishEdit', this.finishChildEditing);
     ee.addListener('projectSaveEdit', this.updateChild);
-    ee.addListener('projectDeleted', this.handleChildDelete);
     this.loadProjects();
   }
 
   componentWillUnmount() { 
     ee.removeListener('projectFinishEdit', this.finishChildEditing);
     ee.removeListener('projectSaveEdit', this.updateChild);
-    ee.removeListener('projectDeleted', this.handleChildDelete);
   }
 
   handleAddingNew(proj){
     this.setState({projects: [proj, ...this.state.projects] });
-  }
-
-  handleChildDelete(id) {
-    let newProjects = this.state.projects.slice();
-    newProjects = newProjects.filter(el => el._id !== id);
-    this.setState({projects: newProjects});
   }
 
   handleChildEdit(id) {

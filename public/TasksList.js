@@ -15,7 +15,6 @@ export default class TasksList extends React.Component {
     this.loadTasks = this.loadTasks.bind(this);
     this.finishChildEditing = this.finishChildEditing.bind(this);
     this.updateChild = this.updateChild.bind(this);
-    this.handleChildDelete = this.handleChildDelete.bind(this);
   }
 
   loadTasks() {
@@ -27,19 +26,13 @@ export default class TasksList extends React.Component {
     let login = this.props.login;
     let projectID = this.props.projectID;
 
-    console.log(login);
-    console.log(projectID);
-
     fetch(`/api/userdata/${login}/projects/${projectID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
-        // res.project.tasks.map(task => {
-        //   this.setState( {tasks: [task, ...this.state.tasks] });
-        // });
         let newTasks = res.project.tasks.reverse();
         this.setState( {tasks: newTasks} );
       })
@@ -51,14 +44,12 @@ export default class TasksList extends React.Component {
   componentDidMount() {
     ee.addListener('taskFinishEdit', this.finishChildEditing);
     ee.addListener('taskSaveEdit', this.updateChild);
-    ee.addListener('taskDeleted', this.handleChildDelete);
     this.loadTasks();
   }  
 
   componentWillUnmount() { 
     ee.removeListener('taskFinishEdit', this.finishChildEditing);
     ee.removeListener('taskSaveEdit', this.updateChild);
-    ee.removeListener('taskDeleted', this.handleChildDelete);
   }
 
   finishChildEditing() {
@@ -80,20 +71,8 @@ export default class TasksList extends React.Component {
     });
   }
 
-  handleChildDelete(id) {
-    let newTasks = this.state.tasks.slice();
-    newTasks = newTasks.filter(el => el._id !== id);
-    this.setState({tasks: newTasks});
-  }
-
   handleChildEdit(id) {
     this.setState({isEditing: id});
-  }
-
-  // is it it's necessary
-  handleChildComplete(points) {
-    console.log('taskList');
-    console.log(points);
   }
 
   render () {

@@ -11,7 +11,6 @@ export default class Rules extends React.Component {
   }  
   
   render () {
-
     return <div className = "rules">
             {this.props.children}
           </div>

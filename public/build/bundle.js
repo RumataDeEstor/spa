@@ -27266,9 +27266,6 @@
 	      });
 	      return promise;
 	    }
-
-	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -27350,11 +27347,9 @@
 	      };
 
 	      fetch('/api/logout', reqParams).then(function (res) {
-	        // redirect fetch parameter!
 	        if (res.ok) {
 	          _reactRouter.browserHistory.push('/');
 	        }
-	        // ...TODO: error handling (also on server)
 	      }).catch(console.log);
 	    }
 	  }, {
@@ -27524,7 +27519,6 @@
 	    value: function updatePoints(points) {
 	      var newPoints = +points;
 	      this.setState({ points: this.state.points + newPoints });
-	      // this.refs.small.style.animationPlayState = "running";
 	      this.stylizePointsWindow(points);
 	      this.refs.small.className = "changePointsSmallenabled";
 	      _EventEmitter2.default.emitEvent('getPoints', [this.state.points]);
@@ -27539,7 +27533,6 @@
 	    value: function getPoints() {
 	      var _this2 = this;
 
-	      console.log('get scores');
 	      var reqParams = {
 	        method: 'GET',
 	        credentials: 'include'
@@ -27548,7 +27541,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        _this2.setState({ points: res.user.points });
@@ -27568,6 +27561,7 @@
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
+	      this.refs.small.removeEventListener("animationend", this.listener, false);
 	      _EventEmitter2.default.removeListener('pointsUpdated', this.updatePoints);
 	      _EventEmitter2.default.removeListener('reqForPoints', this.giveCurPoints);
 	    }
@@ -28138,9 +28132,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	// forms everywhere;
-	// true Points here
-	// can I edit through Short List?
 	var RewardsShortList = function (_React$Component) {
 	  _inherits(RewardsShortList, _React$Component);
 
@@ -28187,7 +28178,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newTopRewards = res.user.rewards.sort(function (first, second) {
@@ -28200,9 +28191,6 @@
 	        console.log(err);
 	      });
 	    }
-
-	    // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -28272,11 +28260,6 @@
 	var RewardItem = function (_React$Component) {
 	  _inherits(RewardItem, _React$Component);
 
-	  // !!! TODO: hot deleting; 
-	  // mb changing Reuse
-	  // !!! hot level changing after editing Points
-	  // common method for points updating - here and in Tasks
-	  // in top - user choice
 	  function RewardItem(props) {
 	    _classCallCheck(this, RewardItem);
 
@@ -28296,8 +28279,8 @@
 	    _this.hideEditName = _this.hideEditName.bind(_this);
 	    _this.hideEditPrice = _this.hideEditPrice.bind(_this);
 	    _this.showEditPrice = _this.showEditPrice.bind(_this);
-	    _this.submitName = _this.submitName.bind(_this); // rename 
-	    _this.submitPrice = _this.submitPrice.bind(_this); // rename validate?
+	    _this.submitName = _this.submitName.bind(_this);
+	    _this.submitPrice = _this.submitPrice.bind(_this);
 	    _this.submitData = _this.submitData.bind(_this);
 	    _this.showMore = _this.showMore.bind(_this);
 	    _this.hideMore = _this.hideMore.bind(_this);
@@ -28327,7 +28310,6 @@
 	      }
 	      var fullHeight = 74;
 	      var newHeight = fullHeight * value / 100;
-	      console.log(newHeight);
 	      this.refs.lvl.style.height = newHeight + 'px';
 	      this.refs.lvl.style.WebkitAnimationName = "pish";
 	    }
@@ -28358,6 +28340,16 @@
 	      this.refs.lvl.style.height = newHeight + 'px';
 	    }
 	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      if (this.props.loc == "full") {
+	        this.refs.rewardPrice.removeEventListener('click', this.showEditPrice);
+	        this.refs.rewardNameContainer.removeEventListener('click', this.showEditName);
+	      }
+	      this.refs.editRewardName.removeEventListener('submit', this.submitName, false);
+	      this.refs.editRewardPrice.removeEventListener('submit', this.submitPrice, false);
+	    }
+	  }, {
 	    key: 'getReward',
 	    value: function getReward() {
 	      this.tempUpdPoints();
@@ -28366,7 +28358,7 @@
 	      }
 	    }
 
-	    //rewrite; also in tasks
+	    // TODO: rewrite; also in tasks
 
 	  }, {
 	    key: 'tempUpdPoints',
@@ -28416,8 +28408,9 @@
 	  }, {
 	    key: 'deleteReward',
 	    value: function deleteReward() {
-	      // this.refs.msg.innerText = "*deleted*";
+
 	      this.refs.item.style.display = "none";
+
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -28432,9 +28425,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-
-	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-	        // ee.emitEvent('rewardDeleted', [id]);  
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28442,7 +28432,6 @@
 	  }, {
 	    key: 'submitData',
 	    value: function submitData(data) {
-	      console.log('submitData');
 	      var repeated = data.repeated !== undefined ? data.repeated : null;
 	      var bodyJSON = JSON.stringify({
 	        name: data.name || null,
@@ -28466,14 +28455,9 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
-	        console.log(res);
-	        // let newData = {name: editName.value, label: editChosenColor.className};
-	        //take from server?
-	        // ee.emitEvent('projectSaveEdit', [projID, newData]);
-	        // this.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28493,7 +28477,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.editName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -28523,7 +28507,7 @@
 	  }, {
 	    key: 'submitIsRepeated',
 	    value: function submitIsRepeated() {
-	      if (this.props.loc == "short") return; // remove handler at all?
+	      if (this.props.loc == "short") return; // remove handler at all (?)
 	      this.refs.rep.className = this.refs.rep.className == "checked" ? "unchecked" : "checked";
 	      var repeated = this.refs.rep.className == "checked";
 	      this.setState({ repeated: repeated });
@@ -28739,12 +28723,14 @@
 	    var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
 	    _this.logIn = _this.logIn.bind(_this);
-	    _this.checkForm = _this.checkForm.bind(_this); // frontend validation
+	    _this.checkForm = _this.checkForm.bind(_this);
 	    _this.checkLogin = _this.checkLogin.bind(_this);
 	    _this.checkPassword = _this.checkPassword.bind(_this);
 	    _this.printWarning = _this.printWarning.bind(_this);
 	    _this.decorateFieldsOnWarnings = _this.decorateFieldsOnWarnings.bind(_this);
 	    _this.parseServerErrors = _this.parseServerErrors.bind(_this);
+	    _this.clearLoginWarn = _this.clearLoginWarn.bind(_this);
+	    _this.clearPassWarn = _this.clearPassWarn.bind(_this);
 	    return _this;
 	  }
 
@@ -28752,8 +28738,15 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.refs.loginForm.addEventListener('submit', this.checkForm, false);
-	      this.refs.login.addEventListener('input', this.checkLogin, false);
-	      this.refs.password.addEventListener('input', this.checkPassword, false);
+	      this.refs.login.addEventListener('input', this.clearLoginWarn, false);
+	      this.refs.password.addEventListener('input', this.clearPassWarn, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.loginForm.removeEventListener('submit', this.checkForm, false);
+	      this.refs.login.removeEventListener('input', this.checkLogin, false);
+	      this.refs.password.removeEventListener('input', this.checkPassword, false);
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -28776,18 +28769,12 @@
 	    }
 	  }, {
 	    key: 'checkLogin',
-	    value: function checkLogin(e) {
-	      var login = e ? e.target.value : this.refs.login.value;
+	    value: function checkLogin() {
+	      var login = this.refs.login.value;
 	      var warning = "";
 	      var isAccepted = false;
-	      if (login.length < 4) {
-	        warning = 'Login is too short. You need more than 3 characters.';
-	      } else if (login.length > 20) {
-	        warning = 'Login is too long. You need less than 21 characters.';
-	      } else if (!/^\w+$/.test(login)) {
-	        warning = 'Only Latin letters, digits and "_", please.';
-	      } else if (!/^[a-zA-Z]\w+$/.test(login)) {
-	        warning = 'The 1st character must be a letter.';
+	      if (!/^\w+$/.test(login)) {
+	        warning = 'Valid login required.';
 	      } else {
 	        warning = "";
 	        isAccepted = true;
@@ -28797,16 +28784,12 @@
 	    }
 	  }, {
 	    key: 'checkPassword',
-	    value: function checkPassword(e) {
-	      var password = e ? e.target.value : this.refs.password.value;
+	    value: function checkPassword() {
+	      var password = this.refs.password.value;
 	      var warning = "";
 	      var isAccepted = false;
-	      if (password.length < 6) {
-	        warning = 'Password is too short. You need more than 5 characters.';
-	      } else if (password.length > 20) {
-	        warning = 'Password is too long. You need less than 21 characters.';
-	      } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(password)) {
-	        warning = 'Upper and lowercase Latin letters and numbers required\n        (at least 1 character of each type).';
+	      if (password.length < 6 || !/^\w+$/.test(password)) {
+	        warning = 'Valid password required.';
 	      } else {
 	        warning = "";
 	        isAccepted = true;
@@ -28825,12 +28808,28 @@
 	    key: 'printWarning',
 	    value: function printWarning(warning, warnField, decorateField) {
 	      if (!warning) {
-	        warnField.innerHTML = "";
-	        this.decorateFieldsOnWarnings(false, decorateField);
+	        if (warnField == this.refs.loginWarn) {
+	          this.clearLoginWarn();
+	        } else {
+	          this.clearPassWarn();
+	        }
 	        return;
 	      }
+
 	      warnField.innerHTML = '<i class="fa fa-exclamation-triangle" \n      aria-hidden="true"></i>' + warning;
 	      this.decorateFieldsOnWarnings(true, decorateField);
+	    }
+	  }, {
+	    key: 'clearPassWarn',
+	    value: function clearPassWarn() {
+	      this.refs.passWarn.innerHTML = "";
+	      this.decorateFieldsOnWarnings(false, this.refs.password);
+	    }
+	  }, {
+	    key: 'clearLoginWarn',
+	    value: function clearLoginWarn() {
+	      this.refs.loginWarn.innerHTML = "";
+	      this.decorateFieldsOnWarnings(false, this.refs.login);
 	    }
 	  }, {
 	    key: 'logIn',
@@ -29016,7 +29015,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var proj = res.project;
@@ -29027,8 +29026,8 @@
 	      });
 	    }
 	  }, {
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
 	      this.loadPage();
 	    }
 	  }, {
@@ -29115,7 +29114,6 @@
 	    _this.loadTasks = _this.loadTasks.bind(_this);
 	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
-	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
@@ -29132,19 +29130,13 @@
 	      var login = this.props.login;
 	      var projectID = this.props.projectID;
 
-	      console.log(login);
-	      console.log(projectID);
-
 	      fetch('/api/userdata/' + login + '/projects/' + projectID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
-	        // res.project.tasks.map(task => {
-	        //   this.setState( {tasks: [task, ...this.state.tasks] });
-	        // });
 	        var newTasks = res.project.tasks.reverse();
 	        _this2.setState({ tasks: newTasks });
 	      }).catch(function (err) {
@@ -29156,7 +29148,6 @@
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('taskFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.addListener('taskSaveEdit', this.updateChild);
-	      _EventEmitter2.default.addListener('taskDeleted', this.handleChildDelete);
 	      this.loadTasks();
 	    }
 	  }, {
@@ -29164,7 +29155,6 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('taskFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('taskSaveEdit', this.updateChild);
-	      _EventEmitter2.default.removeListener('taskDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'finishChildEditing',
@@ -29189,27 +29179,9 @@
 	      });
 	    }
 	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      var newTasks = this.state.tasks.slice();
-	      newTasks = newTasks.filter(function (el) {
-	        return el._id !== id;
-	      });
-	      this.setState({ tasks: newTasks });
-	    }
-	  }, {
 	    key: 'handleChildEdit',
 	    value: function handleChildEdit(id) {
 	      this.setState({ isEditing: id });
-	    }
-
-	    // is it it's necessary
-
-	  }, {
-	    key: 'handleChildComplete',
-	    value: function handleChildComplete(points) {
-	      console.log('taskList');
-	      console.log(points);
 	    }
 	  }, {
 	    key: 'render',
@@ -29300,22 +29272,18 @@
 	    _this.complete = _this.complete.bind(_this);
 	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
 	    _this.showEditBtn = _this.showEditBtn.bind(_this);
-	    // this.showMark = this.showMark.bind(this);
-	    // this.hideMark = this.hideMark.bind(this);
 	    _this.delete = _this.delete.bind(_this);
 	    _this.tick = _this.tick.bind(_this);
 	    _this.untick = _this.untick.bind(_this);
 	    _this.checkMouseOn = _this.checkMouseOn.bind(_this);
 	    _this.checkMouseOut = _this.checkMouseOut.bind(_this);
+	    _this.hideItem = _this.hideItem.bind(_this);
 	    return _this;
 	  }
 
 	  _createClass(TasksItem, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      // if (!this.props.repeated) {
-	      //   this.refs.rep.style.display = "none";
-	      // }
 	      this.refs.completeBtn.addEventListener("click", this.complete, false);
 	    }
 	  }, {
@@ -29331,6 +29299,11 @@
 	        return;
 	      }
 	      this.refs.itemNorm.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideItem',
+	    value: function hideItem() {
+	      this.refs.item.style.display = "none";
 	    }
 	  }, {
 	    key: 'checkMouseOn',
@@ -29354,7 +29327,6 @@
 	  }, {
 	    key: 'showEditBtn',
 	    value: function showEditBtn(e) {
-	      // console.dir(e.target);
 	      if (e.target.className == "fa fa-check" || e.target.classclassName == "checkBoxField-active" || e.target.className == "checkBoxField") {
 	        return;
 	      }
@@ -29389,21 +29361,12 @@
 	      });
 	      return promise;
 	    }
-
-	    // showMark () {
-	    //   this.refs.check.style.display = "flex";
-	    // }
-
-	    // hideMark () {
-	    //   this.refs.check.style.display = "none";
-	    // }
-
 	  }, {
 	    key: 'delete',
 	    value: function _delete() {
 	      var _this4 = this;
 
-	      // mustn't be repeated with TaskEditing!
+	      // TODO: mustn't be repeated with TaskEditing!
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -29419,7 +29382,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        // ee.emitEvent('taskDeleted', [taskID]);    // ???
 	        _this4.refs.item.style.display = "none";
 	      }).catch(function (err) {
 	        console.log(err);
@@ -29472,7 +29434,8 @@
 	    value: function render() {
 	      var component = this.props.editing ? _react2.default.createElement(_TaskEditing2.default, { target: this,
 	        login: this.props.login,
-	        projectID: this.props.projectID
+	        projectID: this.props.projectID,
+	        onDelete: this.hideItem.bind(this)
 	      }) : null;
 	      var rep = this.props.repeated ? _react2.default.createElement('i', { className: 'fa fa-repeat', 'aria-hidden': 'true' }) : null;
 
@@ -29486,11 +29449,7 @@
 	          { className: 'itemNormal', ref: 'itemNorm' },
 	          _react2.default.createElement(
 	            'div',
-	            { className: 'checkBoxField', ref: 'checkContainer'
-	              // onMouseOver = {this.showMark}
-	              // onMouseOut = {this.hideMark}
-	              // onClick = {this.complete}
-	            },
+	            { className: 'checkBoxField', ref: 'checkContainer' },
 	            _react2.default.createElement('i', { className: 'fa fa-check', 'aria-hidden': 'true',
 	              ref: 'completeBtn',
 	              onMouseOver: this.checkMouseOn,
@@ -29572,8 +29531,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//TODO:forms
-
 	var TaskEditing = function (_React$Component) {
 	  _inherits(TaskEditing, _React$Component);
 
@@ -29595,10 +29552,12 @@
 	  _createClass(TaskEditing, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      // setTimeout( () =>{
-	      //   editForm.style.height = "76px";
-	      // }, 1);    
 	      this.refs.editTaskForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.editTaskForm.removeEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -29626,21 +29585,13 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.editTaskName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
 	    key: 'onFinishEdit',
 	    value: function onFinishEdit(e) {
 	      if (e) e.preventDefault();
-	      // let promise = new Promise (resolve => {
-	      //   editForm.style.height = "0";
-	      //   setTimeout( () =>{
-	      //     ee.emitEvent('taskFinishEdit');
-	      //     resolve();
-	      //   }, 200);
-	      // })
-	      // return promise;   
 	      _EventEmitter2.default.emitEvent('taskFinishEdit');
 	    }
 	  }, {
@@ -29648,12 +29599,16 @@
 	    value: function checkRepeated() {
 	      this.refs.cRep.className = this.refs.cRep.className == "checked" ? "unchecked" : "checked";
 	    }
+
+	    // TODO: mustn't be repeated with TasksItem
+
 	  }, {
 	    key: 'onDelete',
 	    value: function onDelete(e) {
-	      // mustn't be repeated with TasksItem
 
-	      if (e) preventDefault();
+	      if (e) e.preventDefault();
+
+	      this.props.onDelete();
 
 	      var reqParams = {
 	        method: 'DELETE',
@@ -29670,8 +29625,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
-	        _EventEmitter2.default.emitEvent('taskDeleted', [taskID]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29701,19 +29654,19 @@
 	      var login = this.props.login;
 	      var projID = this.props.projectID;
 	      var taskID = this.props.target.props.id;
-	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+
 	      fetch('/api/userdata/' + login + '/projects/' + projID + '/' + taskID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newData = {
 	          name: _this2.refs.editTaskName.value,
 	          points: +_this2.refs.editPoints.value,
 	          repeated: repeated
-	        }; // rewrite
+	        };
 	        _EventEmitter2.default.emitEvent('taskSaveEdit', [taskID, newData]);
 	        _this2.onFinishEdit();
 	      }).catch(function (err) {
@@ -29777,6 +29730,11 @@
 
 	exports.default = TaskEditing;
 
+
+	TaskEditing.propTypes = {
+	  onDelete: _react2.default.PropTypes.func
+	};
+
 /***/ },
 /* 249 */
 /***/ function(module, exports, __webpack_require__) {
@@ -29805,7 +29763,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//TODO:forms
 	var TasksAddNew = function (_React$Component) {
 	  _inherits(TasksAddNew, _React$Component);
 
@@ -29829,6 +29786,11 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.refs.addTaskForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.addTaskForm.removeEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -29856,7 +29818,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.newName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -29868,6 +29830,7 @@
 	    key: 'onCancel',
 	    value: function onCancel(e) {
 	      if (e) e.preventDefault();
+	      this.clearFields();
 	      this.refs.addNewForm.style.display = "none";
 	      this.refs.lineExpand.style.display = "flex";
 	    }
@@ -29882,6 +29845,7 @@
 	    value: function clearFields() {
 	      this.refs.newName.value = "";
 	      this.refs.newPoints.value = this.refs.newPoints.defaultValue;
+	      this.refs.cRep.className = "unchecked";
 	    }
 	  }, {
 	    key: 'addNew',
@@ -29891,7 +29855,6 @@
 	      var repeated = this.refs.cRep.className == "checked";
 	      var validPoints = this.refs.newPoints.value;
 	      var validName = this.refs.newName.value;
-	      // rewrite validation
 
 	      var bodyJSON = JSON.stringify({
 	        name: validName,
@@ -29915,10 +29878,10 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
-	        _this2.clearFields();
+	        _this2.onCancel();
 	        _this2.props.onAddingNew(res.task);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -30221,6 +30184,11 @@
 	      this.refs.addProjectForm.addEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.addProjectForm.removeEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
 	    key: 'checkForm',
 	    value: function checkForm(e) {
 	      e.preventDefault();
@@ -30231,7 +30199,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.newName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -30303,7 +30271,7 @@
 	          console.log(res.error); // handle;
 	          return;
 	        }
-	        _this2.clearFields();
+	        _this2.onCancel();
 	        _this2.props.onAddingNew(res.project);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -30438,7 +30406,6 @@
 	    _this.loadProjects = _this.loadProjects.bind(_this);
 	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
-	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
@@ -30456,7 +30423,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newProjects = res.user.projects.reverse();
@@ -30470,7 +30437,6 @@
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('projectFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.addListener('projectSaveEdit', this.updateChild);
-	      _EventEmitter2.default.addListener('projectDeleted', this.handleChildDelete);
 	      this.loadProjects();
 	    }
 	  }, {
@@ -30478,21 +30444,11 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('projectFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('projectSaveEdit', this.updateChild);
-	      _EventEmitter2.default.removeListener('projectDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'handleAddingNew',
 	    value: function handleAddingNew(proj) {
 	      this.setState({ projects: [proj].concat(_toConsumableArray(this.state.projects)) });
-	    }
-	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      var newProjects = this.state.projects.slice();
-	      newProjects = newProjects.filter(function (el) {
-	        return el._id !== id;
-	      });
-	      this.setState({ projects: newProjects });
 	    }
 	  }, {
 	    key: 'handleChildEdit',
@@ -30603,6 +30559,7 @@
 	    _this.open = _this.open.bind(_this);
 	    _this.showEditBtn = _this.showEditBtn.bind(_this);
 	    _this.hideEditBtn = _this.hideEditBtn.bind(_this);
+	    _this.hideItem = _this.hideItem.bind(_this);
 	    return _this;
 	  }
 
@@ -30614,6 +30571,11 @@
 	        return;
 	      }
 	      this.refs.itemNorm.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideItem',
+	    value: function hideItem() {
+	      this.refs.item.style.display = "none";
 	    }
 	  }, {
 	    key: 'edit',
@@ -30638,12 +30600,17 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var component = this.props.editing ? _react2.default.createElement(_ProjectEditing2.default, { target: this, login: this.props.login }) : null;
+	      var component = this.props.editing ? _react2.default.createElement(_ProjectEditing2.default, { target: this,
+	        login: this.props.login,
+	        onDelete: this.hideItem.bind(this)
+	      }) : null;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'projectsItem',
 	          onMouseOver: this.showEditBtn,
-	          onMouseOut: this.hideEditBtn },
+	          onMouseOut: this.hideEditBtn,
+	          ref: 'item' },
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'itemNormal', ref: 'itemNorm' },
@@ -30734,8 +30701,12 @@
 	  _createClass(ProjectEditing, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      // editForm.style.height = "35px";   
 	      this.refs.editProjectForm.addEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.editProjectForm.removeEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -30748,7 +30719,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.editName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -30762,20 +30733,15 @@
 	    key: 'onFinishEdit',
 	    value: function onFinishEdit(e) {
 	      if (e) e.preventDefault();
-	      // let promise = new Promise (resolve => {
-	      //   editForm.style.height = "0";
-	      //   setTimeout( () =>{
-	      //     ee.emitEvent('projectFinishEdit');
-	      //     resolve();
-	      //   }, 200);
-	      // })
-	      // return promise; 
 	      _EventEmitter2.default.emitEvent('projectFinishEdit');
 	    }
 	  }, {
 	    key: 'onDelete',
 	    value: function onDelete(e) {
 	      e.preventDefault();
+
+	      this.props.onDelete();
+
 	      var reqParams = {
 	        method: 'DELETE',
 	        credentials: 'include'
@@ -30789,8 +30755,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
-	        _EventEmitter2.default.emitEvent('projectDeleted', [projID]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -30829,22 +30793,21 @@
 
 	      var login = this.props.login;
 	      var projID = this.props.target.props.id;
-	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+
 	      fetch('/api/userdata/' + login + '/projects/' + projID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newData = { name: _this2.refs.editName.value, label: _this2.refs.plabel.style.backgroundColor };
-	        //take from server?
+
 	        _EventEmitter2.default.emitEvent('projectSaveEdit', [projID, newData]);
 	        _this2.onFinishEdit();
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
-	      // <div className = {this.props.target.props.label}
 	    }
 	  }, {
 	    key: 'render',
@@ -30914,6 +30877,11 @@
 
 	exports.default = ProjectEditing;
 
+
+	ProjectEditing.propTypes = {
+	  onDelete: _react2.default.PropTypes.func
+	};
+
 /***/ },
 /* 257 */
 /***/ function(module, exports, __webpack_require__) {
@@ -30942,7 +30910,6 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	//TODO: forms
 	var Message = function (_React$Component) {
 	  _inherits(Message, _React$Component);
 
@@ -30981,9 +30948,7 @@
 
 	    _this2.signUp = _this2.signUp.bind(_this2);
 	    _this2.state = { registered: false, login: null };
-	    // WTF
-
-	    _this2.checkForm = _this2.checkForm.bind(_this2); // frontend validation
+	    _this2.checkForm = _this2.checkForm.bind(_this2);
 	    _this2.checkLogin = _this2.checkLogin.bind(_this2);
 	    _this2.checkPassword = _this2.checkPassword.bind(_this2);
 	    _this2.printWarning = _this2.printWarning.bind(_this2);
@@ -30998,6 +30963,13 @@
 	      this.refs.signupForm.addEventListener('submit', this.checkForm, false);
 	      this.refs.login.addEventListener('input', this.checkLogin, false);
 	      this.refs.password.addEventListener('input', this.checkPassword, false);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.signupForm.removeEventListener('submit', this.checkForm, false);
+	      this.refs.login.removeEventListener('input', this.checkLogin, false);
+	      this.refs.password.removeEventListener('input', this.checkPassword, false);
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -31101,7 +31073,7 @@
 	          _this3.parseServerErrors(res.error);
 	          return;
 	        }
-	        _this3.setState({ registered: true, login: res.login }); // ?                            
+	        _this3.setState({ registered: true, login: res.login });
 	      }).catch(console.log);
 	    }
 	  }, {
@@ -31281,7 +31253,6 @@
 	    _this.loadRules = _this.loadRules.bind(_this);
 	    _this.finishChildEditing = _this.finishChildEditing.bind(_this);
 	    _this.updateChild = _this.updateChild.bind(_this);
-	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
 
@@ -31290,7 +31261,6 @@
 	    value: function loadRules() {
 	      var _this2 = this;
 
-	      // temp
 	      var reqParams = {
 	        method: 'GET',
 	        credentials: 'include'
@@ -31300,7 +31270,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newRules = res.user.rules.reverse();
@@ -31314,7 +31284,6 @@
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('ruleFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.addListener('ruleSaveEdit', this.updateChild);
-	      _EventEmitter2.default.addListener('ruleDeleted', this.handleChildDelete);
 	      this.loadRules();
 	    }
 	  }, {
@@ -31322,22 +31291,11 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('ruleFinishEdit', this.finishChildEditing);
 	      _EventEmitter2.default.removeListener('ruleSaveEdit', this.updateChild);
-	      _EventEmitter2.default.removeListener('ruleDeleted', this.handleChildDelete);
 	    }
 	  }, {
 	    key: 'handleAddingNew',
 	    value: function handleAddingNew(rule) {
 	      this.setState({ rules: [rule].concat(_toConsumableArray(this.state.rules)) });
-	    }
-	  }, {
-	    key: 'handleChildDelete',
-	    value: function handleChildDelete(id) {
-	      console.log('handle del rule');
-	      var newRules = this.state.rules.slice();
-	      newRules = newRules.filter(function (el) {
-	        return el._id !== id;
-	      });
-	      this.setState({ rules: newRules });
 	    }
 	  }, {
 	    key: 'handleChildEdit',
@@ -31369,11 +31327,6 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        _react2.default.createElement(
-	          'h1',
-	          null,
-	          ' under development '
-	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'rulesListPage', style: { opacity: "1" } },
@@ -31464,6 +31417,7 @@
 	    _this.showMark = _this.showMark.bind(_this);
 	    _this.hideMark = _this.hideMark.bind(_this);
 	    _this.breakRule = _this.breakRule.bind(_this);
+	    _this.hideItem = _this.hideItem.bind(_this);
 	    return _this;
 	  }
 
@@ -31475,6 +31429,11 @@
 	        return;
 	      }
 	      this.refs.itemNorm.style.display = "flex";
+	    }
+	  }, {
+	    key: 'hideItem',
+	    value: function hideItem() {
+	      this.refs.item.style.display = "none";
 	    }
 	  }, {
 	    key: 'showMark',
@@ -31535,12 +31494,17 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var component = this.props.editing ? _react2.default.createElement(_RuleEditing2.default, { target: this, login: this.props.login }) : null;
+	      var component = this.props.editing ? _react2.default.createElement(_RuleEditing2.default, { target: this,
+	        login: this.props.login,
+	        onDelete: this.hideItem.bind(this)
+	      }) : null;
+
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'ruleItem',
 	          onMouseOver: this.showEditBtn,
-	          onMouseOut: this.hideEditBtn
+	          onMouseOut: this.hideEditBtn,
+	          ref: 'item'
 	        },
 	        _react2.default.createElement(
 	          'div',
@@ -31652,6 +31616,11 @@
 	      this.refs.editRuleForm.addEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.editRuleForm.removeEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
 	    key: 'checkForm',
 	    value: function checkForm(e) {
 	      e.preventDefault();
@@ -31677,7 +31646,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.editName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -31690,6 +31659,8 @@
 	    key: 'onDelete',
 	    value: function onDelete(e) {
 	      if (e) e.preventDefault();
+
+	      this.props.onDelete();
 
 	      var reqParams = {
 	        method: 'DELETE',
@@ -31704,8 +31675,6 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
-	        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
-	        _EventEmitter2.default.emitEvent('ruleDeleted', [ruleID]);
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31745,12 +31714,12 @@
 
 	      var login = this.props.login;
 	      var ruleID = this.props.target.props.id;
-	      // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+
 	      fetch('/api/userdata/' + login + '/rules/' + ruleID, reqParams).then(function (res) {
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newData = {
@@ -31838,6 +31807,11 @@
 
 	exports.default = RuleEditing;
 
+
+	RuleEditing.propTypes = {
+	  onDelete: _react2.default.PropTypes.func
+	};
+
 /***/ },
 /* 262 */
 /***/ function(module, exports, __webpack_require__) {
@@ -31896,6 +31870,11 @@
 	      this.refs.addRuleForm.addEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.addRuleForm.removeEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
 	    key: 'checkForm',
 	    value: function checkForm(e) {
 	      e.preventDefault();
@@ -31921,7 +31900,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.newName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -31948,6 +31927,7 @@
 	    key: 'onCancel',
 	    value: function onCancel(e) {
 	      if (e) e.preventDefault();
+	      this.clearFields();
 	      this.refs.addNewForm.style.display = "none";
 	      this.refs.lineExpand.style.display = "flex";
 	    }
@@ -31986,10 +31966,10 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
-	        _this2.clearFields();
+	        _this2.onCancel();
 	        _this2.props.onAddingNew(res.rule);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -32115,7 +32095,6 @@
 	  _createClass(Rules, [{
 	    key: 'render',
 	    value: function render() {
-
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'rules' },
@@ -32186,18 +32165,15 @@
 	    _this.loadItems = _this.loadItems.bind(_this);
 	    _this.state = { rewards: [], points: null };
 	    _this.getPoints = _this.getPoints.bind(_this);
-	    // this.updateChild = this.updateChild.bind(this);
 	    _this.handleChildDelete = _this.handleChildDelete.bind(_this);
 	    return _this;
 	  }
-	  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
 	  _createClass(Rewards, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _EventEmitter2.default.addListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.addListener('rewardDeleted', this.handleChildDelete);
-	      // ee.addListener('rewardEdited', this.updateChild);
 	      _EventEmitter2.default.emitEvent('reqForPoints');
 	      this.loadItems();
 	    }
@@ -32206,20 +32182,7 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.removeListener('rewardDeleted', this.handleChildDelete);
-	      // ee.removeListener('rewardEdited', this.updateChild);
 	    }
-
-	    // updateChild(itemID, newData) {
-	    //   this.state.rewards.map(el => {
-	    //     if (el._id == itemID) {
-	    //       el.name = newData.name;
-	    //       el.price = newData.price;
-	    //       el.repeated = newData.repeated;
-	    //     }
-	    //     return el;
-	    //   });
-	    // }
-
 	  }, {
 	    key: 'getPoints',
 	    value: function getPoints(points) {
@@ -32253,7 +32216,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        var newRewards = res.user.rewards.reverse();
@@ -32349,6 +32312,11 @@
 	      this.refs.rewardsAddNewForm.addEventListener('submit', this.checkForm, false);
 	    }
 	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      this.refs.rewardsAddNewForm.removeEventListener('submit', this.checkForm, false);
+	    }
+	  }, {
 	    key: 'checkForm',
 	    value: function checkForm(e) {
 	      e.preventDefault();
@@ -32374,7 +32342,7 @@
 	    key: 'checkName',
 	    value: function checkName() {
 	      var name = this.refs.newRewardName.value;
-	      return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name)
+	      return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name)
 	      );
 	    }
 	  }, {
@@ -32414,7 +32382,7 @@
 	        return res.json();
 	      }).then(function (res) {
 	        if (res.error) {
-	          console.log(res.error); // handle;
+	          console.log(res.error);
 	          return;
 	        }
 	        _this2.clearFields();

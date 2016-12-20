@@ -4,7 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-//TODO: forms
+
 class Message extends React.Component {
   constructor(props) {
     super(props);
@@ -23,9 +23,7 @@ export default class Signup extends React.Component {
     super(props);
     this.signUp = this.signUp.bind(this);
     this.state = { registered: false, login: null };
-    // WTF
-
-    this.checkForm = this.checkForm.bind(this); // frontend validation
+    this.checkForm = this.checkForm.bind(this); 
     this.checkLogin = this.checkLogin.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
     this.printWarning = this.printWarning.bind(this);
@@ -37,6 +35,12 @@ export default class Signup extends React.Component {
     this.refs.signupForm.addEventListener('submit',this.checkForm, false);
     this.refs.login.addEventListener('input', this.checkLogin, false);
     this.refs.password.addEventListener('input', this.checkPassword, false);
+  }
+
+  componentWillUnmount () {
+    this.refs.signupForm.removeEventListener('submit',this.checkForm, false);
+    this.refs.login.removeEventListener('input', this.checkLogin, false);
+    this.refs.password.removeEventListener('input', this.checkPassword, false);
   }
 
   checkForm (e) {
@@ -136,7 +140,7 @@ export default class Signup extends React.Component {
           this.parseServerErrors(res.error); 
           return;
         }
-        this.setState({ registered: true, login: res.login }); // ?                            
+        this.setState({ registered: true, login: res.login });                          
       })
       .catch(console.log);
   }

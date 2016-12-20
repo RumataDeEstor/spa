@@ -16,6 +16,7 @@ export default class RuleItem extends React.Component {
     this.showMark = this.showMark.bind(this);
     this.hideMark = this.hideMark.bind(this);
     this.breakRule = this.breakRule.bind(this);
+    this.hideItem = this.hideItem.bind(this);
   }
 
   componentWillReceiveProps(newProps){
@@ -24,6 +25,10 @@ export default class RuleItem extends React.Component {
       return;
     }
     this.refs.itemNorm.style.display = "flex";
+  }
+
+  hideItem () {
+    this.refs.item.style.display = "none";
   }
 
   showMark () {
@@ -77,10 +82,15 @@ export default class RuleItem extends React.Component {
 
   render() {
     let component = this.props.editing ? 
-      <RuleEditing target = {this} login = {this.props.login}/> : null;
+      <RuleEditing target = {this} 
+        login = {this.props.login}
+        onDelete = {this.hideItem.bind(this)}
+      /> : null;
+
     return<div className = "ruleItem"
             onMouseOver = {this.showEditBtn}
             onMouseOut = {this.hideEditBtn}
+            ref = "item"
           >    
             <div className = "itemNormal" ref = "itemNorm">
               <div className = "checkBoxField"

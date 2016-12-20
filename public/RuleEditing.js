@@ -23,6 +23,10 @@ export default class RuleEditing extends React.Component {
     this.refs.editRuleForm.addEventListener('submit', this.checkForm, false);
   }
 
+  componentWillUnmount () {
+    this.refs.editRuleForm.removeEventListener('submit', this.checkForm, false);
+  }
+
   checkForm (e) {
     e.preventDefault();
     this.trimName();
@@ -46,7 +50,7 @@ export default class RuleEditing extends React.Component {
 
   checkName () {
     let name = this.refs.editName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));   
   }
 
   onFinishEdit(e) {
@@ -56,6 +60,8 @@ export default class RuleEditing extends React.Component {
 
   onDelete(e){
     if (e) e.preventDefault();
+
+    this.props.onDelete(); 
 
     let reqParams = {
       method: 'DELETE',
@@ -70,8 +76,7 @@ export default class RuleEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
-        ee.emitEvent('ruleDeleted', [ruleID]);
+
       })
       .catch(err => {
         console.log(err);
@@ -108,12 +113,12 @@ export default class RuleEditing extends React.Component {
 
     let login = this.props.login;
     let ruleID = this.props.target.props.id;
-    // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+
     fetch(`/api/userdata/${login}/rules/${ruleID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error);
           return;
         }
         let newData = {
@@ -176,3 +181,7 @@ export default class RuleEditing extends React.Component {
           </div>
   }
 }
+
+RuleEditing.propTypes = {
+  onDelete: React.PropTypes.func
+};

@@ -13,6 +13,7 @@ export default class ProjectsItem extends React.Component {
     this.open = this.open.bind(this);
     this.showEditBtn = this.showEditBtn.bind(this);
     this.hideEditBtn = this.hideEditBtn.bind(this);
+    this.hideItem = this.hideItem.bind(this);
   }
 
   componentWillReceiveProps(newProps){
@@ -21,6 +22,10 @@ export default class ProjectsItem extends React.Component {
       return;
     }
     this.refs.itemNorm.style.display = "flex";
+  }
+
+  hideItem () {
+    this.refs.item.style.display = "none";
   }
   
   edit() {
@@ -40,10 +45,16 @@ export default class ProjectsItem extends React.Component {
   }
   
   render () {
-    let component = this.props.editing ? <ProjectEditing target = {this} login = {this.props.login}/> : null;
+    let component = this.props.editing ? 
+      <ProjectEditing target = {this} 
+        login = {this.props.login}
+        onDelete = {this.hideItem.bind(this)}
+      /> : null;
+
     return <div className = "projectsItem" 
       onMouseOver = {this.showEditBtn}
-      onMouseOut = {this.hideEditBtn}>
+      onMouseOut = {this.hideEditBtn}
+      ref = "item">
               <div className = "itemNormal" ref = "itemNorm">
                 <div className = "projectLine" onClick = {this.open}> 
                   <div style = {{backgroundColor: this.props.label}} 

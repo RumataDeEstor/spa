@@ -9,18 +9,26 @@ export default class Login extends React.Component {
   constructor(props) {
     super(props);
     this.logIn = this.logIn.bind(this);
-    this.checkForm = this.checkForm.bind(this); // frontend validation
+    this.checkForm = this.checkForm.bind(this); 
     this.checkLogin = this.checkLogin.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
     this.printWarning = this.printWarning.bind(this);
     this.decorateFieldsOnWarnings = this.decorateFieldsOnWarnings.bind(this);
     this.parseServerErrors = this.parseServerErrors.bind(this);
+    this.clearLoginWarn = this.clearLoginWarn.bind(this);
+    this.clearPassWarn = this.clearPassWarn.bind(this);
   }
 
-  componentDidMount () {
+   componentDidMount () {
     this.refs.loginForm.addEventListener('submit',this.checkForm, false);
-    this.refs.login.addEventListener('input', this.checkLogin, false);
-    this.refs.password.addEventListener('input', this.checkPassword, false);
+    this.refs.login.addEventListener('input', this.clearLoginWarn, false);
+    this.refs.password.addEventListener('input', this.clearPassWarn, false);
+  }
+
+  componentWillUnmount () {
+    this.refs.loginForm.removeEventListener('submit',this.checkForm, false);
+    this.refs.login.removeEventListener('input', this.checkLogin, false);
+    this.refs.password.removeEventListener('input', this.checkPassword, false);
   }
 
   checkForm (e) {
@@ -41,18 +49,12 @@ export default class Login extends React.Component {
     this.printWarning(warning, this.refs.loginWarn, this.refs.login);
   }
 
-  checkLogin(e) {
-    let login = (e) ? e.target.value : this.refs.login.value;
+  checkLogin() {
+    let login = this.refs.login.value;
     let warning = "";
     let isAccepted = false;
-    if (login.length < 4) {
-      warning = `Login is too short. You need more than 3 characters.`;
-    } else if (login.length > 20) {
-      warning = `Login is too long. You need less than 21 characters.`;
-    } else if (!/^\w+$/.test(login)) {
-      warning = `Only Latin letters, digits and "_", please.`;
-    } else if (!/^[a-zA-Z]\w+$/.test(login)) {
-      warning = `The 1st character must be a letter.`;
+    if (!/^\w+$/.test(login)) {
+      warning = `Valid login required.`;
     } else {
       warning = "";
       isAccepted = true;
@@ -61,17 +63,12 @@ export default class Login extends React.Component {
     return isAccepted; 
   }
 
-  checkPassword(e) {
-    let password = (e) ? e.target.value : this.refs.password.value;
+  checkPassword() {
+    let password = this.refs.password.value;
     let warning = "";
     let isAccepted = false;
-    if (password.length < 6) {
-      warning = `Password is too short. You need more than 5 characters.`;
-    } else if (password.length > 20) {
-      warning = `Password is too long. You need less than 21 characters.`;
-    } else if (!/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/.test(password)) {
-      warning = `Upper and lowercase Latin letters and numbers required
-        (at least 1 character of each type).`;
+    if ( (password.length < 6) || (!/^\w+$/.test(password)) ) {
+      warning = `Valid password required.`;
     } else {
       warning = "";
       isAccepted = true;
@@ -89,13 +86,27 @@ export default class Login extends React.Component {
 
   printWarning(warning, warnField, decorateField) {
     if (!warning) {
-      warnField.innerHTML = "";
-      this.decorateFieldsOnWarnings(false, decorateField);
+      if (warnField == this.refs.loginWarn) {
+        this.clearLoginWarn();
+      } else {
+        this.clearPassWarn();
+      }
       return;
     }
+
     warnField.innerHTML = `<i class="fa fa-exclamation-triangle" 
       aria-hidden="true"></i>${warning}`;
     this.decorateFieldsOnWarnings(true, decorateField);
+  }
+
+  clearPassWarn () {
+    this.refs.passWarn.innerHTML = "";
+    this.decorateFieldsOnWarnings(false, this.refs.password);
+  }
+
+  clearLoginWarn () {
+    this.refs.loginWarn.innerHTML = "";
+    this.decorateFieldsOnWarnings(false, this.refs.login);
   }
 
   logIn () {

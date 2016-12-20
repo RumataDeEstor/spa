@@ -53,7 +53,6 @@ li {
     }
 }
 
-
 /*STARTPAGE----------------------------*/
 
 .topmenu {
@@ -244,128 +243,10 @@ div#appContent {
   display: flex;
 }
 
-/*POINTS-------------------------------*/
-
-/*div.userPoints {
-  background-color: #333333;
-  height: 46px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 70px;
-  border: 2px solid #e2e2e2;
-}*/
-
-/*div.userPoints {
-    width: 90px;
-    height: 30px;
-    background: white;
-    color: #333333;
-    position: relative;
-    z-index: 1;
-    display: flex;
-    align-items: center;
-    padding-left: 10px;
-    margin-right: 20px;
-}
-
-div.userPoints::before {
-    content: "";
-    width: 86px;
-    height: 0;
-    position: absolute;
-    top: 0;
-    left: 0;
-    border-bottom: 7px solid white;
-    border-left: 7px solid #333333;
-    border-right: 7px solid #333333;
-    z-index: -1;
-}
-
-div.userPoints::after {
-    content: "";
-    width: 86px;
-    height: 0;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    border-top: 7px solid white;
-    border-left: 7px solid #333333;
-    border-right: 7px solid #333333;
-    z-index: -1;
-}
-*/
-
 div.userPoints {
   margin-right: 20px;
   position: relative;
 }
-
-/*div.oct {
-  width: 150px;
-  height: 35px;
-  background-color: #e3e3e3;
-  position: relative;
-}
-
-span.beforeOct {
-  width: 136px;
-  height: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-bottom: 7px solid #e3e3e3;
-  border-left: 7px solid #333333;
-  border-right: 7px solid #333333;
-  z-index: 1;
-}
-  
-span.afterOct {
-  width: 136px;
-  height: 0;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  border-top: 7px solid #e3e3e3;
-  border-left: 7px solid #333333;
-  border-right: 7px solid #333333;
-}
-
-div#octagonSmall {
-  background-color: white;
-  color: #333333;
-  position: absolute;
-  width: 134px;
-  height: 29px;
-  top: 3px;
-  left: 4px;
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  padding-left: 8px;
-}
-
-div#octagon span.beforeOct {
-  border-bottom: 5px solid white;
-  border-left: 5px solid #e3e3e3;
-  border-right: 5px solid #e3e3e3;
-  width: 132px;
-  position: absolute;
-  z-index: 2;
-  top: 3px;
-  left: 4px;
-}
-
-div#octagon span.afterOct {
-  border-top: 5px solid white;
-  border-left: 5px solid #e3e3e3;
-  border-right: 5px solid #e3e3e3;  
-  position: absolute;
-  width: 132px;
-  bottom: 3px;
-  left: 4px;
-  z-index: 2;
-}*/
 
 div.changePointsSmall {
   top: 15px;
@@ -381,7 +262,8 @@ div.pointsContainer {
   width: 130px;
   height: 35px;
   border-radius: 10px;
-  box-shadow: inset 1px 1px 3px 1px rgba(128,128,128,0.4), inset -1px -1px 3px 1px rgba(128,128,128,0.4);
+  box-shadow: inset 1px 1px 3px 1px rgba(128,128,128,0.4), 
+    inset -1px -1px 3px 1px rgba(128,128,128,0.4);
   position: relative;
   background-color: white;
   color: #333333;
@@ -1130,7 +1012,6 @@ div.exCircle {
   border-radius: 60px;
   box-shadow: 0 0px 7px rgba(128,128,128,.4);
   background-color: #EF84DA;
-  /*rgba(19, 169, 25, 0.6)*/
   display: flex;
   justify-content: center;
   align-items: center;
@@ -1157,7 +1038,6 @@ div.inCircle {
 
 div.square {
   background-color: #ef84da;
- /* rgba(19, 169, 25, 0.6)*/
   width: 80px;
   z-index: 1;
   display: flex;
@@ -1182,15 +1062,10 @@ div.percents {
 
 div.ruleItem {
   width: 750px;
-  background-color: #ffefef;
 }
 
 div.ruleItem div.itemNormal {
   width: 750px;
-}
-
-div.ruleItem div.itemNormal:hover {
-  background-color: rgba(255, 120, 120, 0.09);
 }
 
 div.ruleItem div.ruleLine {

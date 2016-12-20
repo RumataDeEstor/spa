@@ -66,8 +66,6 @@ export default class App extends React.Component {
     })    
     return promise;
   }
- 
-  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
 
   render () {
     const access = this.state.access; 

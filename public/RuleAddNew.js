@@ -24,6 +24,10 @@ export default class RuleAddNew extends React.Component {
     this.refs.addRuleForm.addEventListener('submit', this.checkForm, false);
   }
 
+  componentWillUnmount () {
+    this.refs.addRuleForm.removeEventListener('submit', this.checkForm, false);
+  }
+
   checkForm (e) {
     e.preventDefault();
     this.trimName();
@@ -47,7 +51,7 @@ export default class RuleAddNew extends React.Component {
 
   checkName () {
     let name = this.refs.newName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));   
   }
 
   clearFields() {
@@ -70,6 +74,7 @@ export default class RuleAddNew extends React.Component {
 
   onCancel (e) {
     if (e) e.preventDefault();
+    this.clearFields();
     this.refs.addNewForm.style.display = "none";  
     this.refs.lineExpand.style.display = "flex"; 
   }
@@ -104,10 +109,10 @@ export default class RuleAddNew extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error);
           return;
         }
-        this.clearFields();
+        this.onCancel();
         this.props.onAddingNew(res.rule);
       })
       .catch(err => {

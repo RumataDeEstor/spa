@@ -15,15 +15,12 @@ export default class Rewards extends React.Component {
     this.loadItems = this.loadItems.bind(this);
     this.state = {rewards: [], points: null};
     this.getPoints = this.getPoints.bind(this);
-    // this.updateChild = this.updateChild.bind(this);
     this.handleChildDelete = this.handleChildDelete.bind(this);
   }
-  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
-  
+
   componentDidMount(){
     ee.addListener('getPoints', this.getPoints);
     ee.addListener('rewardDeleted', this.handleChildDelete);
-    // ee.addListener('rewardEdited', this.updateChild);
     ee.emitEvent('reqForPoints');
     this.loadItems();
   }
@@ -31,19 +28,7 @@ export default class Rewards extends React.Component {
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
     ee.removeListener('rewardDeleted', this.handleChildDelete);
-    // ee.removeListener('rewardEdited', this.updateChild);
   }
-
-  // updateChild(itemID, newData) {
-  //   this.state.rewards.map(el => {
-  //     if (el._id == itemID) {
-  //       el.name = newData.name;
-  //       el.price = newData.price;
-  //       el.repeated = newData.repeated;
-  //     }
-  //     return el;
-  //   });
-  // }
 
   getPoints(points){
     this.setState({points: points});
@@ -69,7 +54,7 @@ export default class Rewards extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let newRewards = res.user.rewards.reverse();

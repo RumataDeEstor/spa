@@ -6,9 +6,7 @@ import {
 } from 'react-router';
 import RewardItem from './RewardItem';
 import ee from './EventEmitter';
-// forms everywhere;
-// true Points here
-// can I edit through Short List?
+
 export default class RewardsShortList extends React.Component {
   constructor(props) {
     super(props);
@@ -42,7 +40,7 @@ export default class RewardsShortList extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let newTopRewards = res.user.rewards
@@ -58,7 +56,6 @@ export default class RewardsShortList extends React.Component {
       })
   }
 
-  // //todo: DidMount - fetch to check Auth; if not user page, forbidden, redirect.
   render () {
     return <div className = "rewardsShort">
             <div className = "rewardsShortTitle"> Top Rewards </div>
@@ -66,7 +63,7 @@ export default class RewardsShortList extends React.Component {
                 return <RewardItem
                   key = {i} 
                   id ={el._id} 
-                  name = {el.name} 
+                  name = {el.name}  
                   price = {el.price} 
                   repeated = {el.repeated}
                   points = {this.state.points}

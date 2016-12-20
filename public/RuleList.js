@@ -14,11 +14,10 @@ export default class RuleList extends React.Component {
     this.state = { rules: [], isEditing: null };
     this.loadRules = this.loadRules.bind(this);
     this.finishChildEditing = this.finishChildEditing.bind(this);
-    this.updateChild = this.updateChild.bind(this);
-    this.handleChildDelete = this.handleChildDelete.bind(this);   
+    this.updateChild = this.updateChild.bind(this); 
   }
 
-  loadRules() { // temp
+  loadRules() { 
     let reqParams = {
       method: 'GET',
       credentials: 'include'
@@ -28,7 +27,7 @@ export default class RuleList extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let newRules = res.user.rules.reverse();
@@ -42,25 +41,16 @@ export default class RuleList extends React.Component {
   componentDidMount() {
     ee.addListener('ruleFinishEdit', this.finishChildEditing);
     ee.addListener('ruleSaveEdit', this.updateChild);
-    ee.addListener('ruleDeleted', this.handleChildDelete);
     this.loadRules();
   } 
 
   componentWillUnmount() { 
     ee.removeListener('ruleFinishEdit', this.finishChildEditing);
     ee.removeListener('ruleSaveEdit', this.updateChild);
-    ee.removeListener('ruleDeleted', this.handleChildDelete);
   }
 
   handleAddingNew(rule){
     this.setState({rules: [rule, ...this.state.rules] });
-  }
-
-  handleChildDelete(id) {
-    console.log('handle del rule');
-    let newRules = this.state.rules.slice();
-    newRules = newRules.filter(el => el._id !== id);
-    this.setState({rules: newRules});
   }
 
   handleChildEdit(id) {
@@ -84,7 +74,6 @@ export default class RuleList extends React.Component {
 
   render () {    
     return <div> 
-            <h1> under development </h1>
             <div className = "rulesListPage" style = {{opacity: "1"}}>                
                 <div className = "rListTitle">Rules</div>
                 <RuleAddNew

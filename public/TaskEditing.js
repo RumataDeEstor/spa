@@ -6,8 +6,6 @@ import {
 } from 'react-router'
 import ee from './EventEmitter';
 
-//TODO:forms
-
 export default class TaskEditing extends React.Component {
   constructor(props) {
     super(props);
@@ -20,11 +18,12 @@ export default class TaskEditing extends React.Component {
     this.trimName = this.trimName.bind(this);
   }
 
-  componentDidMount() {
-    // setTimeout( () =>{
-    //   editForm.style.height = "76px";
-    // }, 1);    
+  componentDidMount() {  
     this.refs.editTaskForm.addEventListener('submit', this.checkForm, false);
+  }
+
+  componentWillUnmount () {
+    this.refs.editTaskForm.removeEventListener('submit', this.checkForm, false);
   }
 
   checkForm (e) {
@@ -50,19 +49,11 @@ export default class TaskEditing extends React.Component {
 
   checkName () {
     let name = this.refs.editTaskName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));   
   }
 
   onFinishEdit(e) {
-    if (e) e.preventDefault();
-    // let promise = new Promise (resolve => {
-    //   editForm.style.height = "0";
-    //   setTimeout( () =>{
-    //     ee.emitEvent('taskFinishEdit');
-    //     resolve();
-    //   }, 200);
-    // })
-    // return promise;   
+    if (e) e.preventDefault();   
     ee.emitEvent('taskFinishEdit');
   }
 
@@ -70,9 +61,12 @@ export default class TaskEditing extends React.Component {
     this.refs.cRep.className = (this.refs.cRep.className == "checked") ? "unchecked" : "checked";
   }
 
-  onDelete(e){   // mustn't be repeated with TasksItem
+  // TODO: mustn't be repeated with TasksItem
+  onDelete(e){   
 
-    if (e) preventDefault();
+    if (e) e.preventDefault();
+
+    this.props.onDelete(); 
 
     let reqParams = {
       method: 'DELETE',
@@ -89,8 +83,7 @@ export default class TaskEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));  
-        ee.emitEvent('taskDeleted', [taskID]);        
+              
       })
       .catch(err => {
         console.log(err);
@@ -118,19 +111,19 @@ export default class TaskEditing extends React.Component {
     let login = this.props.login;
     let projID = this.props.projectID;
     let taskID = this.props.target.props.id;
-    // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+    
     fetch(`/api/userdata/${login}/projects/${projID}/${taskID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let newData = {
           name: this.refs.editTaskName.value, 
           points: +this.refs.editPoints.value,
           repeated: repeated
-        }; // rewrite
+        }; 
         ee.emitEvent('taskSaveEdit', [taskID, newData]);
         this.onFinishEdit();
       })
@@ -171,3 +164,7 @@ export default class TaskEditing extends React.Component {
             </div>
   }
 }
+
+TaskEditing.propTypes = {
+  onDelete: React.PropTypes.func
+};

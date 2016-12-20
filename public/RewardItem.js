@@ -7,11 +7,6 @@ import {
 import ee from './EventEmitter'
 
 export default class RewardItem extends React.Component {
-  // !!! TODO: hot deleting; 
-  // mb changing Reuse
-  // !!! hot level changing after editing Points
-  // common method for points updating - here and in Tasks
-  // in top - user choice
   constructor(props) {
     super(props);
     this.state = {
@@ -28,8 +23,8 @@ export default class RewardItem extends React.Component {
     this.hideEditName = this.hideEditName.bind(this);
     this.hideEditPrice = this.hideEditPrice.bind(this);
     this.showEditPrice = this.showEditPrice.bind(this);
-    this.submitName = this.submitName.bind(this); // rename 
-    this.submitPrice = this.submitPrice.bind(this); // rename validate?
+    this.submitName = this.submitName.bind(this); 
+    this.submitPrice = this.submitPrice.bind(this); 
     this.submitData = this.submitData.bind(this);
     this.showMore = this.showMore.bind(this);
     this.hideMore = this.hideMore.bind(this);
@@ -54,7 +49,6 @@ export default class RewardItem extends React.Component {
     }
     const fullHeight = 74;
     let newHeight = fullHeight * value / 100;  
-    console.log(newHeight);
     this.refs.lvl.style.height = `${newHeight}px`; 
     this.refs.lvl.style.WebkitAnimationName = "pish";
   }
@@ -83,6 +77,15 @@ export default class RewardItem extends React.Component {
     this.refs.lvl.style.height = `${newHeight}px`;
   } 
 
+  componentWillUnmount () {
+    if (this.props.loc == "full") {
+      this.refs.rewardPrice.removeEventListener('click', this.showEditPrice);
+      this.refs.rewardNameContainer.removeEventListener('click', this.showEditName)
+    }
+    this.refs.editRewardName.removeEventListener('submit',this.submitName, false);
+    this.refs.editRewardPrice.removeEventListener('submit',this.submitPrice, false);
+  }
+
   getReward () {   
     this.tempUpdPoints();
     if (!this.state.repeated) {
@@ -90,7 +93,7 @@ export default class RewardItem extends React.Component {
     }
   }
 
-  //rewrite; also in tasks
+  // TODO: rewrite; also in tasks
   tempUpdPoints(){
     let bodyJSON = JSON.stringify({
       points: -this.state.price
@@ -133,8 +136,9 @@ export default class RewardItem extends React.Component {
   }
 
   deleteReward(){
-    // this.refs.msg.innerText = "*deleted*";
+   
     this.refs.item.style.display = "none";
+
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -149,9 +153,7 @@ export default class RewardItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        
-        // this.onFinishEdit().then(res => ee.emitEvent('taskDeleted', [taskID]));        
-        // ee.emitEvent('rewardDeleted', [id]);  
+          
       })
       .catch(err => {
         console.log(err);
@@ -159,7 +161,6 @@ export default class RewardItem extends React.Component {
   }  
 
   submitData(data){
-    console.log('submitData');
     let repeated = (data.repeated !== undefined) ? data.repeated : null;
     let bodyJSON = JSON.stringify({
       name: data.name || null,
@@ -183,14 +184,9 @@ export default class RewardItem extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
-        console.log(res);
-        // let newData = {name: editName.value, label: editChosenColor.className};
-        //take from server?
-        // ee.emitEvent('projectSaveEdit', [projID, newData]);
-        // this.onFinishEdit();
       })
       .catch(err => {
         console.log(err);
@@ -209,7 +205,7 @@ export default class RewardItem extends React.Component {
 
   checkName () {
     let name = this.refs.editName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));   
   }
 
   trimName () {
@@ -236,7 +232,7 @@ export default class RewardItem extends React.Component {
   }
 
   submitIsRepeated(){
-    if (this.props.loc == "short") return; // remove handler at all?
+    if (this.props.loc == "short") return; // remove handler at all (?)
     this.refs.rep.className = (this.refs.rep.className == "checked") ? 
       "unchecked" : "checked";
     let repeated = (this.refs.rep.className == "checked");

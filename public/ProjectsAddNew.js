@@ -23,6 +23,10 @@ export default class ProjectsAddNew extends React.Component {
     this.refs.addProjectForm.addEventListener('submit', this.checkForm, false);
   }
 
+  componentWillUnmount() {
+    this.refs.addProjectForm.removeEventListener('submit', this.checkForm, false);
+  }
+
   checkForm (e) {
     e.preventDefault();
     this.trimName();
@@ -31,7 +35,7 @@ export default class ProjectsAddNew extends React.Component {
 
   checkName(){
     let name = this.refs.newName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));    
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));    
   }
 
   trimName(){
@@ -95,7 +99,7 @@ export default class ProjectsAddNew extends React.Component {
           console.log(res.error); // handle;
           return;
         }
-        this.clearFields();
+        this.onCancel();
         this.props.onAddingNew(res.project);
       })
       .catch(err => {

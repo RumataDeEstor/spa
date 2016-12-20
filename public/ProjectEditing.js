@@ -19,9 +19,12 @@ export default class ProjectEditing extends React.Component {
     this.trimName = this.trimName.bind(this);
   }
 
-  componentDidMount() {
-    // editForm.style.height = "35px";   
+  componentDidMount() { 
     this.refs.editProjectForm.addEventListener('submit', this.checkForm, false);
+  }
+
+  componentWillUnmount(){
+    this.refs.editProjectForm.removeEventListener('submit', this.checkForm, false);
   }
 
   checkForm (e) {
@@ -32,7 +35,7 @@ export default class ProjectEditing extends React.Component {
 
   checkName(){
     let name = this.refs.editName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));    
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));    
   }
 
   trimName(){
@@ -44,19 +47,14 @@ export default class ProjectEditing extends React.Component {
 
   onFinishEdit(e) {
     if (e) e.preventDefault();
-    // let promise = new Promise (resolve => {
-    //   editForm.style.height = "0";
-    //   setTimeout( () =>{
-    //     ee.emitEvent('projectFinishEdit');
-    //     resolve();
-    //   }, 200);
-    // })
-    // return promise; 
     ee.emitEvent('projectFinishEdit');  
   }
 
   onDelete(e){
     e.preventDefault();
+
+    this.props.onDelete(); 
+
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -70,8 +68,7 @@ export default class ProjectEditing extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-        // this.onFinishEdit().then(res => ee.emitEvent('projectDeleted', [projID]));   
-        ee.emitEvent('projectDeleted', [projID]);
+        
       })
       .catch(err => {
         console.log(err);
@@ -107,23 +104,22 @@ export default class ProjectEditing extends React.Component {
 
     let login = this.props.login;
     let projID = this.props.target.props.id;
-    // fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+
     fetch(`/api/userdata/${login}/projects/${projID}`, reqParams)
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let newData = {name: this.refs.editName.value, label: this.refs.plabel.style.backgroundColor};
-        //take from server?
+      
         ee.emitEvent('projectSaveEdit', [projID, newData]);
         this.onFinishEdit();
       })
       .catch(err => {
         console.log(err);
       })
-      // <div className = {this.props.target.props.label}
   }
   render () {
       return<div className = "editForm">
@@ -166,3 +162,7 @@ export default class ProjectEditing extends React.Component {
             </div>
   }
 }
+
+ProjectEditing.propTypes = {
+  onDelete: React.PropTypes.func
+};

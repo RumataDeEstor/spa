@@ -20,6 +20,10 @@ export default class RewardsAddNew extends React.Component {
     this.refs.rewardsAddNewForm.addEventListener('submit', this.checkForm, false);
   }
 
+  componentWillUnmount () {
+    this.refs.rewardsAddNewForm.removeEventListener('submit', this.checkForm, false);
+  }
+
   checkForm (e) {
     e.preventDefault();
     this.trimName();
@@ -43,7 +47,7 @@ export default class RewardsAddNew extends React.Component {
 
   checkName () {
     let name = this.refs.newRewardName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));   
   }
 
   checkRepeated(e) {
@@ -78,7 +82,7 @@ export default class RewardsAddNew extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         this.clearFields();

@@ -26,7 +26,7 @@ export default class Project extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
         let proj = res.project;
@@ -38,7 +38,7 @@ export default class Project extends React.Component {
       })
   }
 
-  componentWillMount(){
+  componentDidMount(){
     this.loadPage();
   }
 

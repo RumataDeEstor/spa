@@ -1,4 +1,3 @@
- // debug=server:* port=8080 mongo_uri=mongodb://127.0.0.1/app node server.js
 const express = require('express');
 const debug = require('debug')('server:');
 const bodyParser = require('body-parser');
@@ -14,7 +13,7 @@ const User = require('./models/user');
 const app = express();
 const port = process.env.PORT || 8080;
 
-app.use(favicon(__dirname + '/public/faviconNew.ico'));
+app.use(favicon(__dirname + '/public/favicon/favicon.ico'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
@@ -50,12 +49,10 @@ passport.use(new LocalStrategy({
 ));
 
 passport.serializeUser(function(user, done) {
-  debug('ser');
   done(null, user._id);
 });
 
 passport.deserializeUser(function(id, done) {
-  debug('deser');
   User.findById(id, function(err, user) {
     done(err, user);
   });
@@ -74,22 +71,8 @@ let isAuthenticated = function (req, res, next) {
   res.status(403).send({error: 'Forbidden'});
 }
 
-app.use((req,res,next) => {
-  debug(`req to ${req.url}. AJAX: ${req.xhr}`);
-  next();
-});
-
-
 app.get('/api/checkAccess/:login', isAuthenticated, (req, res, next) => {
   res.status(200).send({message: 'OK'});
-});
-
-app.get('/api/allusers', (req,res,next) => {  // only for debugging!
-  // User.remove({},(err)=> console.log(err));
-  User.find({}, (err, users) => {
-    if (err) debug(err);
-    res.send(users);
-  }); 
 });
 
 app.use(express.static(path.join(__dirname, "public")));
@@ -115,7 +98,6 @@ app.post('/api/signup', (req,res,next) => {
       }
     } else {
       res.status(200).send({ login: user.login });
-      // res.redirect('/api/login');
     }
   });
 });
@@ -129,22 +111,15 @@ app.post('/api/login', function(req, res, next) {
     if (!user) { return res.status(401).send({error: info.message}); }
     req.logIn(user, function(err) {
       if (err) { return res.status(err.statusCode).send({error: err.message}); }
-      // return res.redirect('/userdata/' + user.login);
       return res.status(200).send({ login: user.login });
     });
   })(req, res, next);
 });
 
-
-
-
-
 // TODO: user shouldn't see Login page if Ath-d.
 
 app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
-  debug('here');
-  if (req.params.login !== req.user.login) {  // can't get other people's page
-    debug('forb');
+  if (req.params.login !== req.user.login) { 
     return res.status(403).send({error: 'Forbidden'});
   }
   User.findOne({login: req.params.login}, (err, user) => {
@@ -152,7 +127,6 @@ app.get('/api/userdata/:login',  isAuthenticated, (req, res, next) => {
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      debug('success get userdata');
       res.status(200).send({user: user});
     }
   });
@@ -174,7 +148,6 @@ app.post('/api/userdata/:login/projects', isAuthenticated, (req,res,next) => {
       user.save((err) =>{
         if (!err) {
           debug('updated.');
-          // res.status(200).send({'_id': user.projects[len-1]._id});
           res.status(200).send({message: 'OK', project: user.projects[len-1]});
         } else {
           debug(err);
@@ -207,7 +180,6 @@ app.post('/api/userdata/:login/rules', isAuthenticated, (req,res,next) => {
       user.save((err) =>{
         if (!err) {
           debug('updated.');
-          // res.status(200).send({'_id': user.projects[len-1]._id});
           res.status(200).send({message: 'OK', rule: user.rules[len-1]});
         } else {
           debug(err);
@@ -255,6 +227,7 @@ app.post('/api/userdata/:login/points', isAuthenticated, (req,res,next) => {
 });
 
 //add new Reward
+// TODO: additional validation on server side 
 app.post('/api/userdata/:login/rewards', isAuthenticated, (req,res,next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
@@ -264,7 +237,6 @@ app.post('/api/userdata/:login/rewards', isAuthenticated, (req,res,next) => {
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else { 
-      //checkdata? 
       let newReward = req.body;
       newReward.name = newReward.name || "Unnamed";
       let len = user.rewards.push(newReward);
@@ -306,7 +278,6 @@ app.put('/api/userdata/:login/rewards/:rewardID', isAuthenticated, (req,res,next
           updatedReward = reward;
         } 
       }); 
-      // or byID?
 
       user.save((err) =>{
         if (!err) {
@@ -352,9 +323,7 @@ app.delete('/api/userdata/:login/rewards/:rewardID', isAuthenticated, (req, res,
 
 // open single project
 app.get('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
-  debug('here');
-  if (req.params.login !== req.user.login) {  // can't get other people's page
-    debug('forb');
+  if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
   User.findOne({login: req.params.login}, (err, user) => {
@@ -362,19 +331,15 @@ app.get('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      debug('success get user');
       let project = user.projects.id(req.params.projectID);
-      res.status(200).send({project: project}); // handle if undefined
+      res.status(200).send({project: project}); 
     }
   });
 });
 
-
 // update single project
 app.put('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
-  debug('here');
-  if (req.params.login !== req.user.login) {  // can't get other people's page
-    debug('forb');
+  if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
   User.findOne({login: req.params.login}, (err, user) => {
@@ -382,7 +347,6 @@ app.put('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      debug('success get user');
       user.projects.map(project => {
         if (project._id == req.params.projectID) {
           project.name = req.body.name;
@@ -412,9 +376,7 @@ app.put('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, 
 
 // update single rule
 app.put('/api/userdata/:login/rules/:ruleID', isAuthenticated, (req, res, next) => {
-  debug(req.params);
-  debug(req.body);
-  if (req.params.login !== req.user.login) {  // can't get other people's page
+  if (req.params.login !== req.user.login) { 
     debug('forb');
     return res.status(403).send({error: 'Forbidden'});
   }
@@ -423,7 +385,6 @@ app.put('/api/userdata/:login/rules/:ruleID', isAuthenticated, (req, res, next) 
       debug(err);
       res.status(500).send({error: 'Internal Server Error'});
     } else {
-      debug('success get user');
       user.rules.map(rule => {
         if (rule._id == req.params.ruleID) {
           rule.name = req.body.name;
@@ -451,7 +412,6 @@ app.put('/api/userdata/:login/rules/:ruleID', isAuthenticated, (req, res, next) 
     }
   });
 });
-
 
 // delete single project
 app.delete('/api/userdata/:login/projects/:projectID', isAuthenticated, (req, res, next) => {
@@ -503,8 +463,7 @@ app.delete('/api/userdata/:login/rules/:ruleID', isAuthenticated, (req, res, nex
 
 // add new task
 app.post('/api/userdata/:login/projects/:projectID', isAuthenticated, (req,res,next) => {
-  if (req.params.login !== req.user.login) {  // can't get other people's page
-    debug('forb');
+  if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
   }
   User.findOne({login: req.params.login}, (err, user) => {
@@ -513,13 +472,12 @@ app.post('/api/userdata/:login/projects/:projectID', isAuthenticated, (req,res,n
       res.status(500).send({error: 'Internal Server Error'});
       return;
     }
-      debug('success get user');
       let project = user.projects.id(req.params.projectID);
       if (!project.tasks) {
         res.status(500).send({error: 'Cannot find such project'});
         return;
       }
-      // validation?
+      
       let newTask = req.body;
       newTask.name = newTask.name || "Unnamed";
       let len = project.tasks.push(newTask);
@@ -558,7 +516,7 @@ app.delete('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, 
         return;
       }
       project.tasks.id(req.params.taskID).remove();
-      debug('task removed');
+      debug('removed');
     }
     user.save((err) => {
       if (!err) {
@@ -573,7 +531,6 @@ app.delete('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, 
 })
 
 // update single task
-
 app.put('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, (req, res, next) => {
   if (req.params.login !== req.user.login) {  
     return res.status(403).send({error: 'Forbidden'});
@@ -618,18 +575,16 @@ app.put('/api/userdata/:login/projects/:projectID/:taskID', isAuthenticated, (re
 
 app.post('/api/logout', isAuthenticated, (req,res,next) => {
   if (req.body.user == 'secret') {
-    debug('logout');
     req.logout();
     res.status(200).send();
-  } //....
+  } 
 });
-
 
 app.get('*', (req, res,next) => {
   res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-app.use((req, res, next) => {     // why don't use this via calling next(err)?
+app.use((req, res, next) => {     
 	let err = new Error('Not Found');
 	err.status = 404;
 	next(err);

@@ -4,7 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router'
-//TODO:forms
+
 export default class TasksAddNew extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +20,10 @@ export default class TasksAddNew extends React.Component {
 
   componentDidMount () {
     this.refs.addTaskForm.addEventListener('submit', this.checkForm, false);
+  }
+
+  componentWillUnmount () {
+    this.refs.addTaskForm.removeEventListener('submit', this.checkForm, false);
   }
 
   checkForm (e) {
@@ -45,7 +49,7 @@ export default class TasksAddNew extends React.Component {
 
   checkName () {
     let name = this.refs.newName.value;
-    return (/^(\w|\s|[А-Яа-яёЁ])*$/.test(name));   
+    return (/^(\w|\s|[А-Яа-яёЁ]|[.,!-])*$/.test(name));   
   }
 
   checkRepeated () {
@@ -55,6 +59,7 @@ export default class TasksAddNew extends React.Component {
 
   onCancel (e) {
     if (e) e.preventDefault();
+    this.clearFields();
     this.refs.addNewForm.style.display = "none";  
     this.refs.lineExpand.style.display = "flex"; 
   }
@@ -67,13 +72,13 @@ export default class TasksAddNew extends React.Component {
   clearFields () {
     this.refs.newName.value = "";
     this.refs.newPoints.value = this.refs.newPoints.defaultValue;
+    this.refs.cRep.className = "unchecked";
   }
 
   addNew () {
     let repeated = this.refs.cRep.className == "checked";
     let validPoints = this.refs.newPoints.value;
     let validName = this.refs.newName.value;
-    // rewrite validation
 
     let bodyJSON = JSON.stringify({
       name: validName,
@@ -97,10 +102,10 @@ export default class TasksAddNew extends React.Component {
       .then(res => res.json())
       .then(res => {
         if (res.error) {
-          console.log(res.error); // handle;
+          console.log(res.error); 
           return;
         }
-        this.clearFields();
+        this.onCancel();
         this.props.onAddingNew(res.task);
       })
       .catch(err => {

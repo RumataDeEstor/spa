@@ -14,19 +14,15 @@ export default class TasksItem extends React.Component {
     this.complete = this.complete.bind(this);
     this.hideEditBtn = this.hideEditBtn.bind(this);
     this.showEditBtn = this.showEditBtn.bind(this);
-    // this.showMark = this.showMark.bind(this);
-    // this.hideMark = this.hideMark.bind(this);
     this.delete = this.delete.bind(this);
     this.tick = this.tick.bind(this);
     this.untick = this.untick.bind(this);
     this.checkMouseOn = this.checkMouseOn.bind(this);
     this.checkMouseOut = this.checkMouseOut.bind(this);
+    this.hideItem = this.hideItem.bind(this);
   }
 
   componentDidMount(){
-    // if (!this.props.repeated) {
-    //   this.refs.rep.style.display = "none";
-    // }
     this.refs.completeBtn.addEventListener("click", this.complete, false);
   }
 
@@ -40,6 +36,10 @@ export default class TasksItem extends React.Component {
       return;
     }
     this.refs.itemNorm.style.display = "flex";
+  }
+
+  hideItem () {
+    this.refs.item.style.display = "none";
   }
 
   checkMouseOn(){
@@ -59,7 +59,6 @@ export default class TasksItem extends React.Component {
   }  
 
   showEditBtn(e){
-    // console.dir(e.target);
     if (e.target.className == "fa fa-check"||
         e.target.classclassName == "checkBoxField-active" ||
         e.target.className == "checkBoxField") {
@@ -88,15 +87,7 @@ export default class TasksItem extends React.Component {
     return promise;
   }
 
-  // showMark () {
-  //   this.refs.check.style.display = "flex";
-  // }
-
-  // hideMark () {
-  //   this.refs.check.style.display = "none";
-  // }
-
-  delete(){ // mustn't be repeated with TaskEditing!
+  delete(){ // TODO: mustn't be repeated with TaskEditing!
     let reqParams = {
       method: 'DELETE',
       credentials: 'include'
@@ -112,7 +103,6 @@ export default class TasksItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         } 
-        // ee.emitEvent('taskDeleted', [taskID]);    // ???
         this.refs.item.style.display = "none";    
       })
       .catch(err => {
@@ -160,6 +150,7 @@ export default class TasksItem extends React.Component {
     let component = this.props.editing ? <TaskEditing target = {this} 
         login = {this.props.login}
         projectID = {this.props.projectID}
+        onDelete = {this.hideItem.bind(this)}
       /> : null;
     let rep = this.props.repeated ? <i className="fa fa-repeat" aria-hidden="true"></i>
       : null;
@@ -168,11 +159,7 @@ export default class TasksItem extends React.Component {
             onMouseOver = {this.showEditBtn}
             onMouseOut = {this.hideEditBtn}>
               <div className = "itemNormal" ref = "itemNorm">
-                <div className = "checkBoxField" ref = "checkContainer"
-                  // onMouseOver = {this.showMark}
-                  // onMouseOut = {this.hideMark}
-                  // onClick = {this.complete}
-                >                                 
+                <div className = "checkBoxField" ref = "checkContainer">                                 
                   <i className="fa fa-check" aria-hidden="true" 
                     ref = "completeBtn"
                     onMouseOver = {this.checkMouseOn}
