@@ -4,6 +4,7 @@ import {
   Router, Route, IndexRoute, Link, IndexLink, 
   IndexRedirect, browserHistory 
 } from 'react-router';
+import ee from './EventEmitter';
 
 export default class RewardsAddNew extends React.Component {
   constructor(props) {
@@ -86,6 +87,7 @@ export default class RewardsAddNew extends React.Component {
           return;
         }
         this.clearFields();
+        ee.emitEvent("update");
         this.props.onNewRewardAdded(res.reward);
       })
       .catch(err => {

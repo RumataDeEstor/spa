@@ -27235,6 +27235,7 @@
 	    _this.giveData = _this.giveData.bind(_this);
 	    _this.state = { access: false, pending: true, userdata: null };
 	    _this.updatePoints = _this.updatePoints.bind(_this);
+	    _this.getData = _this.getData.bind(_this);
 	    return _this;
 	  }
 
@@ -27252,12 +27253,36 @@
 
 	      _EventEmitter2.default.addListener('reqForUserdata', this.giveData);
 	      _EventEmitter2.default.addListener('pointsUpdated', this.updatePoints);
+	      _EventEmitter2.default.addListener('update', this.getData);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('reqForUserdata', this.giveData);
 	      _EventEmitter2.default.removeListener('pointsUpdated', this.updatePoints);
+	      _EventEmitter2.default.removeListener('update', this.getData);
+	    }
+	  }, {
+	    key: 'getData',
+	    value: function getData() {
+	      var _this3 = this;
+
+	      console.log("getData");
+	      var reqParams = {
+	        method: 'GET',
+	        credentials: 'include'
+	      };
+	      fetch('/api/userdata/' + this.props.params.login, reqParams).then(function (res) {
+	        return res.json();
+	      }).then(function (res) {
+	        if (res.error) {
+	          console.log(res.error);
+	        }
+	        _this3.state = { access: true, pending: false, userdata: res.user };
+	        _EventEmitter2.default.emitEvent('giveData', [res.user]);
+	      }).catch(function (err) {
+	        console.log(err);
+	      });
 	    }
 	  }, {
 	    key: 'giveData',
@@ -27277,14 +27302,15 @@
 	  }, {
 	    key: 'checkAccess',
 	    value: function checkAccess() {
-	      var _this3 = this;
+	      var _this4 = this;
 
+	      console.log("checkAccess");
 	      var promise = new Promise(function (resolve, reject) {
 	        var reqParams = {
 	          method: 'GET',
 	          credentials: 'include'
 	        };
-	        fetch('/api/checkAccess/' + _this3.props.params.login, reqParams).then(function (res) {
+	        fetch('/api/checkAccess/' + _this4.props.params.login, reqParams).then(function (res) {
 	          return res.json();
 	        }).then(function (res) {
 	          if (res.error) {
@@ -28402,6 +28428,7 @@
 	          console.log(res.error);
 	        }
 	        _EventEmitter2.default.emitEvent('pointsUpdated', [-_this2.state.price]);
+	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28440,6 +28467,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
+	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -28473,6 +28501,7 @@
 	          console.log(res.error);
 	          return;
 	        }
+	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -29113,10 +29142,6 @@
 	var _TasksList = __webpack_require__(248);
 
 	var _TasksList2 = _interopRequireDefault(_TasksList);
-
-	var _reactAddonsUpdate = __webpack_require__(243);
-
-	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
 	var _EventEmitter = __webpack_require__(238);
 
@@ -30164,6 +30189,10 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30286,6 +30315,7 @@
 	          return;
 	        }
 	        _this2.onCancel();
+	        _EventEmitter2.default.emitEvent("update");
 	        _this2.props.onAddingNew(res.project);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -30765,6 +30795,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
+	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31484,6 +31515,7 @@
 	          console.log(res.error);
 	        }
 	        _EventEmitter2.default.emitEvent('pointsUpdated', [-_this2.props.fine]);
+	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31682,6 +31714,7 @@
 	        if (res.error) {
 	          console.log(res.error);
 	        }
+	        _EventEmitter2.default.emitEvent("update");
 	      }).catch(function (err) {
 	        console.log(err);
 	      });
@@ -31977,6 +32010,7 @@
 	          return;
 	        }
 	        _this2.onCancel();
+	        _EventEmitter2.default.emitEvent("update");
 	        _this2.props.onAddingNew(res.rule);
 	      }).catch(function (err) {
 	        console.log(err);
@@ -32290,6 +32324,10 @@
 
 	var _reactRouter = __webpack_require__(172);
 
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -32395,6 +32433,7 @@
 	          return;
 	        }
 	        _this2.clearFields();
+	        _EventEmitter2.default.emitEvent("update");
 	        _this2.props.onNewRewardAdded(res.reward);
 	      }).catch(function (err) {
 	        console.log(err);

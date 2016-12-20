@@ -113,6 +113,7 @@ export default class RuleAddNew extends React.Component {
           return;
         }
         this.onCancel();
+        ee.emitEvent("update");
         this.props.onAddingNew(res.rule);
       })
       .catch(err => {

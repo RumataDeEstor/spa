@@ -117,6 +117,7 @@ export default class RewardItem extends React.Component {
           console.log(res.error);
         }
         ee.emitEvent('pointsUpdated', [-this.state.price]);
+        ee.emitEvent("update");
       })
       .catch(err => {
         console.log(err);
@@ -153,7 +154,7 @@ export default class RewardItem extends React.Component {
         if (res.error) {
           console.log(res.error);
         }
-          
+        ee.emitEvent("update");
       })
       .catch(err => {
         console.log(err);
@@ -187,6 +188,7 @@ export default class RewardItem extends React.Component {
           console.log(res.error); 
           return;
         }
+        ee.emitEvent("update");
       })
       .catch(err => {
         console.log(err);

@@ -39,6 +39,7 @@ export default class App extends React.Component {
     this.giveData = this.giveData.bind(this);
     this.state = {access: false, pending: true, userdata: null};
     this.updatePoints = this.updatePoints.bind(this);
+    this.getData = this.getData.bind(this);
   } 
 
   componentDidMount () {
@@ -51,11 +52,33 @@ export default class App extends React.Component {
 
     ee.addListener('reqForUserdata', this.giveData);
     ee.addListener('pointsUpdated', this.updatePoints);
+    ee.addListener('update', this.getData);
   }
 
   componentWillUnmount () {
     ee.removeListener('reqForUserdata', this.giveData);
     ee.removeListener('pointsUpdated', this.updatePoints);
+    ee.removeListener('update', this.getData);
+  }
+
+  getData () {
+    console.log("getData");
+    let reqParams = {
+      method: 'GET',
+      credentials: 'include'
+    }
+    fetch(`/api/userdata/${this.props.params.login}`, reqParams)
+    .then(res => res.json())
+    .then(res => {
+      if (res.error) {
+        console.log(res.error); 
+      }
+      this.state = {access: true, pending: false, userdata: res.user};
+      ee.emitEvent('giveData', [res.user]);
+    })
+    .catch(err => {
+      console.log(err);
+    }) 
   }
 
   giveData () {
@@ -72,6 +95,7 @@ export default class App extends React.Component {
   }
 
   checkAccess(){
+    console.log("checkAccess");
     let promise = new Promise((resolve, reject) => {
       let reqParams = {
       method: 'GET',
