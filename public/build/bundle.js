@@ -110,6 +110,10 @@
 
 	var _Rewards2 = _interopRequireDefault(_Rewards);
 
+	var _Stats = __webpack_require__(266);
+
+	var _Stats2 = _interopRequireDefault(_Stats);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	(0, _reactDom.render)(_react2.default.createElement(
@@ -133,6 +137,7 @@
 	      _react2.default.createElement(_reactRouter.Route, { path: 'list', component: _RuleList2.default })
 	    ),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'rewards', component: _Rewards2.default }),
+	    _react2.default.createElement(_reactRouter.Route, { path: 'stats', component: _Stats2.default }),
 	    _react2.default.createElement(
 	      _reactRouter.Route,
 	      { path: 'projects', component: _Projects2.default },
@@ -27195,7 +27200,7 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var AppTotalContent = function AppTotalContent(props) {
-	  var shouldShowShortList = props.children.type.name !== "Rewards";
+	  var shouldShowShortList = props.children.type.name !== "Rewards" && props.children.type.name !== "Stats";
 	  var component = shouldShowShortList ? _react2.default.createElement(_RewardsShortList2.default, { login: props.login }) : null;
 
 	  return _react2.default.createElement(
@@ -27461,6 +27466,15 @@
 	                _reactRouter.Link,
 	                { to: path + '/rewards', activeClassName: 'active' },
 	                'Rewards'
+	              )
+	            ),
+	            _react2.default.createElement(
+	              'li',
+	              null,
+	              _react2.default.createElement(
+	                _reactRouter.Link,
+	                { to: path + '/stats', activeClassName: 'active' },
+	                'Stats'
 	              )
 	            ),
 	            _react2.default.createElement(
@@ -32219,6 +32233,7 @@
 	    value: function componentWillUnmount() {
 	      _EventEmitter2.default.removeListener('getPoints', this.getPoints);
 	      _EventEmitter2.default.removeListener('giveData', this.getData);
+	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'getPoints',
@@ -32346,7 +32361,6 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      this.refs.rewardsAddNewForm.removeEventListener('submit', this.checkForm, false);
-	      _EventEmitter2.default.emitEvent("update");
 	    }
 	  }, {
 	    key: 'checkForm',
@@ -32464,6 +32478,73 @@
 	RewardsAddNew.propTypes = {
 	  onNewRewardAdded: _react2.default.PropTypes.func
 	};
+
+/***/ },
+/* 266 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(34);
+
+	var _reactRouter = __webpack_require__(172);
+
+	var _EventEmitter = __webpack_require__(238);
+
+	var _EventEmitter2 = _interopRequireDefault(_EventEmitter);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var Stats = function (_React$Component) {
+	  _inherits(Stats, _React$Component);
+
+	  function Stats(props) {
+	    _classCallCheck(this, Stats);
+
+	    return _possibleConstructorReturn(this, (Stats.__proto__ || Object.getPrototypeOf(Stats)).call(this, props));
+	  }
+
+	  _createClass(Stats, [{
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {}
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {}
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'statsPage' },
+	        _react2.default.createElement(
+	          'h1',
+	          null,
+	          ' In development '
+	        )
+	      );
+	    }
+	  }]);
+
+	  return Stats;
+	}(_react2.default.Component);
+
+	exports.default = Stats;
 
 /***/ }
 /******/ ]);

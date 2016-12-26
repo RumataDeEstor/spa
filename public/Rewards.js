@@ -28,6 +28,7 @@ export default class Rewards extends React.Component {
   componentWillUnmount() {
     ee.removeListener('getPoints', this.getPoints);
     ee.removeListener('giveData', this.getData);
+    ee.emitEvent("update");
   }
 
   getPoints(points){

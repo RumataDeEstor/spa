@@ -11,7 +11,8 @@ import ee from './EventEmitter';
 import update from 'react-addons-update';
 
 const AppTotalContent = (props) => {
-  let shouldShowShortList = (props.children.type.name !== "Rewards");
+  let shouldShowShortList = (props.children.type.name !== "Rewards" && 
+                              props.children.type.name !== "Stats");
   let component = shouldShowShortList ? 
     <RewardsShortList login = {props.login}/> : null;
 

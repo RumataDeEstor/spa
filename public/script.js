@@ -18,6 +18,7 @@ import RuleList from './RuleList';
 import Rules from './Rules';
 import Points from './Points';
 import Rewards from './Rewards';
+import Stats from './Stats';
 
 render((
   <Router history={browserHistory}>
@@ -33,6 +34,7 @@ render((
         <Route path="list" component={RuleList}/> 
       </Route>
       <Route path="rewards" component={Rewards}/>
+      <Route path="stats" component={Stats}/>
       <Route path="projects" component={Projects}>
         <IndexRedirect to="list"/> 
         <Route path="list" component={ProjectsList}/>

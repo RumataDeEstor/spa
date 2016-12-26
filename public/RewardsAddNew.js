@@ -23,7 +23,6 @@ export default class RewardsAddNew extends React.Component {
 
   componentWillUnmount () {
     this.refs.rewardsAddNewForm.removeEventListener('submit', this.checkForm, false);
-    ee.emitEvent("update");
   }
 
   checkForm (e) {
