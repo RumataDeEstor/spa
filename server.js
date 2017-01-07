@@ -71,6 +71,46 @@ let isAuthenticated = function (req, res, next) {
   res.status(403).send({error: 'Forbidden'});
 }
 
+app.get('/api/test/:login/userdata', (req, res, next) => { // DEV! Test for new redux logic
+  let userdata = {
+    login: "Rumata", // is it necessary?
+    points: 10,
+    projects: [
+      {
+        _id: 1,
+        name: "Programming",
+        label: "red",
+        tasks: [
+          {
+            _id: 1,
+            name: "logic",
+            points: 15,
+            repeated: false
+          }
+        ]
+      }
+    ], 
+    rewards: [
+      {
+        _id: 1,
+        name: "music",
+        price: 20,
+        repeated: true
+      }
+    ],
+    rules: [
+      {
+        _id: 1,
+        name: "don't drink alcohol",
+        label: "green",
+        fine: 15
+      }
+    ],
+    _id: 1
+  };
+  res.status(200).send({userdata: userdata});
+})
+
 app.get('/api/checkAccess/:login', isAuthenticated, (req, res, next) => {
   res.status(200).redirect(`/api/userdata/${req.params.login}`);
 });
