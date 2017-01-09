@@ -30287,19 +30287,27 @@
 
 	var _TestTopRewardsFilter2 = _interopRequireDefault(_TestTopRewardsFilter);
 
+	var _ProjectsAddNew = __webpack_require__(283);
+
+	var _ProjectsAddNew2 = _interopRequireDefault(_ProjectsAddNew);
+
+	var _Failure = __webpack_require__(284);
+
+	var _Failure2 = _interopRequireDefault(_Failure);
+
+	var _NotFound = __webpack_require__(285);
+
+	var _NotFound2 = _interopRequireDefault(_NotFound);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var App = function App(_ref) {
-	  var onClick = _ref.onClick;
+	var App = function App() {
 	  return _react2.default.createElement(
 	    'div',
 	    null,
-	    _react2.default.createElement(
-	      'button',
-	      { onClick: onClick },
-	      ' TOP: do not show '
-	    ),
-	    _react2.default.createElement(_TestTopRewardsFilter2.default, null)
+	    _react2.default.createElement(_TestTopRewardsFilter2.default, null),
+	    _react2.default.createElement(_Failure2.default, null),
+	    _react2.default.createElement(_NotFound2.default, null)
 	  );
 	};
 	//<button onClick = {onClick}> TOP: show / do not show </button>
@@ -30358,23 +30366,23 @@
 	//   }
 	// }
 
-	function mapStateToProps(state) {
-	  var shouldShowTop = state.visibilityFilter.shouldShowTopRewards;
+	// function mapStateToProps(state) {
+	//   const shouldShowTop = state.visibilityFilter.shouldShowTopRewards
 
-	  return {
-	    shouldShowTop: shouldShowTop
-	  };
-	}
+	//   return {
+	//     shouldShowTop
+	//   }
+	// }
 
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-	  return {
-	    onClick: function onClick() {
-	      dispatch((0, _actions.setTopRewardsVisibility)(false));
-	    }
-	  };
-	};
+	// const mapDispatchToProps = (dispatch) => {
+	//   return {
+	//     onClick: () => {
+	//       dispatch(setTopRewardsVisibility(false));
+	//     }
+	//   }
+	// }
 
-	App = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(App);
+	// App = connect(mapStateToProps, mapDispatchToProps)(App)
 
 	exports.default = App;
 
@@ -30444,6 +30452,173 @@
 	};
 
 	exports.default = TestTopRewards;
+
+/***/ },
+/* 283 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDom = __webpack_require__(32);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ProjectsAddNew = function (_React$Component) {
+	  _inherits(ProjectsAddNew, _React$Component);
+
+	  function ProjectsAddNew(props) {
+	    _classCallCheck(this, ProjectsAddNew);
+
+	    return _possibleConstructorReturn(this, (ProjectsAddNew.__proto__ || Object.getPrototypeOf(ProjectsAddNew)).call(this, props));
+	  }
+
+	  _createClass(ProjectsAddNew, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'projectsAddNew' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'lineExpand', ref: 'lineExpand' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'expand' },
+	            '+'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'addNewForm', ref: 'addNewForm' },
+	          _react2.default.createElement(
+	            'form',
+	            { ref: 'addProjectForm', className: 'addProject' },
+	            _react2.default.createElement('div', { style: { backgroundColor: "transparent" }, className: 'projectLabel', ref: 'plabel' }),
+	            _react2.default.createElement('input', { type: 'text', placeholder: 'Name', className: 'newName', ref: 'newName', maxLength: '17' }),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'addNewOpt' },
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'labelForm' },
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'chosen' },
+	                  _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
+	                ),
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'options', ref: 'options' },
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
+	                  _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
+	                )
+	              ),
+	              _react2.default.createElement(
+	                'div',
+	                { className: 'buttons' },
+	                _react2.default.createElement('input', { type: 'submit', className: 'add', value: 'Add' }),
+	                _react2.default.createElement(
+	                  'button',
+	                  { className: 'cancel' },
+	                  'Cancel'
+	                )
+	              )
+	            )
+	          )
+	        )
+	      );
+	    }
+	  }]);
+
+	  return ProjectsAddNew;
+	}(_react2.default.Component);
+
+	// ProjectsAddNew.propTypes = {
+	//   onAddingNew: React.PropTypes.func
+	// };
+
+
+	exports.default = ProjectsAddNew;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var Failure = function Failure() {
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "failure" },
+	    _react2.default.createElement(
+	      "h1",
+	      null,
+	      " Sorry! :( "
+	    ),
+	    "You can not view this page.\n" + "Perhaps this is a private page of another user or you are not logged in.\n" + "Try to log in."
+	  );
+	};
+
+	exports.default = Failure;
+
+/***/ },
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _react = __webpack_require__(1);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var NotFound = function NotFound() {
+	  return _react2.default.createElement(
+	    'div',
+	    null,
+	    '404 Not Found'
+	  );
+	};
+
+	exports.default = NotFound;
 
 /***/ }
 /******/ ]);

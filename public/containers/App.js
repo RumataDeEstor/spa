@@ -6,9 +6,8 @@ import { addTask, addRule, addProject, addReward, deleteProject,
   fetchUserdata } from '../actions'
 import TestTopRewardsFilter from './TestTopRewardsFilter'
 
-let App = ({ onClick }) => (
+let App = () => (
   <div>
-    <button onClick = {onClick}> TOP: do not show </button>
     <TestTopRewardsFilter />
   </div>
 )
@@ -68,22 +67,22 @@ let App = ({ onClick }) => (
 //   }
 // }
 
-function mapStateToProps(state) {
-  const shouldShowTop = state.visibilityFilter.shouldShowTopRewards
+// function mapStateToProps(state) {
+//   const shouldShowTop = state.visibilityFilter.shouldShowTopRewards
 
-  return {
-    shouldShowTop
-  }
-}
+//   return {
+//     shouldShowTop
+//   }
+// }
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    onClick: () => {
-      dispatch(setTopRewardsVisibility(false));
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     onClick: () => {
+//       dispatch(setTopRewardsVisibility(false));
+//     }
+//   }
+// }
 
-App = connect(mapStateToProps, mapDispatchToProps)(App)
+// App = connect(mapStateToProps, mapDispatchToProps)(App)
 
 export default App;
