@@ -1,3 +1,10 @@
+// Visibility
+
+export const SET_TOP_REWARDS_VISIBILITY = 'SET_TOP_REWARDS_VISIBILITY'
+export function setTopRewardsVisibility(flag) {
+  return { type: SET_TOP_REWARDS_VISIBILITY, flag }
+}
+
 // AJAX
 
 export const REQUEST_DATA = 'REQUEST_DATA'

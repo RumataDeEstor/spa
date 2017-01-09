@@ -4,7 +4,7 @@ import { ADD_TASK, DELETE_TASK, IS_TASK_EDITING, UPDATE_TASK, COMPLETE_TASK,
   REQUEST_DATA, ADD_RULE, DELETE_RULE, IS_RULE_EDITING, 
   UPDATE_RULE, BREAK_RULE, ADD_REWARD, COUNT_REWARD_PERCENTAGE,
   DELETE_REWARD, IS_REWARD_EDITING, 
-  UPDATE_REWARD, UPDATE_POINTS } from './actions'
+  UPDATE_REWARD, UPDATE_POINTS, SET_TOP_REWARDS_VISIBILITY } from './actions'
 
 function tasks(state = [], action) {
 	switch(action.type) {
@@ -269,8 +269,23 @@ function userdata(state = {
   }
 }
 
+function visibilityFilter (state = {
+  shouldShowTopRewards: true
+}, action) {
+  switch (action.type) {
+    case (SET_TOP_REWARDS_VISIBILITY):
+      return {
+        ...state,
+        shouldShowTopRewards: action.flag
+      }
+    default:
+    return state;
+  }  
+}
+
 const rootReducer = combineReducers({
-  userdata
+  userdata,
+  visibilityFilter
 })
 
 export default rootReducer

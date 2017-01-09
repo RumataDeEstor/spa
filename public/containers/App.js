@@ -1,18 +1,26 @@
 import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux'
 import { addTask, addRule, addProject, addReward, deleteProject, 
-  updateTask, receiveData, updatePoints, countRewardPercentage, fetchUserdata } from '../actions'
+  updateTask, receiveData, updatePoints, countRewardPercentage, 
+  setTopRewardsVisibility,
+  fetchUserdata } from '../actions'
 // Testing
 class App extends Component {
   constructor(props) {
     super(props)
-    this.pish = this.pish.bind(this);
+    this.fetchData = this.fetchData.bind(this);
+    this.setTopVisivility = this.setTopVisivility.bind(this);
   }
 
-  pish() {
+  fetchData() {
     const { dispatch, projects, rules, rewards, points } =  this.props;
     // dispatch(countRewardPercentage(2, 100, points));
     dispatch(fetchUserdata("Rumata"));
+  }
+
+  setTopVisivility() {
+    const { dispatch, projects, rules, rewards, points } =  this.props;
+    dispatch(setTopRewardsVisibility(false));
   }
 
   componentDidMount() {
@@ -33,7 +41,8 @@ class App extends Component {
   render(){
   	return <div>
   					It works!
-            <button onClick = {this.pish}>fetch data</button>
+            <button onClick = {this.fetchData}>fetch data</button>
+            <button onClick = {this.setTopVisivility}>setTopVisivility</button>
   				</div>
   }
 }
