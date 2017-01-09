@@ -457,15 +457,15 @@ div.options div, div.editOptions div {
   margin-right: 3px;
 }
 
-/*ProjectsItem-----------------------------------*/
+/*ProjectItem-----------------------------------*/
 
-div.projectsItem, div.projectsItem div, 
+div.projectItem, div.projectItem div, 
 div.ruleItem, div.ruleItem div,
-div.tasksItem, div.tasksItem div {
+div.taskItem, div.taskItem div {
   display: flex;
 }
 
-div.projectsItem, div.tasksItem, div.ruleItem {  
+div.projectItem, div.taskItem, div.ruleItem {  
   background-color: white;
   color: #5e5e61;
   font: 16px Verdana;
@@ -627,11 +627,11 @@ div#editCheckBoxRepeated{
 
 /*Tasks Item-------------------------------*/
 
-div.tasksItem div.editForm {
+div.taskItem div.editForm {
   justify-content: flex-start;
 }
 
-div.tasksItem div.editButtons {
+div.taskItem div.editButtons {
   margin-left: 55px;
 }
 
@@ -690,7 +690,7 @@ div.taskLine {
 
 /*TODO: crooked due to different price values*/
 
-div.tasksItem div.points, 
+div.taskItem div.points, 
 div.ruleItem div.fine {
   width: 70px;
   height: 35px;
