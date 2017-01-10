@@ -284,7 +284,7 @@ div.changePointsSmallenabled {
   }
 }
 
-/*PROJECTSLIST--------------------------
+/*PROJECT LIST--------------------------
 /*or projListPage*/
 
 div.annotation {
@@ -295,7 +295,7 @@ div.annotation {
   color: #767676;
 }
 
-div.projectsList {
+div.projectList {
   margin-top: 20px;
   margin-bottom: 20px;
 }
@@ -310,9 +310,9 @@ div.listTitle {
   border-top-right-radius: 20px;
 }
 
-/*PROJECTSADDNEW--------------------------------*/
+/*PROJECT ADD NEW--------------------------------*/
 
-div.projectsAddNew, div.taskAddNew, 
+div.projectAddNew, div.taskAddNew, 
 div.ruleAddNew {
   margin-top: 20px;
   width: 650px;
@@ -590,7 +590,7 @@ div.editOpt button.editDelete {
   font-size: 16px;
 }
 
-/*Tasks Add New---------------------------------*/
+/*Task Add New---------------------------------*/
 
 form.addTask {
   display: flex;
@@ -625,7 +625,7 @@ div#editCheckBoxRepeated{
   width: 14px;
 }
 
-/*Tasks Item-------------------------------*/
+/*Task Item-------------------------------*/
 
 div.taskItem div.editForm {
   justify-content: flex-start;
@@ -762,9 +762,9 @@ div.rewardList div.rewardItem {
   margin-bottom: 30px;  
 }
 
-/*REWARDS ADD NEW--------------------------------------------------*/
+/*REWARD ADD NEW--------------------------------------------------*/
 
-div.rewardsAddNew {
+div.rewardAddNew {
   display: flex;
   width: 650px;
   box-shadow: 0 1px 4px rgba(128,128,128,.4);
@@ -775,12 +775,12 @@ div.rewardsAddNew {
   margin-top: 20px;
 }
 
-form.rewardsAdd {
+form.rewardAdd {
   display: flex;
 }
 
 /*TODO: class*/
-div.rewardsAddNew div#checkBoxRepeated {
+div.rewardAddNew div#checkBoxRepeated {
   margin-left: 30px;
 }
 
@@ -802,7 +802,7 @@ input.newRewardName {
   margin-right: 32px;
 }
 
-div.rewardsAddNew input.add {
+div.rewardAddNew input.add {
   background-color: #49C15D;
   color: white;
   box-shadow: inset 0px -2px 0px 0px #1C1C1C;
@@ -955,19 +955,19 @@ button.rewardDelete:hover {
 }
 
 div.rewardItem input, 
-div.rewardsAddNew input {
+div.rewardAddNew input {
   border: none;
   color: #535356;
   height: 22px;
   align-self: center;
 }
 
-div.rewardsAddNew input.newRewardPrice,
+div.rewardAddNew input.newRewardPrice,
 input.newRewardName {
   font-size: 16px;
 }
 
-div.rewardsAddNew input.newRewardPrice {
+div.rewardAddNew input.newRewardPrice {
   width: 75px;
 }
 
@@ -1056,9 +1056,9 @@ div.percents {
   visibility: hidden;
 }
 
-/*RulesList------------------------------------------*/
+/*RuleList------------------------------------------*/
 
-div.rulesListPage div.annotation {
+div.ruleListPage div.annotation {
   width: 750px;
 }
 

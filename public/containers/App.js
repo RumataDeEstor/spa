@@ -5,12 +5,19 @@ import { addTask, addRule, addProject, addReward, deleteProject,
   setTopRewardsVisibility,
   fetchUserdata } from '../actions'
 import TestTopRewardsFilter from './TestTopRewardsFilter'
+import ProjectEditForm from '../components/ProjectEditForm'
 
 let App = () => (
   <div>
     <TestTopRewardsFilter />
+    <ProjectEditForm
+    	defaultName="fdgfdgfd"
+    	defaultLabel="red"
+    />
   </div>
 )
+
+
 //<button onClick = {onClick}> TOP: show / do not show </button>
 // export default App
 // Testing

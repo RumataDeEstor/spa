@@ -1,16 +1,17 @@
 import React from 'react'
 import Points from './Points'
+import { Link } from 'react-router'
 
-const InternalTopmenu = () => {
-  const path = `/app/${this.props.login}`;
+const InternalTopmenu = ({ login }) => {
+  const path = `/app/${login}`;
   return<div>            
           <div className = "topmenu">
             <div className = "logo">
               <Link to={path}><img src = "/logo/Logo.png"/></Link>
               Goalpi
             </div> 
-            <ul ref = "linksList" className = "links">
-              <li><Points login = {this.props.login} ref='foo'/></li>
+            <ul className = "links">
+              <li><Points login = {login} points = "100"/></li>
               <li><Link to={`${path}/projects`} activeClassName="active">Projects</Link></li>
               <li><Link to={`${path}/rules`} activeClassName="active">Rules</Link></li>
               <li><Link to={`${path}/rewards`} activeClassName="active">Rewards</Link></li>
@@ -28,3 +29,5 @@ const InternalTopmenu = () => {
 InternalTopmenu.propTypes = {
   login: React.PropTypes.string
 };
+
+export default InternalTopmenu;

@@ -1,12 +1,12 @@
 import React from 'react'
 import { render } from 'react-dom'
-export default class ProjectsAddNew extends React.Component {
+export default class ProjectAddNew extends React.Component {
   constructor(props) {
     super(props);
   }
 
   render () {
-    return<div className = "projectsAddNew">
+    return<div className = "projectAddNew">
             <div className = "lineExpand" ref = "lineExpand">
               <div className = "expand">+</div>
             </div>
@@ -42,6 +42,6 @@ export default class ProjectsAddNew extends React.Component {
   }
 }
 
-// ProjectsAddNew.propTypes = {
+// ProjectAddNew.propTypes = {
 //   onAddingNew: React.PropTypes.func
 // };
