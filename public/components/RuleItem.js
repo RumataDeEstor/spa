@@ -1,47 +1,53 @@
-import React from 'react'
-import { render } from 'react-dom'
-// import RuleEditing from './RuleEditing'
+import React from "react";
 
 export default class RuleItem extends React.Component {
   constructor(props) {
     super(props);
+    this.state = { pish: "f" };
   }
-  render() {
-    // let component = this.props.editing ? 
-    //   <RuleEditing target = {this} 
-    //     login = {this.props.login}
-    //     onDelete = {this.hideItem.bind(this)}
-    //   /> : null;
 
-    return<div className = "ruleItem"
-            ref = "item"
-          >    
-            <div className = "itemNormal" ref = "itemNorm">
-              <div className = "checkBoxField">
-                <div className = "taskCheckbox">                     
-                  <div className = "check" ref = "check">
-                    <i className="fa fa-times-circle" aria-hidden="true"></i>
-                  </div>
-                </div>
+  render() {
+    return (
+      <div
+        className="ruleItem"
+        ref={(node) => { this.item = node; }}
+      >
+        <div
+          className="itemNormal"
+          ref={(node) => { this.itemNorm = node; }}
+        >
+          <div className="checkBoxField">
+            <div className="taskCheckbox">
+              <div
+                className="check"
+                ref={(node) => { this.check = node; }}
+              >
+                <i className="fa fa-times-circle" aria-hidden="true" />
               </div>
-              <div className = "ruleLine">
-                <div style = {{backgroundColor: this.props.label}} 
-                  className = "projectLabel"> 
-                </div>
-                <div className = "ruleName">{this.props.name}</div>  
-                <div className = "fine"> {this.props.fine}</div>
-              </div>
-              <div id = "editItem" ref = "eBtn">
-                <i className="fa fa-pencil-square-o"></i>
-              </div> 
-            </div>  
+            </div>
           </div>
+          <div className="ruleLine">
+            <div
+              style={{ backgroundColor: this.props.label }}
+              className="projectLabel"
+            />
+            <div className="ruleName">{this.props.name}</div>
+            <div className="fine"> {this.props.fine}</div>
+          </div>
+          <div
+            id="editItem"
+            ref={(node) => { this.eBtn = node; }}
+          >
+            <i className="fa fa-pencil-square-o" />
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 
 RuleItem.propTypes = {
-  // onEdit: React.PropTypes.func
-  label: React.PropTypes.string,
-  name: React.PropTypes.string,
-  fine: React.PropTypes.number
+  label: React.PropTypes.string.isRequired,
+  name: React.PropTypes.string.isRequired,
+  fine: React.PropTypes.number.isRequired
 };

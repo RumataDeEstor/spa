@@ -30287,9 +30287,9 @@
 
 	var _TestTopRewardsFilter2 = _interopRequireDefault(_TestTopRewardsFilter);
 
-	var _ProjectEditForm = __webpack_require__(283);
+	var _RuleItem = __webpack_require__(283);
 
-	var _ProjectEditForm2 = _interopRequireDefault(_ProjectEditForm);
+	var _RuleItem2 = _interopRequireDefault(_RuleItem);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30298,9 +30298,10 @@
 	    'div',
 	    null,
 	    _react2.default.createElement(_TestTopRewardsFilter2.default, null),
-	    _react2.default.createElement(_ProjectEditForm2.default, {
-	      defaultName: 'fdgfdgfd',
-	      defaultLabel: 'red'
+	    _react2.default.createElement(_RuleItem2.default, {
+	      name: 'fdgfdgfd',
+	      label: 'red',
+	      fine: 50
 	    })
 	  );
 	};
@@ -30452,7 +30453,7 @@
 /* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -30464,8 +30465,6 @@
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDom = __webpack_require__(32);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30474,87 +30473,101 @@
 
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-	var ProjectEditForm = function (_React$Component) {
-	  _inherits(ProjectEditForm, _React$Component);
+	var RuleItem = function (_React$Component) {
+	  _inherits(RuleItem, _React$Component);
 
-	  function ProjectEditForm(props) {
-	    _classCallCheck(this, ProjectEditForm);
+	  function RuleItem(props) {
+	    _classCallCheck(this, RuleItem);
 
-	    return _possibleConstructorReturn(this, (ProjectEditForm.__proto__ || Object.getPrototypeOf(ProjectEditForm)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (RuleItem.__proto__ || Object.getPrototypeOf(RuleItem)).call(this, props));
+
+	    _this.state = { pish: "f" };
+	    return _this;
 	  }
 
-	  _createClass(ProjectEditForm, [{
-	    key: 'render',
+	  _createClass(RuleItem, [{
+	    key: "render",
 	    value: function render() {
+	      var _this2 = this;
+
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'editForm' },
+	        "div",
+	        {
+	          className: "ruleItem",
+	          ref: function ref(node) {
+	            _this2.item = node;
+	          }
+	        },
 	        _react2.default.createElement(
-	          'form',
-	          { className: 'editProject', ref: 'editProjectForm' },
-	          _react2.default.createElement('div', { style: { backgroundColor: this.props.defaultLabel },
-	            className: 'projectLabel',
-	            ref: 'plabel' }),
-	          _react2.default.createElement('input', { type: 'text', defaultValue: this.props.defaultName,
-	            className: 'editName',
-	            ref: 'editName',
-	            maxLength: '17'
-	          }),
+	          "div",
+	          {
+	            className: "itemNormal",
+	            ref: function ref(node) {
+	              _this2.itemNorm = node;
+	            }
+	          },
 	          _react2.default.createElement(
-	            'div',
-	            { className: 'editOpt' },
+	            "div",
+	            { className: "checkBoxField" },
 	            _react2.default.createElement(
-	              'div',
-	              { className: 'editLabelForm' },
+	              "div",
+	              { className: "taskCheckbox" },
 	              _react2.default.createElement(
-	                'div',
-	                { className: 'editChosen' },
-	                _react2.default.createElement('i', { className: 'fa fa-tags', 'aria-hidden': 'true' })
-	              ),
-	              _react2.default.createElement(
-	                'div',
-	                { className: 'editOptions', ref: 'editOptions' },
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF3C3D" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#6DC04C" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#4591CB" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#ECEA48" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#BB5FF6" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FFBE58" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#FF5BCE" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#58C6A0" } }),
-	                _react2.default.createElement('div', { className: 'colorsList', style: { backgroundColor: "#676C9A" } })
-	              )
-	            ),
-	            _react2.default.createElement(
-	              'div',
-	              { className: 'editButtons' },
-	              _react2.default.createElement('input', { type: 'submit', className: 'editSave', value: 'Save' }),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'editFinish' },
-	                'Cancel'
-	              ),
-	              _react2.default.createElement(
-	                'button',
-	                { className: 'editDelete' },
-	                _react2.default.createElement('i', { className: 'fa fa-trash' })
+	                "div",
+	                {
+	                  className: "check",
+	                  ref: function ref(node) {
+	                    _this2.check = node;
+	                  }
+	                },
+	                _react2.default.createElement("i", { className: "fa fa-times-circle", "aria-hidden": "true" })
 	              )
 	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            { className: "ruleLine" },
+	            _react2.default.createElement("div", {
+	              style: { backgroundColor: this.props.label },
+	              className: "projectLabel"
+	            }),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "ruleName" },
+	              this.props.name
+	            ),
+	            _react2.default.createElement(
+	              "div",
+	              { className: "fine" },
+	              " ",
+	              this.props.fine
+	            )
+	          ),
+	          _react2.default.createElement(
+	            "div",
+	            {
+	              id: "editItem",
+	              ref: function ref(node) {
+	                _this2.eBtn = node;
+	              }
+	            },
+	            _react2.default.createElement("i", { className: "fa fa-pencil-square-o" })
 	          )
 	        )
 	      );
 	    }
 	  }]);
 
-	  return ProjectEditForm;
+	  return RuleItem;
 	}(_react2.default.Component);
 
-	exports.default = ProjectEditForm;
+	exports.default = RuleItem;
 
 
-	ProjectEditForm.propTypes = {
-	  defaultLabel: _react2.default.PropTypes.string,
-	  defaultName: _react2.default.PropTypes.string
+	RuleItem.propTypes = {
+	  label: _react2.default.PropTypes.string.isRequired,
+	  name: _react2.default.PropTypes.string.isRequired,
+	  fine: _react2.default.PropTypes.number.isRequired
 	};
 
 /***/ }

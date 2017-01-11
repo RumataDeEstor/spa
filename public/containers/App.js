@@ -5,14 +5,15 @@ import { addTask, addRule, addProject, addReward, deleteProject,
   setTopRewardsVisibility,
   fetchUserdata } from '../actions'
 import TestTopRewardsFilter from './TestTopRewardsFilter'
-import ProjectEditForm from '../components/ProjectEditForm'
+import RuleItem from '../components/RuleItem'
 
 let App = () => (
   <div>
     <TestTopRewardsFilter />
-    <ProjectEditForm
-    	defaultName="fdgfdgfd"
-    	defaultLabel="red"
+    <RuleItem
+    	name="fdgfdgfd"
+    	label="red"
+      fine={50}
     />
   </div>
 )
